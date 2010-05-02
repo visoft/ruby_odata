@@ -3,7 +3,7 @@ Given /^an ODataService exists with uri: "([^\"]*)"$/ do |uri|
 end
 
 When /^I call "([^\"]*)" on the service$/ do |method|
-  @service_result = @service.send(method)
+  @service.send(method)
 end
 
 Then /^the result should be "([^\"]*)"$/ do |result|
@@ -23,7 +23,11 @@ Then /^I should be able to call "([^\"]*)" on the service with args: "([^\"]*)"$
 end
 
 When /^I call "([^\"]*)" on the service with args: "([^\"]*)"$/ do |method, args|
-  @service_result = @service.send(method, args)
+  @service.send(method, args)
+end
+
+When /^I run the query$/ do
+  @service_result = @service.execute
 end
 
 Then /^the result should be of type "([^\"]*)"$/ do |type|

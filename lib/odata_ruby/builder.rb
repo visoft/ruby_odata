@@ -7,21 +7,21 @@ module OData
 		
 		def build
 			# return if already built
-      return @klass unless @klass.nil?
-
-      # need the class name to build class
-      return nil    if @klass_name.nil?
-      
-      # return if we can find constant corresponding to class name
-      if Object.constants.include? @klass_name
-        @klass = @klass_name.constantize
-        return @klass
-      end
-      
+		    return @klass unless @klass.nil?
+		
+		    # need the class name to build class
+		    return nil    if @klass_name.nil?
+		      
+			# return if we can find constant corresponding to class name
+			if Object.constants.include? @klass_name
+				@klass = @klass_name.constantize
+				return @klass
+			end
+		      
 			Object.const_set(@klass_name, Class.new)
-      @klass = @klass_name.constantize
+		    @klass = @klass_name.constantize
 			add_methods(@klass)
-      return @klass
+		    return @klass
 		end
 		
 		private

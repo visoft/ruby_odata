@@ -1,6 +1,6 @@
 require 'lib/odata_ruby'
-svc = OData::Service.new "http://localhost:2301/Services/Entities.svc"
-puts svc.plans
-
-
-#puts svc.get_collections
+require 'json'
+@svc = OData::Service.new "http://127.0.0.1:2301/Services/Entities.svc"
+@svc.plans
+plan = @svc.execute
+puts plan.name

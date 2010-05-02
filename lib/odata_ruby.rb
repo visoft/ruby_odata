@@ -3,5 +3,6 @@ $: << lib + '/odata_ruby/'
 
 require 'rubygems'
 
+require lib + '/odata_ruby/query_builder'
 require lib + '/odata_ruby/builder'
 require lib + '/odata_ruby/service'
