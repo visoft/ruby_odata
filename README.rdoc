@@ -1,1 +1,3 @@
 = odata_ruby
+
+The <b>Open Data Protocol</b> (OData) is a fantastic way to query and update data over standard Web technologies.  The odata_ruby library acts as a consumer of OData services.
