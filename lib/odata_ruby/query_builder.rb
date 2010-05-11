@@ -4,18 +4,14 @@ module OData
 	
 class QueryBuilder
 	def initialize(root)
-		@root = root
+		@root = root.to_s
 		@expands = []
 	end
 	def expand(path)
 		@expands << path
 	end
-	def klass_name
-		name = @root.split('(')[0][1..-1]
-		name.camelize.singularize
-	end
 	def query
-		q = @root
+		q = @root.clone
 		query_options = []
 		query_options << "$expand=#{@expands.join(',')}" unless @expands.empty?
 		if !query_options.empty?

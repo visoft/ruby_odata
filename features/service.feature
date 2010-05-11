@@ -4,7 +4,7 @@ Feature: Service Should Generate a Proxy
   I want to be able to access data
   
 Background:
-	Given an ODataService exists with uri: "http://localhost:2301/Services/Entities.svc"
+  Given an ODataService exists with uri: "http://localhost:2301/Services/Entities.svc"
 
 Scenario: Service should respond to valid collections
   Then I should be able to call "plans" on the service
@@ -41,6 +41,24 @@ Scenario: Entity should an id
   Then the method "id" on the result should equal: "1"
   And the method "code" on the result should equal: "TRL7DAY"
   And the method "name" on the result should equal: "7 Day Free Trial"
+
+Scenario: Navigation Properties should be included in results	
+  Given I call "temp_accounts" on the service with args: "1"
+  When I run the query
+  Then the result should have a method: "plan"
+  And the method "plan" on the result should be nil
+
+Scenario: Navigation Properties should be able to be eager loaded
+  Given I call "temp_accounts" on the service with args: "1"
+  And I expand the query to include "Plan"
+  When I run the query
+  Then the method "plan" on the result should be of type "Plan"
+  And the method "code" on the result's method "plan" should equal: "TRL7DAY"
+
+
+
+
+
 
 
 

@@ -1,6 +1,9 @@
-require 'rubygems'
-require 'rest_client'
-require 'json'
+require 'lib/odata_ruby'
 
+# http://odata.netflix.com/Catalog/People?$filter=Name eq 'James Cameron'&$expand=Awards,TitlesDirected
+# http://odata.netflix.com/Catalog/People(13724)
 
-puts RestClient.get 'http://127.0.0.1:2301/Services/Entities.svc/Plans', :accept => :json
+@svc = OData::Service.new "http://odata.netflix.com/Catalog"
+@svc.people(13724)
+p = @svc.execute
+puts p.name
