@@ -35,6 +35,11 @@ class Service
 
 	end
 
+	def delete_object(obj)
+		type = obj.class.to_s
+		# TODO: Throw an exception if this isn't a tracked entity
+		@save_operation = Operation.new("Delete", type, obj)
+	end
 	def save_changes
 		return nil if @save_operation.nil?
 
@@ -48,7 +53,9 @@ class Service
 		elsif @save_operation.kind == "Update"
 			return nil
 		elsif @save_operation.kind == "Delete"
-			return false
+			delete_uri = "#{@uri}/#{@save_operation.klass_name.pluralize}(#{@save_operation.klass.send(:Id)})"
+			delete_result = RestClient.delete delete_uri
+			return (delete_result.code == 204) 
 		end
 
 		@save_operation = nil # Clear out the last operation

@@ -77,6 +77,14 @@ Then /^the save result should be of type "([^\"]*)"$/ do |type|
 	@saved_result.class.to_s.should == type
 end
 
+When /^I call "([^\"]*)" on the service with the last save result$/ do |method|
+  @service.send(method.to_sym, @saved_result)
+end
+
+Then /^the save result should equal: "([^\"]*)"$/ do |result|
+  @saved_result.to_s.should == result
+end
+
 Then /^the method "([^\"]*)" on the save result should equal: "([^\"]*)"$/ do |method, value|
   result = @saved_result.send(method.to_sym)
 	result.should == value

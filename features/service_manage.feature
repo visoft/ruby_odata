@@ -14,6 +14,20 @@ Scenario: Service should respond to AddToEntityName for adding objects
 	And the method "FirstName" on the save result should equal: "John"
 	And the method "LastName" on the save result should equal: "Doe"
 
+Scenario: Service should allow for deletes
+  Given I call "AddToPlans" on the service with a new "Plan" object with Id: "1"
+  When I save changes
+  Then the save result should be of type "Plan"
+  When I call "delete_object" on the service with the last save result
+  And I save changes
+  Then the save result should equal: "true"
+
+
+
+
+
+
+
 
 
 
