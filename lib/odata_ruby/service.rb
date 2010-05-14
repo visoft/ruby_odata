@@ -111,7 +111,8 @@ class Service
 		return results
 	end
 	def entry_to_class(entry)
-		klass_name = entry.xpath("./atom:link[@rel='edit']/@title", "atom" => "http://www.w3.org/2005/Atom").to_s
+		# Retrieve the class name from the fully qualified name (the last string after the last dot)
+		klass_name = entry.xpath("./atom:category/@term", "atom" => "http://www.w3.org/2005/Atom").to_s.split('.')[-1]
 		return nil if klass_name.empty?
 
 		properties = entry.xpath("./atom:content//m:properties/*", { "m" => "http://schemas.microsoft.com/ado/2007/08/dataservices/metadata", "atom" => "http://www.w3.org/2005/Atom" })
