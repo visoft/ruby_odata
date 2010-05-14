@@ -19,8 +19,9 @@ module OData
 				return @klass
 			end
 		      
-			Object.const_set(@klass_name, Class.new)
+			Object.const_set(@klass_name, Class.new.extend(ActiveSupport::JSON))
 		  @klass = @klass_name.constantize
+ 
 			add_methods(@klass)
 			add_nav_props(@klass)
 			
