@@ -53,6 +53,8 @@ class Service
 		elsif @save_operation.kind == "Update"
 			return nil
 		elsif @save_operation.kind == "Delete"
+			# TODO: pluralizing the klass_name isn't reliable.  You can have a different collection name from the entity
+			# In order to correct this, we need to store some metadata about the entity when building it.
 			delete_uri = "#{@uri}/#{@save_operation.klass_name.pluralize}(#{@save_operation.klass.send(:Id)})"
 			delete_result = RestClient.delete delete_uri
 			return (delete_result.code == 204) 
