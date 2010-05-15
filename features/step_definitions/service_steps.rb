@@ -50,6 +50,11 @@ Given /^I expand the query to include "([^\"]*)"$/ do |expands|
   @service_query.expand(expands)
 end
 
+When /^I filter the query with: "([^\"]*)"$/ do |filter|
+  @service_query.filter(filter)
+end
+
+
 Then /^the method "([^\"]*)" on the result should be of type "([^\"]*)"$/ do |method, type|
   result = @service_result.send(method.to_sym) 
   result.class.to_s.should == type
@@ -58,11 +63,19 @@ end
 Given /^I call "([^\"]*)" on the service with a new "([^\"]*)" object(?: with (.*))?$/ do |method, object, fields|
   fields_hash = {}
   
-  fields.split(', ').each do |field|
+  if !fields.nil?
+  	fields.split(', ').each do |field|
   	if field =~ /^(?:(\w+): "(.*)")$/
-  		fields_hash.merge!({ $1 => $2 })
+  		key = $1
+  		val = $2
+  		if val =~ /^@@LastSave$/
+  			val = @saved_result
+  		end
+  		
+  		fields_hash.merge!({ key => val })
 		else
 		end
+  	end	
   end
   
   obj = object.constantize.send(:make, fields_hash)
@@ -89,7 +102,6 @@ Then /^the method "([^\"]*)" on the save result should equal: "([^\"]*)"$/ do |m
   result = @saved_result.send(method.to_sym)
 	result.should == value
 end
-
 
 Then /^the method "([^\"]*)" on the result's method "([^\"]*)" should equal: "([^\"]*)"$/ do |method, result_method, value|
   obj = @service_result.send(result_method.to_sym)

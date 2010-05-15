@@ -1,1 +1,0 @@
-osql -i "%~dp0\LogALink_DEV Add test data.sql" -S ".\SQLEXPRESS" -E > NUL

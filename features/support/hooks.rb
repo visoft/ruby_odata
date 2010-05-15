@@ -1,5 +1,4 @@
 Before do
 	Sham.reset
-	batch_file = File.expand_path(File.dirname(__FILE__) + "../../../test/ResetDB.bat")
-	output = `"#{batch_file}`
+	RestClient.post "http://127.0.0.1:2301/services/entities.svc/CleanDatabaseForTesting", {}
 end
