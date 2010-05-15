@@ -1,4 +1,4 @@
 Before do
 	Sham.reset
-	RestClient.post "http://127.0.0.1:2301/services/entities.svc/CleanDatabaseForTesting", {}
+	RestClient.post "http://localhost:8888/SampleService/Entities.svc/CleanDatabaseForTesting", {}
 end

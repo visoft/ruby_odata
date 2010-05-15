@@ -1,3 +1,6 @@
 = odata_ruby
 
 The <b>Open Data Protocol</b> (OData) is a fantastic way to query and update data over standard Web technologies.  The odata_ruby library acts as a consumer of OData services.
+
+=== Tests
+All of the tests are written using Cucumber going against a sample service (Found in /test/SampleService/*).  The SampleService is an ASP.NET Web Site running a SQLEXPRESS 2008 R2 Database, as well as the ADO.NET Entity Framework and a WCF Data Service.  In order to run the tests, you need to spin up the SampleService and have it running on port 8080.  The easiest way to do this is to open the SampleService within Visual Studio 2010 and run it from there.
