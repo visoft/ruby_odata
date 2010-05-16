@@ -47,7 +47,7 @@ class Service
 
 		if @save_operation.kind == "Add"
 			save_uri = "#{@uri}/#{@save_operation.klass_name}"
-			json_klass = @save_operation.klass.to_json
+			json_klass = @save_operation.klass.to_json(:type => :add)
 			post_result = RestClient.post save_uri, json_klass, :content_type => :json
 			result = build_classes_from_result(post_result)
 		elsif @save_operation.kind == "Update"
@@ -118,8 +118,14 @@ class Service
 		return nil if klass_name.empty?
 
 		properties = entry.xpath("./atom:content//m:properties/*", { "m" => "http://schemas.microsoft.com/ado/2007/08/dataservices/metadata", "atom" => "http://www.w3.org/2005/Atom" })
-			
+				
 		klass = @classes[klass_name].new
+		
+		# Fill metadata
+		meta_id = entry.xpath("./atom:id", "atom" => "http://www.w3.org/2005/Atom")[0].content
+		klass.send :__metadata=, { :uri => meta_id }
+
+		# Fill properties
 		for prop in properties
 			prop_name = prop.name
 			# puts "#{prop_name} - #{prop.content}"
@@ -134,18 +140,14 @@ class Service
 			if inline_entries.length == 1
 				property_name = link.attributes['title'].to_s
 				
-				# Build the class
-				inline_klass = entry_to_class(inline_entries[0])
-				
-				# Add the property
-				klass.send "#{property_name}=", inline_klass
+				build_inline_class(klass, inline_entries[0], property_name)
       else
-        # TODO: Handle multiple children
+        # TODO: Test handling multiple children
 				for inline_entry in inline_entries
 					property_name = link.xpath("atom:link[@rel='edit']/@title", "atom" => "http://www.w3.org/2005/Atom")
 					
 					# Build the class
-					inline_klass = entry_to_class(property_name, inline_entry)
+					inline_klass = entry_to_class(inline_entry)
 					
 					# Add the property
 					klass.send "#{property_name}=", inline_klass
@@ -157,6 +159,14 @@ class Service
 	end
 	def build_query_uri
 		"#{@uri}#{@query.query}"
+	end
+	
+	def build_inline_class(klass, entry, property_name)
+		# Build the class
+		inline_klass = entry_to_class(entry)
+	
+		# Add the property
+		klass.send "#{property_name}=", inline_klass
 	end
 
 end

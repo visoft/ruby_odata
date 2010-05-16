@@ -4,3 +4,5 @@ rerun.txt
 tmp
 tmp/*
 .eprj
+*.mdf
+*.ldf

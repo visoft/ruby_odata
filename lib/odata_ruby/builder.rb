@@ -30,6 +30,28 @@ module OData
 		
 		private
 		def add_methods(klass)
+			# Add metadata methods
+			klass.send :define_method, :__metadata do
+				instance_variable_get("@__metadata")
+			end
+			klass.send :define_method, :__metadata= do |value|
+					instance_variable_set("@__metadata", value)
+			end
+		  klass.send :define_method, :as_json do |options|
+				meta = '__metadata'
+				vars = self.instance_values
+				
+				if options[:type] == :add  && vars.has_key?(meta)
+					vars.delete_if { |k,v| k != meta}
+				else
+					vars.delete(meta)
+				end
+
+				vars
+			end
+			
+			
+			# Add the methods that were passed in
 			@methods.each do |method_name|
 				klass.send :define_method, method_name do
 					instance_variable_get("@#{method_name}")

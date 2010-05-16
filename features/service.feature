@@ -2,7 +2,7 @@ Feature: Service Should Generate a Proxy
   In order to consume the OData
   As a user
   I want to be able to access data
-  
+
 Background:
   Given an ODataService exists with uri: "http://localhost:8888/SampleService/Entities.svc"
 	And blueprints exist for the service
@@ -57,6 +57,7 @@ Scenario: Navigation Properties should be able to be eager loaded
   When I run the query
   Then the method "Category" on the result should be of type "Category"
   And the method "Name" on the result's method "Category" should equal: "Test Category"
+	And the method "Id" on the result's method "Category" should equal: "1"
 
 Scenario: Filters should be allowed on the root level entity
   Given I call "AddToProducts" on the service with a new "Product" object with Name: "Test Product"
