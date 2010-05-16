@@ -21,14 +21,6 @@ Scenario: Service should allow for deletes
   And I save changes
   Then the save result should equal: "true"
 
-
-
-
-
-
-
-
-
-
-
+Scenario: Untracked entities shouldn't be able to be deleted
+	Given I call "delete_object" on the service with a new "Product" object it should throw an exception
 

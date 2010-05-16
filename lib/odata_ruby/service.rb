@@ -37,8 +37,12 @@ class Service
 
 	def delete_object(obj)
 		type = obj.class.to_s
-		# TODO: Throw an exception if this isn't a tracked entity
-		@save_operation = Operation.new("Delete", type, obj)
+		if obj.respond_to?(:__metadata) && !obj.send(:__metadata).nil? 
+			@save_operation = Operation.new("Delete", type, obj)
+		else
+			raise "You cannot delete a non-tracked entity"
+		end
+		
 	end
 	def save_changes
 		return nil if @save_operation.nil?
@@ -53,9 +57,7 @@ class Service
 		elsif @save_operation.kind == "Update"
 			return nil
 		elsif @save_operation.kind == "Delete"
-			# TODO: pluralizing the klass_name isn't reliable.  You can have a different collection name from the entity
-			# In order to correct this, we need to store some metadata about the entity when building it.
-			delete_uri = "#{@uri}/#{@save_operation.klass_name.pluralize}(#{@save_operation.klass.send(:Id)})"
+			delete_uri = @save_operation.klass.send(:__metadata)[:uri]
 			delete_result = RestClient.delete delete_uri
 			return (delete_result.code == 204) 
 		end

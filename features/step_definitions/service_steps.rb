@@ -103,11 +103,16 @@ Then /^the method "([^\"]*)" on the save result should equal: "([^\"]*)"$/ do |m
 	result.should == value
 end
 
+When /^blueprints exist for the service$/ do
+	require File.expand_path(File.dirname(__FILE__) + "../../../test/blueprints")
+end
+
+Given /^I call "([^\"]*)" on the service with a new "([^\"]*)" object it should throw an exception$/ do |method, object|
+	obj = object.constantize.send :make
+  lambda { @service.send(method.to_sym, obj) }.should raise_error("You cannot delete a non-tracked entity")
+end
+
 Then /^the method "([^\"]*)" on the result's method "([^\"]*)" should equal: "([^\"]*)"$/ do |method, result_method, value|
   obj = @service_result.send(result_method.to_sym)
   obj.send(method.to_sym).should == value
-end
-
-When /^blueprints exist for the service$/ do
-	require File.expand_path(File.dirname(__FILE__) + "../../../test/blueprints")
 end
