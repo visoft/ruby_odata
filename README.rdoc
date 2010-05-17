@@ -2,5 +2,84 @@
 
 The <b>Open Data Protocol</b> (OData) is a fantastic way to query and update data over standard Web technologies.  The odata_ruby library acts as a consumer of OData services.
 
-=== Tests
-All of the tests are written using Cucumber going against a sample service (Found in /test/SampleService/*).  The SampleService is an ASP.NET Web Site running a SQLEXPRESS 2008 R2 Database, as well as the ADO.NET Entity Framework and a WCF Data Service.  In order to run the tests, you need to spin up the SampleService and have it running on port 8080.  The easiest way to do this is to open the SampleService within Visual Studio 2010 and run it from there.
+== Usage
+The API is a work in progress.  Notably, you can't update entities at the moment, nor can changes be bundled (through save_changes).
+
+=== Adding
+Adding is just as simple.  When you point at a service, an AddTo<EntityName> method is created for you.  To add a new category for example, you would simply do the following:
+
+	require 'lib/odata_ruby'
+	
+	svc = OData::Service.new "http://127.0.0.1:8888/SampleService/Entities.svc"
+	new_category = Category.new
+	new_category.Name = "Sample Category"
+	svc.AddToCategories(new_category)
+	category = svc.save_changes
+	puts category.to_json
+	
+=== Deleting
+Deleting is another function that involves the save_changes method (to commit the change back to the server).  In this example, we'll add a category and then delete it.
+
+	require 'lib/odata_ruby'
+	
+	svc = OData::Service.new "http://127.0.0.1:8888/SampleService/Entities.svc"
+	new_category = Category.new
+	new_category.Name = "Sample Category"
+	svc.AddToCategories(new_category)
+	category = svc.save_changes
+	puts category.to_json
+	
+	svc.delete_object(category)
+	result = svc.save_changes
+	puts "Was the category deleted? #{result}"
+
+=== Querying
+Querying is easy, for example to pull all the categories from the SampleService, you simply can run:
+
+	require 'lib/odata_ruby'
+	
+	svc = OData::Service.new "http://127.0.0.1:8888/SampleService/Entities.svc"
+	svc.Categories
+	categories = svc.execute
+	puts categories.to_json
+
+You can also expand and add filters to the query before executing it.  For example:
+
+=== Expanding
+
+	# Without expanding the query
+	svc.Products(1)
+	prod1 = svc.execute
+	puts "Without expanding the query"
+	puts "#{prod1.to_json}\n"
+	
+	# With expanding the query
+	svc.Products(1).expand('Category')
+	prod1 = svc.execute
+	puts "Without expanding the query"
+	puts "#{prod1.to_json}\n"
+
+
+=== Filtering
+
+	# You can access by ID (but that isn't is a filter)
+	# The syntax is just svc.ENTITYNAME(ID) which is shown in the expanding examples above
+	
+	svc.Products.filter("Name eq 'Product 2'")
+	prod = svc.execute
+	puts "Filtering on Name eq 'Product 2'"
+	puts "#{prod.to_json}"
+	
+=== Combining Expanding and Filtering
+
+	svc.Products.filter("Name eq 'Product 2'").expand("Category")
+	prod = svc.execute
+	puts "Filtering on Name eq 'Product 2' and expanding"
+	puts "#{prod.to_json}"
+
+
+
+== Tests
+All of the tests are written using Cucumber going against a sample service (Found in /test/SampleService/*).  The SampleService is an ASP.NET Web Site running a SQLEXPRESS 2008 R2 Database, as well as the ADO.NET Entity Framework and a WCF Data Service.  In order to run the tests, you need to spin up the SampleService and have it running on port 8888 (http://localhost:8888/SampleService).  
+
+One way to do this is to open the SampleService within Visual Studio 2010 and run it from there.  Another option is to use Cassini (the built ASP.NET Development server that comes with Visual Studio 2010).  There is a batch file found in /test called "Cassini x64.bat", you can run the batch file and just close the command window. There is a also a "Cassini x86.bat" file for those of you running a 32-bit machine, however it hasn't been tested.  The only difference is the path to the Program Files directory.  Once you run the batch file, the web server will spin up and you can find the instance in your systray just like if Visual Studio ran it for you.  To stop the server, right click on the icon in your systray and tell it to stop.
