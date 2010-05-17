@@ -12,10 +12,12 @@ class QueryBuilder
 	
 	def expand(path)
 		@expands << path
+		self
 	end
 	
 	def filter(filter)
 		@filters << CGI.escape(filter)
+		self
 	end
 	
 	def query
