@@ -80,6 +80,11 @@ You can also expand and add filters to the query before executing it.  For examp
 
 
 == Tests
-All of the tests are written using Cucumber going against a sample service (Found in /test/SampleService/*).  The SampleService is an ASP.NET Web Site running a SQLEXPRESS 2008 R2 Database, as well as the ADO.NET Entity Framework and a WCF Data Service.  In order to run the tests, you need to spin up the SampleService and have it running on port 8888 (http://localhost:8888/SampleService).  
+*DATABASE SETUP - DO THIS FIRST*
+Within /test/SampleService/App_Data/ rename _TestDB*.* to TestDB*.*. This file is just the inital database, and needs to be renamed so that unwanted changes to that DB aren't persisted in source control.
 
-One way to do this is to open the SampleService within Visual Studio 2010 and run it from there.  Another option is to use Cassini (the built ASP.NET Development server that comes with Visual Studio 2010).  There is a batch file found in /test called "Cassini x64.bat", you can run the batch file and just close the command window. There is a also a "Cassini x86.bat" file for those of you running a 32-bit machine, however it hasn't been tested.  The only difference is the path to the Program Files directory.  Once you run the batch file, the web server will spin up and you can find the instance in your systray just like if Visual Studio ran it for you.  To stop the server, right click on the icon in your systray and tell it to stop.
+All of the tests are written using Cucumber going against a sample service (Found in /test/SampleService/*).  The SampleService is an ASP.NET Web Site running a SQLEXPRESS 2008 R2 Database (TestDB), as well as the ADO.NET Entity Framework and a WCF Data Service.  In order to run the tests, you need to spin up the SampleService and have it running on port 8888 (http://localhost:8888/SampleService).  
+
+One way to do this is to open the SampleService within Visual Studio 2010 and run it from there.  Another option is to use Cassini (the built ASP.NET Development server that comes with Visual Studio 2010).  There is a batch file found in /test called "Cassini x64.bat", you can run the batch file and just close the command window. There is a also a "Cassini x86.bat" file for those of you running a 32-bit machine, however it hasn't been tested.  The only difference is the path to the Program Files directory.  Once you run the batch file, the web server will spin up and you can find the instance in your systray just like if Visual Studio ran it for you.  To stop the server, right click on the icon in your systray and tell it to stop
+
+
