@@ -41,7 +41,7 @@ module OData
 				meta = '__metadata'
 				vars = self.instance_values
 				
-				if options[:type] == :add  && vars.has_key?(meta)
+				if !options.nil? && options[:type] == :add  && vars.has_key?(meta)
 					vars.delete_if { |k,v| k != meta}
 				else
 					vars.delete(meta)
