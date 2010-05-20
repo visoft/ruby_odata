@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>File: README.rdoc</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+  <div id="fileHeader">
+    <h1>README.rdoc</h1>
+    <table class="header-table">
+    <tr class="top-aligned-row">
+      <td><strong>Path:</strong></td>
+      <td>README.rdoc
+      </td>
+    </tr>
+    <tr class="top-aligned-row">
+      <td><strong>Last Update:</strong></td>
+      <td>Mon May 17 16:38:27 -0400 2010</td>
+    </tr>
+    </table>
+  </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <h1>odata_ruby</h1>
+<p>
+The <b>Open Data Protocol</b> (<a href="../classes/OData.html">OData</a>)
+is a fantastic way to query and update data over standard Web technologies.
+The odata_ruby library acts as a consumer of <a
+href="../classes/OData.html">OData</a> services.
+</p>
+<h2>Usage</h2>
+<p>
+The API is a work in progress. Notably, you can&#8216;t update entities at
+the moment, nor can changes be bundled (through save_changes).
+</p>
+<h3>Adding</h3>
+<p>
+Adding is just as simple. When you point at a service, an
+AddTo&lt;EntityName&gt; method is created for you. To add a new category
+for example, you would simply do the following:
+</p>
+<pre>
+        require 'lib/odata_ruby'
+
+        svc = OData::Service.new &quot;http://127.0.0.1:8888/SampleService/Entities.svc&quot;
+        new_category = Category.new
+        new_category.Name = &quot;Sample Category&quot;
+        svc.AddToCategories(new_category)
+        category = svc.save_changes
+        puts category.to_json
+</pre>
+<h3>Deleting</h3>
+<p>
+Deleting is another function that involves the save_changes method (to
+commit the change back to the server). In this example, we&#8216;ll add a
+category and then delete it.
+</p>
+<pre>
+        require 'lib/odata_ruby'
+
+        svc = OData::Service.new &quot;http://127.0.0.1:8888/SampleService/Entities.svc&quot;
+        new_category = Category.new
+        new_category.Name = &quot;Sample Category&quot;
+        svc.AddToCategories(new_category)
+        category = svc.save_changes
+        puts category.to_json
+
+        svc.delete_object(category)
+        result = svc.save_changes
+        puts &quot;Was the category deleted? #{result}&quot;
+</pre>
+<h3>Querying</h3>
+<p>
+Querying is easy, for example to pull all the categories from the
+SampleService, you simply can run:
+</p>
+<pre>
+        require 'lib/odata_ruby'
+
+        svc = OData::Service.new &quot;http://127.0.0.1:8888/SampleService/Entities.svc&quot;
+        svc.Categories
+        categories = svc.execute
+        puts categories.to_json
+</pre>
+<p>
+You can also expand and add filters to the query before executing it. For
+example:
+</p>
+<h3>Expanding</h3>
+<pre>
+        # Without expanding the query
+        svc.Products(1)
+        prod1 = svc.execute
+        puts &quot;Without expanding the query&quot;
+        puts &quot;#{prod1.to_json}\n&quot;
+
+        # With expanding the query
+        svc.Products(1).expand('Category')
+        prod1 = svc.execute
+        puts &quot;Without expanding the query&quot;
+        puts &quot;#{prod1.to_json}\n&quot;
+</pre>
+<h3>Filtering</h3>
+<pre>
+        # You can access by ID (but that isn't is a filter)
+        # The syntax is just svc.ENTITYNAME(ID) which is shown in the expanding examples above
+
+        svc.Products.filter(&quot;Name eq 'Product 2'&quot;)
+        prod = svc.execute
+        puts &quot;Filtering on Name eq 'Product 2'&quot;
+        puts &quot;#{prod.to_json}&quot;
+</pre>
+<h3>Combining Expanding and Filtering</h3>
+<pre>
+        svc.Products.filter(&quot;Name eq 'Product 2'&quot;).expand(&quot;Category&quot;)
+        prod = svc.execute
+        puts &quot;Filtering on Name eq 'Product 2' and expanding&quot;
+        puts &quot;#{prod.to_json}&quot;
+</pre>
+<h2>Tests</h2>
+<p>
+*DATABASE SETUP - DO THIS FIRST* Within /test/SampleService/App_Data/
+rename _TestDB*.* to TestDB*.*. This file is just the inital database, and
+needs to be renamed so that unwanted changes to that DB aren&#8216;t
+persisted in source control.
+</p>
+<p>
+All of the tests are written using Cucumber going against a sample service
+(Found in /test/SampleService/*). The SampleService is an ASP.NET Web Site
+running a SQLEXPRESS 2008 R2 Database (TestDB), as well as the ADO.NET
+Entity Framework and a WCF Data Service. In order to run the tests, you
+need to spin up the SampleService and have it running on port 8888 (<a
+href="http://localhost:8888/SampleService">localhost:8888/SampleService</a>).
+</p>
+<p>
+One way to do this is to open the SampleService within Visual Studio 2010
+and run it from there. Another option is to use Cassini (the built ASP.NET
+Development server that comes with Visual Studio 2010). There is a batch
+file found in /test called &quot;Cassini x64.bat&quot;, you can run the
+batch file and just close the command window. There is a also a
+&quot;Cassini x86.bat&quot; file for those of you running a 32-bit machine,
+however it hasn&#8216;t been tested. The only difference is the path to the
+Program Files directory. Once you run the batch file, the web server will
+spin up and you can find the instance in your systray just like if Visual
+Studio ran it for you. To stop the server, right click on the icon in your
+systray and tell it to stop
+</p>
+
+    </div>
+
+
+   </div>
+
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

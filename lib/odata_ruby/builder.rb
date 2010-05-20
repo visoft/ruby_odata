@@ -1,4 +1,5 @@
 module OData
+	# Internally used helper class for building a dynamic class
 	class ClassBuilder
 		def initialize(klass_name, methods, nav_props)
 			@klass_name = klass_name
@@ -6,6 +7,7 @@ module OData
 			@nav_props = nav_props
 		end
 		
+		# Returns a dynamically generated class definition based on the constructor parameters
 		def build
 			# return if already built
 		  return @klass unless @klass.nil?

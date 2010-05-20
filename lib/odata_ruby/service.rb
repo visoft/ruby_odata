@@ -14,6 +14,7 @@ class Service
 		build_classes
 	end
 	
+	# Handles the dynamic AddTo<EntityName> methods as well as the collections on the service
 	def method_missing(name, *args)
 		# Queries
 		if @collections.include?(name.to_s)
@@ -35,6 +36,7 @@ class Service
 
 	end
 
+	# Queues an object for deletion.  To actually remove it from the server, you must call save_changes
 	def delete_object(obj)
 		type = obj.class.to_s
 		if obj.respond_to?(:__metadata) && !obj.send(:__metadata).nil? 
@@ -44,6 +46,8 @@ class Service
 		end
 		
 	end
+	
+	# Performs save operations (Create/Update/Delete) against the server
 	def save_changes
 		return nil if @save_operation.nil?
 
@@ -66,18 +70,27 @@ class Service
 		return result
 	end
 
+	# Performs query opertions (Read) against the server
 	def execute
 		result = RestClient.get build_query_uri
 		build_classes_from_result(result)
 	end
 	
+	# Overridden to identify methods handled by method_missing  
 	def respond_to?(method)
-		super unless @collections.include?(method.to_s)
-		return true
-	end
-	
-	def debug_query
-		puts build_query_uri
+		if @collections.include?(method.to_s)
+			return true
+		# Adds	
+		elsif method.to_s =~ /^AddTo(.*)/
+			type = $1
+			if @collections.include?(type)
+				return true
+			else
+				super
+			end
+		else
+			super
+		end
 	end
 	
 	private 
@@ -162,7 +175,6 @@ class Service
 	def build_query_uri
 		"#{@uri}#{@query.query}"
 	end
-	
 	def build_inline_class(klass, entry, property_name)
 		# Build the class
 		inline_klass = entry_to_class(entry)
@@ -170,7 +182,6 @@ class Service
 		# Add the property
 		klass.send "#{property_name}=", inline_klass
 	end
-
 end
 
 end # module OData
