@@ -55,8 +55,8 @@
         <tr class="top-aligned-row">
             <td><strong>In:</strong></td>
             <td>
-                <a href="../../files/lib/odata_ruby/builder_rb.html">
-                lib/odata_ruby/builder.rb
+                <a href="../../files/lib/odata_ruby/class_builder_rb.html">
+                lib/odata_ruby/class_builder.rb
                 </a>
         <br />
             </td>
@@ -80,7 +80,8 @@
 
     <div id="description">
       <p>
-Internally used helper class for building a dynamic class
+Internally used helper class for building a dynamic class. This class
+shouldn&#8216;t be called directly.
 </p>
 
     </div>
@@ -125,11 +126,27 @@ Internally used helper class for building a dynamic class
         </div>
       
         <div class="method-description">
+          <p>
+Creates a <a href="ClassBuilder.html#M000002">new</a> instance of the <a
+href="ClassBuilder.html">ClassBuilder</a> class
+</p>
+<h4>Required Attributes</h4>
+<ul>
+<li>klass_name: The name/type of the class to create
+
+</li>
+<li>methods: The accessor methods to add to the class
+
+</li>
+<li>nav_props: The accessor methods to add for navigation properties
+
+</li>
+</ul>
           <p><a class="source-toggle" href="#"
             onclick="toggleCode('M000002-source');return false;">[Source]</a></p>
           <div class="method-source-code" id="M000002-source">
 <pre>
-<span class="ruby-comment cmt"># File lib/odata_ruby/builder.rb, line 4</span>
+<span class="ruby-comment cmt"># File lib/odata_ruby/class_builder.rb, line 10</span>
                 <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">klass_name</span>, <span class="ruby-identifier">methods</span>, <span class="ruby-identifier">nav_props</span>)
                         <span class="ruby-ivar">@klass_name</span> = <span class="ruby-identifier">klass_name</span>
                         <span class="ruby-ivar">@methods</span> = <span class="ruby-identifier">methods</span>
@@ -160,7 +177,7 @@ parameters
             onclick="toggleCode('M000003-source');return false;">[Source]</a></p>
           <div class="method-source-code" id="M000003-source">
 <pre>
-<span class="ruby-comment cmt"># File lib/odata_ruby/builder.rb, line 11</span>
+<span class="ruby-comment cmt"># File lib/odata_ruby/class_builder.rb, line 17</span>
                 <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">build</span>
                         <span class="ruby-comment cmt"># return if already built</span>
                   <span class="ruby-keyword kw">return</span> <span class="ruby-ivar">@klass</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-ivar">@klass</span>.<span class="ruby-identifier">nil?</span>

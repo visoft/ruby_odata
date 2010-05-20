@@ -1,6 +1,12 @@
 module OData
-	# Internally used helper class for building a dynamic class
+	# Internally used helper class for building a dynamic class.  This class shouldn't be called directly.
 	class ClassBuilder
+		# Creates a new instance of the ClassBuilder class
+		#
+		# ==== Required Attributes
+		# - klass_name: 	The name/type of the class to create
+		# - methods:			The accessor methods to add to the class
+		# - nav_props:		The accessor methods to add for navigation properties
 		def initialize(klass_name, methods, nav_props)
 			@klass_name = klass_name
 			@methods = methods

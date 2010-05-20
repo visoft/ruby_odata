@@ -1,13 +1,11 @@
-require 'open-uri'
-require 'rest_client'
-require 'nokogiri'
-require 'active_support/inflector'
-
 module OData
 	
 class Service
 	attr_reader :classes
-	
+	# Creates a new instance of the Service class
+	#
+	# ==== Required Attributes
+	# - service_uri: The root URI of the OData service
 	def initialize(service_uri)		
 		@uri = service_uri
 		@collections = get_collections
@@ -37,6 +35,11 @@ class Service
 	end
 
 	# Queues an object for deletion.  To actually remove it from the server, you must call save_changes
+	#
+	# ==== Required Attributes
+	# - obj: The object to mark for deletion
+	#
+	# Note: This method will throw an exception if the +obj+ isn't a tracked entity
 	def delete_object(obj)
 		type = obj.class.to_s
 		if obj.respond_to?(:__metadata) && !obj.send(:__metadata).nil? 

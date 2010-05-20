@@ -81,7 +81,7 @@
     <div id="description">
       <p>
 Internally used helper class for storing operations called against the
-service
+service. This class shouldn&#8216;t be used directly.
 </p>
 
     </div>
@@ -148,11 +148,27 @@ service
         </div>
       
         <div class="method-description">
+          <p>
+Creates a <a href="Operation.html#M000001">new</a> instance of the <a
+href="Operation.html">Operation</a> class
+</p>
+<h4>Required Attributes</h4>
+<ul>
+<li>kind: The operation type (Add, Update, or Delete)
+
+</li>
+<li>klass_name: The name/type of the class to operate against
+
+</li>
+<li>klass: The actual class
+
+</li>
+</ul>
           <p><a class="source-toggle" href="#"
             onclick="toggleCode('M000001-source');return false;">[Source]</a></p>
           <div class="method-source-code" id="M000001-source">
 <pre>
-<span class="ruby-comment cmt"># File lib/odata_ruby/operation.rb, line 6</span>
+<span class="ruby-comment cmt"># File lib/odata_ruby/operation.rb, line 12</span>
                 <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">kind</span>, <span class="ruby-identifier">klass_name</span>, <span class="ruby-identifier">klass</span>)
                         <span class="ruby-ivar">@kind</span> = <span class="ruby-identifier">kind</span>
                         <span class="ruby-ivar">@klass_name</span> = <span class="ruby-identifier">klass_name</span>

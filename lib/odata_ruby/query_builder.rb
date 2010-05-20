@@ -1,6 +1,3 @@
-require 'active_support/inflector'
-require 'cgi'
-
 module OData
 # The query builder is used to call query operations against the service.  This shouldn't be called directly, but rather it is returned from the dynamic methods created for the specific service that you are calling.
 #
@@ -9,6 +6,10 @@ module OData
 # 		svc.Categories
 # The *Categories* method would return a QueryBuilder 
 class QueryBuilder
+	# Creates a new instance of the QueryBuilder class
+	#
+	# ==== Required Attributes
+	# - root: The root entity collection to query against
 	def initialize(root)
 		@root = root.to_s
 		@expands = []
@@ -16,6 +17,10 @@ class QueryBuilder
 	end
 	
 	# Used to eagerly-load data for nested objects, for example, obtaining a Category for a Product within one call to the server
+	# ==== Required Attributes
+	# - path: The path of the entity to expand relative to the root
+	#
+	# ==== Example
 	# 	# Without expanding the query (no Category will be filled in for the Product)
 	# 	svc.Products(1)
 	# 	prod1 = svc.execute
@@ -28,7 +33,11 @@ class QueryBuilder
 		self
 	end
 	
-	# Used to filter data being returned, for example:
+	# Used to filter data being returned
+	# ==== Required Attributes
+	# - filter: The path of the entity to expand relative to the root
+	#
+	# ==== Example	
 	# 	svc.Products.filter("Name eq 'Product 2'")
 	# 	prod = svc.execute
 	def filter(filter)

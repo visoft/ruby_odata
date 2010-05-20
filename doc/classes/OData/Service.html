@@ -136,11 +136,21 @@
         </div>
       
         <div class="method-description">
+          <p>
+Creates a <a href="Service.html#M000008">new</a> instance of the <a
+href="Service.html">Service</a> class
+</p>
+<h4>Required Attributes</h4>
+<ul>
+<li>service_uri: The root URI of the <a href="../OData.html">OData</a> service
+
+</li>
+</ul>
           <p><a class="source-toggle" href="#"
             onclick="toggleCode('M000008-source');return false;">[Source]</a></p>
           <div class="method-source-code" id="M000008-source">
 <pre>
-<span class="ruby-comment cmt"># File lib/odata_ruby/service.rb, line 11</span>
+<span class="ruby-comment cmt"># File lib/odata_ruby/service.rb, line 9</span>
         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">service_uri</span>)            
                 <span class="ruby-ivar">@uri</span> = <span class="ruby-identifier">service_uri</span>
                 <span class="ruby-ivar">@collections</span> = <span class="ruby-identifier">get_collections</span>
@@ -167,11 +177,21 @@
 Queues an object for deletion. To actually remove it from the server, you
 must call <a href="Service.html#M000011">save_changes</a>
 </p>
+<h4>Required Attributes</h4>
+<ul>
+<li>obj: The object to mark for deletion
+
+</li>
+</ul>
+<p>
+Note: This method will throw an exception if the <tt>obj</tt> isn&#8216;t a
+tracked entity
+</p>
           <p><a class="source-toggle" href="#"
             onclick="toggleCode('M000010-source');return false;">[Source]</a></p>
           <div class="method-source-code" id="M000010-source">
 <pre>
-<span class="ruby-comment cmt"># File lib/odata_ruby/service.rb, line 40</span>
+<span class="ruby-comment cmt"># File lib/odata_ruby/service.rb, line 43</span>
         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">delete_object</span>(<span class="ruby-identifier">obj</span>)
                 <span class="ruby-identifier">type</span> = <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">to_s</span>
                 <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-identifier">:__metadata</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">obj</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">:__metadata</span>).<span class="ruby-identifier">nil?</span> 
@@ -203,7 +223,7 @@ Performs query opertions (Read) against the server
             onclick="toggleCode('M000012-source');return false;">[Source]</a></p>
           <div class="method-source-code" id="M000012-source">
 <pre>
-<span class="ruby-comment cmt"># File lib/odata_ruby/service.rb, line 74</span>
+<span class="ruby-comment cmt"># File lib/odata_ruby/service.rb, line 77</span>
         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">execute</span>
                 <span class="ruby-identifier">result</span> = <span class="ruby-constant">RestClient</span>.<span class="ruby-identifier">get</span> <span class="ruby-identifier">build_query_uri</span>
                 <span class="ruby-identifier">build_classes_from_result</span>(<span class="ruby-identifier">result</span>)
@@ -231,7 +251,7 @@ collections on the service
             onclick="toggleCode('M000009-source');return false;">[Source]</a></p>
           <div class="method-source-code" id="M000009-source">
 <pre>
-<span class="ruby-comment cmt"># File lib/odata_ruby/service.rb, line 18</span>
+<span class="ruby-comment cmt"># File lib/odata_ruby/service.rb, line 16</span>
         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">method_missing</span>(<span class="ruby-identifier">name</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">args</span>)
                 <span class="ruby-comment cmt"># Queries</span>
                 <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@collections</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_s</span>)
@@ -275,7 +295,7 @@ href="Service.html#M000009">method_missing</a>
             onclick="toggleCode('M000013-source');return false;">[Source]</a></p>
           <div class="method-source-code" id="M000013-source">
 <pre>
-<span class="ruby-comment cmt"># File lib/odata_ruby/service.rb, line 80</span>
+<span class="ruby-comment cmt"># File lib/odata_ruby/service.rb, line 83</span>
         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">respond_to?</span>(<span class="ruby-identifier">method</span>)
                 <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@collections</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">method</span>.<span class="ruby-identifier">to_s</span>)
                         <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">true</span>
@@ -313,7 +333,7 @@ Performs save operations (Create/Update/Delete) against the server
             onclick="toggleCode('M000011-source');return false;">[Source]</a></p>
           <div class="method-source-code" id="M000011-source">
 <pre>
-<span class="ruby-comment cmt"># File lib/odata_ruby/service.rb, line 51</span>
+<span class="ruby-comment cmt"># File lib/odata_ruby/service.rb, line 54</span>
         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">save_changes</span>
                 <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">nil</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@save_operation</span>.<span class="ruby-identifier">nil?</span>
 
