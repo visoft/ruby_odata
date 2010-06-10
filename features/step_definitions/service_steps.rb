@@ -46,6 +46,10 @@ Then /^the method "([^\"]*)" on the result should be nil$/ do |method|
   @service_result.send(method.to_sym).should == nil
 end
 
+When /^I set "([^\"]*)" on the result to "([^\"]*)"$/ do |property_name, value|
+	@service_result.send("#{property_name}=", value)
+end
+
 Given /^I expand the query to include "([^\"]*)"$/ do |expands|
   @service_query.expand(expands)
 end
@@ -94,6 +98,10 @@ When /^I call "([^\"]*)" on the service with the last save result$/ do |method|
   @service.send(method.to_sym, @saved_result)
 end
 
+When /^I call "([^\"]*)" on the service with the last query result$/ do |method|
+  @service.send(method.to_sym, @service_result)
+end
+
 Then /^the save result should equal: "([^\"]*)"$/ do |result|
   @saved_result.to_s.should == result
 end
@@ -107,9 +115,9 @@ When /^blueprints exist for the service$/ do
 	require File.expand_path(File.dirname(__FILE__) + "../../../test/blueprints")
 end
 
-Given /^I call "([^\"]*)" on the service with a new "([^\"]*)" object it should throw an exception$/ do |method, object|
+Given /^I call "([^\"]*)" on the service with a new "([^\"]*)" object it should throw an exception with message "([^\"]*)"$/ do |method, object, msg|
 	obj = object.constantize.send :make
-  lambda { @service.send(method.to_sym, obj) }.should raise_error("You cannot delete a non-tracked entity")
+  lambda { @service.send(method.to_sym, obj) }.should raise_error(msg)
 end
 
 Then /^the method "([^\"]*)" on the result's method "([^\"]*)" should equal: "([^\"]*)"$/ do |method, result_method, value|

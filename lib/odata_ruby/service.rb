@@ -34,7 +34,7 @@ class Service
 
 	end
 
-	# Queues an object for deletion.  To actually remove it from the server, you must call save_changes
+	# Queues an object for deletion.  To actually remove it from the server, you must call save_changes as well.
 	#
 	# ==== Required Attributes
 	# - obj: The object to mark for deletion
@@ -47,7 +47,21 @@ class Service
 		else
 			raise "You cannot delete a non-tracked entity"
 		end
-		
+	end
+	
+	# Queues an object for update.  To actually update it on the server, you must call save_changes as well.
+	# 
+	# ==== Required Attributes
+	# - obj: The object to queue for update
+	#
+	# Note: This method will throw an exception if the +obj+ isn't a tracked entity	
+	def update_object(obj)
+		type = obj.class.to_s
+		if obj.respond_to?(:__metadata) && !obj.send(:__metadata).nil? 
+			@save_operation = Operation.new("Update", type, obj)
+		else
+			raise "You cannot update a non-tracked entity"
+		end		
 	end
 	
 	# Performs save operations (Create/Update/Delete) against the server
@@ -62,7 +76,10 @@ class Service
 			post_result = RestClient.post save_uri, json_klass, :content_type => :json
 			result = build_classes_from_result(post_result)
 		elsif @save_operation.kind == "Update"
-			return nil
+			update_uri = @save_operation.klass.send(:__metadata)[:uri]
+			json_klass = @save_operation.klass.to_json
+			update_result = RestClient.put update_uri, json_klass, :content_type => :json
+			return (update_result.code == 204)
 		elsif @save_operation.kind == "Delete"
 			delete_uri = @save_operation.klass.send(:__metadata)[:uri]
 			delete_result = RestClient.delete delete_uri
@@ -73,7 +90,7 @@ class Service
 		return result
 	end
 
-	# Performs query opertions (Read) against the server
+	# Performs query operations (Read) against the server
 	def execute
 		result = RestClient.get build_query_uri
 		build_classes_from_result(result)

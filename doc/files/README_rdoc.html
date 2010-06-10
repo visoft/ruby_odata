@@ -56,7 +56,7 @@
     </tr>
     <tr class="top-aligned-row">
       <td><strong>Last Update:</strong></td>
-      <td>Mon May 17 16:38:27 -0400 2010</td>
+      <td>Wed Jun 09 22:59:40 -0400 2010</td>
     </tr>
     </table>
   </div>
@@ -78,14 +78,16 @@ href="../classes/OData.html">OData</a> services.
 </p>
 <h2>Usage</h2>
 <p>
-The API is a work in progress. Notably, you can&#8216;t update entities at
-the moment, nor can changes be bundled (through save_changes).
+The API is a work in progress. Notably, changes can&#8216;t be bundled
+(through save_changes, only the last operation before save_changes is
+persisted).
 </p>
 <h3>Adding</h3>
 <p>
-Adding is just as simple. When you point at a service, an
-AddTo&lt;EntityName&gt; method is created for you. To add a new category
-for example, you would simply do the following:
+When you point at a service, an AddTo&lt;EntityName&gt; method is created
+for you. This method takes in the new entity to create. To commit the
+change, you need to call the save_changes method on the service. To add a
+new category for example, you would simply do the following:
 </p>
 <pre>
         require 'lib/odata_ruby'
@@ -97,11 +99,33 @@ for example, you would simply do the following:
         category = svc.save_changes
         puts category.to_json
 </pre>
+<h3>Updating</h3>
+<p>
+To update an object, simply pass the modified object to the update_object
+method on the service. Updating, like adding requires you to call
+save_changes in order to persist the change. For example:
+</p>
+<pre>
+        require 'lib/odata_ruby'
+
+        svc = OData::Service.new &quot;http://127.0.0.1:8888/SampleService/Entities.svc&quot;
+        new_category = Category.new
+        new_category.Name = &quot;Sample Category&quot;
+        svc.AddToCategories(new_category)
+        category = svc.save_changes
+        puts category.to_json
+
+        category.Name = 'Updated Category'
+        svc.update_object(category)
+        result = svc.save_changes
+        puts &quot;Was the category updated? #{result}&quot;
+</pre>
 <h3>Deleting</h3>
 <p>
-Deleting is another function that involves the save_changes method (to
-commit the change back to the server). In this example, we&#8216;ll add a
-category and then delete it.
+Deleting an object involves passing the tracked object to the delete_object
+method on the service. Deleting is another function that involves the
+save_changes method (to commit the change back to the server). In this
+example, we&#8216;ll add a category and then delete it.
 </p>
 <pre>
         require 'lib/odata_ruby'

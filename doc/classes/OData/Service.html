@@ -87,11 +87,12 @@
 
       <div class="name-list">
       <a href="#M000010">delete_object</a>&nbsp;&nbsp;
-      <a href="#M000012">execute</a>&nbsp;&nbsp;
+      <a href="#M000013">execute</a>&nbsp;&nbsp;
       <a href="#M000009">method_missing</a>&nbsp;&nbsp;
       <a href="#M000008">new</a>&nbsp;&nbsp;
-      <a href="#M000013">respond_to?</a>&nbsp;&nbsp;
-      <a href="#M000011">save_changes</a>&nbsp;&nbsp;
+      <a href="#M000014">respond_to?</a>&nbsp;&nbsp;
+      <a href="#M000012">save_changes</a>&nbsp;&nbsp;
+      <a href="#M000011">update_object</a>&nbsp;&nbsp;
       </div>
     </div>
 
@@ -175,7 +176,7 @@ href="Service.html">Service</a> class
         <div class="method-description">
           <p>
 Queues an object for deletion. To actually remove it from the server, you
-must call <a href="Service.html#M000011">save_changes</a>
+must call <a href="Service.html#M000012">save_changes</a> as well.
 </p>
 <h4>Required Attributes</h4>
 <ul>
@@ -199,31 +200,30 @@ tracked entity
                 <span class="ruby-keyword kw">else</span>
                         <span class="ruby-identifier">raise</span> <span class="ruby-value str">&quot;You cannot delete a non-tracked entity&quot;</span>
                 <span class="ruby-keyword kw">end</span>
-                
         <span class="ruby-keyword kw">end</span>
 </pre>
           </div>
         </div>
       </div>
 
-      <div id="method-M000012" class="method-detail">
-        <a name="M000012"></a>
+      <div id="method-M000013" class="method-detail">
+        <a name="M000013"></a>
 
         <div class="method-heading">
-          <a href="#M000012" class="method-signature">
+          <a href="#M000013" class="method-signature">
           <span class="method-name">execute</span><span class="method-args">()</span>
           </a>
         </div>
       
         <div class="method-description">
           <p>
-Performs query opertions (Read) against the server
+Performs query operations (Read) against the server
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000012-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000012-source">
+            onclick="toggleCode('M000013-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000013-source">
 <pre>
-<span class="ruby-comment cmt"># File lib/odata_ruby/service.rb, line 77</span>
+<span class="ruby-comment cmt"># File lib/odata_ruby/service.rb, line 94</span>
         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">execute</span>
                 <span class="ruby-identifier">result</span> = <span class="ruby-constant">RestClient</span>.<span class="ruby-identifier">get</span> <span class="ruby-identifier">build_query_uri</span>
                 <span class="ruby-identifier">build_classes_from_result</span>(<span class="ruby-identifier">result</span>)
@@ -277,11 +277,11 @@ collections on the service
         </div>
       </div>
 
-      <div id="method-M000013" class="method-detail">
-        <a name="M000013"></a>
+      <div id="method-M000014" class="method-detail">
+        <a name="M000014"></a>
 
         <div class="method-heading">
-          <a href="#M000013" class="method-signature">
+          <a href="#M000014" class="method-signature">
           <span class="method-name">respond_to?</span><span class="method-args">(method)</span>
           </a>
         </div>
@@ -292,10 +292,10 @@ Overridden to identify methods handled by <a
 href="Service.html#M000009">method_missing</a>
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000013-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000013-source">
+            onclick="toggleCode('M000014-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000014-source">
 <pre>
-<span class="ruby-comment cmt"># File lib/odata_ruby/service.rb, line 83</span>
+<span class="ruby-comment cmt"># File lib/odata_ruby/service.rb, line 100</span>
         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">respond_to?</span>(<span class="ruby-identifier">method</span>)
                 <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@collections</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">method</span>.<span class="ruby-identifier">to_s</span>)
                         <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">true</span>
@@ -316,11 +316,11 @@ href="Service.html#M000009">method_missing</a>
         </div>
       </div>
 
-      <div id="method-M000011" class="method-detail">
-        <a name="M000011"></a>
+      <div id="method-M000012" class="method-detail">
+        <a name="M000012"></a>
 
         <div class="method-heading">
-          <a href="#M000011" class="method-signature">
+          <a href="#M000012" class="method-signature">
           <span class="method-name">save_changes</span><span class="method-args">()</span>
           </a>
         </div>
@@ -330,10 +330,10 @@ href="Service.html#M000009">method_missing</a>
 Performs save operations (Create/Update/Delete) against the server
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000011-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000011-source">
+            onclick="toggleCode('M000012-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000012-source">
 <pre>
-<span class="ruby-comment cmt"># File lib/odata_ruby/service.rb, line 54</span>
+<span class="ruby-comment cmt"># File lib/odata_ruby/service.rb, line 68</span>
         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">save_changes</span>
                 <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">nil</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@save_operation</span>.<span class="ruby-identifier">nil?</span>
 
@@ -341,11 +341,14 @@ Performs save operations (Create/Update/Delete) against the server
 
                 <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@save_operation</span>.<span class="ruby-identifier">kind</span> <span class="ruby-operator">==</span> <span class="ruby-value str">&quot;Add&quot;</span>
                         <span class="ruby-identifier">save_uri</span> = <span class="ruby-node">&quot;#{@uri}/#{@save_operation.klass_name}&quot;</span>
-                        <span class="ruby-identifier">json_klass</span> = <span class="ruby-ivar">@save_operation</span>.<span class="ruby-identifier">klass</span>.<span class="ruby-identifier">to_json</span>(<span class="ruby-identifier">:type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">:add</span>)
+                        <span class="ruby-identifier">json_klass</span> = <span class="ruby-ivar">@save_operation</span>.<span class="ruby-identifier">klass</span>.<span class="ruby-identifier">to_json</span>
                         <span class="ruby-identifier">post_result</span> = <span class="ruby-constant">RestClient</span>.<span class="ruby-identifier">post</span> <span class="ruby-identifier">save_uri</span>, <span class="ruby-identifier">json_klass</span>, <span class="ruby-identifier">:content_type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">:json</span>
                         <span class="ruby-identifier">result</span> = <span class="ruby-identifier">build_classes_from_result</span>(<span class="ruby-identifier">post_result</span>)
                 <span class="ruby-keyword kw">elsif</span> <span class="ruby-ivar">@save_operation</span>.<span class="ruby-identifier">kind</span> <span class="ruby-operator">==</span> <span class="ruby-value str">&quot;Update&quot;</span>
-                        <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">nil</span>
+                        <span class="ruby-identifier">update_uri</span> = <span class="ruby-ivar">@save_operation</span>.<span class="ruby-identifier">klass</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">:__metadata</span>)[<span class="ruby-identifier">:uri</span>]
+                        <span class="ruby-identifier">json_klass</span> = <span class="ruby-ivar">@save_operation</span>.<span class="ruby-identifier">klass</span>.<span class="ruby-identifier">to_json</span>
+                        <span class="ruby-identifier">update_result</span> = <span class="ruby-constant">RestClient</span>.<span class="ruby-identifier">put</span> <span class="ruby-identifier">update_uri</span>, <span class="ruby-identifier">json_klass</span>, <span class="ruby-identifier">:content_type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">:json</span>
+                        <span class="ruby-keyword kw">return</span> (<span class="ruby-identifier">update_result</span>.<span class="ruby-identifier">code</span> <span class="ruby-operator">==</span> <span class="ruby-value">204</span>)
                 <span class="ruby-keyword kw">elsif</span> <span class="ruby-ivar">@save_operation</span>.<span class="ruby-identifier">kind</span> <span class="ruby-operator">==</span> <span class="ruby-value str">&quot;Delete&quot;</span>
                         <span class="ruby-identifier">delete_uri</span> = <span class="ruby-ivar">@save_operation</span>.<span class="ruby-identifier">klass</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">:__metadata</span>)[<span class="ruby-identifier">:uri</span>]
                         <span class="ruby-identifier">delete_result</span> = <span class="ruby-constant">RestClient</span>.<span class="ruby-identifier">delete</span> <span class="ruby-identifier">delete_uri</span>
@@ -354,6 +357,48 @@ Performs save operations (Create/Update/Delete) against the server
 
                 <span class="ruby-ivar">@save_operation</span> = <span class="ruby-keyword kw">nil</span> <span class="ruby-comment cmt"># Clear out the last operation</span>
                 <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">result</span>
+        <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000011" class="method-detail">
+        <a name="M000011"></a>
+
+        <div class="method-heading">
+          <a href="#M000011" class="method-signature">
+          <span class="method-name">update_object</span><span class="method-args">(obj)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Queues an object for update. To actually update it on the server, you must
+call <a href="Service.html#M000012">save_changes</a> as well.
+</p>
+<h4>Required Attributes</h4>
+<ul>
+<li>obj: The object to queue for update
+
+</li>
+</ul>
+<p>
+Note: This method will throw an exception if the <tt>obj</tt> isn&#8216;t a
+tracked entity
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000011-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000011-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/odata_ruby/service.rb, line 58</span>
+        <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">update_object</span>(<span class="ruby-identifier">obj</span>)
+                <span class="ruby-identifier">type</span> = <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">to_s</span>
+                <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-identifier">:__metadata</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">obj</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">:__metadata</span>).<span class="ruby-identifier">nil?</span> 
+                        <span class="ruby-ivar">@save_operation</span> = <span class="ruby-constant">Operation</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value str">&quot;Update&quot;</span>, <span class="ruby-identifier">type</span>, <span class="ruby-identifier">obj</span>)
+                <span class="ruby-keyword kw">else</span>
+                        <span class="ruby-identifier">raise</span> <span class="ruby-value str">&quot;You cannot update a non-tracked entity&quot;</span>
+                <span class="ruby-keyword kw">end</span>           
         <span class="ruby-keyword kw">end</span>
 </pre>
           </div>
