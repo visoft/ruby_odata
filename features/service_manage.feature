@@ -20,6 +20,7 @@ Scenario: Service should allow for deletes
   When I call "delete_object" on the service with the last save result
   And I save changes
   Then the save result should equal: "true" 
+  And no "Products" should exist
 
 Scenario: Untracked entities shouldn't be able to be deleted
 	Given I call "delete_object" on the service with a new "Product" object it should throw an exception with message "You cannot delete a non-tracked entity"

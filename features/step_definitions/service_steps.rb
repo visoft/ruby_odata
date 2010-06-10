@@ -120,6 +120,12 @@ Given /^I call "([^\"]*)" on the service with a new "([^\"]*)" object it should 
   lambda { @service.send(method.to_sym, obj) }.should raise_error(msg)
 end
 
+Then /^no "([^\"]*)" should exist$/ do |collection|
+	@service.send(collection)
+	results = @service.execute
+	results.should == []
+end
+
 Then /^the method "([^\"]*)" on the result's method "([^\"]*)" should equal: "([^\"]*)"$/ do |method, result_method, value|
   obj = @service_result.send(result_method.to_sym)
   obj.send(method.to_sym).should == value
