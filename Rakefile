@@ -19,7 +19,7 @@ begin
 		gemspec.add_dependency('nokogiri', '>= 1.4.2')
 		gemspec.rubyforge_project = 'ruby-odata'
 	end
-	Jeweler::GemcutterTasks
+	Jeweler::GemcutterTasks.new
 	Jeweler::RubyforgeTasks.new do |rubyforge|
     rubyforge.doc_task = "rdoc"
   end
