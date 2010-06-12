@@ -5,41 +5,27 @@
 
 Gem::Specification.new do |s|
   s.name = %q{ruby_odata}
-  s.version = "0.0.1"
+  s.version = "0.0.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Damien White"]
-  s.date = %q{2010-06-11}
+  s.date = %q{2010-06-12}
   s.description = %q{An OData Client Library for Ruby.  Use this to interact with OData services}
   s.email = %q{damien.white@visoftinc.com}
   s.extra_rdoc_files = [
-    "LICENSE",
+    "CHANGELOG.rdoc",
+     "LICENSE",
      "README.rdoc"
   ]
   s.files = [
     ".gitignore",
+     "CHANGELOG.rdoc",
      "LICENSE",
      "README.rdoc",
      "Rakefile",
      "VERSION",
      "config/cucumber.yml",
-     "doc/classes/OData.html",
-     "doc/classes/OData/ClassBuilder.html",
-     "doc/classes/OData/Operation.html",
-     "doc/classes/OData/QueryBuilder.html",
-     "doc/classes/OData/Service.html",
-     "doc/created.rid",
-     "doc/files/README_rdoc.html",
-     "doc/files/lib/odata_ruby/class_builder_rb.html",
-     "doc/files/lib/odata_ruby/operation_rb.html",
-     "doc/files/lib/odata_ruby/query_builder_rb.html",
-     "doc/files/lib/odata_ruby/service_rb.html",
-     "doc/files/lib/odata_ruby_rb.html",
-     "doc/fr_class_index.html",
-     "doc/fr_file_index.html",
-     "doc/fr_method_index.html",
-     "doc/index.html",
-     "doc/rdoc-style.css",
+     "features/query_builder.feature",
      "features/service.feature",
      "features/service_manage.feature",
      "features/step_definitions/service_steps.rb",
