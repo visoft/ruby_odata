@@ -1,3 +1,4 @@
+Error: The word "DATABASE SETUP - DO THIS FIRST*" is invalid. The character ' ' (U+20) may not appear in the middle of a word.
 = ruby_odata
 
 The <b>Open Data Protocol</b> (OData) is a fantastic way to query and update data over standard Web technologies.  The ruby_odata library acts as a consumer of OData services.
@@ -60,9 +61,12 @@ Querying is easy, for example to pull all the categories from the SampleService,
 	categories = svc.execute
 	puts categories.to_json
 
-You can also expand and add filters to the query before executing it.  For example:
+You can also expand, add filters, order, skip records, and take only the top X records to the query before executing it.  For example:
 
 === Expanding
+Expanding allows you to eagerly load other objects that are children of the root.
+You can use more than one expand on a query.  
+For expanding grandchild and lower entities, you must pass in the full path from the root, for example +Products.expand('Orders').expand('Orders/LineItems')+
 
 	# Without expanding the query
 	svc.Products(1)
@@ -78,6 +82,8 @@ You can also expand and add filters to the query before executing it.  For examp
 
 
 === Filtering
+The syntax for filtering can be found on the {OData Protocol URI Conventions}[http://www.odata.org/developers/protocols/uri-conventions#FilterSystemQueryOption] page.
+You can use more than one filter, if you call the filter method multiple times it will before an AND.
 
 	# You can access by ID (but that isn't is a filter)
 	# The syntax is just svc.ENTITYNAME(ID) which is shown in the expanding examples above
@@ -88,17 +94,44 @@ You can also expand and add filters to the query before executing it.  For examp
 	puts "#{prod.to_json}"
 	
 === Combining Expanding and Filtering
+The query operations follow a {fluent interface}[http://en.wikipedia.org/wiki/Fluent_interface], although they can be added by themselves as well as chained
 
 	svc.Products.filter("Name eq 'Product 2'").expand("Category")
 	prod = svc.execute
 	puts "Filtering on Name eq 'Product 2' and expanding"
 	puts "#{prod.to_json}"
 
+=== Order By
+You can order the results by properties of your choice, either ascending or descending.
+Order by are similar to +expand+s in that you can use more than one of them on a query.
+For expanding grandchild and lower entities, you must pass in the full path from the root like would do on an +expand+
 
+	svc.Products.order_by("Name")
+	products = svc.execute
+
+	# Specifically requesting descending
+	svc.Products.order_by("Name desc")
+	products = svc.execute
+	
+	# Specifically requesting ascending
+	svc.Products.order_by("Name asc")
+	products = svc.execute
+	
+=== Skip
+Skip allows you to skip a number of records when querying.  This is often used for paging along with +top+.
+	
+	svc.Products.skip(5)
+	products = svc.execute # => skips the first 5 items 
+	
+=== Top
+Top allows you only retrieve the top X number of records when querying.  This is often used for paging along with +skip+.
+	
+	svc.Products.top(5)
+	products = svc.execute # => returns only the first 5 items	
 
 == Tests
 *DATABASE SETUP - DO THIS FIRST*
-Within /test/SampleService/App_Data/ rename _TestDB*.* to TestDB*.*. This file is just the inital database, and needs to be renamed so that unwanted changes to that DB aren't persisted in source control.
+Within /test/SampleService/App_Data/ rename _TestDB*.* to TestDB*.*. This file is just the initial database, and needs to be renamed so that unwanted changes to that DB aren't persisted in source control.
 
 All of the tests are written using Cucumber going against a sample service (Found in /test/SampleService/*).  The SampleService is an ASP.NET Web Site running a SQLEXPRESS 2008 R2 Database (TestDB), as well as the ADO.NET Entity Framework and a WCF Data Service.  In order to run the tests, you need to spin up the SampleService and have it running on port 8888 (http://localhost:8888/SampleService).  
 

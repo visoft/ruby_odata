@@ -1,13 +1,22 @@
 = ruby_odata Change Log
 
 === 0.0.1 
-* Basic CRUD Operations
-* Query: Filters
-* Query: Expands
+* New Features
+  * Basic CRUD Operations
+  * Query Enhancement: Filters
+  * Query Enhancement: Expands
 
 === 0.0.2
-* Query: Order By
+* New Features
+  * Query Enhancement: Order By (both desc and asc)
 
 === 0.0.3
-* Rearranged code to match the gem name.  Things were mismatched between odata_ruby and ruby_odata.
+* Bug Fixes
+  * Rearranged code to match the gem name.  Things were mismatched between odata_ruby and ruby_odata.
 
+=== 0.0.4
+* New Features
+  * Query Enhancement: skip
+  * Query Enhancement: top
+  * Ability to perform paging using skip and top together
+  * Updated README with examples for order_by, skip, and top

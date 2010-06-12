@@ -62,6 +62,13 @@ When /^I order by: "([^\"]*)"$/ do |order|
   @service_query.order_by(order)
 end
 
+When /^I skip (\d+)$/ do |skip|
+  @service_query.skip(skip)
+end
+
+When /^I ask for the top (\d+)$/ do |top|
+	@service_query.top(top)
+end
 
 Then /^the method "([^\"]*)" on the result should be of type "([^\"]*)"$/ do |method, type|
   result = @service_result.send(method.to_sym) 

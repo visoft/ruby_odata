@@ -21,8 +21,9 @@ Scenario: Navigation Properties should be able to be eager loaded
 	And the method "Id" on the result's method "Category" should equal: "1"
 
 
-# Filter
+# Filters
 Scenario: Filters should be allowed on the root level entity
+# Filter
   Given I call "AddToProducts" on the service with a new "Product" object with Name: "Test Product"
   When I save changes
   When I call "Products" on the service
@@ -88,6 +89,62 @@ Scenario: Order by should access sorting acsending
   | Product 3 |
   | Product 4 |
   | Product 5 |
+
+
+# Skip
+Scenario: Skip should be allowed on the root level entity
+  Given the following Products exist:
+  | Name      |
+  | Product 1 |
+  | Product 2 |
+  | Product 3 |
+  | Product 4 |
+  | Product 5 | 
+  When I call "Products" on the service
+  And I skip 3
+  And I run the query
+  Then the result should be:
+  | Name      |
+  | Product 4 |
+  | Product 5 |  
+
+
+# Top
+Scenario: Top should be allowed on the root level entity
+  Given the following Products exist:
+  | Name      |
+  | Product 1 |
+  | Product 2 |
+  | Product 3 |
+  | Product 4 |
+  | Product 5 | 
+  When I call "Products" on the service
+  And I ask for the top 3
+  And I run the query
+  Then the result should be:
+  | Name      |
+  | Product 1 |
+  | Product 2 | 
+  | Product 3 |
+
+Scenario: Top should be able to be used along with skip for paging
+  Given the following Products exist:
+  | Name      |
+  | Product 1 |
+  | Product 2 |
+  | Product 3 |
+  | Product 4 |
+  | Product 5 | 
+  | Product 6 |  
+  When I call "Products" on the service
+  And I skip 2
+  And I ask for the top 2
+  And I run the query
+  Then the result should be:
+  | Name      |
+  | Product 3 |
+  | Product 4 |  
+
 
 
 
