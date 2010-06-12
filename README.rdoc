@@ -1,6 +1,6 @@
-= odata_ruby
+= ruby_odata
 
-The <b>Open Data Protocol</b> (OData) is a fantastic way to query and update data over standard Web technologies.  The odata_ruby library acts as a consumer of OData services.
+The <b>Open Data Protocol</b> (OData) is a fantastic way to query and update data over standard Web technologies.  The ruby_odata library acts as a consumer of OData services.
 
 == Usage
 The API is a work in progress.  Notably, changes can't be bundled (through save_changes, only the last operation before save_changes is persisted).
@@ -8,7 +8,7 @@ The API is a work in progress.  Notably, changes can't be bundled (through save_
 === Adding
 When you point at a service, an AddTo<EntityName> method is created for you.  This method takes in the new entity to create.  To commit the change, you need to call the save_changes method on the service.  To add a new category for example, you would simply do the following:
 
-	require 'lib/odata_ruby'
+	require 'lib/ruby_odata'
 	
 	svc = OData::Service.new "http://127.0.0.1:8888/SampleService/Entities.svc"
 	new_category = Category.new
@@ -20,7 +20,7 @@ When you point at a service, an AddTo<EntityName> method is created for you.  Th
 === Updating
 To update an object, simply pass the modified object to the update_object method on the service. Updating, like adding requires you to call save_changes in order to persist the change.  For example:
 
-	require 'lib/odata_ruby'
+	require 'lib/ruby_odata'
 		
 	svc = OData::Service.new "http://127.0.0.1:8888/SampleService/Entities.svc"
 	new_category = Category.new
@@ -37,7 +37,7 @@ To update an object, simply pass the modified object to the update_object method
 === Deleting
 Deleting an object involves passing the tracked object to the delete_object method on the service.  Deleting is another function that involves the save_changes method (to commit the change back to the server).  In this example, we'll add a category and then delete it.
 
-	require 'lib/odata_ruby'
+	require 'lib/ruby_odata'
 	
 	svc = OData::Service.new "http://127.0.0.1:8888/SampleService/Entities.svc"
 	new_category = Category.new
@@ -53,7 +53,7 @@ Deleting an object involves passing the tracked object to the delete_object meth
 === Querying
 Querying is easy, for example to pull all the categories from the SampleService, you simply can run:
 
-	require 'lib/odata_ruby'
+	require 'lib/ruby_odata'
 	
 	svc = OData::Service.new "http://127.0.0.1:8888/SampleService/Entities.svc"
 	svc.Categories

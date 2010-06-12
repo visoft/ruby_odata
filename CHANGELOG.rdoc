@@ -1,10 +1,13 @@
 = ruby_odata Change Log
 
-== 0.0.1 
-	* Basic CRUD Operations
-	* Query: Filters
-	* Query: Expands
+=== 0.0.1 
+* Basic CRUD Operations
+* Query: Filters
+* Query: Expands
 
-== 0.0.2
-	* Query: Order By
-	
+=== 0.0.2
+* Query: Order By
+
+=== 0.0.3
+* Rearranged code to match the gem name.  Things were mismatched between odata_ruby and ruby_odata.
+

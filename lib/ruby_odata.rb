@@ -1,5 +1,5 @@
 lib =  File.dirname(__FILE__)
-$: << lib + '/odata_ruby/'
+$: << lib + '/ruby_odata/'
 
 require 'rubygems'
 require 'active_support' 									# Used for serializtion to JSON
@@ -9,7 +9,7 @@ require 'open-uri'
 require 'rest_client'
 require 'nokogiri'
 
-require lib + '/odata_ruby/query_builder'
-require lib + '/odata_ruby/class_builder'
-require lib + '/odata_ruby/operation'
-require lib + '/odata_ruby/service'
+require lib + '/ruby_odata/query_builder'
+require lib + '/ruby_odata/class_builder'
+require lib + '/ruby_odata/operation'
+require lib + '/ruby_odata/service'
