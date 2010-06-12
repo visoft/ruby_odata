@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{ruby_odata}
-  s.version = "0.0.2"
+  s.version = "0.0.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Damien White"]
@@ -31,11 +31,11 @@ Gem::Specification.new do |s|
      "features/step_definitions/service_steps.rb",
      "features/support/env.rb",
      "features/support/hooks.rb",
-     "lib/odata_ruby.rb",
-     "lib/odata_ruby/class_builder.rb",
-     "lib/odata_ruby/operation.rb",
-     "lib/odata_ruby/query_builder.rb",
-     "lib/odata_ruby/service.rb",
+     "lib/ruby_odata.rb",
+     "lib/ruby_odata/class_builder.rb",
+     "lib/ruby_odata/operation.rb",
+     "lib/ruby_odata/query_builder.rb",
+     "lib/ruby_odata/service.rb",
      "ruby_odata.gemspec",
      "test/Cassini x64.bat",
      "test/Cassini x86.bat",
