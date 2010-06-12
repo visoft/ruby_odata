@@ -1,0 +1,10 @@
+= ruby_odata Change Log
+
+== 0.0.1 
+	* Basic CRUD Operations
+	* Query: Filters
+	* Query: Expands
+
+== 0.0.2
+	* Query: Order By
+	

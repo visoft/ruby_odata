@@ -14,6 +14,7 @@ class QueryBuilder
 		@root = root.to_s
 		@expands = []
 		@filters = []
+		@order_bys = []
 	end
 	
 	# Used to eagerly-load data for nested objects, for example, obtaining a Category for a Product within one call to the server
@@ -39,9 +40,21 @@ class QueryBuilder
 	#
 	# ==== Example	
 	# 	svc.Products.filter("Name eq 'Product 2'")
-	# 	prod = svc.execute
+	# 	products = svc.execute
 	def filter(filter)
 		@filters << CGI.escape(filter)
+		self
+	end
+	
+	# Used to order the data being returned
+	# ==== Required Attributes
+	# - order_by: The order by statement.  Note to specify direction, use "desc" or "asc"; must be lowercase 
+	#
+	# ==== Example	
+	# 	svc.Products.order_by("Name")
+	# 	products = svc.execute
+	def order_by(order_by)
+		@order_bys << CGI.escape(order_by)
 		self
 	end
 	
@@ -52,6 +65,7 @@ class QueryBuilder
 		query_options = []
 		query_options << "$expand=#{@expands.join(',')}" unless @expands.empty?
 		query_options << "$filter=#{@filters.join('+and+')}" unless @filters.empty?
+		query_options << "$orderby=#{@order_bys.join(',')}" unless @order_bys.empty?
 		if !query_options.empty?
 			q << "?"
 			q << query_options.join('&')	

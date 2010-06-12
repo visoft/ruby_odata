@@ -47,36 +47,3 @@ Scenario: Navigation Properties should be included in results
   Then the result should have a method: "Category"
   And the method "Category" on the result should be nil
 
-Scenario: Navigation Properties should be able to be eager loaded
-  Given I call "AddToCategories" on the service with a new "Category" object with Name: "Test Category"
-	And I save changes
-	And I call "AddToProducts" on the service with a new "Product" object with Category: "@@LastSave"
-	And I save changes	
-  And I call "Products" on the service with args: "1"
-  And I expand the query to include "Category"
-  When I run the query
-  Then the method "Category" on the result should be of type "Category"
-  And the method "Name" on the result's method "Category" should equal: "Test Category"
-	And the method "Id" on the result's method "Category" should equal: "1"
-
-Scenario: Filters should be allowed on the root level entity
-  Given I call "AddToProducts" on the service with a new "Product" object with Name: "Test Product"
-  When I save changes
-  When I call "Products" on the service
-  And I filter the query with: "Name eq 'Test Product'"
-  And I run the query
-  Then the method "Name" on the result should equal: "Test Product"
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
