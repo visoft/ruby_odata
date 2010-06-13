@@ -1,7 +1,15 @@
-Error: The word "DATABASE SETUP - DO THIS FIRST*" is invalid. The character ' ' (U+20) may not appear in the middle of a word.
 = ruby_odata
 
 The <b>Open Data Protocol</b> (OData) is a fantastic way to query and update data over standard Web technologies.  The ruby_odata library acts as a consumer of OData services.
+
+== Resources
+
+* Source Code (hosted on GitHub): http://github.com/visoft/ruby_odata 
+* Documentation (hosted on rdoc.info): http://rdoc.info/projects/visoft/ruby_odata 
+* Issue tracking (hosted on Lighthouse): http://visoft.lighthouseapp.com/projects/54309/home 
+* Wiki (hosted on GitHub): http://wiki.github.com/visoft/ruby_odata/
+* Gem (hosted on Gemcutter): http://gemcutter.org/gems/ruby_odata
+* Blog articles: {Introducing a Ruby OData Client Library}[http://bit.ly/IntroRubyOData]
 
 == Usage
 The API is a work in progress.  Notably, changes can't be bundled (through save_changes, only the last operation before save_changes is persisted).
@@ -130,7 +138,7 @@ Top allows you only retrieve the top X number of records when querying.  This is
 	products = svc.execute # => returns only the first 5 items	
 
 == Tests
-*DATABASE SETUP - DO THIS FIRST*
+===DATABASE SETUP - DO THIS FIRST
 Within /test/SampleService/App_Data/ rename _TestDB*.* to TestDB*.*. This file is just the initial database, and needs to be renamed so that unwanted changes to that DB aren't persisted in source control.
 
 All of the tests are written using Cucumber going against a sample service (Found in /test/SampleService/*).  The SampleService is an ASP.NET Web Site running a SQLEXPRESS 2008 R2 Database (TestDB), as well as the ADO.NET Entity Framework and a WCF Data Service.  In order to run the tests, you need to spin up the SampleService and have it running on port 8888 (http://localhost:8888/SampleService).  
