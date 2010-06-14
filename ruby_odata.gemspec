@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{ruby_odata}
-  s.version = "0.0.4"
+  s.version = "0.0.5"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Damien White"]
-  s.date = %q{2010-06-12}
+  s.date = %q{2010-06-13}
   s.description = %q{An OData Client Library for Ruby.  Use this to interact with OData services}
   s.email = %q{damien.white@visoftinc.com}
   s.extra_rdoc_files = [
