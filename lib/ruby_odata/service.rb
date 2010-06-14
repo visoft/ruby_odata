@@ -72,7 +72,7 @@ class Service
 
 		if @save_operation.kind == "Add"
 			save_uri = "#{@uri}/#{@save_operation.klass_name}"
-			json_klass = @save_operation.klass.to_json
+			json_klass = @save_operation.klass.to_json(:type => :add)
 			post_result = RestClient.post save_uri, json_klass, :content_type => :json
 			result = build_classes_from_result(post_result)
 		elsif @save_operation.kind == "Update"

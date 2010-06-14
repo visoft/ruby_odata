@@ -11,8 +11,14 @@ The <b>Open Data Protocol</b> (OData) is a fantastic way to query and update dat
 * Gem (hosted on Gemcutter): http://gemcutter.org/gems/ruby_odata
 * Blog articles: {Introducing a Ruby OData Client Library}[http://bit.ly/IntroRubyOData]
 
+== Installation
+You can install ruby_odata as a gem using:
+	gem install ruby_odata
+
 == Usage
 The API is a work in progress.  Notably, changes can't be bundled (through save_changes, only the last operation before save_changes is persisted).
+
+As of version 0.0.5, support has been added for ActiveSupport 3.0.0 beta 4 and Ruby 1.9.1
 
 === Adding
 When you point at a service, an AddTo<EntityName> method is created for you.  This method takes in the new entity to create.  To commit the change, you need to call the save_changes method on the service.  To add a new category for example, you would simply do the following:

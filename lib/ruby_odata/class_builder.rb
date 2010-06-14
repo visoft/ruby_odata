@@ -22,7 +22,7 @@ module OData
 		  return nil    if @klass_name.nil?
 		      
 			# return if we can find constant corresponding to class name
-			if Object.constants.include? @klass_name
+			if Object.const_defined? @klass_name
 				@klass = @klass_name.constantize
 				return @klass
 			end
@@ -47,9 +47,18 @@ module OData
 			end
 		  klass.send :define_method, :as_json do |options|
 				meta = '__metadata'
+
+				options ||= {}
+				options[:type] ||= :unknown
+
 				vars = self.instance_values
-				
-				if !options.nil? && !options[:seen].nil? && vars.has_key?(meta)
+
+				# For adds, we need to get rid of all attributes except __metadata when passing
+				# the object to the server
+				# TODO: There should be a universal way to figure out if we are on an addition
+				#   activesupport 2.3.8 doesn't pass through the :type to all levels, but passes :seen
+				#		activesupport 3.0.0.beta4 doesn't pass :seen in options
+				if (options[:type] == :add || !options[:seen].nil?) && vars.has_key?(meta)
 					vars.delete_if { |k,v| k != meta}
 				else
 					vars.delete(meta)
