@@ -137,15 +137,15 @@ Then /^no "([^\"]*)" should exist$/ do |collection|
 	results.should == []
 end
 
-Given /^the following (.*) exist:$/ do |plural_factory, table|
-  # table is a Cucumber::Ast::Table
-	factory = plural_factory.singularize
-	table.hashes.map do |hash|
-		obj = factory.constantize.send(:make, hash)
-  	@service.send("AddTo#{plural_factory}", obj)
-  	@service.save_changes
-	end
-end
+ Given /^the following (.*) exist:$/ do |plural_factory, table|
+   # table is a Cucumber::Ast::Table
+ 	factory = plural_factory.singularize
+ 	table.hashes.map do |hash|
+ 		obj = factory.constantize.send(:make, hash)
+   	@service.send("AddTo#{plural_factory}", obj)
+   	@service.save_changes
+ 	end
+ end
 
 Then /^the result should be:$/ do |table|
   # table is a Cucumber::Ast::Table
@@ -156,6 +156,27 @@ Then /^the result should be:$/ do |table|
   results = []
   
   @service_result.each do |result|
+  	obj_hash = Hash.new
+  	fields.each do |field|
+  		obj_hash[field] = result.send(field)
+		end
+		results << obj_hash
+	end
+	
+	result_table = Cucumber::Ast::Table.new(results)
+	
+	table.diff!(result_table) 	
+end
+
+Then /^the save result should be:$/ do |table|
+  # table is a Cucumber::Ast::Table
+  
+  fields = table.hashes[0].keys
+  
+  # Build an array of hashes so that we can compare tables
+  results = []
+  
+  @saved_result.each do |result|
   	obj_hash = Hash.new
   	fields.each do |field|
   		obj_hash[field] = result.send(field)

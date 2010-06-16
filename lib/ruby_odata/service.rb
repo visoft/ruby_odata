@@ -1,3 +1,5 @@
+require 'logger'
+
 module OData
 	
 class Service
@@ -9,6 +11,7 @@ class Service
 	def initialize(service_uri)		
 		@uri = service_uri
 		@collections = get_collections
+		@save_operations = []
 		build_classes
 	end
 	
@@ -24,7 +27,7 @@ class Service
 		elsif name.to_s =~ /^AddTo(.*)/
 			type = $1
 			if @collections.include?(type)
-				@save_operation = Operation.new("Add", $1, args[0])
+				@save_operations << Operation.new("Add", $1, args[0])
 			else
 				super
 			end
@@ -43,7 +46,7 @@ class Service
 	def delete_object(obj)
 		type = obj.class.to_s
 		if obj.respond_to?(:__metadata) && !obj.send(:__metadata).nil? 
-			@save_operation = Operation.new("Delete", type, obj)
+			@save_operations << Operation.new("Delete", type, obj)
 		else
 			raise "You cannot delete a non-tracked entity"
 		end
@@ -58,7 +61,7 @@ class Service
 	def update_object(obj)
 		type = obj.class.to_s
 		if obj.respond_to?(:__metadata) && !obj.send(:__metadata).nil? 
-			@save_operation = Operation.new("Update", type, obj)
+			@save_operations << Operation.new("Update", type, obj)
 		else
 			raise "You cannot update a non-tracked entity"
 		end		
@@ -66,27 +69,20 @@ class Service
 	
 	# Performs save operations (Create/Update/Delete) against the server
 	def save_changes
-		return nil if @save_operation.nil?
+		return nil if @save_operations.empty?
 
 		result = nil
-
-		if @save_operation.kind == "Add"
-			save_uri = "#{@uri}/#{@save_operation.klass_name}"
-			json_klass = @save_operation.klass.to_json(:type => :add)
-			post_result = RestClient.post save_uri, json_klass, :content_type => :json
-			result = build_classes_from_result(post_result)
-		elsif @save_operation.kind == "Update"
-			update_uri = @save_operation.klass.send(:__metadata)[:uri]
-			json_klass = @save_operation.klass.to_json
-			update_result = RestClient.put update_uri, json_klass, :content_type => :json
-			return (update_result.code == 204)
-		elsif @save_operation.kind == "Delete"
-			delete_uri = @save_operation.klass.send(:__metadata)[:uri]
-			delete_result = RestClient.delete delete_uri
-			return (delete_result.code == 204) 
+		
+		if @save_operations.length == 1
+			result = single_save(@save_operations[0])			
+		else	
+			result = batch_save(@save_operations)			
 		end
-
-		@save_operation = nil # Clear out the last operation
+		
+		# TODO: We should probably perform a check here 
+		# to make sure everything worked before clearing it out
+		@save_operations.clear 
+		
 		return result
 	end
 
@@ -201,6 +197,87 @@ class Service
 	
 		# Add the property
 		klass.send "#{property_name}=", inline_klass
+	end
+	def single_save(operation)
+		if operation.kind == "Add"
+			save_uri = "#{@uri}/#{operation.klass_name}"
+			json_klass = operation.klass.to_json(:type => :add)
+			post_result = RestClient.post save_uri, json_klass, :content_type => :json
+			return build_classes_from_result(post_result)
+		elsif operation.kind == "Update"
+			update_uri = operation.klass.send(:__metadata)[:uri]
+			json_klass = operation.klass.to_json
+			update_result = RestClient.put update_uri, json_klass, :content_type => :json
+			return (update_result.code == 204)
+		elsif operation.kind == "Delete"
+			delete_uri = operation.klass.send(:__metadata)[:uri]
+			delete_result = RestClient.delete delete_uri
+			return (delete_result.code == 204) 
+		end		
+	end
+	def batch_save(operations)	
+		batch_num = generate_guid
+		changeset_num = generate_guid
+		batch_uri = "#{@uri}/$batch"
+		
+		body = build_batch_body(operations, batch_num, changeset_num)
+		
+		result = RestClient.post batch_uri, body, :content_type => "multipart/mixed; boundary=batch_#{batch_num}"
+		
+		return (result.code == 202)
+	end
+	def build_batch_body(operations, batch_num, changeset_num)
+		# Header		
+		body = "--batch_#{batch_num}\n"
+		body << "Content-Type: multipart/mixed;boundary=changeset_#{changeset_num}\n\n"
+
+		# Operations
+		operations.each do |operation|
+			body << build_batch_operation(operation, changeset_num)
+			body << "\n"
+		end
+				
+		# Footer		
+		body << "\n\n--changeset_#{changeset_num}--\n"
+		body << "--batch_#{batch_num}--"
+		
+		return body
+	end
+	
+	def build_batch_operation(operation, changeset_num)
+		accept_headers = "Accept-Charset: utf-8\n"
+		accept_headers << "Content-Type: application/json;charset=utf-8\n\n"
+	
+		content = "--changeset_#{changeset_num}\n"
+		content << "Content-Type: application/http\n"
+		content << "Content-Transfer-Encoding: binary\n\n"
+		
+		if operation.kind == "Add"			
+			save_uri = "#{@uri}/#{operation.klass_name}"
+			json_klass = operation.klass.to_json(:type => :add)
+			
+			content << "POST #{save_uri} HTTP/1.1\n"
+			content << accept_headers
+			content << json_klass
+		elsif operation.kind == "Update"
+			update_uri = operation.klass.send(:__metadata)[:uri]
+			json_klass = operation.klass.to_json
+			
+			content << "PUT #{update_uri} HTTP/1.1\n"
+			content << accept_headers
+			content << json_klass
+		elsif operation.kind == "Delete"
+			delete_uri = operation.klass.send(:__metadata)[:uri]
+			
+			content << "DELETE #{delete_uri} HTTP/1.1\n"
+			content << accept_headers
+		end		
+			
+		return content
+	end
+	
+	def generate_guid
+		rand(36**12).to_s(36).insert(4, "-").insert(9, "-")
 	end
 end
 
