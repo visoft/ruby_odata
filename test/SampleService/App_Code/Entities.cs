@@ -1,9 +1,11 @@
 ﻿using System.Data.Services;
 using System.Data.Services.Common;
+using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Web;
 using Model;
 
+[ServiceBehavior(IncludeExceptionDetailInFaults = true)]
 public class Entities : DataService< ModelContainer >
 {
     // This method is called only once to initialize service-wide policies.
@@ -12,6 +14,7 @@ public class Entities : DataService< ModelContainer >
         config.SetEntitySetAccessRule("*", EntitySetRights.All);
         config.SetServiceOperationAccessRule("*", ServiceOperationRights.All);
         config.DataServiceBehavior.MaxProtocolVersion = DataServiceProtocolVersion.V2;
+        config.UseVerboseErrors = true;
     }
 
     /// <summary>
