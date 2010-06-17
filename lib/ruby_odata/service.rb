@@ -224,6 +224,8 @@ class Service
 		
 		result = RestClient.post batch_uri, body, :content_type => "multipart/mixed; boundary=batch_#{batch_num}"
 		
+		# TODO: More result validation needs to be done.  
+		# The result returns HTTP 202 even if there is an error in the batch
 		return (result.code == 202)
 	end
 	def build_batch_body(operations, batch_num, changeset_num)
@@ -246,7 +248,8 @@ class Service
 	
 	def build_batch_operation(operation, changeset_num)
 		accept_headers = "Accept-Charset: utf-8\n"
-		accept_headers << "Content-Type: application/json;charset=utf-8\n\n"
+		accept_headers << "Content-Type: application/json;charset=utf-8\n" unless operation.kind == "Delete"
+		accept_headers << "\n"
 	
 		content = "--changeset_#{changeset_num}\n"
 		content << "Content-Type: application/http\n"
