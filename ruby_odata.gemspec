@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{ruby_odata}
-  s.version = "0.0.5"
+  s.version = "0.0.6"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Damien White"]
-  s.date = %q{2010-06-13}
+  s.date = %q{2010-06-17}
   s.description = %q{An OData Client Library for Ruby.  Use this to interact with OData services}
   s.email = %q{damien.white@visoftinc.com}
   s.extra_rdoc_files = [
@@ -25,6 +25,7 @@ Gem::Specification.new do |s|
      "Rakefile",
      "VERSION",
      "config/cucumber.yml",
+     "features/batch_request.feature",
      "features/query_builder.feature",
      "features/service.feature",
      "features/service_manage.feature",
