@@ -252,13 +252,15 @@ namespace Model
         /// <param name="name">Initial value of the Name property.</param>
         /// <param name="description">Initial value of the Description property.</param>
         /// <param name="price">Initial value of the Price property.</param>
-        public static Product CreateProduct(global::System.Int32 id, global::System.String name, global::System.String description, global::System.Decimal price)
+        /// <param name="auditFields">Initial value of the AuditFields property.</param>
+        public static Product CreateProduct(global::System.Int32 id, global::System.String name, global::System.String description, global::System.Decimal price, AuditFields auditFields)
         {
             Product product = new Product();
             product.Id = id;
             product.Name = name;
             product.Description = description;
             product.Price = price;
+            product.AuditFields = StructuralObject.VerifyComplexObjectIsNotNull(auditFields, "AuditFields");
             return product;
         }
 
@@ -365,6 +367,40 @@ namespace Model
         partial void OnPriceChanged();
 
         #endregion
+        #region Complex Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmComplexPropertyAttribute()]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [XmlElement(IsNullable=true)]
+        [SoapElement(IsNullable=true)]
+        [DataMemberAttribute()]
+        public AuditFields AuditFields
+        {
+            get
+            {
+                _AuditFields = GetValidValue(_AuditFields, "AuditFields", false, _AuditFieldsInitialized);
+                _AuditFieldsInitialized = true;
+                return _AuditFields;
+            }
+            set
+            {
+                OnAuditFieldsChanging(value);
+                ReportPropertyChanging("AuditFields");
+                _AuditFields = SetValidValue(_AuditFields, value, "AuditFields");
+                _AuditFieldsInitialized = true;
+                ReportPropertyChanged("AuditFields");
+                OnAuditFieldsChanged();
+            }
+        }
+        private AuditFields _AuditFields;
+        private bool _AuditFieldsInitialized;
+        partial void OnAuditFieldsChanging(AuditFields value);
+        partial void OnAuditFieldsChanged();
+
+        #endregion
     
         #region Navigation Properties
     
@@ -405,6 +441,110 @@ namespace Model
                 }
             }
         }
+
+        #endregion
+    }
+
+    #endregion
+    #region ComplexTypes
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmComplexTypeAttribute(NamespaceName="Model", Name="AuditFields")]
+    [DataContractAttribute(IsReference=true)]
+    [Serializable()]
+    public partial class AuditFields : ComplexObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new AuditFields object.
+        /// </summary>
+        /// <param name="createDate">Initial value of the CreateDate property.</param>
+        /// <param name="modifiedDate">Initial value of the ModifiedDate property.</param>
+        public static AuditFields CreateAuditFields(global::System.DateTime createDate, global::System.DateTime modifiedDate)
+        {
+            AuditFields auditFields = new AuditFields();
+            auditFields.CreateDate = createDate;
+            auditFields.ModifiedDate = modifiedDate;
+            return auditFields;
+        }
+
+        #endregion
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.DateTime CreateDate
+        {
+            get
+            {
+                return _CreateDate;
+            }
+            set
+            {
+                OnCreateDateChanging(value);
+                ReportPropertyChanging("CreateDate");
+                _CreateDate = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("CreateDate");
+                OnCreateDateChanged();
+            }
+        }
+        private global::System.DateTime _CreateDate;
+        partial void OnCreateDateChanging(global::System.DateTime value);
+        partial void OnCreateDateChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.DateTime ModifiedDate
+        {
+            get
+            {
+                return _ModifiedDate;
+            }
+            set
+            {
+                OnModifiedDateChanging(value);
+                ReportPropertyChanging("ModifiedDate");
+                _ModifiedDate = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("ModifiedDate");
+                OnModifiedDateChanged();
+            }
+        }
+        private global::System.DateTime _ModifiedDate;
+        partial void OnModifiedDateChanging(global::System.DateTime value);
+        partial void OnModifiedDateChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String CreatedBy
+        {
+            get
+            {
+                return _CreatedBy;
+            }
+            set
+            {
+                OnCreatedByChanging(value);
+                ReportPropertyChanging("CreatedBy");
+                _CreatedBy = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("CreatedBy");
+                OnCreatedByChanged();
+            }
+        }
+        private global::System.String _CreatedBy;
+        partial void OnCreatedByChanging(global::System.String value);
+        partial void OnCreatedByChanged();
 
         #endregion
     }

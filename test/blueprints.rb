@@ -9,8 +9,13 @@ Product.blueprint do
 	Description		"Test Widget"
 	Price					{ Sham.price }
 	Category			{ Category.make }
+	AuditFields   { AuditFields.make }
 end
 
 Category.blueprint do
 	Name					{ Sham.category_name }
+end
+
+AuditFields.blueprint do
+  CreatedBy     "Cucumber"
 end

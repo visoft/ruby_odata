@@ -122,6 +122,15 @@ class Service
 		# Get the edm namespace
 		edm_ns = doc.xpath("edmx:Edmx/edmx:DataServices/*", "edmx" => "http://schemas.microsoft.com/ado/2007/06/edmx").first.namespaces['xmlns'].to_s
 
+		# Build complex types first, these will be used for entities
+		complex_types = doc.xpath("//edm:ComplexType", "edm" => edm_ns) || []
+		complex_types.each do |c|
+			name = c['Name']
+			props = c.xpath(".//edm:Property", "edm" => edm_ns)
+			methods = props.collect { |p| p['Name'] } # Standard Properties
+			@classes[name] = ClassBuilder.new(name, methods, []).build unless @classes.keys.include?(name)
+		end
+
 		entity_types = doc.xpath("//edm:EntityType", "edm" => edm_ns)
 		entity_types.each do |e|
 			name = e['Name']
@@ -159,8 +168,15 @@ class Service
 		# Fill properties
 		for prop in properties
 			prop_name = prop.name
-			# puts "#{prop_name} - #{prop.content}"
-			klass.send "#{prop_name}=", prop.content 
+
+			# Determine if this is a complex type
+			property_type = prop.attr('type')
+			if !property_type.nil? && !property_type.match(/^Edm/)
+				ct = complex_type_to_class(prop)
+				klass.send "#{prop_name}=", ct
+			else
+				klass.send "#{prop_name}=", prop.content
+			end 
 		end
 		
 		inline_links = entry.xpath("./atom:link[m:inline]", { "m" => "http://schemas.microsoft.com/ado/2007/08/dataservices/metadata", "atom" => "http://www.w3.org/2005/Atom" })
@@ -278,7 +294,20 @@ class Service
 			
 		return content
 	end
-	
+
+	def complex_type_to_class(complex_type_xml)
+		klass_name = complex_type_xml.attr('type').split('.')[-1]
+		klass = @classes[klass_name].new
+
+		# Fill in the properties
+		properties = complex_type_xml.xpath(".//*")
+		properties.each do |prop|
+			klass.send "#{prop.name}=", prop.content
+		end
+
+		return klass
+	end
+
 	def generate_guid
 		rand(36**12).to_s(36).insert(4, "-").insert(9, "-")
 	end

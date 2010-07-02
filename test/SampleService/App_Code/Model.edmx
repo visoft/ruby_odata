@@ -29,6 +29,9 @@
           <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Price" Type="money" Nullable="false" />
           <Property Name="Category_Id" Type="int" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedDate" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <Association Name="FK_CategoryProduct">
           <End Role="Categories" Type="Model.Store.Categories" Multiplicity="1" />
@@ -63,6 +66,7 @@
           <Property Type="String" Name="Description" Nullable="false" />
           <Property Type="Decimal" Name="Price" Nullable="false" />
           <NavigationProperty Name="Category" Relationship="Model.CategoryProduct" FromRole="Product" ToRole="Category" />
+          <Property Name="AuditFields" Type="Model.AuditFields" Nullable="false" />
         </EntityType>
         <EntityType Name="Category">
           <Key>
@@ -76,6 +80,11 @@
           <End Type="Model.Category" Role="Category" Multiplicity="1" />
           <End Type="Model.Product" Role="Product" Multiplicity="*" />
         </Association>
+        <ComplexType Name="AuditFields">
+          <Property Type="DateTime" Name="CreateDate" Nullable="false" />
+          <Property Type="DateTime" Name="ModifiedDate" Nullable="false" />
+          <Property Type="String" Name="CreatedBy" Nullable="true" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -85,10 +94,15 @@
     <EntitySetMapping Name="Products">
       <EntityTypeMapping TypeName="IsTypeOf(Model.Product)">
         <MappingFragment StoreEntitySet="Products">
-          <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Description" ColumnName="Description" />
           <ScalarProperty Name="Price" ColumnName="Price" />
+                <ComplexProperty Name="AuditFields">
+                  <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                  <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                  <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                </ComplexProperty>
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -128,7 +142,7 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram Name="Model" >
-        <EntityTypeShape EntityType="Model.Product" Width="1.5" PointX="8" PointY="1.75" Height="1.787985026041667" />
+        <EntityTypeShape EntityType="Model.Product" Width="1.5" PointX="8" PointY="1.75" Height="2.172587890625" />
         <EntityTypeShape EntityType="Model.Category" Width="1.5" PointX="5.25" PointY="1.875" Height="1.59568359375" />
         <AssociationConnector Association="Model.CategoryProduct">
           <ConnectorPoint PointX="6.75" PointY="2.672841796875" />

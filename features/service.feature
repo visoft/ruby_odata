@@ -5,7 +5,7 @@ Feature: Service Should Generate a Proxy
 
 Background:
   Given an ODataService exists with uri: "http://localhost:8888/SampleService/Entities.svc"
-	And blueprints exist for the service
+  And blueprints exist for the service
 
 Scenario: Service should respond to valid collections
   Then I should be able to call "Categories" on the service
@@ -18,14 +18,14 @@ Scenario: Service should respond to accessing a single entity by ID
 
 Scenario: Access an entity by ID should return the entity type
   Given I call "AddToCategories" on the service with a new "Category" object with Name: "Test Category"
-	And I save changes
+  And I save changes
   And I call "Categories" on the service with args: "1"
   When I run the query
   Then the result should be of type "Category"
 
 Scenario: Entity should have the correct accessors
   Given I call "AddToCategories" on the service with a new "Category" object with Name: "Test Category"
-	And I save changes
+  And I save changes
   And I call "Categories" on the service with args: "1"
   When I run the query
   Then the result should have a method: "Id"
@@ -33,7 +33,7 @@ Scenario: Entity should have the correct accessors
   
 Scenario: Entity should fill values
   Given I call "AddToCategories" on the service with a new "Category" object with Name: "Test Category"
-	And I save changes
+  And I save changes
   And I call "Categories" on the service with args: "1"
   When I run the query
   Then the method "Id" on the result should equal: "1"
@@ -41,7 +41,7 @@ Scenario: Entity should fill values
 
 Scenario: Navigation Properties should be included in results	
   Given I call "AddToProducts" on the service with a new "Product" object
-	And I save changes		
+  And I save changes		
   And I call "Products" on the service with args: "1"
   When I run the query
   Then the result should have a method: "Category"

@@ -23,10 +23,13 @@
   
 === 0.0.5
 * Bug Fixes
-	* Works with Ruby 1.9.1
-	* Works with ActiveSupport 3.0.0.beta4
-	
+  * Works with Ruby 1.9.1
+  * Works with ActiveSupport 3.0.0.beta4
+  
 === 0.0.6
 * New Features
-	* Ability to batch saves (Adds, Updates, Deletes); this will help save on network chatter
-	
+  * Ability to batch saves (Adds, Updates, Deletes); this will help save on network chatter
+
+=== 0.0.7
+* New Features
+  * Complex Types are now supported
