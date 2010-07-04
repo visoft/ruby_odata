@@ -39,7 +39,7 @@ Then /^the result should have a method: "([^\"]*)"$/ do |method|
 end
 
 Then /^the method "([^\"]*)" on the result should equal: "([^\"]*)"$/ do |method, value|
-  @service_result.send(method.to_sym).should == value
+  @service_result.send(method.to_sym).to_s.should == value
 end
 
 Then /^the method "([^\"]*)" on the result should be nil$/ do |method|
@@ -146,6 +146,15 @@ Given /^the following (.*) exist:$/ do |plural_factory, table|
   end
 end
 
+Given /^(\d+) (.*) exist$/ do |num, plural_factory|
+  factory = plural_factory.singularize
+  num.to_i.times do 
+    obj = factory.constantize.send(:make)
+    @service.send("AddTo#{plural_factory}", obj)
+  end
+  @service.save_changes # Batch save
+end
+
 Then /^the result should be:$/ do |table|
   # table is a Cucumber::Ast::Table
   
@@ -192,7 +201,6 @@ Then /^a class named "([^\"]*)" should exist$/ do |klass_name|
   (Object.const_defined? klass_name).should == true
 end
 
-
 # Operations against a method on the service result
 When /^I call "([^\"]*)" for "([^\"]*)" on the result$/ do |method2, method1|
   r1 = @service_result.send(method1)
@@ -206,10 +214,20 @@ end
 
 Then /^the method "([^\"]*)" on the result's method "([^\"]*)" should equal: "([^\"]*)"$/ do |method, result_method, value|
   obj = @service_result.send(result_method.to_sym)
-  obj.send(method.to_sym).should == value
+  obj.send(method.to_sym).to_s.should == value
 end
 
 When /^I set "([^\"]*)" on the result's method "([^\"]*)" to "([^\"]*)"$/ do |property_name, result_method, value|
-  @service_result.send("#{result_method}").send("#{property_name}=", value)
+  @service_result.send(result_method).send("#{property_name}=", value)
 end
 
+# Type tests
+Then /^the "([^\"]*)" method should return a (.*)/ do |method_name, type|
+	methods = method_name.split '.'
+	if methods.length == 1
+		@service_result.send(method_name).class.to_s.should == type
+	else
+		@service_result.send(methods[0]).send(methods[1]).class.to_s.should == type
+	end
+
+end

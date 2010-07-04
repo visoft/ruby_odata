@@ -9,6 +9,8 @@ require 'cgi'
 require 'open-uri'
 require 'rest_client'
 require 'nokogiri'
+require 'bigdecimal'
+require 'bigdecimal/util'
 
 require lib + '/ruby_odata/query_builder'
 require lib + '/ruby_odata/class_builder'

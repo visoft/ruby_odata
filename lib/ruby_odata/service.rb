@@ -109,12 +109,15 @@ class Service
 		end
 	end
 	
-	private 
+	private
+	# Retrieves collections from the main service page
 	def get_collections
 		doc = Nokogiri::XML(open(@uri))
 		collections = doc.xpath("//app:collection", "app" => "http://www.w3.org/2007/app")
 		collections.collect { |c| c["href"] }
-	end	
+	end
+
+	# Build the classes required by the metadata
 	def build_classes
 		@classes = Hash.new
 		doc = Nokogiri::XML(open("#{@uri}/$metadata"))
@@ -141,6 +144,8 @@ class Service
 			@classes[name] = ClassBuilder.new(name, methods, nav_props).build unless @classes.keys.include?(name)
 		end
 	end
+
+	# Helper to loop through a result and create an instance for each entity in the results
 	def build_classes_from_result(result)
 		doc = Nokogiri::XML(result)
 		entries = doc.xpath("//atom:entry[not(ancestor::atom:entry)]", "atom" => "http://www.w3.org/2005/Atom")
@@ -152,6 +157,8 @@ class Service
 		end
 		return results
 	end
+
+	# Converts an XML Entry into a class
 	def entry_to_class(entry)
 		# Retrieve the class name from the fully qualified name (the last string after the last dot)
 		klass_name = entry.xpath("./atom:category/@term", "atom" => "http://www.w3.org/2005/Atom").to_s.split('.')[-1]
@@ -168,15 +175,7 @@ class Service
 		# Fill properties
 		for prop in properties
 			prop_name = prop.name
-
-			# Determine if this is a complex type
-			property_type = prop.attr('type')
-			if !property_type.nil? && !property_type.match(/^Edm/)
-				ct = complex_type_to_class(prop)
-				klass.send "#{prop_name}=", ct
-			else
-				klass.send "#{prop_name}=", prop.content
-			end 
+			klass.send "#{prop_name}=", parse_value(prop)
 		end
 		
 		inline_links = entry.xpath("./atom:link[m:inline]", { "m" => "http://schemas.microsoft.com/ado/2007/08/dataservices/metadata", "atom" => "http://www.w3.org/2005/Atom" })
@@ -204,6 +203,7 @@ class Service
 		
 		return klass
 	end
+
 	def build_query_uri
 		"#{@uri}#{@query.query}"
 	end
@@ -230,6 +230,11 @@ class Service
 			delete_result = RestClient.delete delete_uri
 			return (delete_result.code == 204) 
 		end		
+	end
+
+	# Batch Saves
+	def generate_guid
+		rand(36**12).to_s(36).insert(4, "-").insert(9, "-")
 	end
 	def batch_save(operations)	
 		batch_num = generate_guid
@@ -261,7 +266,6 @@ class Service
 		
 		return body
 	end
-	
 	def build_batch_operation(operation, changeset_num)
 		accept_headers = "Accept-Charset: utf-8\n"
 		accept_headers << "Content-Type: application/json;charset=utf-8\n" unless operation.kind == "Delete"
@@ -295,6 +299,7 @@ class Service
 		return content
 	end
 
+	# Complex Types
 	def complex_type_to_class(complex_type_xml)
 		klass_name = complex_type_xml.attr('type').split('.')[-1]
 		klass = @classes[klass_name].new
@@ -302,15 +307,32 @@ class Service
 		# Fill in the properties
 		properties = complex_type_xml.xpath(".//*")
 		properties.each do |prop|
-			klass.send "#{prop.name}=", prop.content
+			klass.send "#{prop.name}=", parse_value(prop)
 		end
 
 		return klass
 	end
 
-	def generate_guid
-		rand(36**12).to_s(36).insert(4, "-").insert(9, "-")
+	# Field Converters
+	def parse_value(property_xml)
+		property_type = property_xml.attr('type')
+
+		# Handle a nil property type, this is a string
+		return property_xml.content if property_type.nil?
+
+		# Handle complex types
+		return complex_type_to_class(property_xml) if !property_type.match(/^Edm/)
+
+		# Handle integers
+		return property_xml.content.to_i if property_type.match(/^Edm.Int/)
+
+		# Handle decimals
+		return property_xml.content.to_d if property_type.match(/Edm.Decimal/)
+
+		# If we can't parse the value, just return the element's content
+		property_xml.content
 	end
+
 end
 
 end # module OData

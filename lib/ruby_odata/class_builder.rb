@@ -64,10 +64,16 @@ module OData
 					vars.delete(meta)
 				end
 
+				# Convert a BigDecimal to a string for serialization (to match Edm.Decimal)
+				decimals = vars.find_all { |o| o[1].class == BigDecimal } || []
+				decimals.each do |d|
+					vars[d[0]] = d[1].to_s
+				end
+
 				vars
 			end
-			
-			
+
+
 			# Add the methods that were passed in
 			@methods.each do |method_name|
 				klass.send :define_method, method_name do
@@ -78,7 +84,7 @@ module OData
 				end
 			end
 		end
-		
+
 		def add_nav_props(klass)
 			@nav_props.each do |method_name|
 				klass.send :define_method, method_name do
@@ -86,7 +92,7 @@ module OData
 				end
 				klass.send :define_method, "#{method_name}=" do |value|
 					instance_variable_set("@#{method_name}", value)
-				end				
+				end
 			end
 		end
 	end

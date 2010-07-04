@@ -33,3 +33,5 @@
 === 0.0.7
 * New Features
   * Complex Types are now supported
+  * Support for Edm.Int16, Edm.Int32, Edm.Int64
+  * Support for Edm.Decimal
