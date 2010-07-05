@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{ruby_odata}
-  s.version = "0.0.6"
+  s.version = "0.0.7"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Damien White"]
-  s.date = %q{2010-06-17}
+  s.date = %q{2010-07-04}
   s.description = %q{An OData Client Library for Ruby.  Use this to interact with OData services}
   s.email = %q{damien.white@visoftinc.com}
   s.extra_rdoc_files = [
@@ -26,12 +26,14 @@ Gem::Specification.new do |s|
      "VERSION",
      "config/cucumber.yml",
      "features/batch_request.feature",
+     "features/complex_types.feature",
      "features/query_builder.feature",
      "features/service.feature",
      "features/service_manage.feature",
      "features/step_definitions/service_steps.rb",
      "features/support/env.rb",
      "features/support/hooks.rb",
+     "features/type_conversion.feature",
      "lib/ruby_odata.rb",
      "lib/ruby_odata/class_builder.rb",
      "lib/ruby_odata/operation.rb",
@@ -40,9 +42,11 @@ Gem::Specification.new do |s|
      "ruby_odata.gemspec",
      "test/Cassini x64.bat",
      "test/Cassini x86.bat",
+     "test/SampleService/App_Code/AuditFields.cs",
      "test/SampleService/App_Code/Entities.cs",
      "test/SampleService/App_Code/Model.Designer.cs",
      "test/SampleService/App_Code/Model.edmx",
+     "test/SampleService/App_Code/ModelContainerExtended.cs",
      "test/SampleService/App_Data/_TestDB.mdf",
      "test/SampleService/App_Data/_TestDB_Log.ldf",
      "test/SampleService/Entities.svc",
