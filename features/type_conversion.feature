@@ -21,3 +21,25 @@ Scenario: Decimals should be BigDecimals
   And I run the query
   Then the "Price" method should return a BigDecimal
 
+Scenario: DateTimes should be Times
+	Given I call "AddToProducts" on the service with a new "Product" object
+  And I save changes
+	When I call "Products" on the service
+  And I run the query
+	Then the "AuditFields.CreateDate" method should return a Time
+ 
+Scenario: Verify that DateTimes don't change if not modified on an update
+	Given I call "AddToProducts" on the service with a new "Product" object with Name: "Test Product"
+	When I save changes
+	And I call "Products" on the service with args: "1"
+  And I run the query
+  Then I store the last query result for comparison
+  When I set "Name" on the result to "Changed Test Product"
+  Then the method "Name" on the result should equal: "Changed Test Product"
+  And I call "update_object" on the service with the last query result
+  And I save changes
+  Then the save result should equal: "true"
+  When I call "Products" on the service with args: "1"
+  And I run the query
+  Then the new query result's time "AuditFields.CreateDate" should equal the saved query result
+

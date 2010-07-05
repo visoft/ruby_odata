@@ -329,6 +329,17 @@ class Service
 		# Handle decimals
 		return property_xml.content.to_d if property_type.match(/Edm.Decimal/)
 
+		# Handle DateTimes
+		# return Time.parse(property_xml.content) if property_type.match(/Edm.DateTime/)
+		if property_type.match(/Edm.DateTime/)
+			sdate = property_xml.content
+
+			# Assume this is UTC if no timezone is specified
+			sdate = sdate + "Z" unless sdate.match(/Z|([+|-]\d{2}:\d{2})$/)
+
+			return Time.parse(sdate)
+		end
+
 		# If we can't parse the value, just return the element's content
 		property_xml.content
 	end

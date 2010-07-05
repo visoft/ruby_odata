@@ -70,6 +70,16 @@ module OData
 					vars[d[0]] = d[1].to_s
 				end
 
+				# Convert Time to an RFC3339 string for serialization
+				times = vars.find_all { |o| o[1].class == Time } || []
+				times.each do |t|
+          sdate = t[1].xmlschema(3)
+          # Remove the ending Z (indicating UTC).
+          # If the Z is there when saving, the time is converted to local time on the server
+          sdate.chop! if sdate.match(/Z$/)
+					vars[t[0]] = sdate
+				end
+
 				vars
 			end
 
