@@ -5,13 +5,13 @@ Feature: Service management
 
 Background:
   Given an ODataService exists with uri: "http://localhost:8888/SampleService/Entities.svc"
-	And blueprints exist for the service
+  And blueprints exist for the service
 
 Scenario: Service should respond to AddToEntityName for adding objects
   Given I call "AddToProducts" on the service with a new "Product" object with Name: "Sample Product"
   When I save changes
   Then the save result should be of type "Product"
-	And the method "Name" on the save result should equal: "Sample Product"
+  And the method "Name" on the save result should equal: "Sample Product"
 
 Scenario: Service should allow for deletes
   Given I call "AddToProducts" on the service with a new "Product" object
@@ -23,12 +23,12 @@ Scenario: Service should allow for deletes
   And no "Products" should exist
 
 Scenario: Untracked entities shouldn't be able to be deleted
-	Given I call "delete_object" on the service with a new "Product" object it should throw an exception with message "You cannot delete a non-tracked entity"
+  Given I call "delete_object" on the service with a new "Product" object it should throw an exception with message "You cannot delete a non-tracked entity"
 
 Scenario: Entities should be able to be updated
-	Given I call "AddToProducts" on the service with a new "Product" object with Name: "Test Product"
-	When I save changes
-	And I call "Products" on the service with args: "1"
+  Given I call "AddToProducts" on the service with a new "Product" object with Name: "Test Product"
+  When I save changes
+  And I call "Products" on the service with args: "1"
   And I run the query
   Then the method "Name" on the result should equal: "Test Product"
   When I set "Name" on the result to "Changed Test Product"
@@ -41,4 +41,4 @@ Scenario: Entities should be able to be updated
   Then the method "Name" on the result should equal: "Changed Test Product"
 
 Scenario: Untracked entities shouldn't be able to be updated
-	Given I call "update_object" on the service with a new "Product" object it should throw an exception with message "You cannot update a non-tracked entity"
+  Given I call "update_object" on the service with a new "Product" object it should throw an exception with message "You cannot update a non-tracked entity"

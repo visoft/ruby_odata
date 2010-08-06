@@ -223,22 +223,22 @@ end
 
 # Type tests
 Then /^the "([^\"]*)" method should return a (.*)/ do |method_name, type|
-	methods = method_name.split '.'
-	if methods.length == 1
-		@service_result.send(method_name).class.to_s.should == type
-	else
-		@service_result.send(methods[0]).send(methods[1]).class.to_s.should == type
-	end
+  methods = method_name.split '.'
+  if methods.length == 1
+    @service_result.send(method_name).class.to_s.should == type
+  else
+    @service_result.send(methods[0]).send(methods[1]).class.to_s.should == type
+  end
 
 end
 Then /^I store the last query result for comparison$/ do
   @stored_query_result = @service_result
 end
 Then /^the new query result's time "([^\"]*)" should equal the saved query result$/ do |method_name|
-	methods = method_name.split '.'
-	if methods.length == 1
-		@service_result.send(method_name).xmlschema(3).should == @stored_query_result.send(method_name).xmlschema(3)
-	else
-		@service_result.send(methods[0]).send(methods[1]).xmlschema(3).should == @stored_query_result.send(methods[0]).send(methods[1]).xmlschema(3)
-	end
+  methods = method_name.split '.'
+  if methods.length == 1
+    @service_result.send(method_name).xmlschema(3).should == @stored_query_result.send(method_name).xmlschema(3)
+  else
+    @service_result.send(methods[0]).send(methods[1]).xmlschema(3).should == @stored_query_result.send(methods[0]).send(methods[1]).xmlschema(3)
+  end
 end

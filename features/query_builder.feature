@@ -5,20 +5,20 @@ Feature: Query Builder
 
 Background:
   Given an ODataService exists with uri: "http://localhost:8888/SampleService/Entities.svc"
-	And blueprints exist for the service
+  And blueprints exist for the service
 
 # Expand	
 Scenario: Navigation Properties should be able to be eager loaded
   Given I call "AddToCategories" on the service with a new "Category" object with Name: "Test Category"
-	And I save changes
-	And I call "AddToProducts" on the service with a new "Product" object with Category: "@@LastSave"
-	And I save changes	
+  And I save changes
+  And I call "AddToProducts" on the service with a new "Product" object with Category: "@@LastSave"
+  And I save changes	
   And I call "Products" on the service with args: "1"
   And I expand the query to include "Category"
   When I run the query
   Then the method "Category" on the result should be of type "Category"
   And the method "Name" on the result's method "Category" should equal: "Test Category"
-	And the method "Id" on the result's method "Category" should equal: "1"
+  And the method "Id" on the result's method "Category" should equal: "1"
 
 
 # Filters
