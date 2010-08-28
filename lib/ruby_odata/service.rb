@@ -316,9 +316,13 @@ class Service
   # Field Converters
   def parse_value(property_xml)
     property_type = property_xml.attr('type')
+    property_null = property_xml.attr('null')
 
     # Handle a nil property type, this is a string
     return property_xml.content if property_type.nil?
+
+    # Handle anything marked as null
+    return nil if !property_null.nil? && property_null == "true"
 
     # Handle complex types
     return complex_type_to_class(property_xml) if !property_type.match(/^Edm/)

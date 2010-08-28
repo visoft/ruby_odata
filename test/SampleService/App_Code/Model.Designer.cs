@@ -365,6 +365,30 @@ namespace Model
         private global::System.Decimal _Price;
         partial void OnPriceChanging(global::System.Decimal value);
         partial void OnPriceChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.DateTime> DiscontinuedDate
+        {
+            get
+            {
+                return _DiscontinuedDate;
+            }
+            set
+            {
+                OnDiscontinuedDateChanging(value);
+                ReportPropertyChanging("DiscontinuedDate");
+                _DiscontinuedDate = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("DiscontinuedDate");
+                OnDiscontinuedDateChanged();
+            }
+        }
+        private Nullable<global::System.DateTime> _DiscontinuedDate;
+        partial void OnDiscontinuedDateChanging(Nullable<global::System.DateTime> value);
+        partial void OnDiscontinuedDateChanged();
 
         #endregion
         #region Complex Properties

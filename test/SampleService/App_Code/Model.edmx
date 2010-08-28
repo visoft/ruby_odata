@@ -32,6 +32,7 @@
           <Property Name="CreateDate" Type="datetime" Nullable="false" />
           <Property Name="ModifiedDate" Type="datetime" Nullable="false" />
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="DiscontinuedDate" Type="datetime" />
         </EntityType>
         <Association Name="FK_CategoryProduct">
           <End Role="Categories" Type="Model.Store.Categories" Multiplicity="1" />
@@ -67,6 +68,7 @@
           <Property Type="Decimal" Name="Price" Nullable="false" />
           <NavigationProperty Name="Category" Relationship="Model.CategoryProduct" FromRole="Product" ToRole="Category" />
           <Property Name="AuditFields" Type="Model.AuditFields" Nullable="false" />
+          <Property Type="DateTime" Name="DiscontinuedDate" Nullable="true" />
         </EntityType>
         <EntityType Name="Category">
           <Key>
@@ -94,6 +96,7 @@
     <EntitySetMapping Name="Products">
       <EntityTypeMapping TypeName="IsTypeOf(Model.Product)">
         <MappingFragment StoreEntitySet="Products">
+                <ScalarProperty Name="DiscontinuedDate" ColumnName="DiscontinuedDate" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Description" ColumnName="Description" />

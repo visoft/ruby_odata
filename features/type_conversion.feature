@@ -43,3 +43,11 @@ Scenario: Verify that DateTimes don't change if not modified on an update
   And I run the query
   Then the new query result's time "AuditFields.CreateDate" should equal the saved query result
 
+Scenario: DateTimes should be able to be null
+	Given I call "AddToProducts" on the service with a new "Product" object
+  And I save changes
+	When I call "Products" on the service
+  And I run the query
+  Then the "DiscontinuedDate" method should return a NilClass
+
+
