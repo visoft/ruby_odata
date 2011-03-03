@@ -77,6 +77,13 @@ Querying is easy, for example to pull all the categories from the SampleService,
 
 You can also expand, add filters, order, skip records, and take only the top X records to the query before executing it.  For example:
 
+=== Authentication
+Basic HTTP Authentication is supported via sending a username and password as service constructor arguments:
+
+  require 'lib/ruby_odata'
+  
+  svc = OData::Service.new "http://127.0.0.1:8888/SampleService/Entities.svc", { :username => "bob", :password=> "12345" }
+
 === Expanding
 Expanding allows you to eagerly load other objects that are children of the root.
 You can use more than one expand on a query.  
