@@ -13,7 +13,7 @@ class Service
     @uri = service_uri
     if not options[:username].nil?
       @auth_header = "Basic " + Base64.encode64( options[:username] + ":" + (options[:password] || "") )
-      @http_headers = { :Authorization => @auth_header }
+      @http_headers = {:Authorization => @auth_header}
     else
       @http_headers = {}
     end
@@ -234,12 +234,12 @@ class Service
     if operation.kind == "Add"
       save_uri = "#{@uri}/#{operation.klass_name}"
       json_klass = operation.klass.to_json(:type => :add)
-      post_result = RestClient.post save_uri, json_klass, :content_type => :json + @http_headers
+      post_result = RestClient.post save_uri, json_klass, {:content_type => :json}.merge(@http_headers)
       return build_classes_from_result(post_result)
     elsif operation.kind == "Update"
       update_uri = operation.klass.send(:__metadata)[:uri]
       json_klass = operation.klass.to_json
-      update_result = RestClient.put update_uri, json_klass, :content_type => :json + @http_headers
+      update_result = RestClient.put update_uri, json_klass, {:content_type => :json}.merge(@http_headers)
       return (update_result.code == 204)
     elsif operation.kind == "Delete"
       delete_uri = operation.klass.send(:__metadata)[:uri]
@@ -259,7 +259,7 @@ class Service
     
     body = build_batch_body(operations, batch_num, changeset_num)
     
-    result = RestClient.post batch_uri, body, :content_type => "multipart/mixed; boundary=batch_#{batch_num}" + @http_headers
+    result = RestClient.post batch_uri, body, {:content_type => "multipart/mixed; boundary=batch_#{batch_num}"}.merge(@http_headers)
 
     # TODO: More result validation needs to be done.  
     # The result returns HTTP 202 even if there is an error in the batch
