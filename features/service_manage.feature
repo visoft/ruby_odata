@@ -42,3 +42,13 @@ Scenario: Entities should be able to be updated
 
 Scenario: Untracked entities shouldn't be able to be updated
   Given I call "update_object" on the service with a new "Product" object it should throw an exception with message "You cannot update a non-tracked entity"
+
+Scenario: Related entities shouldn't be recreated on a child add
+  Given I call "AddToCategories" on the service with a new "Category" object with Name: "Test Category"
+  And I save changes
+  And I call "AddToProducts" on the service with a new "Product" object with Category: "@@LastSave"
+  And I save changes	
+  And I call "Products" on the service with args: "1"
+  And I expand the query to include "Category"
+  When I run the query
+  Then the method "Id" on the result's method "Category" should equal: "1"

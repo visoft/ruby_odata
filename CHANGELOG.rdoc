@@ -36,3 +36,8 @@
   * Support for Edm.Int16, Edm.Int32, Edm.Int64
   * Support for Edm.Decimal
   * Support for Edm.DateTime
+  
+=== 0.0.8
+* Bug Fixes
+  * ActiveSupport 2.3.x (tested 2.3.11) and 3.0.x (tested 3.0.4) are now supported
+* New Features
