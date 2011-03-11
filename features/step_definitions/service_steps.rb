@@ -2,6 +2,18 @@ Given /^an ODataService exists with uri: "([^\"]*)"$/ do |uri|
   @service = OData::Service.new(uri)
 end
 
+Given /^an ODataService exists with uri: "([^\"]*)" using username "([^\"]*)" and password "([^\"]*)"$/ do |uri, username, password|
+  @service = OData::Service.new(uri, { :username => username, :password => password })
+end
+
+Given /^an ODataService exists with uri: "([^\"]*)" using username "([^\"]*)" and password "([^\"]*)" it should throw an exception with message "([^\"]*)"$/ do |uri, username, password, msg|  
+  lambda { @service = OData::Service.new(uri, { :username => username, :password => password }) }.should raise_error(msg)
+end
+
+Given /^an ODataService exists with uri: "([^\"]*)" it should throw an exception with message "([^\"]*)"$/ do |uri, msg|  
+  lambda { @service = OData::Service.new(uri) }.should raise_error(msg)
+end
+
 When /^I call "([^\"]*)" on the service$/ do |method|
   @service_query = @service.send(method)
 end
