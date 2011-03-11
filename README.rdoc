@@ -165,7 +165,6 @@ Top allows you only retrieve the top X number of records when querying.  This is
   products = svc.execute # => returns only the first 5 items	
 
 == Tests
-===DATABASE SETUP - DO THIS FIRST
 All of the tests are written using Cucumber going against a sample service (Found in /test/SampleService/*).  The SampleService is an ASP.NET Web Site running a SQLEXPRESS 2008 R2 Database (TestDB), as well as the ADO.NET Entity Framework and a WCF Data Service.  In order to run the tests, you need to spin up the SampleService and have it running on port 8888 (http://localhost:8888/SampleService).  
 
 One way to do this is to open the SampleService within Visual Studio 2010 and run it from there (must use IIS instead of development web server in order for basic auth tests to pass, however).  Another option is to use IIS Express. It is a free download from Microsoft. Once installed, there is a batch file found in /test called "iisExpress x64.bat", you can run the batch file and just close the command window. There is a also an "iisExpress x86.bat" file for those of you running a 32-bit machine.  The only difference is the path to the Program Files directory.  Once you run the batch file, the web server will spin up and you can find the instance in your systray just like if Visual Studio ran it for you.  To stop the server, right click on the icon in your systray and tell it to stop.
