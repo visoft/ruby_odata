@@ -26,10 +26,13 @@ module OData
         @klass = @klass_name.constantize
         return @klass
       end
-          
+
       Object.const_set(@klass_name, Class.new.extend(ActiveSupport::JSON))
       @klass = @klass_name.constantize
- 
+      @klass.class_eval do
+        include OData
+      end
+
       add_methods(@klass)
       add_nav_props(@klass)
       
@@ -45,23 +48,29 @@ module OData
       klass.send :define_method, :__metadata= do |value|
           instance_variable_set("@__metadata", value)
       end
-      klass.send :define_method, :as_json do |options|
-        meta = '__metadata'
+      klass.send :define_method, :as_json do |*args|
+        meta = '@__metadata'
 
-        options ||= {}
+        options = args[0] || {}
         options[:type] ||= :unknown
 
         vars = self.instance_values
 
         # For adds, we need to get rid of all attributes except __metadata when passing
         # the object to the server
-        # TODO: There should be a universal way to figure out if we are on an addition
-        #   activesupport 2.3.8 doesn't pass through the :type to all levels, but passes :seen
-        #		activesupport 3.0.0.beta4 doesn't pass :seen in options
-        if (options[:type] == :add || !options[:seen].nil?) && vars.has_key?(meta)
-          vars.delete_if { |k,v| k != meta}
-        else
-          vars.delete(meta)
+        if(options[:type] == :add)
+          vars.each_value do |value|
+            if value.is_a? OData
+              child_vars = value.instance_variables
+              if(child_vars.include?(meta))
+                child_vars.each do |var|
+                  value.send :remove_instance_variable, var if var != meta
+                end
+              else
+                value.send :remove_instance_variable, meta if value.instance_variable_defined? meta
+              end
+            end
+          end
         end
 
         # Convert a BigDecimal to a string for serialization (to match Edm.Decimal)
@@ -82,7 +91,6 @@ module OData
 
         vars
       end
-
 
       # Add the methods that were passed in
       @methods.each do |method_name|
