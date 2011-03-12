@@ -1,4 +1,5 @@
 require 'logger'
+require 'base64'
 
 module OData
   
@@ -8,8 +9,14 @@ class Service
   #
   # ==== Required Attributes
   # - service_uri: The root URI of the OData service
-  def initialize(service_uri)		
+  def initialize(service_uri, options = {})
     @uri = service_uri
+    if not options[:username].nil?
+      @auth_header = "Basic " + Base64.encode64( options[:username] + ":" + (options[:password] || "") )
+      @http_headers = {:Authorization => @auth_header}
+    else
+      @http_headers = {}
+    end
     @collections = get_collections
     @save_operations = []
     build_classes
@@ -88,7 +95,7 @@ class Service
 
   # Performs query operations (Read) against the server
   def execute
-    result = RestClient.get build_query_uri
+    result = RestClient.get build_query_uri, @http_headers
     build_classes_from_result(result)
   end
   
@@ -110,9 +117,18 @@ class Service
   end
   
   private
+  # Wrapper around open call to make http request
+  def http_open( address )
+    if not @auth_header.nil?
+      return open(address, "Authorization" => @auth_header)
+    else
+      return open(address)
+    end
+  end
+
   # Retrieves collections from the main service page
   def get_collections
-    doc = Nokogiri::XML(open(@uri))
+    doc = Nokogiri::XML(http_open(@uri))
     collections = doc.xpath("//app:collection", "app" => "http://www.w3.org/2007/app")
     collections.collect { |c| c["href"] }
   end
@@ -120,7 +136,7 @@ class Service
   # Build the classes required by the metadata
   def build_classes
     @classes = Hash.new
-    doc = Nokogiri::XML(open("#{@uri}/$metadata"))
+    doc = Nokogiri::XML(http_open("#{@uri}/$metadata"))
 
     # Get the edm namespace
     edm_ns = doc.xpath("edmx:Edmx/edmx:DataServices/*", "edmx" => "http://schemas.microsoft.com/ado/2007/06/edmx").first.namespaces['xmlns'].to_s
@@ -218,16 +234,16 @@ class Service
     if operation.kind == "Add"
       save_uri = "#{@uri}/#{operation.klass_name}"
       json_klass = operation.klass.to_json(:type => :add)
-      post_result = RestClient.post save_uri, json_klass, :content_type => :json
+      post_result = RestClient.post save_uri, json_klass, {:content_type => :json}.merge(@http_headers)
       return build_classes_from_result(post_result)
     elsif operation.kind == "Update"
       update_uri = operation.klass.send(:__metadata)[:uri]
       json_klass = operation.klass.to_json
-      update_result = RestClient.put update_uri, json_klass, :content_type => :json
+      update_result = RestClient.put update_uri, json_klass, {:content_type => :json}.merge(@http_headers)
       return (update_result.code == 204)
     elsif operation.kind == "Delete"
       delete_uri = operation.klass.send(:__metadata)[:uri]
-      delete_result = RestClient.delete delete_uri
+      delete_result = RestClient.delete delete_uri, @http_headers
       return (delete_result.code == 204) 
     end		
   end
@@ -243,8 +259,8 @@ class Service
     
     body = build_batch_body(operations, batch_num, changeset_num)
     
-    result = RestClient.post batch_uri, body, :content_type => "multipart/mixed; boundary=batch_#{batch_num}"
-    
+    result = RestClient.post batch_uri, body, {:content_type => "multipart/mixed; boundary=batch_#{batch_num}"}.merge(@http_headers)
+
     # TODO: More result validation needs to be done.  
     # The result returns HTTP 202 even if there is an error in the batch
     return (result.code == 202)

@@ -77,6 +77,13 @@ Querying is easy, for example to pull all the categories from the SampleService,
 
 You can also expand, add filters, order, skip records, and take only the top X records to the query before executing it.  For example:
 
+=== Authentication
+Basic HTTP Authentication is supported via sending a username and password as service constructor arguments:
+
+  require 'lib/ruby_odata'
+  
+  svc = OData::Service.new "http://127.0.0.1:8888/SampleService/Entities.svc", { :username => "bob", :password=> "12345" }
+
 === Expanding
 Expanding allows you to eagerly load other objects that are children of the root.
 You can use more than one expand on a query.  
@@ -158,11 +165,15 @@ Top allows you only retrieve the top X number of records when querying.  This is
   products = svc.execute # => returns only the first 5 items	
 
 == Tests
-===DATABASE SETUP - DO THIS FIRST
-Within /test/SampleService/App_Data/ rename _TestDB*.* to TestDB*.*. This file is just the initial database, and needs to be renamed so that unwanted changes to that DB aren't persisted in source control.
-
 All of the tests are written using Cucumber going against a sample service (Found in /test/SampleService/*).  The SampleService is an ASP.NET Web Site running a SQLEXPRESS 2008 R2 Database (TestDB), as well as the ADO.NET Entity Framework and a WCF Data Service.  In order to run the tests, you need to spin up the SampleService and have it running on port 8888 (http://localhost:8888/SampleService).  
 
-One way to do this is to open the SampleService within Visual Studio 2010 and run it from there.  Another option is to use Cassini (the built ASP.NET Development server that comes with Visual Studio 2010).  There is a batch file found in /test called "Cassini x64.bat", you can run the batch file and just close the command window. There is a also a "Cassini x86.bat" file for those of you running a 32-bit machine, however it hasn't been tested.  The only difference is the path to the Program Files directory.  Once you run the batch file, the web server will spin up and you can find the instance in your systray just like if Visual Studio ran it for you.  To stop the server, right click on the icon in your systray and tell it to stop
+One way to do this is to open the SampleService within Visual Studio 2010 and run it from there (must use IIS instead of development web server in order for basic auth tests to pass, however).  Another option is to use IIS Express. It is a free download from Microsoft. Once installed, there is a batch file found in /test called "iisExpress x64.bat", you can run the batch file and just close the command window. There is a also an "iisExpress x86.bat" file for those of you running a 32-bit machine.  The only difference is the path to the Program Files directory.  Once you run the batch file, the web server will spin up and you can find the instance in your systray just like if Visual Studio ran it for you.  To stop the server, right click on the icon in your systray and tell it to stop.
 
+Note there are also Cassini batch files that you can use as well, but the basic auth tests will fail if using this server (which doesn't support basic http authentication).
+
+Currently the following gems must be manually installed before running the tests: sham, faker, machinist, rspec
+
+Cucumber also currently only supports Ruby 1.8. You can still use ruby_odata with ruby 1.9, but must use 1.8 to run the tests.
+
+From the BASE ruby_odata directory, run cucumber, which will execute all of the tests.
 
