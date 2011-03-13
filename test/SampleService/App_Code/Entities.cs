@@ -39,7 +39,8 @@ public class Entities : DataService< ModelContainer >
         base.OnStartProcessingRequest(args);
         if (args.RequestUri.AbsoluteUri.ToLower().EndsWith("cleandatabasefortesting"))
         {
-            if (HttpContext.Current.Request.UserHostAddress != "127.0.0.1")
+            var hostAddress = HttpContext.Current.Request.UserHostAddress;
+            if (hostAddress != "127.0.0.1" && hostAddress != "::1")
                 throw new DataServiceException(401, "Access Denied");
         }
     }

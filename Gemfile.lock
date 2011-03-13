@@ -1,0 +1,46 @@
+GEM
+  remote: http://rubygems.org/
+  specs:
+    activesupport (3.0.5)
+    builder (3.0.0)
+    cucumber (0.10.0)
+      builder (>= 2.1.2)
+      diff-lcs (~> 1.1.2)
+      gherkin (~> 2.3.2)
+      json (~> 1.4.6)
+      term-ansicolor (~> 1.0.5)
+    diff-lcs (1.1.2)
+    faker (0.9.5)
+      i18n (~> 0.4)
+    gherkin (2.3.4-x86-mingw32)
+      json (~> 1.4.6)
+    i18n (0.5.0)
+    json (1.4.6-x86-mingw32)
+    machinist (1.0.6)
+    mime-types (1.16)
+    nokogiri (1.4.4.1-x86-mingw32)
+    rest-client (1.6.1)
+      mime-types (>= 1.16)
+    rspec (2.5.0)
+      rspec-core (~> 2.5.0)
+      rspec-expectations (~> 2.5.0)
+      rspec-mocks (~> 2.5.0)
+    rspec-core (2.5.1)
+    rspec-expectations (2.5.0)
+      diff-lcs (~> 1.1.2)
+    rspec-mocks (2.5.0)
+    sham (0.4.0)
+    term-ansicolor (1.0.5)
+
+PLATFORMS
+  x86-mingw32
+
+DEPENDENCIES
+  activesupport (>= 2.3.5)
+  cucumber
+  faker
+  machinist
+  nokogiri (>= 1.4.2)
+  rest-client (>= 1.5.1)
+  rspec
+  sham
