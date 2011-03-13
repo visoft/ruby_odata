@@ -49,7 +49,7 @@ module OData
           instance_variable_set("@__metadata", value)
       end
       klass.send :define_method, :as_json do |*args|
-        meta = '@__metadata'
+        meta = RUBY_VERSION < "1.9" ? '@__metadata' :'@__metadata'.to_sym
 
         options = args[0] || {}
         options[:type] ||= :unknown
