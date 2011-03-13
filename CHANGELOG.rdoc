@@ -39,8 +39,9 @@
   
 === 0.0.8
 * New Features
-  * Basic HTTP Authentication (thanks J.D. Mullin)\
+  * Basic HTTP Authentication (thanks J.D. Mullin)
   * Modified cucumber tests to setup the test database so you no longer need to copy them yourself
+  * Support for nullable elements returned from the Data Service (m:null ="true")
 * Bug Fixes
   * ActiveSupport 2.3.x (tested 2.3.11) and 3.0.x (tested 3.0.4) are now supported
   * Works with Ruby 1.9.2
