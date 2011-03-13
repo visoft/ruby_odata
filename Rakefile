@@ -17,7 +17,6 @@ begin
     gemspec.add_dependency('activesupport', '>= 2.3.5')
     gemspec.add_dependency('rest-client', '>= 1.5.1')
     gemspec.add_dependency('nokogiri', '>= 1.4.2')
-    gemspec.rubyforge_project = 'ruby-odata'
   end
 rescue LoadError
   puts "Jeweler not available. Install it with: gem install jeweler"
