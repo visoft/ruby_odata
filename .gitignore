@@ -8,3 +8,7 @@ test/SampleService/App_Data/TestDB.mdf
 test/SampleService/App_Data/TestDB_Log.ldf
 pkg/*
 doc/*
+*.gem
+.bundle
+Gemfile.lock
+pkg/*

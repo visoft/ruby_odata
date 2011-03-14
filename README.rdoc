@@ -171,9 +171,9 @@ One way to do this is to open the SampleService within Visual Studio 2010 and ru
 
 Note there are also Cassini batch files that you can use as well, but the basic auth tests will fail if using this server (which doesn't support basic http authentication).
 
-Currently the following gems must be manually installed before running the tests: sham, faker, machinist, rspec
-
-Cucumber also currently only supports Ruby 1.8. You can still use ruby_odata with ruby 1.9, but must use 1.8 to run the tests.
+If you are testing on a Windows machine, you may encounter a problem with using cucumber and Ruby 1.9.2.  You will get a message when you fire up cucumber about missing msvcrt-ruby18.dll.  The fix for this is to make sure you have the {RubyInstaller DevKit}[https://github.com/oneclick/rubyinstaller/wiki/Development-Kit] installed, then do the following:
+  gem uninstall json
+  gem install json --platform=ruby -v 1.4.6
 
 From the BASE ruby_odata directory, run cucumber, which will execute all of the tests.
 
