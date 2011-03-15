@@ -1,5 +1,4 @@
 require 'logger'
-require 'base64'
 
 module OData
   
@@ -9,14 +8,14 @@ class Service
   #
   # ==== Required Attributes
   # - service_uri: The root URI of the OData service
+  # ==== Options in options hash
+  # - username: username for http basic auth
+  # - password: password for http basic auth
+  # - verify_ssl: false if no verification, otherwise mode (OpenSSL::SSL::VERIFY_PEER is default)
   def initialize(service_uri, options = {})
-    @uri = service_uri
-    if not options[:username].nil?
-      @auth_header = "Basic " + Base64.encode64( options[:username] + ":" + (options[:password] || "") )
-      @http_headers = {:Authorization => @auth_header}
-    else
-      @http_headers = {}
-    end
+    @uri = service_uri    
+    @options = options    
+    @rest_options = { :verify_ssl => get_verify_mode, :user => @options[:username], :password => @options[:password] }
     @collections = get_collections
     @save_operations = []
     build_classes
@@ -94,8 +93,8 @@ class Service
   end
 
   # Performs query operations (Read) against the server
-  def execute
-    result = RestClient.get build_query_uri, @http_headers
+  def execute        
+    result = RestClient::Resource.new(build_query_uri, @rest_options).get
     build_classes_from_result(result)
   end
   
@@ -117,18 +116,19 @@ class Service
   end
   
   private
-  # Wrapper around open call to make http request
-  def http_open( address )
-    if not @auth_header.nil?
-      return open(address, "Authorization" => @auth_header)
+
+  # Gets ssl certificate verification mode, or defaults to verify_peer
+  def get_verify_mode
+    if @options[:verify_ssl].nil?
+      return OpenSSL::SSL::VERIFY_PEER
     else
-      return open(address)
+      return @options[:verify_ssl]
     end
   end
 
   # Retrieves collections from the main service page
   def get_collections
-    doc = Nokogiri::XML(http_open(@uri))
+    doc = Nokogiri::XML(RestClient::Resource.new(@uri, @rest_options).get)
     collections = doc.xpath("//app:collection", "app" => "http://www.w3.org/2007/app")
     collections.collect { |c| c["href"] }
   end
@@ -136,8 +136,8 @@ class Service
   # Build the classes required by the metadata
   def build_classes
     @classes = Hash.new
-    doc = Nokogiri::XML(http_open("#{@uri}/$metadata"))
-
+    doc = Nokogiri::XML(RestClient::Resource.new("#{@uri}/$metadata", @rest_options).get)
+    
     # Get the edm namespace
     edm_ns = doc.xpath("edmx:Edmx/edmx:DataServices/*", "edmx" => "http://schemas.microsoft.com/ado/2007/06/edmx").first.namespaces['xmlns'].to_s
 
@@ -234,16 +234,16 @@ class Service
     if operation.kind == "Add"
       save_uri = "#{@uri}/#{operation.klass_name}"
       json_klass = operation.klass.to_json(:type => :add)
-      post_result = RestClient.post save_uri, json_klass, {:content_type => :json}.merge(@http_headers)
+      post_result = RestClient::Resource.new(save_uri, @rest_options).post json_klass, {:content_type => :json}
       return build_classes_from_result(post_result)
     elsif operation.kind == "Update"
       update_uri = operation.klass.send(:__metadata)[:uri]
       json_klass = operation.klass.to_json
-      update_result = RestClient.put update_uri, json_klass, {:content_type => :json}.merge(@http_headers)
+      update_result = RestClient::Resource.new(update_uri, @rest_options).put json_klass, {:content_type => :json}
       return (update_result.code == 204)
     elsif operation.kind == "Delete"
       delete_uri = operation.klass.send(:__metadata)[:uri]
-      delete_result = RestClient.delete delete_uri, @http_headers
+      delete_result = RestClient::Resource.new(delete_uri, @rest_options).delete
       return (delete_result.code == 204) 
     end		
   end
@@ -259,7 +259,7 @@ class Service
     
     body = build_batch_body(operations, batch_num, changeset_num)
     
-    result = RestClient.post batch_uri, body, {:content_type => "multipart/mixed; boundary=batch_#{batch_num}"}.merge(@http_headers)
+    result = RestClient::Resource.new( batch_uri, @rest_options).post body, {:content_type => "multipart/mixed; boundary=batch_#{batch_num}"}
 
     # TODO: More result validation needs to be done.  
     # The result returns HTTP 202 even if there is an error in the batch
