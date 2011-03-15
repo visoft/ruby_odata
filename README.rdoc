@@ -77,13 +77,6 @@ Querying is easy, for example to pull all the categories from the SampleService,
 
 You can also expand, add filters, order, skip records, and take only the top X records to the query before executing it.  For example:
 
-=== Authentication
-Basic HTTP Authentication is supported via sending a username and password as service constructor arguments:
-
-  require 'lib/ruby_odata'
-  
-  svc = OData::Service.new "http://127.0.0.1:8888/SampleService/Entities.svc", { :username => "bob", :password=> "12345" }
-
 === Expanding
 Expanding allows you to eagerly load other objects that are children of the root.
 You can use more than one expand on a query.  
@@ -163,6 +156,28 @@ Top allows you only retrieve the top X number of records when querying.  This is
   
   svc.Products.top(5)
   products = svc.execute # => returns only the first 5 items	
+
+=== Authentication
+Basic HTTP Authentication is supported via sending a username and password as service constructor arguments:
+
+  require 'lib/ruby_odata'
+  
+  svc = OData::Service.new "http://127.0.0.1:8888/SampleService/Entities.svc", { :username => "bob", :password=> "12345" }
+
+=== SSL/https Certificate Verification
+The certificate verification mode can be passed in the options hash via the :verify_ssl key. For example, to ignore verification in order to use a self-signed certificate:
+
+  require 'lib/ruby_odata'
+
+  svc = OData::Service.new "https://127.0.0.1:44300/SampleService/Entities.svc", { :verify_ssl => false }
+
+Or an OpenSSL integer constant can be passed as well:
+
+  require 'lib/ruby_odata'
+
+  svc = OData::Service.new "https://127.0.0.1:44300/SampleService/Entities.svc", { :verify_ssl => OpenSSL::SSL::VERIFY_PEER }
+                                                                                                         
+Default verification is OpenSSL::SSL::VERIFY_PEER. Note due to the way Ruby's Request object implements certificate checking, you CAN NOT pass OpenSSL::SSL::VERIFY_NONE, you must instead pass a boolean false.
 
 == Tests
 All of the tests are written using Cucumber going against a sample service (Found in /test/SampleService/*).  The SampleService is an ASP.NET Web Site running a SQLEXPRESS 2008 R2 Database (TestDB), as well as the ADO.NET Entity Framework and a WCF Data Service.  In order to run the tests, you need to spin up the SampleService and have it running on port 8888 (http://localhost:8888/SampleService).  
