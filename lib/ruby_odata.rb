@@ -6,7 +6,6 @@ require 'active_support' # Used for serializtion to JSON
 require 'active_support/inflector'
 require 'active_support/core_ext'
 require 'cgi'
-require 'open-uri'
 require 'rest_client'
 require 'nokogiri'
 require 'bigdecimal'
