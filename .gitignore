@@ -12,3 +12,4 @@ doc/*
 .bundle
 Gemfile.lock
 pkg/*
+test/applicationhost.config
