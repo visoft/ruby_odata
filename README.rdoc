@@ -16,14 +16,11 @@ You can install ruby_odata as a gem using:
   gem install ruby_odata
 
 == Usage
-As of version 0.0.5, support has been added for ActiveSupport 3.0.0 beta 4 and Ruby 1.9.1.
-
-As of version 0.0.6, support has been added for batch saves
 
 === Adding
 When you point at a service, an AddTo<EntityName> method is created for you.  This method takes in the new entity to create.  To commit the change, you need to call the save_changes method on the service.  To add a new category for example, you would simply do the following:
 
-  require 'lib/ruby_odata'
+  require 'ruby_odata'
   
   svc = OData::Service.new "http://127.0.0.1:8888/SampleService/Entities.svc"
   new_category = Category.new
@@ -35,7 +32,7 @@ When you point at a service, an AddTo<EntityName> method is created for you.  Th
 === Updating
 To update an object, simply pass the modified object to the update_object method on the service. Updating, like adding requires you to call save_changes in order to persist the change.  For example:
 
-  require 'lib/ruby_odata'
+  require 'ruby_odata'
     
   svc = OData::Service.new "http://127.0.0.1:8888/SampleService/Entities.svc"
   new_category = Category.new
@@ -52,7 +49,7 @@ To update an object, simply pass the modified object to the update_object method
 === Deleting
 Deleting an object involves passing the tracked object to the delete_object method on the service.  Deleting is another function that involves the save_changes method (to commit the change back to the server).  In this example, we'll add a category and then delete it.
 
-  require 'lib/ruby_odata'
+  require 'ruby_odata'
   
   svc = OData::Service.new "http://127.0.0.1:8888/SampleService/Entities.svc"
   new_category = Category.new
@@ -68,7 +65,7 @@ Deleting an object involves passing the tracked object to the delete_object meth
 === Querying
 Querying is easy, for example to pull all the categories from the SampleService, you simply can run:
 
-  require 'lib/ruby_odata'
+  require 'ruby_odata'
   
   svc = OData::Service.new "http://127.0.0.1:8888/SampleService/Entities.svc"
   svc.Categories
@@ -160,20 +157,20 @@ Top allows you only retrieve the top X number of records when querying.  This is
 === Authentication
 Basic HTTP Authentication is supported via sending a username and password as service constructor arguments:
 
-  require 'lib/ruby_odata'
+  require 'ruby_odata'
   
   svc = OData::Service.new "http://127.0.0.1:8888/SampleService/Entities.svc", { :username => "bob", :password=> "12345" }
 
 === SSL/https Certificate Verification
 The certificate verification mode can be passed in the options hash via the :verify_ssl key. For example, to ignore verification in order to use a self-signed certificate:
 
-  require 'lib/ruby_odata'
+  require 'ruby_odata'
 
   svc = OData::Service.new "https://127.0.0.1:44300/SampleService/Entities.svc", { :verify_ssl => false }
 
 Or an OpenSSL integer constant can be passed as well:
 
-  require 'lib/ruby_odata'
+  require 'ruby_odata'
 
   svc = OData::Service.new "https://127.0.0.1:44300/SampleService/Entities.svc", { :verify_ssl => OpenSSL::SSL::VERIFY_PEER }
                                                                                                          
