@@ -16,9 +16,9 @@ class Service
     @uri = service_uri.gsub!(/\/?$/, '')
     @options = options    
     @rest_options = { :verify_ssl => get_verify_mode, :user => @options[:username], :password => @options[:password] }
-    @collections = get_collections
+    @collections = []
     @save_operations = []
-    build_classes
+    build_collections_and_classes
   end
   
   # Handles the dynamic AddTo<EntityName> methods as well as the collections on the service
@@ -126,20 +126,17 @@ class Service
     end
   end
 
-  # Retrieves collections from the main service page
-  def get_collections
-    doc = Nokogiri::XML(RestClient::Resource.new(@uri, @rest_options).get)
-    collections = doc.xpath("//app:collection", "app" => "http://www.w3.org/2007/app")
-    collections.collect { |c| c["href"] }
-  end
-
   # Build the classes required by the metadata
-  def build_classes
+  def build_collections_and_classes
     @classes = Hash.new
     doc = Nokogiri::XML(RestClient::Resource.new("#{@uri}/$metadata", @rest_options).get)
     
     # Get the edm namespace
     edm_ns = doc.xpath("edmx:Edmx/edmx:DataServices/*", "edmx" => "http://schemas.microsoft.com/ado/2007/06/edmx").first.namespaces['xmlns'].to_s
+
+    # Fill in the collections instance variable
+    collections = doc.xpath("//edm:EntityContainer/edm:EntitySet", "edm" => edm_ns)
+    @collections = collections.collect { |c| c["Name"] }
 
     # Build complex types first, these will be used for entities
     complex_types = doc.xpath("//edm:ComplexType", "edm" => edm_ns) || []
