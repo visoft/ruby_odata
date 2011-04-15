@@ -13,7 +13,7 @@ class Service
   # - password: password for http basic auth
   # - verify_ssl: false if no verification, otherwise mode (OpenSSL::SSL::VERIFY_PEER is default)
   def initialize(service_uri, options = {})
-    @uri = service_uri    
+    @uri = service_uri.gsub!(/\/?$/, '')
     @options = options    
     @rest_options = { :verify_ssl => get_verify_mode, :user => @options[:username], :password => @options[:password] }
     @collections = get_collections
