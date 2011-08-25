@@ -18,12 +18,11 @@ Gem::Specification.new do |s|
   s.add_dependency('rest-client', '>= 1.5.1')
   s.add_dependency('nokogiri', '>= 1.4.2')
   
-  s.add_development_dependency('rspec')
-  s.add_development_dependency('cucumber')
-  s.add_development_dependency('sham')
-  s.add_development_dependency('faker')
-  s.add_development_dependency('machinist')
-  s.add_development_dependency('webmock')
+  s.add_development_dependency('rspec', '~> 2.5.0')
+  s.add_development_dependency('cucumber', '~> 0.10.2')
+  s.add_development_dependency('faker', '~> 0.9.5')
+  s.add_development_dependency('machinist', '~> 1.0.6')
+  s.add_development_dependency('webmock', '~> 1.6.2')
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
