@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="iso-8859-1" standalone="yes"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx">
+  <edmx:DataServices xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" m:DataServiceVersion="1.0">
+    <Schema Namespace="acronymdbModel" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+      <EntityType Name="acronym">
+        <Key>
+          <PropertyRef Name="aid" />
+        </Key>
+        <Property Name="aid" Type="Edm.Int32" Nullable="false" />
+        <Property Name="acrn" Type="Edm.String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="true" />
+        <Property Name="meaning" Type="Edm.String" Nullable="false" MaxLength="500" Unicode="true" FixedLength="false" />
+      </EntityType>
+    </Schema>
+    <Schema Namespace="AcrnOData" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+      <EntityContainer Name="acronymdbEntities" p7:LazyLoadingEnabled="true" m:IsDefaultEntityContainer="true" xmlns:p7="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+        <EntitySet Name="acronyms" EntityType="acronymdbModel.acronym" />
+      </EntityContainer>
+    </Schema>
+  </edmx:DataServices>
+</edmx:Edmx>

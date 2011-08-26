@@ -8,7 +8,7 @@ module OData
     # - methods:			The accessor methods to add to the class
     # - nav_props:		The accessor methods to add for navigation properties
     def initialize(klass_name, methods, nav_props)
-      @klass_name = klass_name
+      @klass_name = klass_name.camelcase
       @methods = methods
       @nav_props = nav_props
     end
