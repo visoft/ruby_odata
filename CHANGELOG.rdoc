@@ -45,3 +45,13 @@
 * Bug Fixes
   * ActiveSupport 2.3.x (tested 2.3.11) and 3.0.x (tested 3.0.4) are now supported
   * Works with Ruby 1.9.2
+
+=== 0.0.9
+* New Features
+  * Support for self-signed SSL certificates (thanks J.D. Mullin)
+  * Refactored building classes/collections to only make one call to the service
+  * Added support for a WCF service with lowercase entities (reported by Klaus Rohe)
+* Bug Fixes
+  * Fixed issue with passing a service URL with a trailing slash
+* Other
+  * Cleaned up testing by adding a default task to the Rakefile that runs RSpec and Cucumber
