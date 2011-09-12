@@ -22,7 +22,7 @@ When you point at a service, an AddTo<EntityName> method is created for you.  Th
 
   require 'ruby_odata'
   
-  svc = OData::Service.new "http://127.0.0.1:8888/SampleService/Entities.svc"
+  svc = OData::Service.new "http://127.0.0.1:8989/SampleService/Entities.svc"
   new_category = Category.new
   new_category.Name = "Sample Category"
   svc.AddToCategories(new_category)
@@ -34,7 +34,7 @@ To update an object, simply pass the modified object to the update_object method
 
   require 'ruby_odata'
     
-  svc = OData::Service.new "http://127.0.0.1:8888/SampleService/Entities.svc"
+  svc = OData::Service.new "http://127.0.0.1:8989/SampleService/Entities.svc"
   new_category = Category.new
   new_category.Name = "Sample Category"
   svc.AddToCategories(new_category)
@@ -51,7 +51,7 @@ Deleting an object involves passing the tracked object to the delete_object meth
 
   require 'ruby_odata'
   
-  svc = OData::Service.new "http://127.0.0.1:8888/SampleService/Entities.svc"
+  svc = OData::Service.new "http://127.0.0.1:8989/SampleService/Entities.svc"
   new_category = Category.new
   new_category.Name = "Sample Category"
   svc.AddToCategories(new_category)
@@ -67,7 +67,7 @@ Querying is easy, for example to pull all the categories from the SampleService,
 
   require 'ruby_odata'
   
-  svc = OData::Service.new "http://127.0.0.1:8888/SampleService/Entities.svc"
+  svc = OData::Service.new "http://127.0.0.1:8989/SampleService/Entities.svc"
   svc.Categories
   categories = svc.execute
   puts categories.to_json
@@ -159,7 +159,7 @@ Basic HTTP Authentication is supported via sending a username and password as se
 
   require 'ruby_odata'
   
-  svc = OData::Service.new "http://127.0.0.1:8888/SampleService/Entities.svc", { :username => "bob", :password=> "12345" }
+  svc = OData::Service.new "http://127.0.0.1:8989/SampleService/Entities.svc", { :username => "bob", :password=> "12345" }
 
 === SSL/https Certificate Verification
 The certificate verification mode can be passed in the options hash via the :verify_ssl key. For example, to ignore verification in order to use a self-signed certificate:
@@ -177,7 +177,7 @@ Or an OpenSSL integer constant can be passed as well:
 Default verification is OpenSSL::SSL::VERIFY_PEER. Note due to the way Ruby's Request object implements certificate checking, you CAN NOT pass OpenSSL::SSL::VERIFY_NONE, you must instead pass a boolean false.
 
 == Tests
-All of the tests are written using Cucumber going against a sample service (Found in /test/SampleService/*).  The SampleService is an ASP.NET Web Site running a SQLEXPRESS 2008 R2 Database (TestDB), as well as the ADO.NET Entity Framework and a WCF Data Service.  In order to run the tests, you need to spin up the SampleService and have it running on port 8888 (http://localhost:8888/SampleService).  
+All of the tests are written using Cucumber going against a sample service (Found in /test/SampleService/*).  The SampleService is an ASP.NET Web Site running a SQLEXPRESS 2008 R2 Database (TestDB), as well as the ADO.NET Entity Framework and a WCF Data Service.  In order to run the tests, you need to spin up the SampleService and have it running on port 8989 (http://localhost:8989/SampleService).  
 
 One way to do this is to open the SampleService within Visual Studio 2010 and run it from there (must use IIS instead of development web server in order for basic auth tests to pass, however).  Another option is to use IIS Express. It is a free download from Microsoft. Once installed, there is a batch file found in /test called "iisExpress x64.bat", you can run the batch file and just close the command window. There is a also an "iisExpress x86.bat" file for those of you running a 32-bit machine.  The only difference is the path to the Program Files directory.  Once you run the batch file, the web server will spin up and you can find the instance in your systray just like if Visual Studio ran it for you.  To stop the server, right click on the icon in your systray and tell it to stop.
 

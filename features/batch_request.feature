@@ -4,7 +4,7 @@ Feature: Batch request
   I want to be able to batch changes (Add/Update/Delete) and persist the batch instead of one at a time
   
 Background:
-  Given an ODataService exists with uri: "http://localhost:8888/SampleService/Entities.svc"
+  Given a sample HTTP ODataService exists
   And blueprints exist for the service
 
 Scenario: Save Changes should allow for batch additions
