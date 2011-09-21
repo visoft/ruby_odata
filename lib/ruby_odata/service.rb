@@ -1,5 +1,3 @@
-require 'logger'
-
 module OData
   
 class Service
