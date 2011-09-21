@@ -25,7 +25,7 @@ class Service
   def method_missing(name, *args)
     # Queries
     if @collections.include?(name.to_s)
-      root = "/#{name.to_s.camelize}"
+      root = "/#{name.to_s}"
       root << "(#{args.join(',')})" unless args.empty?
       @query = QueryBuilder.new(root)
       return @query

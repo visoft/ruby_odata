@@ -59,6 +59,7 @@
 === 0.0.10
 * Bug Fixes
   * Handled ArgumentError on the Time.parse for older versions of Ruby; used DateTime.parse instead if Time.parse fails
+  * Removed the camelize method call when building the root URL for collections (Reported by mkoegel, issue #3 on github)
 * Other
   * Change HTTP port to 8989 since 8888 conflicts with the Intel AppStore
   * Refactored service step for HTTP calls where the service address is defined within the step making it easier to make changes in the future.
