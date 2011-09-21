@@ -353,8 +353,17 @@ class Service
 
       # Assume this is UTC if no timezone is specified
       sdate = sdate + "Z" unless sdate.match(/Z|([+|-]\d{2}:\d{2})$/)
-
-      return Time.parse(sdate)
+      
+      # This is to handle older versions of Ruby (e.g. ruby 1.8.7 (2010-12-23 patchlevel 330) [i386-mingw32])
+      # See http://makandra.com/notes/1017-maximum-representable-value-for-a-ruby-time-object
+      # In recent versions of Ruby, Time has a much larger range
+      begin
+        result = Time.parse(sdate)  
+      rescue ArgumentError
+        result = DateTime.parse(sdate)
+      end
+      
+      return result
     end
 
     # If we can't parse the value, just return the element's content

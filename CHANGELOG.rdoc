@@ -57,7 +57,8 @@
   * Cleaned up testing by adding a default task to the Rakefile that runs RSpec and Cucumber
 
 === 0.0.10
-
+* Bug Fixes
+  * Handled ArgumentError on the Time.parse for older versions of Ruby; used DateTime.parse instead if Time.parse fails
 * Other
   * Change HTTP port to 8989 since 8888 conflicts with the Intel AppStore
   * Refactored service step for HTTP calls where the service address is defined within the step making it easier to make changes in the future.
