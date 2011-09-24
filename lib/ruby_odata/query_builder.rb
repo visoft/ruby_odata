@@ -10,13 +10,16 @@ class QueryBuilder
   #
   # ==== Required Attributes
   # - root: The root entity collection to query against
-  def initialize(root)
+  # ==== Optional 
+  # Hash of additional parameters to use for a query
+  def initialize(root, additional_params = {})
     @root = root.to_s
     @expands = []
     @filters = []
     @order_bys = []
     @skip = nil
     @top = nil
+    @additional_params = additional_params
   end
   
   # Used to eagerly-load data for nested objects, for example, obtaining a Category for a Product within one call to the server
@@ -96,11 +99,12 @@ class QueryBuilder
     query_options << "$orderby=#{@order_bys.join(',')}" unless @order_bys.empty?
     query_options << "$skip=#{@skip}" unless @skip.nil?
     query_options << "$top=#{@top}" unless @top.nil?
+    query_options << @additional_params.to_query unless @additional_params.empty?
     if !query_options.empty?
       q << "?"
       q << query_options.join('&')	
     end
-    return q	
+    return q
   end
 end
 

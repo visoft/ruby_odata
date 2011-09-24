@@ -19,7 +19,71 @@ module OData
         
         lambda { OData::Service.new "http://test.com/test.svc" }.should_not raise_error
       end
+      
+      describe "additional query string parameters" do
+        before(:each) do
+          # Required for the build_classes method
+          stub_request(:get, /http:\/\/test\.com\/test\.svc\/\$metadata(?:\?.+)?/).
+          with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
+          to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/edmx_empty.xml", __FILE__)), :headers => {})
+        end
+        it "should accept additional query string parameters" do
+          svc = OData::Service.new "http://test.com/test.svc/", { :additional_params => { :x=>1, :y=>2 } }
+          svc.options[:additional_params].should eq Hash[:x=>1, :y=>2]
+        end
+        it "should call the correct metadata uri when additional_params are passed in" do
+          svc = OData::Service.new "http://test.com/test.svc/", { :additional_params => { :x => 1, :y => 2 } }
+          a_request(:get, "http://test.com/test.svc/$metadata?x=1&y=2").should have_been_made
+        end
+      end
     end
+
+    describe "additional query string parameters" do
+      before(:each) do
+        # Required for the build_classes method
+        stub_request(:any, /http:\/\/test\.com\/test\.svc(?:.*)/).
+        with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
+        to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/edmx_sap_demo_flight.xml", __FILE__)), :headers => {})
+      end
+      it "should pass the parameters as part of a query" do
+        svc = OData::Service.new "http://test.com/test.svc/", { :additional_params => { :x=>1, :y=>2 } }
+        svc.flight_dataCollection
+        svc.execute
+        a_request(:get, "http://test.com/test.svc/flight_dataCollection?x=1&y=2").should have_been_made
+      end
+      it "should pass the parameters as part of a save" do
+        svc = OData::Service.new "http://test.com/test.svc/", { :additional_params => { :x=>1, :y=>2 } }
+        new_flight = ZDemoFlight.new   
+        svc.AddToflight_dataCollection(new_flight)
+        svc.save_changes
+        a_request(:post, "http://test.com/test.svc/flight_dataCollection?x=1&y=2").should have_been_made
+      end
+      it "should pass the parameters as part of an update" do
+        svc = OData::Service.new "http://test.com/test.svc/", { :additional_params => { :x=>1, :y=>2 } }
+        existing_flight = ZDemoFlight.new
+        existing_flight.__metadata = { :uri => "http://test.com/test.svc/flight_dataCollection/1" }
+        svc.update_object(existing_flight)
+        svc.save_changes
+        a_request(:put, "http://test.com/test.svc/flight_dataCollection/1?x=1&y=2").should have_been_made
+      end
+      it "should pass the parameters as part of a delete" do
+        svc = OData::Service.new "http://test.com/test.svc/", { :additional_params => { :x=>1, :y=>2 } }
+        existing_flight = ZDemoFlight.new
+        existing_flight.__metadata = { :uri => "http://test.com/test.svc/flight_dataCollection/1" }
+        svc.delete_object(existing_flight)
+        svc.save_changes
+        a_request(:delete, "http://test.com/test.svc/flight_dataCollection/1?x=1&y=2").should have_been_made
+      end
+      it "should pass the parameters as part of a batch save" do
+        svc = OData::Service.new "http://test.com/test.svc/", { :additional_params => { :x=>1, :y=>2 } }
+        new_flight = ZDemoFlight.new  
+        svc.AddToflight_dataCollection(new_flight)
+        new_flight2 = ZDemoFlight.new  
+        svc.AddToflight_dataCollection(new_flight2)
+        svc.save_changes
+        a_request(:post, "http://test.com/test.svc/$batch?x=1&y=2").should have_been_made
+      end
+    end    
     
     describe "lowercase collections" do
       before(:each) do

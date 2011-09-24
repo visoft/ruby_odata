@@ -1,7 +1,7 @@
 module OData
   
 class Service
-  attr_reader :classes
+  attr_reader :classes, :options
   # Creates a new instance of the Service class
   #
   # ==== Required Attributes
@@ -10,12 +10,14 @@ class Service
   # - username: username for http basic auth
   # - password: password for http basic auth
   # - verify_ssl: false if no verification, otherwise mode (OpenSSL::SSL::VERIFY_PEER is default)
+  # - additional_params: a hash of query string params that will be passed on all calls
   def initialize(service_uri, options = {})
     @uri = service_uri.gsub!(/\/?$/, '')
     @options = options    
     @rest_options = { :verify_ssl => get_verify_mode, :user => @options[:username], :password => @options[:password] }
     @collections = []
     @save_operations = []
+    @additional_params = options[:additional_params] || {}
     build_collections_and_classes
   end
   
@@ -25,7 +27,7 @@ class Service
     if @collections.include?(name.to_s)
       root = "/#{name.to_s}"
       root << "(#{args.join(',')})" unless args.empty?
-      @query = QueryBuilder.new(root)
+      @query = QueryBuilder.new(root, @additional_params)
       return @query
     # Adds	
     elsif name.to_s =~ /^AddTo(.*)/
@@ -127,7 +129,7 @@ class Service
   # Build the classes required by the metadata
   def build_collections_and_classes
     @classes = Hash.new
-    doc = Nokogiri::XML(RestClient::Resource.new("#{@uri}/$metadata", @rest_options).get)
+    doc = Nokogiri::XML(RestClient::Resource.new(build_metadata_uri, @rest_options).get)
     
     # Get the edm namespace
     edm_ns = doc.xpath("edmx:Edmx/edmx:DataServices/*", "edmx" => "http://schemas.microsoft.com/ado/2007/06/edmx").first.namespaces['xmlns'].to_s
@@ -223,9 +225,31 @@ class Service
     return klass
   end
 
+  # Build URIs
+  def build_metadata_uri
+    uri = "#{@uri}/$metadata"
+    uri << "?#{@additional_params.to_query}" unless @additional_params.empty?
+    uri
+  end
   def build_query_uri
     "#{@uri}#{@query.query}"
   end
+  def build_save_uri(operation)
+    uri = "#{@uri}/#{operation.klass_name}"
+    uri << "?#{@additional_params.to_query}" unless @additional_params.empty?
+    uri
+  end
+  def build_resource_uri(operation)
+    uri = operation.klass.send(:__metadata)[:uri]
+    uri << "?#{@additional_params.to_query}" unless @additional_params.empty?
+    uri
+  end
+  def build_batch_uri
+    uri = "#{@uri}/$batch"
+    uri << "?#{@additional_params.to_query}" unless @additional_params.empty?
+    uri    
+  end
+  
   def build_inline_class(klass, entry, property_name)
     # Build the class
     inline_klass = entry_to_class(entry)
@@ -235,17 +259,17 @@ class Service
   end
   def single_save(operation)
     if operation.kind == "Add"
-      save_uri = "#{@uri}/#{operation.klass_name}"
+      save_uri = build_save_uri(operation)
       json_klass = operation.klass.to_json(:type => :add)
       post_result = RestClient::Resource.new(save_uri, @rest_options).post json_klass, {:content_type => :json}
       return build_classes_from_result(post_result)
     elsif operation.kind == "Update"
-      update_uri = operation.klass.send(:__metadata)[:uri]
+      update_uri = build_resource_uri(operation)
       json_klass = operation.klass.to_json
       update_result = RestClient::Resource.new(update_uri, @rest_options).put json_klass, {:content_type => :json}
       return (update_result.code == 204)
     elsif operation.kind == "Delete"
-      delete_uri = operation.klass.send(:__metadata)[:uri]
+      delete_uri = build_resource_uri(operation)
       delete_result = RestClient::Resource.new(delete_uri, @rest_options).delete
       return (delete_result.code == 204) 
     end		
@@ -258,7 +282,7 @@ class Service
   def batch_save(operations)	
     batch_num = generate_guid
     changeset_num = generate_guid
-    batch_uri = "#{@uri}/$batch"
+    batch_uri = build_batch_uri
     
     body = build_batch_body(operations, batch_num, changeset_num)
     
@@ -375,7 +399,6 @@ class Service
     # If we can't parse the value, just return the element's content
     property_xml.content
   end
-
 end
 
 end # module OData

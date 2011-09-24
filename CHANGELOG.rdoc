@@ -57,6 +57,8 @@
   * Cleaned up testing by adding a default task to the Rakefile that runs RSpec and Cucumber
 
 === 0.0.10
+* New Features
+  * Added the ability to pass additional parameters that are appended to the query string for requests
 * Bug Fixes
   * Handled ArgumentError on the Time.parse for older versions of Ruby; used DateTime.parse instead if Time.parse fails
   * Removed the camelize method call when building the root URL for collections (Reported by mkoegel, issue #3 on github)
