@@ -39,6 +39,26 @@ module OData
         lambda { svc.send('acronyms') }.should_not raise_error
       end
     end
+
+    describe "handling of SAP results" do
+      before(:each) do
+        # Required for the build_classes method
+        stub_request(:get, "http://test.com/test.svc/$metadata").
+        with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
+        to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/edmx_sap_demo_flight.xml", __FILE__)), :headers => {})
+
+        stub_request(:get, "http://test.com/test.svc/z_demo_flightCollection").
+        with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
+        to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/result_sap_demo_flight_missing_category.xml", __FILE__)), :headers => {})
+      end
+
+      it "should handle entities without a category element" do
+        svc = OData::Service.new "http://test.com/test.svc/"
+        svc.z_demo_flightCollection
+        results = svc.execute
+        results.first.should be_a_kind_of(ZDemoFlight)
+      end
+    end
   end
   
   describe_private OData::Service do

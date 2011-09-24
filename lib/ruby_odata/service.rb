@@ -173,7 +173,15 @@ class Service
   def entry_to_class(entry)
     # Retrieve the class name from the fully qualified name (the last string after the last dot)
     klass_name = entry.xpath("./atom:category/@term", "atom" => "http://www.w3.org/2005/Atom").to_s.split('.')[-1]
-    return nil if klass_name.empty?
+    
+    # Is the category missing? See if there is a title that we can use to build the class
+    if klass_name.nil?
+      title = entry.xpath("./atom:title", "atom" => "http://www.w3.org/2005/Atom").first
+      return nil if title.nil?
+      klass_name = title.content.to_s
+    end
+        
+    return nil if klass_name.nil?
 
     properties = entry.xpath(".//m:properties/*", { "m" => "http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" })
         
