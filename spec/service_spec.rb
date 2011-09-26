@@ -43,7 +43,7 @@ module OData
         # Required for the build_classes method
         stub_request(:any, /http:\/\/test\.com\/test\.svc(?:.*)/).
         with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
-        to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/edmx_sap_demo_flight.xml", __FILE__)), :headers => {})
+        to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/sap/edmx_sap_demo_flight.xml", __FILE__)), :headers => {})
       end
       it "should pass the parameters as part of a query" do
         svc = OData::Service.new "http://test.com/test.svc/", { :additional_params => { :x=>1, :y=>2 } }
@@ -109,11 +109,11 @@ module OData
         # Required for the build_classes method
         stub_request(:get, "http://test.com/test.svc/$metadata").
         with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
-        to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/edmx_sap_demo_flight.xml", __FILE__)), :headers => {})
+        to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/sap/edmx_sap_demo_flight.xml", __FILE__)), :headers => {})
 
         stub_request(:get, "http://test.com/test.svc/z_demo_flightCollection").
         with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
-        to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/result_sap_demo_flight_missing_category.xml", __FILE__)), :headers => {})
+        to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/sap/result_sap_demo_flight_missing_category.xml", __FILE__)), :headers => {})
       end
 
       it "should handle entities without a category element" do
