@@ -11,6 +11,7 @@ require 'nokogiri'
 require 'bigdecimal'
 require 'bigdecimal/util'
 
+require lib + '/ruby_odata/property_metadata'
 require lib + '/ruby_odata/query_builder'
 require lib + '/ruby_odata/class_builder'
 require lib + '/ruby_odata/operation'
