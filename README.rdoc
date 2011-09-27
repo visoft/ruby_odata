@@ -10,6 +10,9 @@ The <b>Open Data Protocol</b> (OData) is a fantastic way to query and update dat
 * Wiki (hosted on GitHub): http://wiki.github.com/visoft/ruby_odata/
 * Gem (hosted on Gemcutter): http://gemcutter.org/gems/ruby_odata
 * Blog articles: {Introducing a Ruby OData Client Library}[http://bit.ly/IntroRubyOData]
+                 {Ruby OData Update v0.0.7}[http://bit.ly/ruby_odata007]
+                 {Ruby OData Update v0.0.8}[http://bit.ly/ruby_odata008]
+                 {Ruby OData Update v0.0.10}[http://bit.ly/ruby_odata0010]
 
 == Installation
 You can install ruby_odata as a gem using:
