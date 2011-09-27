@@ -24,7 +24,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency('faker', '~> 0.9.5')
   s.add_development_dependency('machinist', '~> 1.0.6')
   s.add_development_dependency('webmock', '~> 1.6.2')
-  s.add_development_dependency('vcr', '~> 1.11.3')
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
