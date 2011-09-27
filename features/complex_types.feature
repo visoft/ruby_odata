@@ -4,7 +4,7 @@ Feature: Complex types
   I want to be able to manage objects with complex types
 
 Background:
-  Given an ODataService exists with uri: "http://localhost:8888/SampleService/Entities.svc"
+  Given a sample HTTP ODataService exists
   And blueprints exist for the service
 
 Scenario: The proxy must generate classes for complex types if they exist

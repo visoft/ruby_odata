@@ -55,3 +55,17 @@
   * Fixed issue with passing a service URL with a trailing slash
 * Other
   * Cleaned up testing by adding a default task to the Rakefile that runs RSpec and Cucumber
+
+=== 0.0.10
+* New Features
+  * Added the ability to pass additional parameters that are appended to the query string for requests
+  * Added initial support for feed customizations (SyndicationTitle and SyndicationSummary)
+  * Enhanced ruby_odata's awareness of classes based on the metadata instead of relying on results that are returned
+* Bug Fixes
+  * Fixed issues with nested collections (eager loading)
+  * Handled ArgumentError on the Time.parse for older versions of Ruby; used DateTime.parse instead if Time.parse fails
+  * Removed the camelize method call when building the root URL for collections (Reported by mkoegel, issue #3 on github)
+  * Handled building results (classes) where the category element is missing but there is a title element instead. (Reported by mkoegel, issue #3 on github in the comments)
+* Other
+  * Change HTTP port to 8989 since 8888 conflicts with the Intel AppStore
+  * Refactored service step for HTTP calls where the service address is defined within the step making it easier to make changes in the future.

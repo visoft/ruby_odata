@@ -1,1 +1,1 @@
-"%ProgramFiles%\Common Files\microsoft shared\DevServer\10.0\WebDev.WebServer40.EXE" /port:8888 /path:"%~dp0SampleService" /vpath:"/SampleService"
+"%ProgramFiles%\Common Files\microsoft shared\DevServer\10.0\WebDev.WebServer40.EXE" /port:8989 /path:"%~dp0SampleService" /vpath:"/SampleService"

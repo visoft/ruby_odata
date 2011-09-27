@@ -1,9 +1,7 @@
-require 'logger'
-
 module OData
   
 class Service
-  attr_reader :classes
+  attr_reader :classes, :class_metadata, :options
   # Creates a new instance of the Service class
   #
   # ==== Required Attributes
@@ -12,12 +10,14 @@ class Service
   # - username: username for http basic auth
   # - password: password for http basic auth
   # - verify_ssl: false if no verification, otherwise mode (OpenSSL::SSL::VERIFY_PEER is default)
+  # - additional_params: a hash of query string params that will be passed on all calls
   def initialize(service_uri, options = {})
     @uri = service_uri.gsub!(/\/?$/, '')
     @options = options    
     @rest_options = { :verify_ssl => get_verify_mode, :user => @options[:username], :password => @options[:password] }
     @collections = []
     @save_operations = []
+    @additional_params = options[:additional_params] || {}
     build_collections_and_classes
   end
   
@@ -25,9 +25,9 @@ class Service
   def method_missing(name, *args)
     # Queries
     if @collections.include?(name.to_s)
-      root = "/#{name.to_s.camelize}"
+      root = "/#{name.to_s}"
       root << "(#{args.join(',')})" unless args.empty?
-      @query = QueryBuilder.new(root)
+      @query = QueryBuilder.new(root, @additional_params)
       return @query
     # Adds	
     elsif name.to_s =~ /^AddTo(.*)/
@@ -129,7 +129,9 @@ class Service
   # Build the classes required by the metadata
   def build_collections_and_classes
     @classes = Hash.new
-    doc = Nokogiri::XML(RestClient::Resource.new("#{@uri}/$metadata", @rest_options).get)
+    @class_metadata = Hash.new # This is used to store property information about a class
+    
+    doc = Nokogiri::XML(RestClient::Resource.new(build_metadata_uri, @rest_options).get)
     
     # Get the edm namespace
     edm_ns = doc.xpath("edmx:Edmx/edmx:DataServices/*", "edmx" => "http://schemas.microsoft.com/ado/2007/06/edmx").first.namespaces['xmlns'].to_s
@@ -151,11 +153,21 @@ class Service
     entity_types.each do |e|
       name = e['Name']
       props = e.xpath(".//edm:Property", "edm" => edm_ns)
+      @class_metadata[name] = build_property_metadata(props)
       methods = props.collect { |p| p['Name'] } # Standard Properties
       nprops =  e.xpath(".//edm:NavigationProperty", "edm" => edm_ns)			
-      nav_props = nprops.collect { |p| p['Name'] } # Standard Properties
+      nav_props = nprops.collect { |p| p['Name'] } # Navigation Properties
       @classes[name] = ClassBuilder.new(name, methods, nav_props).build unless @classes.keys.include?(name)
     end
+  end
+  
+  def build_property_metadata(props)
+    metadata = {}
+    props.each do |property_element|
+      prop_meta = PropertyMetadata.new(property_element)
+      metadata[prop_meta.name] = prop_meta
+    end
+    metadata
   end
 
   # Helper to loop through a result and create an instance for each entity in the results
@@ -175,10 +187,22 @@ class Service
   def entry_to_class(entry)
     # Retrieve the class name from the fully qualified name (the last string after the last dot)
     klass_name = entry.xpath("./atom:category/@term", "atom" => "http://www.w3.org/2005/Atom").to_s.split('.')[-1]
-    return nil if klass_name.empty?
-
-    properties = entry.xpath(".//m:properties/*", { "m" => "http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" })
+    
+    # Is the category missing? See if there is a title that we can use to build the class
+    if klass_name.nil?
+      title = entry.xpath("./atom:title", "atom" => "http://www.w3.org/2005/Atom").first
+      return nil if title.nil?
+      klass_name = title.content.to_s
+    end
         
+    return nil if klass_name.nil?
+
+    # If we are working against a child (inline) entry, we need to use the more generic xpath because a child entry WILL 
+    # have properties that are ancestors of m:inline. Check if there is an m:inline child to determine the xpath query to use
+    has_inline = entry.xpath(".//m:inline", { "m" => "http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" }).any?
+    properties_xpath = has_inline ? ".//m:properties[not(ancestor::m:inline)]/*" : ".//m:properties/*"
+    properties = entry.xpath(properties_xpath, { "m" => "http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" })
+
     klass = @classes[klass_name].new
     
     # Fill metadata
@@ -191,35 +215,71 @@ class Service
       klass.send "#{prop_name}=", parse_value(prop)
     end
     
+    # Fill properties represented outside of the properties collection
+    @class_metadata[klass_name].select { |k,v| v.fc_keep_in_content == false }.each do |k, meta|
+      if meta.fc_target_path == "SyndicationTitle"
+        title = entry.xpath("./atom:title", "atom" => "http://www.w3.org/2005/Atom").first
+        klass.send "#{meta.name}=", title.content
+      elsif meta.fc_target_path == "SyndicationSummary"
+        summary = entry.xpath("./atom:summary", "atom" => "http://www.w3.org/2005/Atom").first
+        klass.send "#{meta.name}=", summary.content
+      end
+    end
+    
     inline_links = entry.xpath("./atom:link[m:inline]", { "m" => "http://schemas.microsoft.com/ado/2007/08/dataservices/metadata", "atom" => "http://www.w3.org/2005/Atom" })
     
     for	link in inline_links
       inline_entries = link.xpath(".//atom:entry", "atom" => "http://www.w3.org/2005/Atom")
-      
-      if inline_entries.length == 1
-        property_name = link.attributes['title'].to_s
-        
-        build_inline_class(klass, inline_entries[0], property_name)
+
+      # TODO: Use the metadata's associations to determine the multiplicity instead of this "hack"  
+      property_name = link.attributes['title'].to_s
+      if inline_entries.length == 1 && singular?(property_name)
+        inline_klass = build_inline_class(klass, inline_entries[0], property_name)
+        klass.send "#{property_name}=", inline_klass
       else
-        # TODO: Test handling multiple children
+        inline_classes = []
         for inline_entry in inline_entries
-          property_name = link.xpath("atom:link[@rel='edit']/@title", "atom" => "http://www.w3.org/2005/Atom")
-          
           # Build the class
           inline_klass = entry_to_class(inline_entry)
-          
-          # Add the property
-          klass.send "#{property_name}=", inline_klass
+
+          # Add the property to the temp collection
+          inline_classes << inline_klass
         end
+
+        # Assign the array of classes to the property
+        property_name = link.xpath("@title", "atom" => "http://www.w3.org/2005/Atom")
+        klass.send "#{property_name}=", inline_classes
       end
     end
     
-    return klass
+    klass
   end
 
+  # Build URIs
+  def build_metadata_uri
+    uri = "#{@uri}/$metadata"
+    uri << "?#{@additional_params.to_query}" unless @additional_params.empty?
+    uri
+  end
   def build_query_uri
     "#{@uri}#{@query.query}"
   end
+  def build_save_uri(operation)
+    uri = "#{@uri}/#{operation.klass_name}"
+    uri << "?#{@additional_params.to_query}" unless @additional_params.empty?
+    uri
+  end
+  def build_resource_uri(operation)
+    uri = operation.klass.send(:__metadata)[:uri]
+    uri << "?#{@additional_params.to_query}" unless @additional_params.empty?
+    uri
+  end
+  def build_batch_uri
+    uri = "#{@uri}/$batch"
+    uri << "?#{@additional_params.to_query}" unless @additional_params.empty?
+    uri    
+  end
+  
   def build_inline_class(klass, entry, property_name)
     # Build the class
     inline_klass = entry_to_class(entry)
@@ -229,17 +289,17 @@ class Service
   end
   def single_save(operation)
     if operation.kind == "Add"
-      save_uri = "#{@uri}/#{operation.klass_name}"
+      save_uri = build_save_uri(operation)
       json_klass = operation.klass.to_json(:type => :add)
       post_result = RestClient::Resource.new(save_uri, @rest_options).post json_klass, {:content_type => :json}
       return build_classes_from_result(post_result)
     elsif operation.kind == "Update"
-      update_uri = operation.klass.send(:__metadata)[:uri]
+      update_uri = build_resource_uri(operation)
       json_klass = operation.klass.to_json
       update_result = RestClient::Resource.new(update_uri, @rest_options).put json_klass, {:content_type => :json}
       return (update_result.code == 204)
     elsif operation.kind == "Delete"
-      delete_uri = operation.klass.send(:__metadata)[:uri]
+      delete_uri = build_resource_uri(operation)
       delete_result = RestClient::Resource.new(delete_uri, @rest_options).delete
       return (delete_result.code == 204) 
     end		
@@ -252,7 +312,7 @@ class Service
   def batch_save(operations)	
     batch_num = generate_guid
     changeset_num = generate_guid
-    batch_uri = "#{@uri}/$batch"
+    batch_uri = build_batch_uri
     
     body = build_batch_body(operations, batch_num, changeset_num)
     
@@ -353,14 +413,27 @@ class Service
 
       # Assume this is UTC if no timezone is specified
       sdate = sdate + "Z" unless sdate.match(/Z|([+|-]\d{2}:\d{2})$/)
-
-      return Time.parse(sdate)
+      
+      # This is to handle older versions of Ruby (e.g. ruby 1.8.7 (2010-12-23 patchlevel 330) [i386-mingw32])
+      # See http://makandra.com/notes/1017-maximum-representable-value-for-a-ruby-time-object
+      # In recent versions of Ruby, Time has a much larger range
+      begin
+        result = Time.parse(sdate)  
+      rescue ArgumentError
+        result = DateTime.parse(sdate)
+      end
+      
+      return result
     end
 
     # If we can't parse the value, just return the element's content
     property_xml.content
   end
 
+  # Helpers
+  def singular?(value)
+    value.singularize == value
+  end
 end
 
 end # module OData

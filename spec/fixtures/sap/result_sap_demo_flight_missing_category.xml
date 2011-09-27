@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<atom:feed xml:base="HTTP://GW.ESWORKPLACE.SAP.COM:80/sap/opu/sdata/sap/DEMO_FLIGHT/" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
+	<atom:id>HTTP://GW.ESWORKPLACE.SAP.COM:80/sap/opu/sdata/sap/DEMO_FLIGHT/z_demo_flightCollection</atom:id>
+	<atom:link href="z_demo_flightCollection" rel="self" type="application/atom+xml;type=feed"/>
+	<atom:title>zDemoFlightCollection</atom:title>
+	<atom:updated>2011-09-23T01:17:51Z</atom:updated>
+	<atom:entry>
+		<atom:content type="application/xml">
+			<m:properties>
+				<d:value>020408_AA001720081001</d:value>
+				<d:scheme_id>Z_DEMO_FLIGHT</d:scheme_id>
+				<d:scheme_agency_id>HU2_800</d:scheme_agency_id>
+				<d:cityto>SAN FRANCISCO</d:cityto>
+				<d:curr>USD</d:curr>
+				<d:businmax>0</d:businmax>
+				<d:arrdate m:Type="Edm.DateTime">2008-10-01T00:00:00</d:arrdate>
+				<d:deptime m:Type="Edm.Time">PT11H00M00S</d:deptime>
+				<d:firstmax>0</d:firstmax>
+				<d:price m:Type="Edm.Decimal">422.9400</d:price>
+				<d:businfree>0</d:businfree>
+				<d:airline>American Airlines</d:airline>
+				<d:economax>0</d:economax>
+				<d:cityfrom>NEW YORK</d:cityfrom>
+				<d:airportfr>JFK</d:airportfr>
+				<d:connectid>00000000</d:connectid>
+				<d:firstfree>0</d:firstfree>
+				<d:econofree>0</d:econofree>
+				<d:airlineid/>
+				<d:curr_iso>USD</d:curr_iso>
+				<d:flightdate m:Type="Edm.DateTime" m:null="true"/>
+				<d:airportto>SFO</d:airportto>
+				<d:arrtime m:Type="Edm.Time">PT14H01M00S</d:arrtime>
+			</m:properties>
+		</atom:content>
+		<atom:id>HTTP://GW.ESWORKPLACE.SAP.COM:80/sap/opu/sdata/sap/DEMO_FLIGHT/z_demo_flightCollection(value='020408_AA001720081001',scheme_id='Z_DEMO_FLIGHT',scheme_agency_id='HU2_800')</atom:id>
+		<atom:link href="z_demo_flightCollection(value='020408_AA001720081001',scheme_id='Z_DEMO_FLIGHT',scheme_agency_id='HU2_800')" rel="self" type="application/atom+xml;type=entry"/>
+		<atom:link gateway:abap_name="FLIGHT_DATA_R" href="z_demo_flightCollection(value='020408_AA001720081001',scheme_id='Z_DEMO_FLIGHT',scheme_agency_id='HU2_800')/flight_data_r" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/flight_data_r" type="application/atom+xml;type=entry" title="flight_data_r" xmlns:gateway="http://www.sap.com/Protocols/Gateway">
+			<sap:icon/>
+		</atom:link>
+		<atom:title>z_demo_flight</atom:title>
+		<atom:updated>2011-09-23T01:17:51Z</atom:updated>
+		<sap:icon/>
+	</atom:entry>
+	<atom:entry>
+		<atom:content type="application/xml">
+			<m:properties>
+				<d:value>020408_AA001720081029</d:value>
+				<d:scheme_id>Z_DEMO_FLIGHT</d:scheme_id>
+				<d:scheme_agency_id>HU2_800</d:scheme_agency_id>
+				<d:cityto>SAN FRANCISCO</d:cityto>
+				<d:curr>USD</d:curr>
+				<d:businmax>0</d:businmax>
+				<d:arrdate m:Type="Edm.DateTime">2008-10-29T00:00:00</d:arrdate>
+				<d:deptime m:Type="Edm.Time">PT11H00M00S</d:deptime>
+				<d:firstmax>0</d:firstmax>
+				<d:price m:Type="Edm.Decimal">422.9400</d:price>
+				<d:businfree>0</d:businfree>
+				<d:airline>American Airlines</d:airline>
+				<d:economax>0</d:economax>
+				<d:cityfrom>NEW YORK</d:cityfrom>
+				<d:airportfr>JFK</d:airportfr>
+				<d:connectid>00000000</d:connectid>
+				<d:firstfree>0</d:firstfree>
+				<d:econofree>0</d:econofree>
+				<d:airlineid/>
+				<d:curr_iso>USD</d:curr_iso>
+				<d:flightdate m:Type="Edm.DateTime" m:null="true"/>
+				<d:airportto>SFO</d:airportto>
+				<d:arrtime m:Type="Edm.Time">PT14H01M00S</d:arrtime>
+			</m:properties>
+		</atom:content>
+		<atom:id>HTTP://GW.ESWORKPLACE.SAP.COM:80/sap/opu/sdata/sap/DEMO_FLIGHT/z_demo_flightCollection(value='020408_AA001720081029',scheme_id='Z_DEMO_FLIGHT',scheme_agency_id='HU2_800')</atom:id>
+		<atom:link href="z_demo_flightCollection(value='020408_AA001720081029',scheme_id='Z_DEMO_FLIGHT',scheme_agency_id='HU2_800')" rel="self" type="application/atom+xml;type=entry"/>
+		<atom:link gateway:abap_name="FLIGHT_DATA_R" href="z_demo_flightCollection(value='020408_AA001720081029',scheme_id='Z_DEMO_FLIGHT',scheme_agency_id='HU2_800')/flight_data_r" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/flight_data_r" type="application/atom+xml;type=entry" title="flight_data_r" xmlns:gateway="http://www.sap.com/Protocols/Gateway">
+			<sap:icon/>
+		</atom:link>
+		<atom:title>z_demo_flight</atom:title>
+		<atom:updated>2011-09-23T01:17:51Z</atom:updated>
+		<sap:icon/>
+	</atom:entry>
+</atom:feed>

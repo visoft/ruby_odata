@@ -158,7 +158,7 @@
                     <virtualDirectory path="/" physicalPath="%SAMPLE_SERVICE_DIR%" />
                 </application>
                 <bindings>
-                    <binding protocol="http" bindingInformation=":8888:localhost" />
+                    <binding protocol="http" bindingInformation=":8989:localhost" />
                     <binding protocol="https" bindingInformation=":44300:localhost" />
                 </bindings>
             </site>
