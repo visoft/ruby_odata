@@ -18,6 +18,8 @@ class Service
     @collections = []
     @save_operations = []
     @additional_params = options[:additional_params] || {}
+    @has_partial = false
+    @next_uri = nil
     build_collections_and_classes
   end
   
@@ -92,10 +94,10 @@ class Service
     return result
   end
 
-  # Performs query operations (Read) against the server
+  # Performs query operations (Read) against the server, returns an array of record instances.
   def execute        
     result = RestClient::Resource.new(build_query_uri, @rest_options).get
-    build_classes_from_result(result)
+    handle_collection_result(result)
   end
   
   # Overridden to identify methods handled by method_missing  
@@ -168,6 +170,20 @@ class Service
     end
     metadata
   end
+  
+  # Handle parsing of OData Atom result and return an array of Entry classes
+  def handle_collection_result(result)
+    results = build_classes_from_result(result)
+    if partial?
+      results = handle_partial(results)
+    end
+    results
+  end
+  
+  # Does the most recent collection returned represent a partial collection? Will aways be false if a query hasn't executed, even if the query would have a partial
+  def partial?
+    @has_partial
+  end
 
   def collect_properties(klass_name, edm_ns, element, doc)
     props = element.xpath(".//edm:Property", "edm" => edm_ns)
@@ -188,7 +204,8 @@ class Service
   def build_classes_from_result(result)
     doc = Nokogiri::XML(result)
     entries = doc.xpath("//atom:entry[not(ancestor::atom:entry)]", "atom" => "http://www.w3.org/2005/Atom")
-    return entry_to_class(entries[0]) if entries.length == 1
+    
+    extract_partial(doc)
     
     results = []
     entries.each do |entry|
@@ -268,6 +285,22 @@ class Service
     
     klass
   end
+  
+  # Tests for and extracts the next href of a partial
+  def extract_partial(doc)
+    next_links = doc.xpath('//atom:link[@rel="next"]', "atom" => "http://www.w3.org/2005/Atom")
+    @has_partial = next_links.any?
+    @next_uri = next_links[0]['href'] if @has_partial
+  end
+  
+  def handle_partial(results)
+    if @next_uri
+      result = RestClient::Resource.new(@next_uri, @rest_options).get
+      results = results.concat handle_collection_result(result)
+    end
+    results
+  end
+    
 
   # Build URIs
   def build_metadata_uri
