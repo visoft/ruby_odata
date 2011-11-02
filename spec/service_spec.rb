@@ -247,6 +247,32 @@ module OData
     end
   end
   
+  describe "partial collections" do
+    before(:each) do      
+      # Metadata
+      stub_request(:get, "http://test.com/test.svc/$metadata").
+      with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
+      to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/partial/partial_feed_metadata.xml", __FILE__)), :headers => {})
+      
+      # Content - Partial
+      stub_request(:get, "http://test.com/test.svc/Partials").
+      with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
+      to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/partial/partial_feed_part_1.xml", __FILE__)), :headers => {})
+      
+      stub_request(:get, "http://test.com/test.svc/Partials?$skiptoken='ERNSH'").
+      with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
+      to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/partial/partial_feed_part_2.xml", __FILE__)), :headers => {})
+      
+    end
+    
+    it "should return the whole collection by default" do
+      svc = OData::Service.new "http://test.com/test.svc/"
+      svc.Partials
+      results = svc.execute
+      results.count.should == 2
+    end
+  end
+  
   describe_private OData::Service do
     describe "parse value" do
       before(:each) do
