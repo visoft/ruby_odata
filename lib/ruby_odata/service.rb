@@ -11,13 +11,19 @@ class Service
   # - password: password for http basic auth
   # - verify_ssl: false if no verification, otherwise mode (OpenSSL::SSL::VERIFY_PEER is default)
   # - additional_params: a hash of query string params that will be passed on all calls
+  # - eager_partial: true (default) if queries should consume partial feeds until the feed is complete, false if explicit calls to next must be performed
   def initialize(service_uri, options = {})
     @uri = service_uri.gsub!(/\/?$/, '')
-    @options = options    
+    @options = options
+    if @options[:eager_partial].nil?
+      @options[:eager_partial] = true
+    end    
     @rest_options = { :verify_ssl => get_verify_mode, :user => @options[:username], :password => @options[:password] }
     @collections = []
     @save_operations = []
     @additional_params = options[:additional_params] || {}
+    @has_partial = false
+    @next_uri = nil
     build_collections_and_classes
   end
   
@@ -92,10 +98,10 @@ class Service
     return result
   end
 
-  # Performs query operations (Read) against the server
+  # Performs query operations (Read) against the server, returns an array of record instances.
   def execute        
     result = RestClient::Resource.new(build_query_uri, @rest_options).get
-    build_classes_from_result(result)
+    handle_collection_result(result)
   end
   
   # Overridden to identify methods handled by method_missing  
@@ -114,6 +120,18 @@ class Service
       super
     end
   end
+  
+  # Retrieves the next resultset of a partial result (if any). Does not honor the :eager_partial option.
+  def next
+    return if not partial?
+    handle_partial
+  end
+  
+  # Does the most recent collection returned represent a partial collection? Will aways be false if a query hasn't executed, even if the query would have a partial
+  def partial?
+    @has_partial
+  end
+
   
   private
 
@@ -169,12 +187,22 @@ class Service
     end
     metadata
   end
-
+  
+  # Handle parsing of OData Atom result and return an array of Entry classes
+  def handle_collection_result(result)
+    results = build_classes_from_result(result)
+    while partial? && @options[:eager_partial]
+      results.concat handle_partial
+    end
+    results
+  end
+  
   # Helper to loop through a result and create an instance for each entity in the results
   def build_classes_from_result(result)
     doc = Nokogiri::XML(result)
     entries = doc.xpath("//atom:entry[not(ancestor::atom:entry)]", "atom" => "http://www.w3.org/2005/Atom")
-    return entry_to_class(entries[0]) if entries.length == 1
+    
+    extract_partial(doc)
     
     results = []
     entries.each do |entry|
@@ -254,6 +282,22 @@ class Service
     
     klass
   end
+  
+  # Tests for and extracts the next href of a partial
+  def extract_partial(doc)
+    next_links = doc.xpath('//atom:link[@rel="next"]', "atom" => "http://www.w3.org/2005/Atom")
+    @has_partial = next_links.any?
+    @next_uri = next_links[0]['href'] if @has_partial
+  end
+  
+  def handle_partial
+    if @next_uri
+      result = RestClient::Resource.new(@next_uri, @rest_options).get
+      results = handle_collection_result(result)
+    end
+    results
+  end
+    
 
   # Build URIs
   def build_metadata_uri

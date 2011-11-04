@@ -1,0 +1,40 @@
+<feed xml:base="http://test.com/test.svc/"
+        xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices"
+        xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"
+        xmlns="http://www.w3.org/2005/Atom">
+  <title type="text">Partials</title> 
+  <id>http://test.com/test.svc/Partials</id> 
+  <updated>2010-03-10T09:34:11Z</updated> 
+  <link rel="self" title="Partials" href="Partials?$skiptoken='ERNSH2'" /> 
+  <m:count>2</m:count> 
+  <entry>
+    <id>http://test.com/test.svc/Partials?$skiptoken='ERNSH2'</id> 
+    <title type="text" /> 
+    <updated>2010-03-10T09:34:11Z</updated> 
+    <author>
+      <name /> 
+    </author>
+    <link rel="edit" title="Customer" href="Partials?$skiptoken='ERNSH2'" /> 
+    <link 
+  rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/CustomerDemographics"
+  type="application/atom+xml;type=feed"
+  title="CustomerDemographics" href="Partials/CustomerDemographics" /> 
+    <category term="Partial"
+        scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /> 
+    <content type="application/xml">
+      <m:properties>
+        <d:CustomerID>ALFKI</d:CustomerID> 
+        <d:CompanyName>Alfreds Futterkiste</d:CompanyName> 
+        <d:ContactName>Maria Banders</d:ContactName> 
+        <d:ContactTitle>Sales Damager</d:ContactTitle> 
+        <d:Address>Obere Str. 57</d:Address> 
+        <d:City>Berlin</d:City> 
+        <d:Region m:null="true" /> 
+        <d:PostalCode>12209</d:PostalCode> 
+        <d:Country>Germany</d:Country> 
+        <d:Phone>030-0074321</d:Phone> 
+        <d:Fax>030-0076545</d:Fax> 
+      </m:properties>
+    </content>
+  </entry>
+</feed>
