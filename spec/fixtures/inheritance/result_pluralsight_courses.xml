@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="iso-8859-1" standalone="yes"?>
+<feed xml:base="http://www.pluralsight-training.net/odata/" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="http://www.w3.org/2005/Atom">
+  <title type="text">Courses</title>
+  <id>http://www.pluralsight-training.net/Odata/Courses</id>
+  <updated>2011-09-27T23:29:21Z</updated>
+  <link rel="self" title="Courses" href="Courses" />
+  <entry>
+    <id>http://www.pluralsight-training.net/odata/Courses('.NET%20Distributed%20Systems%20Architecture')</id>
+    <title type="text"></title>
+    <updated>2011-09-27T23:29:21Z</updated>
+    <author>
+      <name />
+    </author>
+    <link rel="edit" title="Course" href="Courses('.NET%20Distributed%20Systems%20Architecture')" />
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Modules" type="application/atom+xml;type=feed" title="Modules" href="Courses('.NET%20Distributed%20Systems%20Architecture')/Modules" />
+    <category term="Pluralsight.OData.Model.Course" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" />
+    <content type="application/xml">
+      <m:properties>
+        <d:Title>.NET Distributed Systems Architecture</d:Title>
+        <d:Description xml:space="preserve">This course provides an overview of the architecture and technology used to build distributed
+	sytems on the Microsoft platform. The course looks at the general knowledge one needs prior to building a 
+	distributed system. There is a focus on design patterns and concepts as well as an overview of the key technologies
+	used by Microsoft .NET developers.
+    </d:Description>
+        <d:VideoLength>05:29:48</d:VideoLength>
+        <d:Category>WCF</d:Category>
+        <d:IsTutorial m:type="Edm.Boolean">false</d:IsTutorial>
+        <d:Name>dotnet-distributed-architecture</d:Name>
+        <d:ShortDescription xml:space="preserve">This course provides an overview of the architecture and technology used to build distributed
+	sytems on the Microsoft platform.
+    </d:ShortDescription>
+        <d:Subcategory></d:Subcategory>
+      </m:properties>
+    </content>
+  </entry>
+  <entry>
+    <id>http://www.pluralsight-training.net/odata/Courses('Introduction%20to%20WCF')</id>
+    <title type="text"></title>
+    <updated>2011-09-27T23:29:21Z</updated>
+    <author>
+      <name />
+    </author>
+    <link rel="edit" title="Course" href="Courses('Introduction%20to%20WCF')" />
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Modules" type="application/atom+xml;type=feed" title="Modules" href="Courses('Introduction%20to%20WCF')/Modules" />
+    <category term="Pluralsight.OData.Model.Course" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" />
+    <content type="application/xml">
+      <m:properties>
+        <d:Title>Introduction to WCF</d:Title>
+        <d:Description>Windows Communication Foundation (WCF) is the next-generation platform for building connected systems on the Windows platform. WCF makes it possible to build secure, reliable, and transacted services that can be composed into service-oriented applications. WCF makes this easy through a simplified programming model that unifies and improves many of the previous .NET distributed technologies like ASP.NET Web Services (ASMX), Web Services Enhancements (WSE), .NET Remoting, .NET Enterprise Services (COM+), and System.Messaging. Not only is WCF simpler to use than its predecessors, it's also more flexible and highly interoperable thanks to its support for industry standards and protocols like REST, SOAP, and the various WS-* specifications. WCF is sure to change the way every .NET developer builds connected systems in the years ahead. This course provides fast-paced exposure to WCF and will help you get started today.</d:Description>
+        <d:VideoLength>04:31:52</d:VideoLength>
+        <d:Category>WCF</d:Category>
+        <d:IsTutorial m:type="Edm.Boolean">false</d:IsTutorial>
+        <d:Name>wcf-fundamentals</d:Name>
+        <d:ShortDescription>Learn how to build modern connected systems on the Microsoft platform using Windows Communication Foundation.</d:ShortDescription>
+        <d:Subcategory></d:Subcategory>
+      </m:properties>
+    </content>
+  </entry>
+  <entry>
+    <id>http://www.pluralsight-training.net/odata/Courses('WCF%204%20New%20Features')</id>
+    <title type="text"></title>
+    <updated>2011-09-27T23:29:21Z</updated>
+    <author>
+      <name />
+    </author>
+    <link rel="edit" title="Course" href="Courses('WCF%204%20New%20Features')" />
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Modules" type="application/atom+xml;type=feed" title="Modules" href="Courses('WCF%204%20New%20Features')/Modules" />
+    <category term="Pluralsight.OData.Model.Course" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" />
+    <content type="application/xml">
+      <m:properties>
+        <d:Title>WCF 4 New Features</d:Title>
+        <d:Description xml:space="preserve">This course covers updates to WCF between 3.5 and 4.0. A number of changes were made to make 
+	configuration easier and to better integrate WCF REST with ASP.NET. WCF 4.0 also includes new features
+	to support Discovery and Routing.
+    </d:Description>
+        <d:VideoLength>02:30:04</d:VideoLength>
+        <d:Category>WCF</d:Category>
+        <d:IsTutorial m:type="Edm.Boolean">false</d:IsTutorial>
+        <d:Name>wcf4-newfeatures</d:Name>
+        <d:ShortDescription xml:space="preserve">This course explains a number of the enhancements to WCF 4.0 over the WCF 3.5 SP1 release.
+    </d:ShortDescription>
+        <d:Subcategory></d:Subcategory>
+      </m:properties>
+    </content>
+  </entry>
+  <entry>
+    <id>http://www.pluralsight-training.net/odata/Courses('WCF%20Advanced%20Topics')</id>
+    <title type="text"></title>
+    <updated>2011-09-27T23:29:21Z</updated>
+    <author>
+      <name />
+    </author>
+    <link rel="edit" title="Course" href="Courses('WCF%20Advanced%20Topics')" />
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Modules" type="application/atom+xml;type=feed" title="Modules" href="Courses('WCF%20Advanced%20Topics')/Modules" />
+    <category term="Pluralsight.OData.Model.Course" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" />
+    <content type="application/xml">
+      <m:properties>
+        <d:Title>WCF Advanced Topics</d:Title>
+        <d:Description>Windows Communication Foundation (WCF) is the next-generation platform for building connected systems on the Windows platform. WCF makes it possible to build secure, reliable, and transacted services that can be composed into service-oriented applications. WCF makes this easy through a simplified programming model that unifies and improves many of the previous .NET distributed technologies like ASP.NET Web Services (ASMX), Web Services Enhancements (WSE), .NET Remoting, .NET Enterprise Services (COM+), and System.Messaging. Not only is WCF simpler to use than its predecessors, it's also more flexible and highly interoperable thanks to its support for industry standards and protocols like REST, SOAP, and the various WS-* specifications. WCF is sure to change the way every .NET developer builds connected systems in the years ahead. This course covers the more advanced topics in WCF.</d:Description>
+        <d:VideoLength>04:10:43</d:VideoLength>
+        <d:Category>WCF</d:Category>
+        <d:IsTutorial m:type="Edm.Boolean">false</d:IsTutorial>
+        <d:Name>wcf-advanced-topics</d:Name>
+        <d:ShortDescription>Learn how to build modern connected systems on the Microsoft platform using Windows Communication Foundation.</d:ShortDescription>
+        <d:Subcategory></d:Subcategory>
+      </m:properties>
+    </content>
+  </entry>
+  <entry>
+    <id>http://www.pluralsight-training.net/odata/Courses('WCF%20by%20Example')</id>
+    <title type="text"></title>
+    <updated>2011-09-27T23:29:21Z</updated>
+    <author>
+      <name />
+    </author>
+    <link rel="edit" title="Course" href="Courses('WCF%20by%20Example')" />
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Modules" type="application/atom+xml;type=feed" title="Modules" href="Courses('WCF%20by%20Example')/Modules" />
+    <category term="Pluralsight.OData.Model.Course" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" />
+    <content type="application/xml">
+      <m:properties>
+        <d:Title>WCF by Example</d:Title>
+        <d:Description xml:space="preserve">Windows Communication Foundation (WCF) is the next-generation platform for building connected systems on the Windows platform. WCF makes it possible to build secure, reliable, and transacted services that can be composed into service-oriented applications. </d:Description>
+        <d:VideoLength>01:58:18</d:VideoLength>
+        <d:Category>WCF</d:Category>
+        <d:IsTutorial m:type="Edm.Boolean">false</d:IsTutorial>
+        <d:Name>wcf-by-example</d:Name>
+        <d:ShortDescription>Learn how to build modern connected systems on the Microsoft platform using Windows Communication Foundation through sample demos.</d:ShortDescription>
+        <d:Subcategory></d:Subcategory>
+      </m:properties>
+    </content>
+  </entry>
+  <entry>
+    <id>http://www.pluralsight-training.net/odata/Courses('WCF%20For%20Architects')</id>
+    <title type="text"></title>
+    <updated>2011-09-27T23:29:21Z</updated>
+    <author>
+      <name />
+    </author>
+    <link rel="edit" title="Course" href="Courses('WCF%20For%20Architects')" />
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Modules" type="application/atom+xml;type=feed" title="Modules" href="Courses('WCF%20For%20Architects')/Modules" />
+    <category term="Pluralsight.OData.Model.Course" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" />
+    <content type="application/xml">
+      <m:properties>
+        <d:Title>WCF For Architects</d:Title>
+        <d:Description xml:space="preserve">This course provides an introduction to WCF. It then covers how to use WCF for 
+	the enterprise and for the Web. It covers two aspects all architects and .NET developers need to understand:
+	versioning and serialization.
+    </d:Description>
+        <d:VideoLength>04:03:23</d:VideoLength>
+        <d:Category>WCF</d:Category>
+        <d:IsTutorial m:type="Edm.Boolean">false</d:IsTutorial>
+        <d:Name>wcf-for-architects</d:Name>
+        <d:ShortDescription xml:space="preserve">This course covers how to incorporate WCF in your application architecture.
+    </d:ShortDescription>
+        <d:Subcategory></d:Subcategory>
+      </m:properties>
+    </content>
+  </entry>
+  <entry>
+    <id>http://www.pluralsight-training.net/odata/Courses('WCF%20Fundamentals')</id>
+    <title type="text"></title>
+    <updated>2011-09-27T23:29:21Z</updated>
+    <author>
+      <name />
+    </author>
+    <link rel="edit" title="Course" href="Courses('WCF%20Fundamentals')" />
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Modules" type="application/atom+xml;type=feed" title="Modules" href="Courses('WCF%20Fundamentals')/Modules" />
+    <category term="Pluralsight.OData.Model.Course" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" />
+    <content type="application/xml">
+      <m:properties>
+        <d:Title>WCF Fundamentals</d:Title>
+        <d:Description>Windows Communication Foundation (WCF) is the next-generation platform for building connected systems on the Windows platform. WCF makes it possible to build secure, reliable, and transacted services that can be composed into service-oriented applications. WCF makes this easy through a simplified programming model that unifies and improves many of the previous .NET distributed technologies like ASP.NET Web Services (ASMX), Web Services Enhancements (WSE), .NET Remoting, .NET Enterprise Services (COM+), and System.Messaging. Not only is WCF simpler to use than its predecessors, it's also more flexible and highly interoperable thanks to its support for industry standards and protocols like REST, SOAP, and the various WS-* specifications. WCF is sure to change the way every .NET developer builds connected systems in the years ahead. This course covers the system-design features of WCF.</d:Description>
+        <d:VideoLength>06:34:26</d:VideoLength>
+        <d:Category>WCF</d:Category>
+        <d:IsTutorial m:type="Edm.Boolean">false</d:IsTutorial>
+        <d:Name>wcf-design-concepts</d:Name>
+        <d:ShortDescription>Learn how to build modern connected systems on the Microsoft platform using Windows Communication Foundation.</d:ShortDescription>
+        <d:Subcategory></d:Subcategory>
+      </m:properties>
+    </content>
+  </entry>
+  <entry>
+    <id>http://www.pluralsight-training.net/odata/Courses('WCF%20REST%20Starter%20Kit%20by%20Example')</id>
+    <title type="text"></title>
+    <updated>2011-09-27T23:29:21Z</updated>
+    <author>
+      <name />
+    </author>
+    <link rel="edit" title="Course" href="Courses('WCF%20REST%20Starter%20Kit%20by%20Example')" />
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Modules" type="application/atom+xml;type=feed" title="Modules" href="Courses('WCF%20REST%20Starter%20Kit%20by%20Example')/Modules" />
+    <category term="Pluralsight.OData.Model.Course" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" />
+    <content type="application/xml">
+      <m:properties>
+        <d:Title>WCF REST Starter Kit by Example</d:Title>
+        <d:Description>Learn how to become productive with the WCF REST Starter Kit. You'll see how to install the WCF REST Starter Kit on your machine, navigate the documentation, samples, and project templates, and you'll see how to quickly get started with a simple RESTful service implementation. We then explore different data representations, resource services, atom and atompub services, as well as POX (plain old XML) services.</d:Description>
+        <d:VideoLength>01:58:12</d:VideoLength>
+        <d:Category>WCF</d:Category>
+        <d:IsTutorial m:type="Edm.Boolean">false</d:IsTutorial>
+        <d:Name>wcf-rest-by-example</d:Name>
+        <d:ShortDescription>Learn how to use the WCF REST Starter Kit.</d:ShortDescription>
+        <d:Subcategory></d:Subcategory>
+      </m:properties>
+    </content>
+  </entry>
+  <entry>
+    <id>http://www.pluralsight-training.net/odata/Courses('WCF%20REST%20Starter%20Kit%20HttpClient%20by%20Example')</id>
+    <title type="text"></title>
+    <updated>2011-09-27T23:29:21Z</updated>
+    <author>
+      <name />
+    </author>
+    <link rel="edit" title="Course" href="Courses('WCF%20REST%20Starter%20Kit%20HttpClient%20by%20Example')" />
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Modules" type="application/atom+xml;type=feed" title="Modules" href="Courses('WCF%20REST%20Starter%20Kit%20HttpClient%20by%20Example')/Modules" />
+    <category term="Pluralsight.OData.Model.Course" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" />
+    <content type="application/xml">
+      <m:properties>
+        <d:Title>WCF REST Starter Kit HttpClient by Example</d:Title>
+        <d:Description>Learn how to become productive with the WCF REST Starter Kit. You'll see how to install the WCF REST Starter Kit on your machine, navigate the documentation, samples, and project templates, and you'll see how to quickly get started with a simple RESTful service implementation. We then explore different data representations, resource services, atom and atompub services, as well as POX (plain old XML) services.</d:Description>
+        <d:VideoLength>01:01:32</d:VideoLength>
+        <d:Category>WCF</d:Category>
+        <d:IsTutorial m:type="Edm.Boolean">false</d:IsTutorial>
+        <d:Name>wcf-rest-httpclient-by-example</d:Name>
+        <d:ShortDescription>Learn how to use the WCF REST Starter Kit.</d:ShortDescription>
+        <d:Subcategory></d:Subcategory>
+      </m:properties>
+    </content>
+  </entry>
+
+</feed>

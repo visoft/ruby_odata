@@ -245,7 +245,52 @@ module OData
         end      
       end
     end
-  end
+  
+    describe "single layer inheritance" do
+      before(:each) do
+        # Metadata
+        stub_request(:get, "http://test.com/test.svc/$metadata").
+        with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
+        to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/inheritance/edmx_pluralsight.xml", __FILE__)), :headers => {})
+        
+        # Content - Courses
+        stub_request(:get, /http:\/\/test\.com\/test\.svc\/Courses(?:.*)/).
+        with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
+        to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/inheritance/result_pluralsight_courses.xml", __FILE__)), :headers => {})
+      end
+      
+      it "should build all inherited attributes" do
+        OData::Service.new "http://test.com/test.svc/"
+        methods = Course.instance_methods.reject {|m| Object.methods.index(m)}
+
+        methods.should include(:Title)
+        methods.should include(:Description)
+        methods.should include(:VideoLength)
+        methods.should include(:Category)
+
+        methods.should include(:Title=)
+        methods.should include(:Description=)
+        methods.should include(:VideoLength=)
+        methods.should include(:Category=)
+      end
+
+      it "should not build abstract classes" do
+        OData::Service.new "http://test.com/test.svc/"
+        defined?(ModelItemBase).should eq nil
+      end
+
+      it "should fill inherited properties" do
+        svc = OData::Service.new "http://test.com/test.svc/"
+        svc.Courses
+        courses = svc.execute
+        course = courses.first
+        course.Title.should_not be_nil
+        course.Description.should_not be_nil
+        course.VideoLength.should_not be_nil
+        course.Category.should_not be_nil
+      end
+    end
+end
   
   describe_private OData::Service do
     describe "parse value" do

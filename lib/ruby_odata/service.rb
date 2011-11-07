@@ -151,13 +151,12 @@ class Service
 
     entity_types = doc.xpath("//edm:EntityType", "edm" => edm_ns)
     entity_types.each do |e|
-      name = e['Name']
-      props = e.xpath(".//edm:Property", "edm" => edm_ns)
-      @class_metadata[name] = build_property_metadata(props)
-      methods = props.collect { |p| p['Name'] } # Standard Properties
+      next if e['Abstract'] == "true"
+      klass_name = e['Name']
+      methods = collect_properties(klass_name,edm_ns, e, doc)
       nprops =  e.xpath(".//edm:NavigationProperty", "edm" => edm_ns)			
       nav_props = nprops.collect { |p| p['Name'] } # Navigation Properties
-      @classes[name] = ClassBuilder.new(name, methods, nav_props).build unless @classes.keys.include?(name)
+      @classes[klass_name] = ClassBuilder.new(klass_name, methods, nav_props).build unless @classes.keys.include?(klass_name)
     end
   end
   
@@ -168,6 +167,21 @@ class Service
       metadata[prop_meta.name] = prop_meta
     end
     metadata
+  end
+
+  def collect_properties(klass_name, edm_ns, element, doc)
+    props = element.xpath(".//edm:Property", "edm" => edm_ns)
+    @class_metadata[klass_name] = build_property_metadata(props)
+    methods = props.collect { |p| p['Name'] }
+    unless element["BaseType"].nil?
+      base = element["BaseType"].split(".").last()
+      baseType = doc.xpath("//edm:EntityType[@Name=\"#{base}\"]",
+                           "edm" => edm_ns).first()
+      props = baseType.xpath(".//edm:Property", "edm" => edm_ns)
+      @class_metadata[klass_name].merge!(build_property_metadata(props))
+      methods = methods.concat(props.collect { |p| p['Name']})
+    end
+    methods
   end
 
   # Helper to loop through a result and create an instance for each entity in the results

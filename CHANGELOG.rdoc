@@ -69,3 +69,7 @@
 * Other
   * Change HTTP port to 8989 since 8888 conflicts with the Intel AppStore
   * Refactored service step for HTTP calls where the service address is defined within the step making it easier to make changes in the future.
+
+=== 0.1.0
+* New Features
+  * Added support for single layer inheritance (thanks to http://odetocode.com/Blogs/scott/archive/2010/07/11/odata-and-ruby.aspx)
