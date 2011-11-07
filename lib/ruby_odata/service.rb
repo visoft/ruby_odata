@@ -14,16 +14,8 @@ class Service
   # - eager_partial: true (default) if queries should consume partial feeds until the feed is complete, false if explicit calls to next must be performed
   def initialize(service_uri, options = {})
     @uri = service_uri.gsub!(/\/?$/, '')
-    @options = options
-    if @options[:eager_partial].nil?
-      @options[:eager_partial] = true
-    end    
-    @rest_options = { :verify_ssl => get_verify_mode, :user => @options[:username], :password => @options[:password] }
-    @collections = []
-    @save_operations = []
-    @additional_params = options[:additional_params] || {}
-    @has_partial = false
-    @next_uri = nil
+    set_options! options
+    default_instance_vars!
     build_collections_and_classes
   end
   
@@ -134,6 +126,22 @@ class Service
 
   
   private
+  
+  def set_options!(options)
+    @options = options
+    if @options[:eager_partial].nil?
+      @options[:eager_partial] = true
+    end
+    @rest_options = { :verify_ssl => get_verify_mode, :user => @options[:username], :password => @options[:password] }
+    @additional_params = options[:additional_params] || {}
+  end
+  
+  def default_instance_vars!
+    @collections = []
+    @save_operations = []
+    @has_partial = false
+    @next_uri = nil
+  end
 
   # Gets ssl certificate verification mode, or defaults to verify_peer
   def get_verify_mode
