@@ -165,6 +165,24 @@ Top allows you only retrieve the top X number of records when querying.  This is
   svc.Products.top(5)
   products = svc.execute # => returns only the first 5 items	
 
+=== Partial feeds
+OData allows services to do server-side paging in Atom by defining a next link. The default behavior is to repeatedly consume partial feeds until the result set is complete.
+
+  svc.Partials
+  results = svc.execute # => retrieves all results in the Partials collection
+
+If desired (e.g., because the result set is too large to fit in memory), explicit traversal of partial results can be requested via options:
+
+  svc = OData::Service.new "http://example.com/Example.svc", { :eager_partial => false }
+  svc.Partials
+  results = svc.execute # => retrieves the first set of results returned by the server
+  if svc.partial? # => true if the last result set was a partial result set (i.e., had a next link)
+    results.concat svc.next # => retrieves the next set of results
+  end
+  while svc.partial? # => to retrieve all partial result sets
+    results.concat svc.next
+  end
+
 === Authentication
 Basic HTTP Authentication is supported via sending a username and password as service constructor arguments:
 

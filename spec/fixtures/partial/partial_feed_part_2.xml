@@ -37,4 +37,6 @@
       </m:properties>
     </content>
   </entry>
+  <link rel="next" 
+      href="http://test.com/test.svc/Partials?$skiptoken='ERNSH2'" /> 
 </feed>

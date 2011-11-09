@@ -12,8 +12,8 @@ Scenario: Entity should fill values on protected resource
   And I save changes
   And I call "Categories" on the service with args: "1"
   When I run the query
-  Then the method "Id" on the result should equal: "1"
-  And the method "Name" on the result should equal: "Auth Test Category"
+  Then the method "Id" on the first result should equal: "1"
+  And the method "Name" on the first result should equal: "Auth Test Category"
 
 Scenario: Should get 401 if invalid credentials provided to protected URL
   Given an ODataService exists with uri: "http://localhost:8989/SampleService/BasicAuth/Entities.svc" using username "admin" and password "bad_pwd" it should throw an exception with message "401 Unauthorized"

@@ -12,8 +12,8 @@ Scenario: Entity should fill values on protected resource
   And I save changes
   And I call "Categories" on the service with args: "1"
   When I run the query
-  Then the method "Id" on the result should equal: "1"
-  And the method "Name" on the result should equal: "Auth Test Category"
+  Then the method "Id" on the first result should equal: "1"
+  And the method "Name" on the first result should equal: "Auth Test Category"
 
 Scenario: Should get SSL failure if SSL used with self-signed certificate and not passing "false" as :verify_ssl option
   Given an ODataService exists with uri: "https://localhost:44300/SampleService/Entities.svc" it should throw an exception with message containing "SSL Verification failed"

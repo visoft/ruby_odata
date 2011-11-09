@@ -5,16 +5,16 @@
   <title type="text">Partials</title> 
   <id>http://test.com/test.svc/Partials</id> 
   <updated>2010-03-10T09:34:11Z</updated> 
-  <link rel="self" title="Partials" href="Partials" /> 
-  <m:count>3</m:count> 
+  <link rel="self" title="Partials" href="Partials?$skiptoken='ERNSH2'" /> 
+  <m:count>2</m:count> 
   <entry>
-    <id>http://test.com/test.svc/Partials</id> 
+    <id>http://test.com/test.svc/Partials?$skiptoken='ERNSH2'</id> 
     <title type="text" /> 
     <updated>2010-03-10T09:34:11Z</updated> 
     <author>
       <name /> 
     </author>
-    <link rel="edit" title="Customer" href="Customers('ALFKI')" /> 
+    <link rel="edit" title="Customer" href="Partials?$skiptoken='ERNSH2'" /> 
     <link 
   rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/CustomerDemographics"
   type="application/atom+xml;type=feed"
@@ -25,8 +25,8 @@
       <m:properties>
         <d:CustomerID>ALFKI</d:CustomerID> 
         <d:CompanyName>Alfreds Futterkiste</d:CompanyName> 
-        <d:ContactName>Maria Anders</d:ContactName> 
-        <d:ContactTitle>Sales Representative</d:ContactTitle> 
+        <d:ContactName>Maria Banders</d:ContactName> 
+        <d:ContactTitle>Sales Damager</d:ContactTitle> 
         <d:Address>Obere Str. 57</d:Address> 
         <d:City>Berlin</d:City> 
         <d:Region m:null="true" /> 
@@ -37,6 +37,4 @@
       </m:properties>
     </content>
   </entry>
-  <link rel="next" 
-      href="http://test.com/test.svc/Partials?$skiptoken='ERNSH'" /> 
 </feed>

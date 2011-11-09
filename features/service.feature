@@ -21,29 +21,29 @@ Scenario: Access an entity by ID should return the entity type
   And I save changes
   And I call "Categories" on the service with args: "1"
   When I run the query
-  Then the result should be of type "Category"
+  Then the first result should be of type "Category"
 
 Scenario: Entity should have the correct accessors
   Given I call "AddToCategories" on the service with a new "Category" object with Name: "Test Category"
   And I save changes
   And I call "Categories" on the service with args: "1"
   When I run the query
-  Then the result should have a method: "Id"
-  And the result should have a method: "Name"
+  Then the first result should have a method: "Id"
+  And the first result should have a method: "Name"
   
 Scenario: Entity should fill values
   Given I call "AddToCategories" on the service with a new "Category" object with Name: "Test Category"
   And I save changes
   And I call "Categories" on the service with args: "1"
   When I run the query
-  Then the method "Id" on the result should equal: "1"
-  And the method "Name" on the result should equal: "Test Category"
+  Then the method "Id" on the first result should equal: "1"
+  And the method "Name" on the first result should equal: "Test Category"
 
 Scenario: Navigation Properties should be included in results	
   Given I call "AddToProducts" on the service with a new "Product" object
   And I save changes		
   And I call "Products" on the service with args: "1"
   When I run the query
-  Then the result should have a method: "Category"
-  And the method "Category" on the result should be nil
+  Then the first result should have a method: "Category"
+  And the method "Category" on the first result should be nil
 

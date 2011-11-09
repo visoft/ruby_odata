@@ -295,7 +295,7 @@ module OData
     end
 end
   
-  describe "partial collections" do
+  describe "handling partial collections" do
     before(:each) do      
       # Metadata
       stub_request(:get, "http://test.com/test.svc/$metadata").
@@ -310,6 +310,10 @@ end
       stub_request(:get, "http://test.com/test.svc/Partials?$skiptoken='ERNSH'").
       with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
       to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/partial/partial_feed_part_2.xml", __FILE__)), :headers => {})
+
+      stub_request(:get, "http://test.com/test.svc/Partials?$skiptoken='ERNSH2'").
+      with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
+      to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/partial/partial_feed_part_3.xml", __FILE__)), :headers => {})
       
     end
     
@@ -317,7 +321,19 @@ end
       svc = OData::Service.new "http://test.com/test.svc/"
       svc.Partials
       results = svc.execute
-      results.count.should == 2
+      results.count.should == 3
+    end
+    
+    it "should return only the partial when specified by options" do
+      svc = OData::Service.new("http://test.com/test.svc/", :eager_partial => false)
+      svc.Partials
+      results = svc.execute
+      results.count.should == 1
+      svc.should be_partial
+      while svc.partial?
+        results.concat svc.next
+      end
+      results.count.should == 3
     end
   end
   

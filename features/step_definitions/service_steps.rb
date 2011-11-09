@@ -1,3 +1,15 @@
+module PositionHelpers
+  def first(results)
+    results ? results.first { yield } : yield
+  end
+end
+World(PositionHelpers)
+
+When /^(.*) first (.*)$/ do |step, results|
+  first(results) { When step }
+end
+
+
 Given /^an ODataService exists with uri: "([^\"]*)"$/ do |uri|
   @service = OData::Service.new(uri)
 end
@@ -70,6 +82,10 @@ Then /^the method "([^\"]*)" on the result should be nil$/ do |method|
   @service_result.send(method.to_sym).should == nil
 end
 
+When /^I set "([^\"]*)" on the result object to "([^\"]*)"$/ do |property_name, value|
+  @service_result.first.send("#{property_name}=", value)
+end
+
 When /^I set "([^\"]*)" on the result to "([^\"]*)"$/ do |property_name, value|
   @service_result.send("#{property_name}=", value)
 end
@@ -107,6 +123,9 @@ Given /^I call "([^\"]*)" on the service with a new "([^\"]*)" object(?: with (.
       if field =~ /^(?:(\w+): "(.*)")$/
         key = $1
         val = $2
+        if val =~ /^@@LastSave.first$/
+          val = @saved_result.first
+        end
         if val =~ /^@@LastSave$/
           val = @saved_result
         end
@@ -132,8 +151,15 @@ When /^I call "([^\"]*)" on the service with the last save result$/ do |method|
   @service.send(method.to_sym, @saved_result)
 end
 
+When /^I call "([^\"]*)" on the service with the last save result object$/ do |method|
+  @service.send(method.to_sym, @saved_result.first)
+end
+
 When /^I call "([^\"]*)" on the service with the last query result$/ do |method|
   @service.send(method.to_sym, @service_result)
+end
+When /^I call "([^\"]*)" on the service with the last query result object$/ do |method|
+  @service.send(method.to_sym, @service_result.first)
 end
 
 Then /^the save result should equal: "([^\"]*)"$/ do |result|
@@ -230,6 +256,10 @@ When /^I call "([^\"]*)" for "([^\"]*)" on the result$/ do |method2, method1|
   r1 = @service_result.send(method1)
   @operation_result = r1.send(method2)
 end
+When /^I call "([^\"]*)" for "([^\"]*)" on the result object$/ do |method2, method1|
+  r1 = @service_result.first.send(method1)
+  @operation_result = r1.send(method2)
+end
 
 Then /^the operation should not be null$/ do
   @operation_result.nil?.should == false
@@ -240,9 +270,17 @@ Then /^the method "([^\"]*)" on the result's method "([^\"]*)" should equal: "([
   obj = @service_result.send(result_method.to_sym)
   obj.send(method.to_sym).to_s.should == value
 end
+Then /^the method "([^\"]*)" on the result object's method "([^\"]*)" should equal: "([^\"]*)"$/ do |method, result_method, value|
+  obj = @service_result.first.send(result_method.to_sym)
+  obj.send(method.to_sym).to_s.should == value
+end
+
 
 When /^I set "([^\"]*)" on the result's method "([^\"]*)" to "([^\"]*)"$/ do |property_name, result_method, value|
   @service_result.send(result_method).send("#{property_name}=", value)
+end
+When /^I set "([^\"]*)" on the result object's method "([^\"]*)" to "([^\"]*)"$/ do |property_name, result_method, value|
+  @service_result.first.send(result_method).send("#{property_name}=", value)
 end
 
 # Type tests
@@ -253,11 +291,23 @@ Then /^the "([^\"]*)" method should return a (.*)/ do |method_name, type|
   else
     @service_result.send(methods[0]).send(methods[1]).class.to_s.should == type
   end
-
 end
+Then /^the "([^\"]*)" method on the object should return a (.*)/ do |method_name, type|
+  methods = method_name.split '.'
+  if methods.length == 1
+    @service_result.first.send(method_name).class.to_s.should == type
+  else
+    @service_result.first.send(methods[0]).send(methods[1]).class.to_s.should == type
+  end
+end
+
 Then /^I store the last query result for comparison$/ do
   @stored_query_result = @service_result
 end
+Then /^I store the last query result object for comparison$/ do
+  @stored_query_result = @service_result.first
+end
+
 Then /^the new query result's time "([^\"]*)" should equal the saved query result$/ do |method_name|
   methods = method_name.split '.'
   if methods.length == 1
