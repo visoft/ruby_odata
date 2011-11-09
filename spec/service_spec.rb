@@ -262,7 +262,10 @@ module OData
       it "should build all inherited attributes" do
         OData::Service.new "http://test.com/test.svc/"
         methods = Course.instance_methods.reject {|m| Object.methods.index(m)}
-
+        
+        # Ruby 1.9 uses symbols, and 1.8 uses strings, so this normalizes the data
+        methods.map! {|m| m.to_sym}
+        
         methods.should include(:Title)
         methods.should include(:Description)
         methods.should include(:VideoLength)
