@@ -33,17 +33,6 @@ public class Entities : DataService< ModelContainer >
         context.ExecuteStoreCommand("ALTER TABLE [dbo].[Products] ADD CONSTRAINT [FK_CategoryProduct] FOREIGN KEY ([Category_Id]) REFERENCES [dbo].[Categories]([Id])");
 
     }
-    
-    protected override void OnStartProcessingRequest(ProcessRequestArgs args)
-    {
-        base.OnStartProcessingRequest(args);
-        if (args.RequestUri.AbsoluteUri.ToLower().EndsWith("cleandatabasefortesting"))
-        {
-            var hostAddress = HttpContext.Current.Request.UserHostAddress;
-            if (hostAddress != "127.0.0.1" && hostAddress != "::1")
-                throw new DataServiceException(401, "Access Denied");
-        }
-    }
 }
  
 public class OurBasicAuthenticationModule: IHttpModule 

@@ -4,7 +4,7 @@ Feature: Service Should Generate a Proxy
   I want to be able to access data
 
 Background:
-  Given a sample HTTP ODataService exists
+  Given a HTTP ODataService exists
   And blueprints exist for the service
 
 Scenario: Service should respond to valid collections

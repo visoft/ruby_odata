@@ -5,37 +5,48 @@ module PositionHelpers
 end
 World(PositionHelpers)
 
+STANDARD_URL = "http://#{WEBSERVER}:#{HTTP_PORT_NUMBER}/SampleService/Entities.svc"
+BASICAUTH_URL = "http://#{WEBSERVER}:#{HTTP_PORT_NUMBER}/SampleService/BasicAuth/Entities.svc"
+HTTPS_BASICAUTH_URL = "https://#{WEBSERVER}:#{HTTPS_PORT_NUMBER}/SampleService/BasicAuth/Entities.svc"
+
 When /^(.*) first (.*)$/ do |step, results|
   first(results) { When step }
 end
 
-
-Given /^an ODataService exists with uri: "([^\"]*)"$/ do |uri|
-  @service = OData::Service.new(uri)
+Given /^a HTTP ODataService exists$/ do
+  @service = OData::Service.new(STANDARD_URL)
 end
 
-Given /^a sample HTTP ODataService exists$/ do
-  @service = OData::Service.new("http://localhost:#{HTTP_PORT_NUMBER}/SampleService/Entities.svc")
+Given /^a HTTP BasicAuth ODataService exists$/ do
+  @service = OData::Service.new(BASICAUTH_URL)
 end
 
-Given /^an ODataService exists with uri: "([^\"]*)" using username "([^\"]*)" and password "([^\"]*)"$/ do |uri, username, password|
-  @service = OData::Service.new(uri, { :username => username, :password => password })
+Given /^a HTTPS BasicAuth ODataService exists$/ do
+  @service = OData::Service.new(HTTPS_BASICAUTH_URL)
 end
 
-Given /^an ODataService exists with uri: "([^\"]*)" using username "([^\"]*)" and password "([^\"]*)" it should throw an exception with message "([^\"]*)"$/ do |uri, username, password, msg|  
-  lambda { @service = OData::Service.new(uri, { :username => username, :password => password }) }.should raise_error(msg)
+Given /^a HTTP BasicAuth ODataService exists using username "([^\"]*)" and password "([^\"]*)"$/ do |username, password|
+  @service = OData::Service.new(BASICAUTH_URL, { :username => username, :password => password })
 end
 
-Given /^an ODataService exists with uri: "([^\"]*)" it should throw an exception with message containing "([^\"]*)"$/ do |uri, msg|  
-  lambda { @service = OData::Service.new(uri) }.should raise_error(/#{msg}.*/)
+Given /^a HTTP BasicAuth ODataService exists using username "([^\"]*)" and password "([^\"]*)" it should throw an exception with message "([^\"]*)"$/ do |username, password, msg|  
+  lambda { @service = OData::Service.new(BASICAUTH_URL, { :username => username, :password => password }) }.should raise_error(msg)
 end
 
-Given /^an ODataService exists with uri: "([^\"]*)" it should throw an exception with message "([^\"]*)"$/ do |uri, msg|  
-  lambda { @service = OData::Service.new(uri) }.should raise_error(msg)
+Given /^a HTTP BasicAuth ODataService exists it should throw an exception with message containing "([^\"]*)"$/ do |msg|  
+  lambda { @service = OData::Service.new(BASICAUTH_URL) }.should raise_error(/#{msg}.*/)
 end
 
-Given /^an ODataService exists with uri: "([^\"]*)" using self-signed certificate and username "([^\"]*)" and password "([^\"]*)"$/ do |uri, username, password|
-  @service = OData::Service.new(uri, { :username => username, :password => password, :verify_ssl => false })
+Given /^a HTTPS BasicAuth ODataService exists it should throw an exception with message containing "([^"]*)"$/ do |msg|
+  lambda { @service = OData::Service.new(HTTPS_BASICAUTH_URL) }.should raise_error(/#{msg}.*/)
+end
+
+Given /^a HTTP BasicAuth ODataService exists it should throw an exception with message "([^\"]*)"$/ do |msg|  
+  lambda { @service = OData::Service.new(BASICAUTH_URL) }.should raise_error(msg)
+end
+
+Given /^a HTTPS BasicAuth ODataService exists using self-signed certificate and username "([^\"]*)" and password "([^\"]*)"$/ do |username, password|
+  @service = OData::Service.new(HTTPS_BASICAUTH_URL, { :username => username, :password => password, :verify_ssl => false })
 end
 
 When /^I call "([^\"]*)" on the service$/ do |method|

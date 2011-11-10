@@ -13,3 +13,4 @@ doc/*
 Gemfile.lock
 pkg/*
 test/applicationhost.config
+.rvmrc

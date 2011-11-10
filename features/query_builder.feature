@@ -4,7 +4,7 @@ Feature: Query Builder
   I want to be able to perform valid OData protocol operations 
 
 Background:
-  Given a sample HTTP ODataService exists
+  Given a HTTP ODataService exists
   And blueprints exist for the service
 
 # Expand

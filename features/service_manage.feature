@@ -4,7 +4,7 @@ Feature: Service management
   I want to be able to add, edit, and delete entities
 
 Background:
-  Given an ODataService exists with uri: "http://localhost:8989/SampleService/Entities.svc"
+  Given a HTTP ODataService exists
   And blueprints exist for the service
 
 Scenario: Service should respond to AddToEntityName for adding objects

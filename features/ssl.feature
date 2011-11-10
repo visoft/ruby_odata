@@ -1,7 +1,7 @@
 Feature: Service Should Access Basic Resources via SSL using a self-signed certificate
   
 Background:
-  Given an ODataService exists with uri: "https://localhost:44300/SampleService/BasicAuth/Entities.svc" using self-signed certificate and username "admin" and password "passwd"
+  Given a HTTPS BasicAuth ODataService exists using self-signed certificate and username "admin" and password "passwd"
   And blueprints exist for the service
 
 Scenario: Service should respond to valid collections
@@ -16,6 +16,6 @@ Scenario: Entity should fill values on protected resource
   And the method "Name" on the first result should equal: "Auth Test Category"
 
 Scenario: Should get SSL failure if SSL used with self-signed certificate and not passing "false" as :verify_ssl option
-  Given an ODataService exists with uri: "https://localhost:44300/SampleService/Entities.svc" it should throw an exception with message containing "SSL Verification failed"
+  Given a HTTPS BasicAuth ODataService exists it should throw an exception with message containing "SSL Verification failed"
 
 

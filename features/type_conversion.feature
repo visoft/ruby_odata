@@ -4,7 +4,7 @@ Feature: Type conversion
   I want types returned to be accurately represented
 
 Background:
-  Given a sample HTTP ODataService exists
+  Given a HTTP ODataService exists
   And blueprints exist for the service
 
 Scenario: Integers should be Fixnums

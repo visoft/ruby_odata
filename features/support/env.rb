@@ -12,5 +12,3 @@ if !File.exists?("#{root_dir}/TestDB.mdf")
   FileUtils.copy("#{root_dir}/_TestDB.mdf", "#{root_dir}/TestDB.mdf")
   FileUtils.copy("#{root_dir}/_TestDB_Log.ldf", "#{root_dir}/TestDB_Log.ldf")
 end
-
-HTTP_PORT_NUMBER = 8989
