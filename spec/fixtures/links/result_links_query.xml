@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="iso-8859-1" standalone="yes"?>
+<links xmlns="http://schemas.microsoft.com/ado/2007/08/dataservices">
+  <uri>http://test.com/SampleService/Entities.svc/Products(1)</uri>
+  <uri>http://test.com/SampleService/Entities.svc/Products(2)</uri>
+  <uri>http://test.com/SampleService/Entities.svc/Products(3)</uri>    
+</links>

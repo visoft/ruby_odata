@@ -9,6 +9,45 @@ STANDARD_URL = "http://#{WEBSERVER}:#{HTTP_PORT_NUMBER}/SampleService/Entities.s
 BASICAUTH_URL = "http://#{WEBSERVER}:#{HTTP_PORT_NUMBER}/SampleService/BasicAuth/Entities.svc"
 HTTPS_BASICAUTH_URL = "https://#{WEBSERVER}:#{HTTPS_PORT_NUMBER}/SampleService/BasicAuth/Entities.svc"
 
+# Helper methods
+def handle_last_save_fields(val)
+  if val =~ /^@@LastSave.first$/
+    val = @saved_result.first
+  end
+  if val =~ /^@@LastSave$/
+    val = @saved_result
+  end
+  val
+end
+
+def parse_fields_string(fields)
+  fields_hash = {}
+
+  if !fields.nil?
+    fields.split(', ').each do |field|
+      if field =~ /^(?:(\w+): "(.*)")$/
+        key = $1
+        val = handle_last_save_fields($2)
+
+        fields_hash.merge!({key => val})
+      end
+    end
+  end
+  fields_hash
+end
+
+def parse_fields_hash(fields)
+  fields_hash = {}
+
+  if !fields.nil?
+    fields.each do |key, val|        
+      val = handle_last_save_fields(val)
+      fields_hash.merge!({key => val})
+    end
+  end
+  fields_hash
+end
+
 When /^(.*) first (.*)$/ do |step, results|
   first(results) { When step }
 end
@@ -89,6 +128,10 @@ Then /^the method "([^\"]*)" on the result should equal: "([^\"]*)"$/ do |method
   @service_result.send(method.to_sym).to_s.should == value
 end
 
+Then /^the method "([^\"]*)" on the result object should equal: "([^\"]*)"$/ do |method, value|
+  @service_result.first.send(method.to_sym).to_s.should == value
+end
+
 Then /^the method "([^\"]*)" on the result should be nil$/ do |method|
   @service_result.send(method.to_sym).should == nil
 end
@@ -121,30 +164,17 @@ When /^I ask for the top (\d+)$/ do |top|
   @service_query.top(top)
 end
 
+When /^I ask for the links for "([^\"]*)"$/ do |nav_prop|
+  @service_query.links(nav_prop)
+end
+
 Then /^the method "([^\"]*)" on the result should be of type "([^\"]*)"$/ do |method, type|
   result = @service_result.send(method.to_sym) 
   result.class.to_s.should == type
 end
 
 Given /^I call "([^\"]*)" on the service with a new "([^\"]*)" object(?: with (.*))?$/ do |method, object, fields|
-  fields_hash = {}
-  
-  if !fields.nil?
-    fields.split(', ').each do |field|
-      if field =~ /^(?:(\w+): "(.*)")$/
-        key = $1
-        val = $2
-        if val =~ /^@@LastSave.first$/
-          val = @saved_result.first
-        end
-        if val =~ /^@@LastSave$/
-          val = @saved_result
-        end
-        
-        fields_hash.merge!({ key => val })
-      end
-    end	
-  end
+  fields_hash = parse_fields_string(fields)
   
   obj = object.constantize.send(:make, fields_hash)
   @service.send(method.to_sym, obj)
@@ -197,11 +227,12 @@ Then /^no "([^\"]*)" should exist$/ do |collection|
   results.should == []
 end
 
+
 Given /^the following (.*) exist:$/ do |plural_factory, table|
   # table is a Cucumber::Ast::Table
   factory = plural_factory.singularize
   table.hashes.map do |hash|
-    obj = factory.constantize.send(:make, hash)
+    obj = factory.constantize.send(:make, parse_fields_hash(hash))
     @service.send("AddTo#{plural_factory}", obj)
     @service.save_changes
   end
@@ -326,4 +357,12 @@ Then /^the new query result's time "([^\"]*)" should equal the saved query resul
   else
     @service_result.send(methods[0]).send(methods[1]).xmlschema(3).should == @stored_query_result.send(methods[0]).send(methods[1]).xmlschema(3)
   end
+end
+
+Then /^show me the results$/ do
+  puts @service_result
+end
+
+Then /^the result count should be (\d+)$/ do |expected_count|
+  @service_result.count.should eq expected_count.to_i
 end

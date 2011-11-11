@@ -19,6 +19,7 @@ class QueryBuilder
     @order_bys = []
     @skip = nil
     @top = nil
+    @links = nil
     @additional_params = additional_params
   end
   
@@ -89,10 +90,28 @@ class QueryBuilder
     self
   end
   
+  # Used to return links instead of actual objects
+  # ==== Required Attributes
+  # - navigation_property: The NavigationProperty name to retrieve the links for
+  #
+  # ==== Example	
+  # 	svc.Categories(1).links("Products")
+  # 	product_links = svc.execute # => returns URIs for the products under the Category with an ID of 1
+  def links(navigation_property)
+    @navigation_property = navigation_property
+    self
+  end
+  
   # Builds the query URI (path, not including root) incorporating expands, filters, etc.
   # This is used internally when the execute method is called on the service
   def query
     q = @root.clone
+    
+    # Handle links queries, this isn't just a standard query option
+    if @navigation_property
+      q << "/$links/#{@navigation_property}"
+    end
+    
     query_options = []
     query_options << "$expand=#{@expands.join(',')}" unless @expands.empty?
     query_options << "$filter=#{@filters.join('+and+')}" unless @filters.empty?

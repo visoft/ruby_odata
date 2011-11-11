@@ -293,50 +293,73 @@ module OData
         course.Category.should_not be_nil
       end
     end
-end
   
-  describe "handling partial collections" do
-    before(:each) do      
-      # Metadata
-      stub_request(:get, "http://test.com/test.svc/$metadata").
-      with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
-      to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/partial/partial_feed_metadata.xml", __FILE__)), :headers => {})
-      
-      # Content - Partial
-      stub_request(:get, "http://test.com/test.svc/Partials").
-      with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
-      to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/partial/partial_feed_part_1.xml", __FILE__)), :headers => {})
-      
-      stub_request(:get, "http://test.com/test.svc/Partials?$skiptoken='ERNSH'").
-      with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
-      to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/partial/partial_feed_part_2.xml", __FILE__)), :headers => {})
+    describe "handling partial collections" do
+      before(:each) do
+        # Metadata
+        stub_request(:get, "http://test.com/test.svc/$metadata").
+        with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
+        to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/partial/partial_feed_metadata.xml", __FILE__)), :headers => {})
 
-      stub_request(:get, "http://test.com/test.svc/Partials?$skiptoken='ERNSH2'").
-      with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
-      to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/partial/partial_feed_part_3.xml", __FILE__)), :headers => {})
-      
-    end
-    
-    it "should return the whole collection by default" do
-      svc = OData::Service.new "http://test.com/test.svc/"
-      svc.Partials
-      results = svc.execute
-      results.count.should == 3
-    end
-    
-    it "should return only the partial when specified by options" do
-      svc = OData::Service.new("http://test.com/test.svc/", :eager_partial => false)
-      svc.Partials
-      results = svc.execute
-      results.count.should == 1
-      svc.should be_partial
-      while svc.partial?
-        results.concat svc.next
+        # Content - Partial
+        stub_request(:get, "http://test.com/test.svc/Partials").
+        with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
+        to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/partial/partial_feed_part_1.xml", __FILE__)), :headers => {})
+
+        stub_request(:get, "http://test.com/test.svc/Partials?$skiptoken='ERNSH'").
+        with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
+        to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/partial/partial_feed_part_2.xml", __FILE__)), :headers => {})
+
+        stub_request(:get, "http://test.com/test.svc/Partials?$skiptoken='ERNSH2'").
+        with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
+        to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/partial/partial_feed_part_3.xml", __FILE__)), :headers => {})
+
       end
-      results.count.should == 3
+
+      it "should return the whole collection by default" do
+        svc = OData::Service.new "http://test.com/test.svc/"
+        svc.Partials
+        results = svc.execute
+        results.count.should == 3
+      end
+
+      it "should return only the partial when specified by options" do
+        svc = OData::Service.new("http://test.com/test.svc/", :eager_partial => false)
+        svc.Partials
+        results = svc.execute
+        results.count.should == 1
+        svc.should be_partial
+        while svc.partial?
+          results.concat svc.next
+        end
+        results.count.should == 3
+      end
+    end
+  
+    describe "link queries" do
+      before(:each) do
+        # Required for the build_classes method
+        stub_request(:get, /http:\/\/test\.com\/test\.svc\/\$metadata(?:\?.+)?/).
+        with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
+        to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/edmx_categories_products.xml", __FILE__)), :headers => {})
+        
+        stub_request(:get, "http://test.com/test.svc/Categories(1)/$links/Products").
+        with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
+        to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/links/result_links_query.xml", __FILE__)), :headers => {})
+      end
+      it "should be able to parse the results of a links query" do
+        svc = OData::Service.new "http://test.com/test.svc/"
+        svc.Categories(1).links('Products')
+        results = svc.execute
+        results.count.should eq 3
+        results.first.should be_a_kind_of(URI)
+        results[0].path.should eq "/SampleService/Entities.svc/Products(1)"
+        results[1].path.should eq "/SampleService/Entities.svc/Products(2)"
+        results[2].path.should eq "/SampleService/Entities.svc/Products(3)"        
+      end
     end
   end
-  
+    
   describe_private OData::Service do
     describe "parse value" do
       before(:each) do

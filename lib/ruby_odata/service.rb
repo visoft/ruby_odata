@@ -223,6 +223,10 @@ class Service
   # Helper to loop through a result and create an instance for each entity in the results
   def build_classes_from_result(result)
     doc = Nokogiri::XML(result)
+    
+    is_links = doc.at_xpath("/ds:links", "ds" => "http://schemas.microsoft.com/ado/2007/08/dataservices")
+    return parse_link_results(doc) if is_links
+    
     entries = doc.xpath("//atom:entry[not(ancestor::atom:entry)]", "atom" => "http://www.w3.org/2005/Atom")
     
     extract_partial(doc)
@@ -320,7 +324,17 @@ class Service
     end
     results
   end
-    
+  
+  # Handle link results
+  def parse_link_results(doc)
+    uris = doc.xpath("/ds:links/ds:uri", "ds" => "http://schemas.microsoft.com/ado/2007/08/dataservices")
+    results = []
+    uris.each do |uri_el|
+      link = uri_el.content
+      results << URI.parse(link)
+    end
+    results
+  end   
 
   # Build URIs
   def build_metadata_uri

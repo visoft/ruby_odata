@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="iso-8859-1" standalone="yes"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx">
+  <edmx:DataServices xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" m:DataServiceVersion="1.0">
+    <Schema Namespace="Model" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+      <EntityContainer Name="ModelContainer" p7:LazyLoadingEnabled="true" m:IsDefaultEntityContainer="true" xmlns:p7="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+        <FunctionImport Name="CleanDatabaseForTesting" m:HttpMethod="POST" />
+        <EntitySet Name="Products" EntityType="Model.Product" />
+        <EntitySet Name="Categories" EntityType="Model.Category" />
+        <AssociationSet Name="CategoryProduct" Association="Model.CategoryProduct">
+          <End Role="Category" EntitySet="Categories" />
+          <End Role="Product" EntitySet="Products" />
+        </AssociationSet>
+      </EntityContainer>
+      <EntityType Name="Product">
+        <Key>
+          <PropertyRef Name="Id" />
+        </Key>
+        <Property Name="Id" Type="Edm.Int32" Nullable="false" p8:StoreGeneratedPattern="Identity" xmlns:p8="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+        <Property Name="Name" Type="Edm.String" Nullable="false" />
+        <Property Name="Description" Type="Edm.String" Nullable="false" />
+        <Property Name="Price" Type="Edm.Decimal" Nullable="false" />
+        <Property Name="AuditFields" Type="Model.AuditFields" Nullable="false" />
+        <Property Name="DiscontinuedDate" Type="Edm.DateTime" Nullable="true" />
+        <NavigationProperty Name="Category" Relationship="Model.CategoryProduct" FromRole="Product" ToRole="Category" />
+      </EntityType>
+      <ComplexType Name="AuditFields">
+        <Property Name="CreateDate" Type="Edm.DateTime" Nullable="false" />
+        <Property Name="ModifiedDate" Type="Edm.DateTime" Nullable="false" />
+        <Property Name="CreatedBy" Type="Edm.String" Nullable="true" />
+      </ComplexType>
+      <EntityType Name="Category">
+        <Key>
+          <PropertyRef Name="Id" />
+        </Key>
+        <Property Name="Id" Type="Edm.Int32" Nullable="false" p8:StoreGeneratedPattern="Identity" xmlns:p8="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+        <Property Name="Name" Type="Edm.String" Nullable="false" />
+        <NavigationProperty Name="Products" Relationship="Model.CategoryProduct" FromRole="Category" ToRole="Product" />
+      </EntityType>
+      <Association Name="CategoryProduct">
+        <End Role="Category" Type="Model.Category" Multiplicity="1" />
+        <End Role="Product" Type="Model.Product" Multiplicity="*" />
+      </Association>
+    </Schema>
+  </edmx:DataServices>
+</edmx:Edmx>

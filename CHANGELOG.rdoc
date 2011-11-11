@@ -73,3 +73,4 @@
 === 0.1.0
 * New Features
   * Added support for single layer inheritance (thanks to http://odetocode.com/Blogs/scott/archive/2010/07/11/odata-and-ruby.aspx)
+  * Added support for querying links (see https://github.com/visoft/ruby_odata/issues/10)

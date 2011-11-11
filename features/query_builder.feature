@@ -146,8 +146,18 @@ Scenario: Top should be able to be used along with skip for paging
   | Product 4 |  
 
 
-
-
-  
-
-
+# Links
+@current
+Scenario: Navigation Properties should be able to represented as links
+  Given I call "AddToCategories" on the service with a new "Category" object with Name: "Test Category"
+  And I save changes
+  And the following Products exist:
+  | Name      | Category         |
+  | Product 1 | @@LastSave.first |
+  | Product 2 | @@LastSave.first |
+  | Product 3 | @@LastSave.first |
+  When I call "Categories" on the service with args: "1"
+  And I ask for the links for "Products"
+  And I run the query
+  Then the result count should be 3
+  Then the method "path" on the result object should equal: "/SampleService/Entities.svc/Products(1)"
