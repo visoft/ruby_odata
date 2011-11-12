@@ -17,7 +17,7 @@ Scenario: Service should allow for deletes
   Given I call "AddToProducts" on the service with a new "Product" object
   When I save changes
   Then the first save result should be of type "Product"
-  When I call "delete_object" on the service with the last save result object
+  When I call "delete_object" on the service with the first last save result
   And I save changes
   Then the save result should equal: "true" 
   And no "Products" should exist
@@ -31,9 +31,9 @@ Scenario: Entities should be able to be updated
   And I call "Products" on the service with args: "1"
   And I run the query
   Then the method "Name" on the first result should equal: "Test Product"
-  When I set "Name" on the result object to "Changed Test Product"
+  When I set "Name" on the first result to "Changed Test Product"
   Then the method "Name" on the first result should equal: "Changed Test Product"
-  And I call "update_object" on the service with the last query result object
+  And I call "update_object" on the service with the first last query result
   And I save changes
   Then the save result should equal: "true"
   When I call "Products" on the service with args: "1"
@@ -51,4 +51,4 @@ Scenario: Related entities shouldn't be recreated on a child add
   And I call "Products" on the service with args: "1"
   And I expand the query to include "Category"
   When I run the query
-  Then the method "Id" on the result object's method "Category" should equal: "1"
+  Then the method "Id" on the first result's method "Category" should equal: "1"

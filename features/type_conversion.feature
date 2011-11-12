@@ -33,10 +33,10 @@ Scenario: Verify that DateTimes don't change if not modified on an update
 	When I save changes
 	And I call "Products" on the service with args: "1"
   And I run the query
-  Then I store the last query result object for comparison
-  When I set "Name" on the result object to "Changed Test Product"
+  Then I store the first last query result for comparison
+  When I set "Name" on the first result to "Changed Test Product"
   Then the method "Name" on the first result should equal: "Changed Test Product"
-  And I call "update_object" on the service with the last query result object
+  And I call "update_object" on the service with the first last query result
   And I save changes
   Then the save result should equal: "true"
   When I call "Products" on the service with args: "1"

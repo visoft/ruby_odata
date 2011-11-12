@@ -27,13 +27,13 @@ Scenario: Save Changes should allow for batch updates
   When I call "Products" on the service
   And I filter the query with: "Name eq 'Product 1'"
   And I run the query
-  And I set "Name" on the result object to "Product 1 - Updated"
-  And I call "update_object" on the service with the last query result object
+  And I set "Name" on the first result to "Product 1 - Updated"
+  And I call "update_object" on the service with the first last query result
   When I call "Products" on the service
   And I filter the query with: "Name eq 'Product 2'"
   And I run the query 
-  And I set "Name" on the result object to "Product 2 - Updated"
-  And I call "update_object" on the service with the last query result object
+  And I set "Name" on the first result to "Product 2 - Updated"
+  And I call "update_object" on the service with the first last query result
   When I save changes
   When I call "Products" on the service
   And I order by: "Name"
@@ -52,11 +52,11 @@ Scenario: Save Changes should allow for batch deletes
   When I call "Products" on the service
   And I filter the query with: "Name eq 'Product 2'"
   And I run the query
-  And I call "delete_object" on the service with the last query result object
+  And I call "delete_object" on the service with the first last query result
   When I call "Products" on the service
   And I filter the query with: "Name eq 'Product 3'"
   And I run the query 
-  And I call "delete_object" on the service with the last query result object
+  And I call "delete_object" on the service with the first last query result
   When I save changes
   When I call "Products" on the service
   And I order by: "Name"
@@ -76,12 +76,12 @@ Scenario: Save Changes should allow for a mix of adds, updates, and deletes to b
   When I call "Products" on the service
   And I filter the query with: "Name eq 'Product 1'"
   And I run the query
-  And I set "Name" on the result object to "Product 1 - Updated"
-  And I call "update_object" on the service with the last query result object
+  And I set "Name" on the first result to "Product 1 - Updated"
+  And I call "update_object" on the service with the first last query result
   When I call "Products" on the service
   And I filter the query with: "Name eq 'Product 2'"
   And I run the query
-  And I call "delete_object" on the service with the last query result object
+  And I call "delete_object" on the service with the first last query result
   When I save changes
   When I call "Products" on the service
   And I order by: "Name"

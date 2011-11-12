@@ -24,7 +24,7 @@ Scenario: Complex properties on an entity must be filled
   And I call "Products" on the service with args: "1"
   When I run the query
   Then the first result should have a method: "AuditFields"
-  When I call "CreateDate" for "AuditFields" on the result object 
+  When I call "CreateDate" for "AuditFields" on the first result
   Then the operation should not be null 
 
 # TODO: This scenario should have the AuditFields.CreatedBy field set in the Given
@@ -41,8 +41,8 @@ Scenario: Complex properties should be able to be updated
   And I save changes
   And I call "Products" on the service with args: "1"
   When I run the query
-  When I set "CreatedBy" on the result object's method "AuditFields" to "This Test"
-  And I call "update_object" on the service with the last query result object
+  When I set "CreatedBy" on the first result's method "AuditFields" to "This Test"
+  And I call "update_object" on the service with the first last query result
   And I save changes
   Then the save result should equal: "true"
   When I call "Products" on the service with args: "1"
