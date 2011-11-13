@@ -71,6 +71,9 @@
   * Refactored service step for HTTP calls where the service address is defined within the step making it easier to make changes in the future.
 
 === 0.1.0
+* **BREAKING CHANGES**
+  * Previously the ruby_odata `Service` used to return a single object if there was only one result returned. Now, the results are always an Enumerable, so if you just need one result, use the `first` method on the result set
 * New Features
+  * Support for partial results (thanks arienmalec)
   * Added support for single layer inheritance (thanks to http://odetocode.com/Blogs/scott/archive/2010/07/11/odata-and-ruby.aspx)
   * Added support for querying links (see https://github.com/visoft/ruby_odata/issues/10)

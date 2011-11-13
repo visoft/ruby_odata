@@ -99,7 +99,7 @@ For expanding grandchild and lower entities, you must pass in the full path from
   # With expanding the query
   svc.Products(1).expand('Category')
   prod1 = svc.execute
-  puts "Without expanding the query"
+  puts "With expanding the query"
   puts "#{prod1.to_json}\n"
 
 
