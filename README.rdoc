@@ -210,6 +210,11 @@ Or an OpenSSL integer constant can be passed as well:
                                                                                                          
 Default verification is OpenSSL::SSL::VERIFY_PEER. Note due to the way Ruby's Request object implements certificate checking, you CAN NOT pass OpenSSL::SSL::VERIFY_NONE, you must instead pass a boolean false.
 
+== Reflection
+Instead of relying on looking at the EDMX directly, ruby_odata allows you to perform basic reflection on objects
+=== Service Level Methods
+* *Collections* - You can look at the collections exposed by a service by accessing the +collections+ method
+
 == Tests
 All of the tests are written using Cucumber going against a sample service (Found in /test/SampleService/*).  The SampleService is an ASP.NET Web Site running a SQLEXPRESS 2008 R2 Database (TestDB), as well as the ADO.NET Entity Framework and a WCF Data Service.  In order to run the tests, you need to spin up the SampleService and have it running on port 8989 (http://localhost:8989/SampleService).  
 

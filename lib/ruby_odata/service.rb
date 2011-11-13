@@ -1,7 +1,7 @@
 module OData
   
 class Service
-  attr_reader :classes, :class_metadata, :options
+  attr_reader :classes, :class_metadata, :options, :collections
   # Creates a new instance of the Service class
   #
   # ==== Required Attributes
