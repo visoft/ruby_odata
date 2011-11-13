@@ -54,6 +54,12 @@ module OData
         svc.collections.should include 'Products'
         svc.collections.should include 'Categories'
       end
+      
+      it "should expose the object type for a collection" do
+        svc = OData::Service.new "http://test.com/test.svc/"
+        svc.collections['Products'].should eq 'Model.Product'
+        svc.collections['Categories'].should eq 'Model.Category'
+      end
     end
 
     describe "additional query string parameters" do

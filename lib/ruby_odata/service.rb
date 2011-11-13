@@ -137,7 +137,7 @@ class Service
   end
   
   def default_instance_vars!
-    @collections = []
+    @collections = {}
     @save_operations = []
     @has_partial = false
     @next_uri = nil
@@ -164,7 +164,7 @@ class Service
 
     # Fill in the collections instance variable
     collections = doc.xpath("//edm:EntityContainer/edm:EntitySet", "edm" => edm_ns)
-    @collections = collections.collect { |c| c["Name"] }
+    @collections = Hash[collections.collect { |c| [c["Name"],c["EntityType"]]}]
 
     # Build complex types first, these will be used for entities
     complex_types = doc.xpath("//edm:ComplexType", "edm" => edm_ns) || []
