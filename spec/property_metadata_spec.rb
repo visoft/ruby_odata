@@ -3,12 +3,13 @@ require 'spec_helper'
 module OData
   describe PropertyMetadata do
     describe "#initialize" do
-      it "parses an EDMX property with the essentials (name, type, nullable)" do        
+      it "parses an EDMX property with the essentials (name, type, nullable, nav_prop)" do        
         property_element = RSpecSupport::ElementHelpers.string_to_element('<Property Name="Id" Type="Edm.String" Nullable="false" />')
         property_metadata = PropertyMetadata.new property_element
         property_metadata.name.should eq "Id"
         property_metadata.type.should eq "Edm.String"
         property_metadata.nullable.should eq false
+        property_metadata.nav_prop.should eq false
       end
       it "parses an EDMX property where nullable is true" do
         property_element = RSpecSupport::ElementHelpers.string_to_element('<Property Name="Id" Type="Edm.String" Nullable="true" />')
@@ -36,7 +37,13 @@ module OData
         property_element = RSpecSupport::ElementHelpers.string_to_element('<Property Name="Title" Type="Edm.String" Nullable="true" m:FC_TargetPath="SyndicationTitle" m:FC_ContentKind="text" m:FC_KeepInContent="true" />')
         property_metadata = PropertyMetadata.new property_element
         property_metadata.fc_keep_in_content.should eq true
-      end      
+      end
+      it "parses an EDMX navigation property with the name and the nav_prop set to true" do        
+        property_element = RSpecSupport::ElementHelpers.string_to_element('<NavigationProperty Name="Category" Relationship="Model.CategoryProduct" FromRole="Product" ToRole="Category" />')
+        property_metadata = PropertyMetadata.new property_element
+        property_metadata.name.should eq "Category"
+        property_metadata.nav_prop.should eq true
+      end
     end
   end
 end

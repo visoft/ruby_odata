@@ -1,6 +1,8 @@
-require 'ruby_odata'
+#require 'ruby_odata'
+require File.expand_path('../../../lib/ruby_odata', __FILE__)
 require File.expand_path('../../../features/support/constants', __FILE__)
 
+puts "http://#{WEBSERVER}:#{HTTP_PORT_NUMBER}/SampleService/Entities.svc"
 svc = OData::Service.new "http://#{WEBSERVER}:#{HTTP_PORT_NUMBER}/SampleService/Entities.svc"
 
 puts "Querying for a list of data"
@@ -18,8 +20,12 @@ puts "\nWithout expanding the query"
 svc.Products(1)
 prod1 = svc.execute.first
 puts "#{prod1.to_json}\n"
+puts "\nLazy Loading"
+svc.load_property(prod1, "Category")
+puts "#{prod1.to_json}\n"
 
-puts "\nWith expanding the query"
+puts "\nWith expanding the query (Eager Loading)"
 svc.Products(1).expand('Category')
 prod1 = svc.execute.first
 puts "#{prod1.to_json}\n"
+

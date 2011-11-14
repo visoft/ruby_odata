@@ -102,6 +102,17 @@ For expanding grandchild and lower entities, you must pass in the full path from
   puts "With expanding the query"
   puts "#{prod1.to_json}\n"
 
+=== Lazy Loading
+If you want to implement lazy loading, the ruby_odata `Service` allows you to perform this. You simply need to call the `load_property` method on the `Service` passing in the object and the navigation property to fill.
+
+  # Without expanding the query
+  svc.Products(1)
+  prod1 = svc.execute.first
+  puts "#{prod1.to_json}\n"
+
+  # Use load_property for lazy loading
+  svc.load_property(prod1, "Category")
+  puts "#{prod1.to_json}\n"
 
 === Filtering
 The syntax for filtering can be found on the {OData Protocol URI Conventions}[http://www.odata.org/developers/protocols/uri-conventions#FilterSystemQueryOption] page.

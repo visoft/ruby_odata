@@ -43,7 +43,7 @@ module OData
         # Required for the build_classes method
         stub_request(:any, /http:\/\/test\.com\/test\.svc(?:.*)/).
         with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
-        to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/edmx_categories_products.xml", __FILE__)), :headers => {})
+        to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/sample_service/edmx_categories_products.xml", __FILE__)), :headers => {})
       end
       it "should have an accessor to see the collections exposed by the service" do
         svc = OData::Service.new "http://test.com/test.svc/"
@@ -148,7 +148,7 @@ module OData
       end
     end
   
-    describe "collections, objects, etc" do
+    describe "collections, objects, metadata etc" do
       before(:each) do
         # Metadata
         stub_request(:get, "http://test.com/test.svc/$metadata").
@@ -268,6 +268,13 @@ module OData
           product.Category.should_not be_an Array
         end      
       end
+      
+      describe "navigation properties" do
+        it "should fill in PropertyMetadata for navigation properties" do
+          svc = OData::Service.new "http://test.com/test.svc/"
+          svc.class_metadata['Product'].should have_key 'Category'
+        end
+      end
     end
   
     describe "single layer inheritance" do
@@ -365,7 +372,7 @@ module OData
         # Required for the build_classes method
         stub_request(:get, /http:\/\/test\.com\/test\.svc\/\$metadata(?:\?.+)?/).
         with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
-        to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/edmx_categories_products.xml", __FILE__)), :headers => {})
+        to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/sample_service/edmx_categories_products.xml", __FILE__)), :headers => {})
         
         stub_request(:get, "http://test.com/test.svc/Categories(1)/$links/Products").
         with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
@@ -380,6 +387,81 @@ module OData
         results[0].path.should eq "/SampleService/Entities.svc/Products(1)"
         results[1].path.should eq "/SampleService/Entities.svc/Products(2)"
         results[2].path.should eq "/SampleService/Entities.svc/Products(3)"        
+      end
+    end
+  
+    describe "lazy loading" do
+      before(:each) do
+        # Required for the build_classes method
+        stub_request(:get, /http:\/\/test\.com\/test\.svc\/\$metadata(?:\?.+)?/).
+        with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
+        to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/sample_service/edmx_categories_products.xml", __FILE__)), :headers => {})
+        
+        stub_request(:get, "http://test.com/test.svc/Products(1)").
+        with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
+        to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/sample_service/result_single_product.xml", __FILE__)), :headers => {})
+        
+        stub_request(:get, "http://test.com/test.svc/Products(1)/Category").
+        with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
+        to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/sample_service/result_single_category.xml", __FILE__)), :headers => {})
+        
+        stub_request(:get, "http://test.com/test.svc/Categories(1)").
+        with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
+        to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/sample_service/result_single_category.xml", __FILE__)), :headers => {})
+        
+        stub_request(:get, "http://test.com/test.svc/Categories(1)/Products").
+        with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
+        to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/sample_service/result_multiple_category_products.xml", __FILE__)), :headers => {})
+      end
+      
+      after(:each) do
+        Object.send(:remove_const, 'Product')
+        Object.send(:remove_const, 'Category')
+      end
+      
+      it "should have a load property method" do
+        svc = OData::Service.new "http://test.com/test.svc/"
+        svc.should respond_to(:load_property)
+      end
+      
+      it "should throw an exception if the object isn't tracked" do
+        svc = OData::Service.new "http://test.com/test.svc/"
+        new_object = Product.new
+        lambda { svc.load_property(new_object, "Category") }.should raise_error(ArgumentError, "You cannot load a property on an entity that isn't tracked")
+      end
+      
+      it "should throw an exception if there isn't a method matching the navigation property passed in" do
+        svc = OData::Service.new "http://test.com/test.svc/"
+        svc.Products(1)
+        product = svc.execute.first
+        lambda { svc.load_property(product, "NoMatchingMethod") }.should raise_error(ArgumentError, "'NoMatchingMethod' is not a valid navigation property")        
+      end
+      
+      it "should throw an exception if the method passed in is a standard property (non-navigation)" do
+        svc = OData::Service.new "http://test.com/test.svc/"
+        svc.Products(1)
+        product = svc.execute.first
+        lambda { svc.load_property(product, "Name") }.should raise_error(ArgumentError, "'Name' is not a valid navigation property")        
+      end
+      
+      it "should fill a single navigation property" do
+        svc = OData::Service.new "http://test.com/test.svc/"
+        svc.Products(1)
+        product = svc.execute.first
+        svc.load_property(product, "Category")
+        product.Category.should_not be_nil
+        product.Category.Id.should eq 1
+        product.Category.Name.should eq 'Category 1'
+      end
+      
+      it "should fill a collection navigation property" do
+        svc = OData::Service.new "http://test.com/test.svc/"
+        svc.Categories(1)
+        category = svc.execute.first
+        svc.load_property(category, "Products")
+        category.Products.first.should be_a Product
+        category.Products[0].Id.should eq 1
+        category.Products[1].Id.should eq 2
       end
     end
   end

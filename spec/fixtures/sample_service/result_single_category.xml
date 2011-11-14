@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="iso-8859-1" standalone="yes"?>
+<entry xml:base="http://test.com/test.svc/" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="http://www.w3.org/2005/Atom">
+  <id>http://test.com/test.svc/Categories(1)</id>
+  <title type="text"></title>
+  <updated>2011-11-13T05:37:35Z</updated>
+  <author>
+    <name />
+  </author>
+  <link rel="edit" title="Category" href="Categories(1)" />
+  <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Products" type="application/atom+xml;type=feed" title="Products" href="Categories(1)/Products" />
+  <category term="Model.Category" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" />
+  <content type="application/xml">
+    <m:properties>
+      <d:Id m:type="Edm.Int32">1</d:Id>
+      <d:Name>Category 1</d:Name>
+    </m:properties>
+  </content>
+</entry>

@@ -124,6 +124,22 @@ class Service
     @has_partial
   end
 
+  # Lazy loads a navigation property on a model
+  # 
+  # ==== Required Attributes
+  # - obj: The object to fill
+  # - nav_prop: The navigation property to fill
+  #
+  # Note: This method will throw an exception if the +obj+ isn't a tracked entity	
+  # Note: This method will throw an exception if the +nav_prop+ isn't a valid navigation property
+  def load_property(obj, nav_prop)
+    raise ArgumentError, "You cannot load a property on an entity that isn't tracked" if obj.send(:__metadata).nil?
+    raise ArgumentError, "'#{nav_prop}' is not a valid navigation property" unless obj.respond_to?(nav_prop.to_sym)
+    raise ArgumentError, "'#{nav_prop}' is not a valid navigation property" unless @class_metadata[obj.class.to_s][nav_prop].nav_prop
+    results = RestClient::Resource.new(build_load_property_uri(obj, nav_prop), @rest_options).get
+    prop_results = build_classes_from_result(results)
+    obj.send "#{nav_prop}=", (singular?(nav_prop) ? prop_results.first : prop_results)
+  end
   
   private
 
@@ -179,9 +195,8 @@ class Service
     entity_types.each do |e|
       next if e['Abstract'] == "true"
       klass_name = e['Name']
-      methods = collect_properties(klass_name,edm_ns, e, doc)
-      nprops =  e.xpath(".//edm:NavigationProperty", "edm" => edm_ns)			
-      nav_props = nprops.collect { |p| p['Name'] } # Navigation Properties
+      methods = collect_properties(klass_name, edm_ns, e, doc)
+      nav_props = collect_navigation_properties(klass_name, edm_ns, e, doc)
       @classes[klass_name] = ClassBuilder.new(klass_name, methods, nav_props).build unless @classes.keys.include?(klass_name)
     end
   end
@@ -204,7 +219,7 @@ class Service
     results
   end
   
-
+  # Loops through the standard properties (non-navigation) for a given class and returns the appropriate list of methods
   def collect_properties(klass_name, edm_ns, element, doc)
     props = element.xpath(".//edm:Property", "edm" => edm_ns)
     @class_metadata[klass_name] = build_property_metadata(props)
@@ -218,6 +233,13 @@ class Service
       methods = methods.concat(props.collect { |p| p['Name']})
     end
     methods
+  end
+  
+  # Similar to +collect_properties+, but handles the navigation properties
+  def collect_navigation_properties(klass_name, edm_ns, element, doc)
+    nav_props = element.xpath(".//edm:NavigationProperty", "edm" => edm_ns)
+    @class_metadata[klass_name].merge!(build_property_metadata(nav_props))
+    nav_props.collect { |p| p['Name'] }
   end
 
   # Helper to loop through a result and create an instance for each entity in the results
@@ -359,6 +381,11 @@ class Service
     uri = "#{@uri}/$batch"
     uri << "?#{@additional_params.to_query}" unless @additional_params.empty?
     uri    
+  end
+  def build_load_property_uri(obj, property)
+    uri = obj.__metadata[:uri]
+    uri << "/#{property}"
+    uri
   end
   
   def build_inline_class(klass, entry, property_name)

@@ -77,3 +77,5 @@
   * Support for partial results (thanks arienmalec)
   * Added support for single layer inheritance (thanks to http://odetocode.com/Blogs/scott/archive/2010/07/11/odata-and-ruby.aspx)
   * Added support for querying links (see https://github.com/visoft/ruby_odata/issues/10)
+  * Added support for lazy loading
+  * Added basic reflection of the entity model via the ruby_odata service
