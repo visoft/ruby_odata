@@ -389,8 +389,8 @@ module OData
         results[2].path.should eq "/SampleService/Entities.svc/Products(3)"        
       end
     end
-  
-    describe "lazy loading" do
+    
+    describe "sample service" do
       before(:each) do
         # Required for the build_classes method
         stub_request(:get, /http:\/\/test\.com\/test\.svc\/\$metadata(?:\?.+)?/).
@@ -419,49 +419,59 @@ module OData
         Object.send(:remove_const, 'Category')
       end
       
-      it "should have a load property method" do
-        svc = OData::Service.new "http://test.com/test.svc/"
-        svc.should respond_to(:load_property)
-      end
+      describe "lazy loading" do
+        it "should have a load property method" do
+          svc = OData::Service.new "http://test.com/test.svc/"
+          svc.should respond_to(:load_property)
+        end
       
-      it "should throw an exception if the object isn't tracked" do
-        svc = OData::Service.new "http://test.com/test.svc/"
-        new_object = Product.new
-        lambda { svc.load_property(new_object, "Category") }.should raise_error(ArgumentError, "You cannot load a property on an entity that isn't tracked")
-      end
+        it "should throw an exception if the object isn't tracked" do
+          svc = OData::Service.new "http://test.com/test.svc/"
+          new_object = Product.new
+          lambda { svc.load_property(new_object, "Category") }.should raise_error(ArgumentError, "You cannot load a property on an entity that isn't tracked")
+        end
       
-      it "should throw an exception if there isn't a method matching the navigation property passed in" do
-        svc = OData::Service.new "http://test.com/test.svc/"
-        svc.Products(1)
-        product = svc.execute.first
-        lambda { svc.load_property(product, "NoMatchingMethod") }.should raise_error(ArgumentError, "'NoMatchingMethod' is not a valid navigation property")        
-      end
+        it "should throw an exception if there isn't a method matching the navigation property passed in" do
+          svc = OData::Service.new "http://test.com/test.svc/"
+          svc.Products(1)
+          product = svc.execute.first
+          lambda { svc.load_property(product, "NoMatchingMethod") }.should raise_error(ArgumentError, "'NoMatchingMethod' is not a valid navigation property")        
+        end
       
-      it "should throw an exception if the method passed in is a standard property (non-navigation)" do
-        svc = OData::Service.new "http://test.com/test.svc/"
-        svc.Products(1)
-        product = svc.execute.first
-        lambda { svc.load_property(product, "Name") }.should raise_error(ArgumentError, "'Name' is not a valid navigation property")        
-      end
+        it "should throw an exception if the method passed in is a standard property (non-navigation)" do
+          svc = OData::Service.new "http://test.com/test.svc/"
+          svc.Products(1)
+          product = svc.execute.first
+          lambda { svc.load_property(product, "Name") }.should raise_error(ArgumentError, "'Name' is not a valid navigation property")        
+        end
       
-      it "should fill a single navigation property" do
-        svc = OData::Service.new "http://test.com/test.svc/"
-        svc.Products(1)
-        product = svc.execute.first
-        svc.load_property(product, "Category")
-        product.Category.should_not be_nil
-        product.Category.Id.should eq 1
-        product.Category.Name.should eq 'Category 1'
-      end
+        it "should fill a single navigation property" do
+          svc = OData::Service.new "http://test.com/test.svc/"
+          svc.Products(1)
+          product = svc.execute.first
+          svc.load_property(product, "Category")
+          product.Category.should_not be_nil
+          product.Category.Id.should eq 1
+          product.Category.Name.should eq 'Category 1'
+        end
       
-      it "should fill a collection navigation property" do
-        svc = OData::Service.new "http://test.com/test.svc/"
-        svc.Categories(1)
-        category = svc.execute.first
-        svc.load_property(category, "Products")
-        category.Products.first.should be_a Product
-        category.Products[0].Id.should eq 1
-        category.Products[1].Id.should eq 2
+        it "should fill a collection navigation property" do
+          svc = OData::Service.new "http://test.com/test.svc/"
+          svc.Categories(1)
+          category = svc.execute.first
+          svc.load_property(category, "Products")
+          category.Products.first.should be_a Product
+          category.Products[0].Id.should eq 1
+          category.Products[1].Id.should eq 2
+        end
+      end
+    
+      describe "add, update, and deletes" do
+        it "should implement an AddTo method for collection" do
+          svc = OData::Service.new "http://test.com/test.svc/"
+          svc.should respond_to :AddToCategories
+          svc.should respond_to :AddToProducts
+        end
       end
     end
   end
