@@ -55,7 +55,7 @@ When /^I call "([^\"]*)" on the service$/ do |method|
 end
 
 Then /^the result should be "([^\"]*)"$/ do |result|
-  @service_result.should == result 
+  @service_result.should eq result 
 end
 
 Then /^I should be able to call "([^\"]*)" on the service$/ do |method|
@@ -79,19 +79,19 @@ When /^I run the query$/ do
 end
 
 Then /^the result should be of type "([^\"]*)"$/ do |type|
-  @service_result.class.to_s.should == type
+  @service_result.class.to_s.should eq type
 end
 
 Then /^the result should have a method: "([^\"]*)"$/ do |method|
-  @service_result.respond_to?(method.to_sym).should == true
+  @service_result.respond_to?(method.to_sym).should eq true
 end
 
 Then /^the method "([^\"]*)" on the result should equal: "([^\"]*)"$/ do |method, value|
-  @service_result.send(method.to_sym).to_s.should == value
+  @service_result.send(method.to_sym).to_s.should eq value
 end
 
 Then /^the method "([^\"]*)" on the result should be nil$/ do |method|
-  @service_result.send(method.to_sym).should == nil
+  @service_result.send(method.to_sym).should eq nil
 end
 
 When /^I set "([^\"]*)" on the result to "([^\"]*)"$/ do |property_name, value|
@@ -124,7 +124,7 @@ end
 
 Then /^the method "([^\"]*)" on the result should be of type "([^\"]*)"$/ do |method, type|
   result = @service_result.send(method.to_sym) 
-  result.class.to_s.should == type
+  result.class.to_s.should eq type
 end
 
 Given /^I call "([^\"]*)" on the service with a new "([^\"]*)" object(?: with (.*))?$/ do |method, object, fields|
@@ -139,7 +139,7 @@ When /^I save changes$/ do
 end
 
 Then /^the save result should be of type "([^\"]*)"$/ do |type|
-  @saved_result.class.to_s.should == type
+  @saved_result.class.to_s.should eq type
 end
 
 When /^I call "([^\"]*)" on the service with the last save result$/ do |method|
@@ -151,12 +151,12 @@ When /^I call "([^\"]*)" on the service with the last query result$/ do |method|
 end
 
 Then /^the save result should equal: "([^\"]*)"$/ do |result|
-  @saved_result.to_s.should == result
+  @saved_result.to_s.should eq result
 end
 
 Then /^the method "([^\"]*)" on the save result should equal: "([^\"]*)"$/ do |method, value|
   result = @saved_result.send(method.to_sym)
-  result.should == value
+  result.should eq value
 end
 
 When /^blueprints exist for the service$/ do
@@ -171,7 +171,7 @@ end
 Then /^no "([^\"]*)" should exist$/ do |collection|
   @service.send(collection)
   results = @service.execute
-  results.should == []
+  results.should eq []
 end
 
 
@@ -237,7 +237,7 @@ Then /^the save result should be:$/ do |table|
 end
 
 Then /^a class named "([^\"]*)" should exist$/ do |klass_name|
-  (Object.const_defined? klass_name).should == true
+  (Object.const_defined? klass_name).should eq true
 end
 
 # Operations against a method on the service result
@@ -247,12 +247,12 @@ When /^I call "([^\"]*)" for "([^\"]*)" on the result$/ do |method2, method1|
 end
 
 Then /^the operation should not be null$/ do
-  @operation_result.nil?.should == false
+  @operation_result.nil?.should eq false
 end
 
 Then /^the method "([^\"]*)" on the result's method "([^\"]*)" should equal: "([^\"]*)"$/ do |method, result_method, value|
   obj = @service_result.send(result_method.to_sym)
-  obj.send(method.to_sym).to_s.should == value
+  obj.send(method.to_sym).to_s.should eq value
 end
 
 When /^I set "([^\"]*)" on the result's method "([^\"]*)" to "([^\"]*)"$/ do |property_name, result_method, value|
@@ -263,17 +263,17 @@ end
 Then /^the "([^\"]*)" method should return a (.*)/ do |method_name, type|
   methods = method_name.split '.'
   if methods.length == 1
-    @service_result.send(method_name).class.to_s.should == type
+    @service_result.send(method_name).class.to_s.should eq type
   else
-    @service_result.send(methods[0]).send(methods[1]).class.to_s.should == type
+    @service_result.send(methods[0]).send(methods[1]).class.to_s.should eq type
   end
 end
 Then /^the "([^\"]*)" method on the object should return a (.*)/ do |method_name, type|
   methods = method_name.split '.'
   if methods.length == 1
-    @service_result.first.send(method_name).class.to_s.should == type
+    @service_result.first.send(method_name).class.to_s.should eq type
   else
-    @service_result.first.send(methods[0]).send(methods[1]).class.to_s.should == type
+    @service_result.first.send(methods[0]).send(methods[1]).class.to_s.should eq type
   end
 end
 
@@ -284,9 +284,9 @@ end
 Then /^the new query result's time "([^\"]*)" should equal the saved query result$/ do |method_name|
   methods = method_name.split '.'
   if methods.length == 1
-    @service_result.send(method_name).xmlschema(3).should == @stored_query_result.send(method_name).xmlschema(3)
+    @service_result.send(method_name).xmlschema(3).should eq @stored_query_result.send(method_name).xmlschema(3)
   else
-    @service_result.send(methods[0]).send(methods[1]).xmlschema(3).should == @stored_query_result.send(methods[0]).send(methods[1]).xmlschema(3)
+    @service_result.send(methods[0]).send(methods[1]).xmlschema(3).should eq @stored_query_result.send(methods[0]).send(methods[1]).xmlschema(3)
   end
 end
 

@@ -351,19 +351,19 @@ module OData
         svc = OData::Service.new "http://test.com/test.svc/"
         svc.Partials
         results = svc.execute
-        results.count.should == 3
+        results.count.should eq 3
       end
 
       it "should return only the partial when specified by options" do
         svc = OData::Service.new("http://test.com/test.svc/", :eager_partial => false)
         svc.Partials
         results = svc.execute
-        results.count.should == 1
+        results.count.should eq 1
         svc.should be_partial
         while svc.partial?
           results.concat svc.next
         end
-        results.count.should == 3
+        results.count.should eq 3
       end
     end
   

@@ -6,7 +6,7 @@ module OData
       it "handles lowercase entities" do        
         klass = ClassBuilder.new 'product', [], []
         result = klass.build
-        result.should == Product
+        result.should eq Product
       end
     end
   end
