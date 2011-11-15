@@ -27,6 +27,7 @@ There are various options that you can pass when creating an instance of the ser
 * password: password for http basic auth
 * verify_ssl: false if no verification, otherwise mode (OpenSSL::SSL::VERIFY_PEER is default)
 * additional_params: a hash of query string params that will be passed on all calls (query, new, update, delete, batch)
+* namespace: a string based namespace to create your objects in. You can specify the namespace using periods as separators (like .NET, for example +VisoftInc.Sample.Models+) or using double colons as separators (like Ruby +VisoftInc::Sample::Models+). By providing a namespace you can prevent naming collisions in your applications. 
 
 === Adding
 When you point at a service, an AddTo<EntityName> method is created for you.  This method takes in the new entity to create.  To commit the change, you need to call the save_changes method on the service.  To add a new category for example, you would simply do the following:

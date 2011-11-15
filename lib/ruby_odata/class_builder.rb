@@ -4,13 +4,15 @@ module OData
     # Creates a new instance of the ClassBuilder class
     #
     # ==== Required Attributes
-    # - klass_name: 	The name/type of the class to create
-    # - methods:			The accessor methods to add to the class
-    # - nav_props:		The accessor methods to add for navigation properties
-    def initialize(klass_name, methods, nav_props)
+    # - klass_name:   The name/type of the class to create
+    # - methods:      The accessor methods to add to the class
+    # - nav_props:    The accessor methods to add for navigation properties
+    # - namespaces:   Optional namespace to create the classes in
+    def initialize(klass_name, methods, nav_props, namespace = nil)
       @klass_name = klass_name.camelcase
       @methods = methods
       @nav_props = nav_props
+      @namespace = namespace
     end
     
     # Returns a dynamically generated class definition based on the constructor parameters
@@ -22,12 +24,32 @@ module OData
       return nil    if @klass_name.nil?
           
       # return if we can find constant corresponding to class name
-      if Object.const_defined? @klass_name
+      already_defined = eval("defined?(#{@klass_name}) == 'constant' and #{@klass_name}.class == Class")
+      if already_defined
         @klass = @klass_name.constantize
         return @klass
       end
+      
+      if @namespace
+        namespaces = @namespace.split(/\.|::/)
+        
+        namespaces.each_with_index do |ns, index|
+          if index == 0
+            next if Object.const_defined? ns
+            Object.const_set(ns, Module.new)
+          else
+            current_ns = namespaces[0..index-1].join '::'
+            next if eval "#{current_ns}.const_defined? '#{ns}'"
+            eval "#{current_ns}.const_set('#{ns}', Module.new)"
+          end
+        end
 
-      Object.const_set(@klass_name, Class.new.extend(ActiveSupport::JSON))
+        klass_constant = @klass_name.split('::').last
+        eval "#{namespaces.join '::'}.const_set('#{klass_constant}', Class.new.extend(ActiveSupport::JSON))"
+      else
+        Object.const_set(@klass_name, Class.new.extend(ActiveSupport::JSON))        
+      end
+
       @klass = @klass_name.constantize
       @klass.class_eval do
         include OData

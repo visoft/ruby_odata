@@ -150,6 +150,7 @@ class Service
     end
     @rest_options = { :verify_ssl => get_verify_mode, :user => @options[:username], :password => @options[:password] }
     @additional_params = options[:additional_params] || {}
+    @namespace = options[:namespace]
   end
   
   def default_instance_vars!
@@ -185,22 +186,31 @@ class Service
     # Build complex types first, these will be used for entities
     complex_types = doc.xpath("//edm:ComplexType", "edm" => edm_ns) || []
     complex_types.each do |c|
-      name = c['Name']
+      name = qualify_class_name(c['Name'])
       props = c.xpath(".//edm:Property", "edm" => edm_ns)
       methods = props.collect { |p| p['Name'] } # Standard Properties
-      @classes[name] = ClassBuilder.new(name, methods, []).build unless @classes.keys.include?(name)
+      @classes[name] = ClassBuilder.new(name, methods, [], @namespace).build unless @classes.keys.include?(name)
     end
 
     entity_types = doc.xpath("//edm:EntityType", "edm" => edm_ns)
     entity_types.each do |e|
       next if e['Abstract'] == "true"
-      klass_name = e['Name']
+      klass_name = qualify_class_name(e['Name'])
       methods = collect_properties(klass_name, edm_ns, e, doc)
       nav_props = collect_navigation_properties(klass_name, edm_ns, e, doc)
-      @classes[klass_name] = ClassBuilder.new(klass_name, methods, nav_props).build unless @classes.keys.include?(klass_name)
+      @classes[klass_name] = ClassBuilder.new(klass_name, methods, nav_props, @namespace).build unless @classes.keys.include?(klass_name)
     end
   end
-  
+
+  # Converts a class name to its fully qualified name (if applicable) and returns the new name
+  def qualify_class_name(klass_name)
+    return klass_name if @namespace.nil? || @namespace.blank? || klass_name.include?('::')
+    namespaces = @namespace.split(/\.|::/)
+    namespaces << klass_name
+    namespaces.join '::'
+  end
+
+  # Builds the metadata need for each property for things like feed customizations and navigation properties
   def build_property_metadata(props)
     metadata = {}
     props.each do |property_element|
@@ -280,7 +290,7 @@ class Service
     properties_xpath = has_inline ? ".//m:properties[not(ancestor::m:inline)]/*" : ".//m:properties/*"
     properties = entry.xpath(properties_xpath, { "m" => "http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" })
 
-    klass = @classes[klass_name].new
+    klass = @classes[qualify_class_name(klass_name)].new
     
     # Fill metadata
     meta_id = entry.xpath("./atom:id", "atom" => "http://www.w3.org/2005/Atom")[0].content
@@ -293,7 +303,7 @@ class Service
     end
     
     # Fill properties represented outside of the properties collection
-    @class_metadata[klass_name].select { |k,v| v.fc_keep_in_content == false }.each do |k, meta|
+    @class_metadata[qualify_class_name(klass_name)].select { |k,v| v.fc_keep_in_content == false }.each do |k, meta|
       if meta.fc_target_path == "SyndicationTitle"
         title = entry.xpath("./atom:title", "atom" => "http://www.w3.org/2005/Atom").first
         klass.send "#{meta.name}=", title.content
@@ -481,7 +491,7 @@ class Service
 
   # Complex Types
   def complex_type_to_class(complex_type_xml)
-    klass_name = complex_type_xml.attr('type').split('.')[-1]
+    klass_name = qualify_class_name(complex_type_xml.attr('type').split('.')[-1])
     klass = @classes[klass_name].new
 
     # Fill in the properties

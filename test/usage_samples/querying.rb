@@ -2,8 +2,8 @@
 require File.expand_path('../../../lib/ruby_odata', __FILE__)
 require File.expand_path('../../../features/support/constants', __FILE__)
 
-puts "http://#{WEBSERVER}:#{HTTP_PORT_NUMBER}/SampleService/Entities.svc"
 svc = OData::Service.new "http://#{WEBSERVER}:#{HTTP_PORT_NUMBER}/SampleService/Entities.svc"
+ns_svc = OData::Service.new "http://#{WEBSERVER}:#{HTTP_PORT_NUMBER}/SampleService/Entities.svc", { :namespace => 'Models' }
 
 puts "Querying for a list of data"
 svc.Categories
@@ -29,3 +29,13 @@ svc.Products(1).expand('Category')
 prod1 = svc.execute.first
 puts "#{prod1.to_json}\n"
 
+puts "\n\nNamespaced Entities (using the namespace Models)"
+puts "\nUsing the standard service to pull the first product"
+svc.Products(1)
+prod1 = svc.execute.first
+puts "The class return type from the standard service: #{prod1.class}"
+
+puts "\nUsing the namespaced service to pull the first product"
+ns_svc.Products(1)
+prod2 = ns_svc.execute.first
+puts "The class return type: #{prod2.class}\n"

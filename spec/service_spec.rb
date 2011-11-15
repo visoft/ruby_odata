@@ -413,13 +413,13 @@ module OData
         with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
         to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/sample_service/result_multiple_category_products.xml", __FILE__)), :headers => {})
       end
-      
-      after(:each) do
-        Object.send(:remove_const, 'Product')
-        Object.send(:remove_const, 'Category')
-      end
-      
+            
       describe "lazy loading" do
+        after(:each) do
+          Object.send(:remove_const, 'Product') if Object.const_defined? 'Product'
+          Object.send(:remove_const, 'Category') if Object.const_defined? 'Category'
+        end
+        
         it "should have a load property method" do
           svc = OData::Service.new "http://test.com/test.svc/"
           svc.should respond_to(:load_property)
@@ -467,10 +467,70 @@ module OData
       end
     
       describe "add, update, and deletes" do
+        after(:each) do
+          Object.send(:remove_const, 'Product') if Object.const_defined? 'Product'
+          Object.send(:remove_const, 'Category') if Object.const_defined? 'Category'
+        end
+        
         it "should implement an AddTo method for collection" do
           svc = OData::Service.new "http://test.com/test.svc/"
           svc.should respond_to :AddToCategories
           svc.should respond_to :AddToProducts
+        end
+      end
+      
+      describe "namespaces" do
+        after(:each) do
+          VisoftInc::Sample::Models.send(:remove_const, 'Product')        if VisoftInc::Sample::Models.const_defined? 'Product'
+          VisoftInc::Sample::Models.send(:remove_const, 'Category')       if VisoftInc::Sample::Models.const_defined? 'Category'
+          
+          VisoftInc::Sample.send(:remove_const, 'Models')                 if VisoftInc::Sample.const_defined? 'Models'
+          VisoftInc.send(:remove_const, 'Sample')                         if VisoftInc.const_defined? 'Sample'          
+          Object.send(:remove_const, 'VisoftInc')                         if Object.const_defined? 'VisoftInc'
+        end
+        
+        it "should create models in the specified namespace if the option is set (using a .NET style namespace with dots)" do
+          svc = OData::Service.new "http://test.com/test.svc/", { :namespace => 'VisoftInc.Sample.Models' }
+          defined?(VisoftInc::Sample::Models::Product).nil?.should be_false, 'VisoftInc::Sample::Models::Product was expected to be defined, but was not'
+          defined?(VisoftInc::Sample::Models::Category).nil?.should be_false, 'VisoftInc::Sample::Models::Category was expected to be defined, but was not'
+        end
+        
+        it "should create models in the specified namespace if the option is set (using Ruby style namespaces with double colons)" do
+          svc = OData::Service.new "http://test.com/test.svc/", { :namespace => 'VisoftInc::Sample::Models' }
+          defined?(VisoftInc::Sample::Models::Product).nil?.should be_false, 'VisoftInc::Sample::Models::Product was expected to be defined, but was not'
+          defined?(VisoftInc::Sample::Models::Category).nil?.should be_false, 'VisoftInc::Sample::Models::Category was expected to be defined, but was not'
+        end
+        
+        it "should fill object defined in a namespace" do
+          svc = OData::Service.new "http://test.com/test.svc/", { :namespace => 'VisoftInc::Sample::Models' }
+          svc.Categories(1)
+          categories = svc.execute
+          categories.should_not be_nil
+          category = categories.first
+          category.Id.should eq 1
+          category.Name.should eq 'Category 1'
+        end
+        
+        it "should fill the class_metadata hash" do
+          svc = OData::Service.new "http://test.com/test.svc/", { :namespace => 'VisoftInc::Sample::Models' }
+          svc.class_metadata.should_not be_empty
+        end
+        
+        it "should add a key (based on the name) for each property class_metadata hash" do
+          svc = OData::Service.new "http://test.com/test.svc/", { :namespace => 'VisoftInc::Sample::Models' }
+          svc.class_metadata['VisoftInc::Sample::Models::Product'].should have_key 'Id'
+          svc.class_metadata['VisoftInc::Sample::Models::Product'].should have_key 'Name'
+          svc.class_metadata['VisoftInc::Sample::Models::Product'].should have_key 'Description'
+        end
+        
+        it "should lazy load objects defined in a namespace" do
+          svc = OData::Service.new "http://test.com/test.svc/", { :namespace => 'VisoftInc::Sample::Models' }
+          svc.Categories(1)
+          category = svc.execute.first
+          svc.load_property category, 'Products'
+          category.Products.should_not be_nil
+          category.Products.first.Id.should eq 1
+          category.Products.first.Name.should eq 'Widget 1'          
         end
       end
     end

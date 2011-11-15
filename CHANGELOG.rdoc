@@ -79,3 +79,4 @@
   * Added support for querying links (see https://github.com/visoft/ruby_odata/issues/10)
   * Added support for lazy loading
   * Added basic reflection of the entity model via the ruby_odata service
+  * Added the ability to create ruby_odata models in a specified namespace to prevent conflicts with local models
