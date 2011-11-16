@@ -6,5 +6,8 @@ svc = OData::Service.new "http://#{WEBSERVER}:#{HTTP_PORT_NUMBER}/SampleService/
 puts "Retrieving collections exposed by a service:"
 puts svc.collections
 
-puts "Retrieving the properties for the Product class"
+puts "\nClasses created by the service"
+puts svc.classes
+
+puts "\nRetrieving the properties for the Product class"
 puts Product.properties
