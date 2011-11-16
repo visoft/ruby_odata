@@ -14,25 +14,25 @@ module OData
       @nav_props = nav_props
       @namespace = namespace
     end
-    
+
     # Returns a dynamically generated class definition based on the constructor parameters
     def build
       # return if already built
       return @klass unless @klass.nil?
-    
+
       # need the class name to build class
       return nil    if @klass_name.nil?
-          
+
       # return if we can find constant corresponding to class name
       already_defined = eval("defined?(#{@klass_name}) == 'constant' and #{@klass_name}.class == Class")
       if already_defined
         @klass = @klass_name.constantize
         return @klass
       end
-      
+
       if @namespace
         namespaces = @namespace.split(/\.|::/)
-        
+
         namespaces.each_with_index do |ns, index|
           if index == 0
             next if Object.const_defined? ns
@@ -47,7 +47,7 @@ module OData
         klass_constant = @klass_name.split('::').last
         eval "#{namespaces.join '::'}.const_set('#{klass_constant}', Class.new.extend(ActiveSupport::JSON))"
       else
-        Object.const_set(@klass_name, Class.new.extend(ActiveSupport::JSON))        
+        Object.const_set(@klass_name, Class.new.extend(ActiveSupport::JSON))
       end
 
       @klass = @klass_name.constantize
@@ -55,13 +55,27 @@ module OData
         include OData
       end
 
+      add_initializer(@klass)
       add_methods(@klass)
       add_nav_props(@klass)
-      
+      add_class_methods(@klass)
+
       return @klass
     end
-    
+
     private
+    def add_initializer(klass)
+      klass.send :define_method, :initialize do |*args|
+        return if args.blank?
+        props = args[0]
+        return unless props.is_a? Hash
+        props.each do |k,v|
+          raise NoMethodError, "undefined method `#{k}'" unless self.respond_to? k.to_sym
+          instance_variable_set("@#{k}", v)
+        end
+      end
+    end
+    
     def add_methods(klass)
       # Add metadata methods
       klass.send :define_method, :__metadata do
@@ -133,6 +147,14 @@ module OData
         klass.send :define_method, "#{method_name}=" do |value|
           instance_variable_set("@#{method_name}", value)
         end
+      end
+    end
+
+    def add_class_methods(klass)
+      list_of_properties = @methods.concat @nav_props
+
+      klass.send :define_singleton_method, 'properties' do
+        list_of_properties
       end
     end
   end

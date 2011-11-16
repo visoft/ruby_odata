@@ -17,6 +17,7 @@ Gem::Specification.new do |s|
   s.add_dependency('activesupport', '>= 2.3.5')
   s.add_dependency('rest-client', '>= 1.5.1')
   s.add_dependency('nokogiri', '>= 1.4.2')
+  s.add_dependency('backports', "~> 2.3.0")
   
   s.add_development_dependency('rake', '~> 0.8.7')
   s.add_development_dependency('rspec', '~> 2.5.0')

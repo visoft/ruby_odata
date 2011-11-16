@@ -10,6 +10,7 @@ require 'rest_client'
 require 'nokogiri'
 require 'bigdecimal'
 require 'bigdecimal/util'
+require 'backports'
 
 require lib + '/ruby_odata/property_metadata'
 require lib + '/ruby_odata/query_builder'

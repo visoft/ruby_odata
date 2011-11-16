@@ -466,7 +466,7 @@ module OData
         end
       end
     
-      describe "add, update, and deletes" do
+      describe "create, add, update, and delete" do
         after(:each) do
           Object.send(:remove_const, 'Product') if Object.const_defined? 'Product'
           Object.send(:remove_const, 'Category') if Object.const_defined? 'Category'
@@ -476,6 +476,25 @@ module OData
           svc = OData::Service.new "http://test.com/test.svc/"
           svc.should respond_to :AddToCategories
           svc.should respond_to :AddToProducts
+        end
+        
+        it "should create objects with an initialize method that can build the object from a hash" do
+          svc = OData::Service.new "http://test.com/test.svc/"
+          product = Product.new 'Id' => 1000, 'Name' => 'New Product'
+          product.Id.should eq 1000
+          product.Name.should eq 'New Product'
+        end
+        
+        it "should create objects that rejects keys that don't have corresponding methods" do
+          svc = OData::Service.new "http://test.com/test.svc/"
+          lambda { Product.new 'NotAProperty' => true }.should raise_error NoMethodError
+        end
+        
+        it "should create objects that expose a properties class method that lists the properties for the object" do
+          svc = OData::Service.new "http://test.com/test.svc/"
+          Product.properties.should include 'Id'
+          Product.properties.should include 'Name'
+          Product.properties.should include 'Category'          
         end
       end
       
