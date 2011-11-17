@@ -7,11 +7,13 @@ module OData
     # - klass_name:   The name/type of the class to create
     # - methods:      The accessor methods to add to the class
     # - nav_props:    The accessor methods to add for navigation properties
+    # - context:      The service context that this entity belongs to
     # - namespaces:   Optional namespace to create the classes in
-    def initialize(klass_name, methods, nav_props, namespace = nil)
+    def initialize(klass_name, methods, nav_props, context, namespace = nil)
       @klass_name = klass_name.camelcase
       @methods = methods
       @nav_props = nav_props
+      @context = context
       @namespace = namespace
     end
 

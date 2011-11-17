@@ -189,7 +189,7 @@ class Service
       name = qualify_class_name(c['Name'])
       props = c.xpath(".//edm:Property", "edm" => edm_ns)
       methods = props.collect { |p| p['Name'] } # Standard Properties
-      @classes[name] = ClassBuilder.new(name, methods, [], @namespace).build unless @classes.keys.include?(name)
+      @classes[name] = ClassBuilder.new(name, methods, [], self, @namespace).build unless @classes.keys.include?(name)
     end
 
     entity_types = doc.xpath("//edm:EntityType", "edm" => edm_ns)
@@ -198,7 +198,7 @@ class Service
       klass_name = qualify_class_name(e['Name'])
       methods = collect_properties(klass_name, edm_ns, e, doc)
       nav_props = collect_navigation_properties(klass_name, edm_ns, e, doc)
-      @classes[klass_name] = ClassBuilder.new(klass_name, methods, nav_props, @namespace).build unless @classes.keys.include?(klass_name)
+      @classes[klass_name] = ClassBuilder.new(klass_name, methods, nav_props, self, @namespace).build unless @classes.keys.include?(klass_name)
     end
   end
 
