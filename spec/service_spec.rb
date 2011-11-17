@@ -401,6 +401,10 @@ module OData
         with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
         to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/sample_service/result_single_product.xml", __FILE__)), :headers => {})
         
+        stub_request(:get, /http:\/\/test\.com\/test\.svc\/Products\(\d{2,}\)/).
+        with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
+        to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/sample_service/result_single_product_not_found.xml", __FILE__)), :headers => {})
+        
         stub_request(:get, "http://test.com/test.svc/Products(1)/Category").
         with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
         to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/sample_service/result_single_category.xml", __FILE__)), :headers => {})
@@ -466,7 +470,7 @@ module OData
         end
       end
     
-      describe "create, add, update, and delete" do
+      describe "find, create, add, update, and delete" do
         after(:each) do
           Object.send(:remove_const, 'Product') if Object.const_defined? 'Product'
           Object.send(:remove_const, 'Category') if Object.const_defined? 'Category'
@@ -495,6 +499,28 @@ module OData
           Product.properties.should include 'Id'
           Product.properties.should include 'Name'
           Product.properties.should include 'Category'          
+        end
+        
+        describe "Class.first method" do
+          it "should exist on the create server objects" do
+            svc = OData::Service.new "http://test.com/test.svc/"
+            Product.should respond_to :first
+          end
+          it "should return nil if an id isn't passed in" do
+            svc = OData::Service.new "http://test.com/test.svc/"
+            product = Product.first(nil)
+            product.should be_nil
+          end          
+          it "should return nil if an id isn't found" do
+            svc = OData::Service.new "http://test.com/test.svc/"
+            product = Product.first(1234567890)
+            product.should be_nil
+          end
+          it "should return a product if an id is found" do
+            svc = OData::Service.new "http://test.com/test.svc/"
+            product = Product.first(1)
+            product.should_not be_nil
+          end
         end
       end
       
