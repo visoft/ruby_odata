@@ -412,6 +412,8 @@ module OData
         stub_request(:get, "http://test.com/test.svc/Categories(1)/Products").
         with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
         to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/sample_service/result_multiple_category_products.xml", __FILE__)), :headers => {})
+        
+        stub_request(:post, "http://test.com/test.svc/Categories(1)/$links/Products").to_return(:status => 204)
       end
             
       describe "lazy loading" do
@@ -496,6 +498,20 @@ module OData
           Product.properties.should include 'Name'
           Product.properties.should include 'Category'          
         end
+        
+        it "should create objects that expose an id property" do
+          svc = OData::Service.new "http://test.com/test.svc/"
+          svc.Products(1)
+          product = svc.execute.first
+          product.should respond_to :id
+        end
+        
+        it "should extract the id from the metadata" do
+          svc = OData::Service.new "http://test.com/test.svc/"
+          svc.Products(1)
+          product = svc.execute.first
+          product.id.should eq 1
+        end
       end
       
       describe "namespaces" do
@@ -550,6 +566,85 @@ module OData
           category.Products.should_not be_nil
           category.Products.first.Id.should eq 1
           category.Products.first.Name.should eq 'Widget 1'          
+        end
+      end
+
+      describe "add_link between entities" do
+        it "should exist as a method on the service" do
+          svc = OData::Service.new "http://test.com/test.svc/"
+          svc.should respond_to(:add_link)
+        end
+        
+        it "shouldn't be allowed if a parent isn't tracked" do
+          svc = OData::Service.new "http://test.com/test.svc/"
+          category = Category.new :Name => 'New Category'
+          property = nil # Not needed for this test
+          product = nil # Not needed for this test
+          lambda { svc.add_link(category, property, product) }.should raise_error(ArgumentError, "You cannot add a link on an entity that isn't tracked (Category)")
+        end
+        
+        it "shouldn't be allowed if a property isn't found on the parent" do
+          svc = OData::Service.new "http://test.com/test.svc/"
+          svc.Categories(1)
+          category = svc.execute.first
+          property = 'NotAProperty'
+          product = nil # Not needed for this test
+          lambda { svc.add_link(category, property, product) }.should raise_error(ArgumentError, "'NotAProperty' is not a valid navigation property for Category")
+        end
+        
+        it "shouldn't be allowed if a property isn't a navigation property on the parent" do
+          svc = OData::Service.new "http://test.com/test.svc/"
+          svc.Categories(1)
+          category = svc.execute.first
+          property = 'Name'
+          product = nil # Not needed for this test
+          lambda { svc.add_link(category, property, product) }.should raise_error(ArgumentError, "'Name' is not a valid navigation property for Category")
+        end
+        
+        it "shouldn't be allowed if a child isn't tracked" do
+          svc = OData::Service.new "http://test.com/test.svc/"
+          svc.Categories(1)
+          category = svc.execute.first
+          property = 'Products'
+          product = Product.new :Name => 'Widget 1' 
+          lambda { svc.add_link(category, property, product) }.should raise_error(ArgumentError, "You cannot add a link on a child entity that isn't tracked (Product)")
+        end
+        
+        it "add_link should perform a post against the correct URL with the correct body" do
+          svc = OData::Service.new "http://test.com/test.svc/"
+          svc.Categories(1)
+          category = svc.execute.first
+          svc.Products(1)
+          product = svc.execute.first
+          property = 'Products'
+          svc.add_link(category, property, product)
+          svc.save_changes
+          a_request(:post, "http://test.com/test.svc/Categories(1)/$links/Products").
+            with(:body => { "uri" => "http://test.com/test.svc/Products(1)" },
+                 :headers => {'Content-Type' => 'application/json'}).should have_been_made
+        end
+        it "add_link should add the child to the parent's navigation property" do
+          svc = OData::Service.new "http://test.com/test.svc/"
+          svc.Categories(1)
+          category = svc.execute.first
+          svc.Products(1)
+          product = svc.execute.first
+          property = 'Products'
+          svc.add_link(category, property, product)
+          svc.save_changes
+          category.Products.should include product
+        end
+        it "add_link should add the parent to the child's navigation property" do
+          pending "Associations currently only work one way when adding a link"
+          svc = OData::Service.new "http://test.com/test.svc/"
+          svc.Categories(1)
+          category = svc.execute.first
+          svc.Products(1)
+          product = svc.execute.first
+          property = 'Products'
+          svc.add_link(category, property, product)
+          svc.save_changes
+          product.Category.should eq category
         end
       end
     end

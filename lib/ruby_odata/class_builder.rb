@@ -82,19 +82,19 @@ module OData
         instance_variable_get("@__metadata")
       end
       klass.send :define_method, :__metadata= do |value|
-          instance_variable_set("@__metadata", value)
+        instance_variable_set("@__metadata", value)
       end
       klass.send :define_method, :as_json do |*args|
-        meta = RUBY_VERSION < "1.9" ? '@__metadata' :'@__metadata'.to_sym
+        meta = RUBY_VERSION < "1.9" ? '@__metadata' : ('@__metadata'.to_sym)
 
         options = args[0] || {}
         options[:type] ||= :unknown
 
         vars = self.instance_values
 
-        # For adds, we need to get rid of all attributes except __metadata when passing
-        # the object to the server
-        if(options[:type] == :add)
+        if options[:type] == :add
+          # For adds, we need to get rid of all attributes except __metadata when passing
+          # the object to the server
           vars.each_value do |value|
             if value.is_a? OData
               child_vars = value.instance_variables
@@ -125,6 +125,12 @@ module OData
           vars[t[0]] = sdate
         end
 
+        if options[:type] == :link
+          # For links, delete all of the vars and just add a uri
+          uri = self.__metadata[:uri]
+          vars = { 'uri' => uri }
+        end
+
         vars
       end
 
@@ -137,6 +143,19 @@ module OData
           instance_variable_set("@#{method_name}", value)
         end
       end
+      
+      # Add an id method pulling out the id from the uri (mainly for Pickle support) if one doesn't already exist
+      unless klass.send :respond_to?, :id
+        klass.send :define_method, :id do
+          metadata = self.__metadata
+          id = nil
+          if metadata && metadata[:uri]  =~ /\((\d+)\)$/
+            id = $~[1]
+          end
+          return (true if Integer(id) rescue false) ? id.to_i : id
+        end
+      end
+      
     end
 
     def add_nav_props(klass)
