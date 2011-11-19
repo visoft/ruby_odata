@@ -1,0 +1,4 @@
+<error xmlns="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata">
+  <code/>
+  <message xml:lang="en-US">Resource not found for the segment 'Products'.</message>
+</error>

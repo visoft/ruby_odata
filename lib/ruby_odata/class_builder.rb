@@ -173,9 +173,21 @@ module OData
 
     def add_class_methods(klass)
       list_of_properties = @methods.concat @nav_props
+      context = @context
 
+      # Retrieves a list of properties defined on a type (standard and navigation properties)
       klass.send :define_singleton_method, 'properties' do
         list_of_properties
+      end
+      
+      # Finds a single model by ID
+      klass.send :define_singleton_method, 'first' do |id|
+        return nil if id.nil?
+        # TODO: Instead of just pluralizing the klass name, use the actual collection name
+        collection = klass.to_s.pluralize
+        context.send "#{collection}", id
+        results = context.execute
+        results.count == 0 ? nil : results.first
       end
     end
   end
