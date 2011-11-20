@@ -397,7 +397,7 @@ class Service
     uri
   end
   def build_add_link_uri(operation)
-    uri = operation.klass.send(:__metadata)[:uri]
+    uri = "#{operation.klass.send(:__metadata)[:uri]}"
     uri << "/$links/#{operation.klass_name}"
     uri    
   end
@@ -448,7 +448,7 @@ class Service
       child_collection = operation.klass.send("#{operation.klass_name}") || []
       child_collection << operation.child_klass if (post_result.code == 204)
       operation.klass.send("#{operation.klass_name}=", child_collection)
-      
+
       # TODO: Attach the parent to the child
 
       return(post_result.code == 204)

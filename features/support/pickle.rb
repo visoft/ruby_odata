@@ -24,9 +24,18 @@ module OData
     end
 
     # Get an instance by id of the model
-    def self.get_model(klass, id)
+    def self.get_model(klass, id, expand = false)
       collection = klass.to_s.split('::').last.pluralize
-      @@service.send collection, id
+      query = @@service.send collection, id
+
+      if expand then
+        # Expand all navigation properties
+        navigation_properties = klass.properties.select { |k, v| v.nav_prop }
+        navigation_properties.keys.each do |prop|
+          query.expand(prop)
+        end
+      end
+
       @@service.execute.first
     end
 
@@ -56,5 +65,16 @@ module OData
       @@service.save_changes.first
     end
     
+  end
+end
+
+module Pickle
+  module Session
+    # return a newly selected model with the navigation properties expanded
+    def model_with_associations(name)
+      model = created_model(name)
+      return nil unless model
+      OData::PickleAdapter.get_model(model.class, model.id, true)
+    end
   end
 end

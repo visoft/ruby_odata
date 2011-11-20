@@ -42,7 +42,7 @@ end
 
 # assert model is in another model's has_many assoc
 Then(/^#{capture_model} should be (?:in|one of|amongst) #{capture_model}(?:'s)? (\w+)$/) do |target, owner, association|
-  model!(owner).send(association).should include(model!(target))
+  model_with_associations(owner).send(association).should include(model!(target))
 end
 
 # assert model is not in another model's has_many assoc

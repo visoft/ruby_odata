@@ -53,10 +53,9 @@ Scenario: Related entities shouldn't be recreated on a child add
   When I run the query
   Then the method "Id" on the first result's method "Category" should equal: "1"
 
-@wip
 Scenario: Entities should be able to be linked together
-  Given a category: "cat1" exists with Name: "New Category"
-  And a product: "prod1" exists with Name: "Cool New Product!"
+  Given a category: "cat1" exists
+  And a product: "prod1" exists
   When I add a link between category: "cat1" and product: "prod1" on "Products"
   And I save changes
   Then the product: "prod1" should be one of category: "cat1"'s Products

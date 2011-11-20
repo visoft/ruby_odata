@@ -299,5 +299,5 @@ Then /^the result count should be (\d+)$/ do |expected_count|
 end
 
 When /^I add a link between #{capture_model} and #{capture_model} on "([^"]*)"$/ do |parent, child, property|
-  @service.add_link(model!(parent), property, model!(child))
+  @service.add_link(created_model(parent), property, created_model(child))
 end

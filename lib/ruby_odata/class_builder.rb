@@ -158,6 +158,12 @@ module OData
         end
       end
       
+      # Override equals
+      klass.send :define_method, :== do |other|
+        self.class == other.class && 
+        self.id == other.id &&
+        self.__metadata == other.__metadata
+      end
     end
 
     def add_nav_props(klass)
