@@ -20,7 +20,7 @@ module OData
     
     # get a list of column names for a given class
     def self.column_names(klass)
-      klass.properties
+      klass.properties.keys
     end
 
     # Get an instance by id of the model

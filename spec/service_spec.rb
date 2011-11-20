@@ -503,6 +503,12 @@ module OData
           Product.properties.should include 'Category'          
         end
         
+        it "should have full metadata for a property returned from the properties method" do
+          svc = OData::Service.new "http://test.com/test.svc/"
+          Product.properties['Category'].should be_a PropertyMetadata
+          Product.properties['Category'].nav_prop.should be_true
+        end
+        
         it "should create objects that expose an id property" do
           svc = OData::Service.new "http://test.com/test.svc/"
           svc.Products(1)

@@ -172,12 +172,11 @@ module OData
     end
 
     def add_class_methods(klass)
-      list_of_properties = @methods.concat @nav_props
       context = @context
 
       # Retrieves a list of properties defined on a type (standard and navigation properties)
       klass.send :define_singleton_method, 'properties' do
-        list_of_properties
+        context.class_metadata[klass.to_s] || {}
       end
       
       # Finds a single model by ID
