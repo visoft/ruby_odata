@@ -141,6 +141,20 @@ class Service
     obj.send "#{nav_prop}=", (singular?(nav_prop) ? prop_results.first : prop_results)
   end
   
+  # Adds a child object to a parent object's collection
+  # 
+  # ==== Required Attributes
+  # - parent: The parent object
+  # - nav_prop: The name of the navigation property to add the child to
+  # - child: The child object
+  def add_link(parent, nav_prop, child)
+    raise ArgumentError, "You cannot add a link on an entity that isn't tracked (#{parent.class})" if parent.send(:__metadata).nil?
+    raise ArgumentError, "'#{nav_prop}' is not a valid navigation property for #{parent.class}" unless parent.respond_to?(nav_prop.to_sym)
+    raise ArgumentError, "'#{nav_prop}' is not a valid navigation property for #{parent.class}" unless @class_metadata[parent.class.to_s][nav_prop].nav_prop
+    raise ArgumentError, "You cannot add a link on a child entity that isn't tracked (#{child.class})" if child.send(:__metadata).nil?
+    @save_operations << Operation.new("AddLink", nav_prop, parent, child)
+  end
+  
   private
 
   def set_options!(options)
@@ -189,7 +203,7 @@ class Service
       name = qualify_class_name(c['Name'])
       props = c.xpath(".//edm:Property", "edm" => edm_ns)
       methods = props.collect { |p| p['Name'] } # Standard Properties
-      @classes[name] = ClassBuilder.new(name, methods, [], @namespace).build unless @classes.keys.include?(name)
+      @classes[name] = ClassBuilder.new(name, methods, [], self, @namespace).build unless @classes.keys.include?(name)
     end
 
     entity_types = doc.xpath("//edm:EntityType", "edm" => edm_ns)
@@ -198,7 +212,7 @@ class Service
       klass_name = qualify_class_name(e['Name'])
       methods = collect_properties(klass_name, edm_ns, e, doc)
       nav_props = collect_navigation_properties(klass_name, edm_ns, e, doc)
-      @classes[klass_name] = ClassBuilder.new(klass_name, methods, nav_props, @namespace).build unless @classes.keys.include?(klass_name)
+      @classes[klass_name] = ClassBuilder.new(klass_name, methods, nav_props, self, @namespace).build unless @classes.keys.include?(klass_name)
     end
   end
 
@@ -382,6 +396,11 @@ class Service
     uri << "?#{@additional_params.to_query}" unless @additional_params.empty?
     uri
   end
+  def build_add_link_uri(operation)
+    uri = "#{operation.klass.send(:__metadata)[:uri]}"
+    uri << "/$links/#{operation.klass_name}"
+    uri    
+  end
   def build_resource_uri(operation)
     uri = operation.klass.send(:__metadata)[:uri]
     uri << "?#{@additional_params.to_query}" unless @additional_params.empty?
@@ -419,8 +438,21 @@ class Service
     elsif operation.kind == "Delete"
       delete_uri = build_resource_uri(operation)
       delete_result = RestClient::Resource.new(delete_uri, @rest_options).delete
-      return (delete_result.code == 204) 
-    end		
+      return (delete_result.code == 204)
+    elsif operation.kind == "AddLink"
+      save_uri = build_add_link_uri(operation)
+      json_klass = operation.child_klass.to_json(:type => :link)
+      post_result = RestClient::Resource.new(save_uri, @rest_options).post json_klass, {:content_type => :json}
+
+      # Attach the child to the parent
+      child_collection = operation.klass.send("#{operation.klass_name}") || []
+      child_collection << operation.child_klass if (post_result.code == 204)
+      operation.klass.send("#{operation.klass_name}=", child_collection)
+
+      # TODO: Attach the parent to the child
+
+      return(post_result.code == 204)
+    end
   end
 
   # Batch Saves

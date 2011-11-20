@@ -7,11 +7,13 @@ module OData
     # - klass_name:   The name/type of the class to create
     # - methods:      The accessor methods to add to the class
     # - nav_props:    The accessor methods to add for navigation properties
+    # - context:      The service context that this entity belongs to
     # - namespaces:   Optional namespace to create the classes in
-    def initialize(klass_name, methods, nav_props, namespace = nil)
+    def initialize(klass_name, methods, nav_props, context, namespace = nil)
       @klass_name = klass_name.camelcase
       @methods = methods
       @nav_props = nav_props
+      @context = context
       @namespace = namespace
     end
 
@@ -82,19 +84,19 @@ module OData
         instance_variable_get("@__metadata")
       end
       klass.send :define_method, :__metadata= do |value|
-          instance_variable_set("@__metadata", value)
+        instance_variable_set("@__metadata", value)
       end
       klass.send :define_method, :as_json do |*args|
-        meta = RUBY_VERSION < "1.9" ? '@__metadata' :'@__metadata'.to_sym
+        meta = RUBY_VERSION < "1.9" ? '@__metadata' : ('@__metadata'.to_sym)
 
         options = args[0] || {}
         options[:type] ||= :unknown
 
         vars = self.instance_values
 
-        # For adds, we need to get rid of all attributes except __metadata when passing
-        # the object to the server
-        if(options[:type] == :add)
+        if options[:type] == :add
+          # For adds, we need to get rid of all attributes except __metadata when passing
+          # the object to the server
           vars.each_value do |value|
             if value.is_a? OData
               child_vars = value.instance_variables
@@ -125,6 +127,12 @@ module OData
           vars[t[0]] = sdate
         end
 
+        if options[:type] == :link
+          # For links, delete all of the vars and just add a uri
+          uri = self.__metadata[:uri]
+          vars = { 'uri' => uri }
+        end
+
         vars
       end
 
@@ -136,6 +144,25 @@ module OData
         klass.send :define_method, "#{method_name}=" do |value|
           instance_variable_set("@#{method_name}", value)
         end
+      end
+      
+      # Add an id method pulling out the id from the uri (mainly for Pickle support) if one doesn't already exist
+      unless klass.send :respond_to?, :id
+        klass.send :define_method, :id do
+          metadata = self.__metadata
+          id = nil
+          if metadata && metadata[:uri]  =~ /\((\d+)\)$/
+            id = $~[1]
+          end
+          return (true if Integer(id) rescue false) ? id.to_i : id
+        end
+      end
+      
+      # Override equals
+      klass.send :define_method, :== do |other|
+        self.class == other.class && 
+        self.id == other.id &&
+        self.__metadata == other.__metadata
       end
     end
 
@@ -151,10 +178,21 @@ module OData
     end
 
     def add_class_methods(klass)
-      list_of_properties = @methods.concat @nav_props
+      context = @context
 
+      # Retrieves a list of properties defined on a type (standard and navigation properties)
       klass.send :define_singleton_method, 'properties' do
-        list_of_properties
+        context.class_metadata[klass.to_s] || {}
+      end
+      
+      # Finds a single model by ID
+      klass.send :define_singleton_method, 'first' do |id|
+        return nil if id.nil?
+        # TODO: Instead of just pluralizing the klass name, use the actual collection name
+        collection = klass.to_s.pluralize
+        context.send "#{collection}", id
+        results = context.execute
+        results.count == 0 ? nil : results.first
       end
     end
   end
