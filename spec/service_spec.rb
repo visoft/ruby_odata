@@ -37,31 +37,6 @@ module OData
         end
       end
     end
-
-    describe "reflection" do
-      before(:each) do
-        # Required for the build_classes method
-        stub_request(:any, /http:\/\/test\.com\/test\.svc(?:.*)/).
-        with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
-        to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/sample_service/edmx_categories_products.xml", __FILE__)), :headers => {})
-      end
-      it "should have an accessor to see the collections exposed by the service" do
-        svc = OData::Service.new "http://test.com/test.svc/"
-        svc.should respond_to(:collections)
-      end
-      it "should list the correct collection names" do
-        svc = OData::Service.new "http://test.com/test.svc/"
-        svc.collections.should include 'Products'
-        svc.collections.should include 'Categories'
-      end
-      
-      it "should expose the object type for a collection" do
-        svc = OData::Service.new "http://test.com/test.svc/"
-        svc.collections['Products'].should eq 'Model.Product'
-        svc.collections['Categories'].should eq 'Model.Category'
-      end
-    end
-
     describe "additional query string parameters" do
       before(:each) do
         # Required for the build_classes method
