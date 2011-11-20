@@ -31,7 +31,9 @@ module OData
       if expand then
         # Expand all navigation properties
         navigation_properties = klass.properties.select { |k, v| v.nav_prop }
-        navigation_properties.keys.each do |prop|
+        # Ruby 1.9 Hash.select returns a Hash, 1.8 returns an Array, so normalize the return type
+        props = (navigation_properties.is_a? Hash) ? navigation_properties : Hash[*navigation_properties.flatten]
+        props.keys.each do |prop|
           query.expand(prop)
         end
       end

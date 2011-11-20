@@ -146,16 +146,14 @@ module OData
         end
       end
       
-      # Add an id method pulling out the id from the uri (mainly for Pickle support) if one doesn't already exist
-      unless klass.send :respond_to?, :id
-        klass.send :define_method, :id do
-          metadata = self.__metadata
-          id = nil
-          if metadata && metadata[:uri]  =~ /\((\d+)\)$/
-            id = $~[1]
-          end
-          return (true if Integer(id) rescue false) ? id.to_i : id
+      # Add an id method pulling out the id from the uri (mainly for Pickle support)
+      klass.send :define_method, :id do
+        metadata = self.__metadata
+        id = nil
+        if metadata && metadata[:uri]  =~ /\((\d+)\)$/
+          id = $~[1]
         end
+        return (true if Integer(id) rescue false) ? id.to_i : id
       end
       
       # Override equals
