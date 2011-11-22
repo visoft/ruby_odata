@@ -82,6 +82,16 @@ module OData
         svc.save_changes
         a_request(:post, "http://test.com/test.svc/$batch?x=1&y=2").should have_been_made
       end
+      it "should pass the parameters as part of an add link" do
+        svc = OData::Service.new "http://test.com/test.svc/", { :additional_params => { :x=>1, :y=>2 } }
+        existing_flight1 = ZDemoFlight.new
+        existing_flight1.__metadata = { :uri => "http://test.com/test.svc/flight_dataCollection/1" }
+        existing_flight2 = ZDemoFlight.new
+        existing_flight2.__metadata = { :uri => "http://test.com/test.svc/flight_dataCollection/2" }
+        svc.add_link(existing_flight1, "flight_data_r", existing_flight2)
+        svc.save_changes
+        a_request(:post, "http://test.com/test.svc/flight_dataCollection/1/$links/flight_data_r?x=1&y=2").should have_been_made
+      end
     end    
     
     describe "lowercase collections" do

@@ -226,10 +226,12 @@ class Service
 
   # Converts a class name to its fully qualified name (if applicable) and returns the new name
   def qualify_class_name(klass_name)
-    return klass_name if @namespace.nil? || @namespace.blank? || klass_name.include?('::')
-    namespaces = @namespace.split(/\.|::/)
-    namespaces << klass_name
-    namespaces.join '::'
+    unless @namespace.nil? || @namespace.blank? || klass_name.include?('::')
+      namespaces = @namespace.split(/\.|::/)
+      namespaces << klass_name
+      klass_name = namespaces.join '::'
+    end
+    klass_name.camelize
   end
 
   # Builds the metadata need for each property for things like feed customizations and navigation properties
@@ -409,7 +411,8 @@ class Service
   def build_add_link_uri(operation)
     uri = "#{operation.klass.send(:__metadata)[:uri]}"
     uri << "/$links/#{operation.klass_name}"
-    uri    
+    uri << "?#{@additional_params.to_query}" unless @additional_params.empty?
+    uri
   end
   def build_resource_uri(operation)
     uri = operation.klass.send(:__metadata)[:uri]
