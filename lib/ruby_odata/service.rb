@@ -1,7 +1,7 @@
 module OData
   
 class Service
-  attr_reader :classes, :class_metadata, :options, :collections
+  attr_reader :classes, :class_metadata, :options, :collections, :edmx
   # Creates a new instance of the Service class
   #
   # ==== Required Attributes
@@ -187,13 +187,13 @@ class Service
     @classes = Hash.new
     @class_metadata = Hash.new # This is used to store property information about a class
 
-    doc = Nokogiri::XML(RestClient::Resource.new(build_metadata_uri, @rest_options).get)
+    @edmx = Nokogiri::XML(RestClient::Resource.new(build_metadata_uri, @rest_options).get)
 
     # Get the edm namespace
-    edm_ns = doc.xpath("edmx:Edmx/edmx:DataServices/*", "edmx" => "http://schemas.microsoft.com/ado/2007/06/edmx").first.namespaces['xmlns'].to_s
+    edm_ns = @edmx.xpath("edmx:Edmx/edmx:DataServices/*", "edmx" => "http://schemas.microsoft.com/ado/2007/06/edmx").first.namespaces['xmlns'].to_s
 
     # Build complex types first, these will be used for entities
-    complex_types = doc.xpath("//edm:ComplexType", "edm" => edm_ns) || []
+    complex_types = @edmx.xpath("//edm:ComplexType", "edm" => edm_ns) || []
     complex_types.each do |c|
       name = qualify_class_name(c['Name'])
       props = c.xpath(".//edm:Property", "edm" => edm_ns)
@@ -201,17 +201,17 @@ class Service
       @classes[name] = ClassBuilder.new(name, methods, [], self, @namespace).build unless @classes.keys.include?(name)
     end
 
-    entity_types = doc.xpath("//edm:EntityType", "edm" => edm_ns)
+    entity_types = @edmx.xpath("//edm:EntityType", "edm" => edm_ns)
     entity_types.each do |e|
       next if e['Abstract'] == "true"
       klass_name = qualify_class_name(e['Name'])
-      methods = collect_properties(klass_name, edm_ns, e, doc)
-      nav_props = collect_navigation_properties(klass_name, edm_ns, e, doc)
+      methods = collect_properties(klass_name, edm_ns, e, @edmx)
+      nav_props = collect_navigation_properties(klass_name, edm_ns, e, @edmx)
       @classes[klass_name] = ClassBuilder.new(klass_name, methods, nav_props, self, @namespace).build unless @classes.keys.include?(klass_name)
     end
 
     # Fill in the collections instance variable
-    collections = doc.xpath("//edm:EntityContainer/edm:EntitySet", "edm" => edm_ns)
+    collections = @edmx.xpath("//edm:EntityContainer/edm:EntitySet", "edm" => edm_ns)
     collections.each do |c|
       entity_type = c["EntityType"]
       @collections[c["Name"]] = { :edmx_type => entity_type, :type => convert_to_local_type(entity_type) }
@@ -237,6 +237,8 @@ class Service
     metadata = {}
     props.each do |property_element|
       prop_meta = PropertyMetadata.new(property_element)
+      # If this is a navigation property, we need to add the association to the property metadata
+      prop_meta.association = Association.new(property_element, @edmx) if prop_meta.nav_prop
       metadata[prop_meta.name] = prop_meta
     end
     metadata
@@ -457,7 +459,18 @@ class Service
       child_collection << operation.child_klass if (post_result.code == 204)
       operation.klass.send("#{operation.klass_name}=", child_collection)
 
-      # TODO: Attach the parent to the child
+      # Attach the parent to the child
+      parent_meta = @class_metadata[operation.klass.class.to_s][operation.klass_name]
+      child_meta = @class_metadata[operation.child_klass.class.to_s]
+      # Find the matching relationship on the child object
+      child_properties = Helpers.normalize_to_hash(
+          child_meta.select { |k,prop|
+          prop.nav_prop &&
+          prop.association.relationship == parent_meta.association.relationship })
+
+      child_property_to_set = child_properties.keys.first # There should be only one match
+      # TODO: Handle many to many scenarios where the child property is an enumerable
+      operation.child_klass.send("#{child_property_to_set}=", operation.klass)
 
       return(post_result.code == 204)
     end

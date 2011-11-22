@@ -33,7 +33,7 @@ module OData
       end
     end
     context "collections method" do
-      subject { @collections = @cat_prod_service.collections }
+      subject { @cat_prod_service.collections }
       it { should include 'Products' }
       it { should include 'Categories' }
       it "should expose the edmx type of objects" do
@@ -43,6 +43,51 @@ module OData
       it "should expose the local model type" do
         subject['Products'][:type].should eq Product
         subject['Categories'][:type].should eq Category                
+      end
+    end
+    context "class metadata" do
+      subject { @cat_prod_service.class_metadata }
+      it { should_not be_empty}
+      it { should have_key 'Product' }
+      it { should have_key 'Category' }
+      context "should have keys for each property" do
+        subject { @cat_prod_service.class_metadata['Category'] }
+        it { should have_key 'Id' }
+        it { should have_key 'Name' }
+        it { should have_key 'Products' }
+        it "should return a PropertyMetadata object for each property" do
+          subject['Id'].should be_a PropertyMetadata
+          subject['Name'].should be_a PropertyMetadata
+          subject['Products'].should be_a PropertyMetadata
+        end
+        it "should have correct PropertyMetadata for Category.Id" do
+          meta = subject['Id']
+          meta.name.should eq 'Id'
+          meta.type.should eq 'Edm.Int32'
+          meta.nullable.should eq false
+          meta.fc_target_path.should be_nil
+          meta.fc_keep_in_content.should be_nil
+          meta.nav_prop.should eq false
+        end
+        it "should have correct PropertyMetadata for Category.Name" do
+          meta = subject['Name']
+          meta.name.should eq 'Name'
+          meta.type.should eq 'Edm.String'
+          meta.nullable.should eq false
+          meta.fc_target_path.should be_nil
+          meta.fc_keep_in_content.should be_nil
+          meta.nav_prop.should eq false
+        end
+        it "should have correct PropertyMetadata for Category.Products" do
+          meta = subject['Products']
+          meta.name.should eq 'Products'
+          meta.type.should be_nil
+          meta.nullable.should eq true
+          meta.fc_target_path.should be_nil
+          meta.fc_keep_in_content.should be_nil
+          meta.nav_prop.should eq true
+          meta.association.should_not be_nil
+        end
       end
     end
   end

@@ -642,7 +642,6 @@ module OData
           category.Products.should include product
         end
         it "add_link should add the parent to the child's navigation property" do
-          pending "Associations currently only work one way when adding a link"
           svc = OData::Service.new "http://test.com/test.svc/"
           svc.Categories(1)
           category = svc.execute.first
