@@ -1,7 +1,7 @@
 module OData
   
 class Service
-  attr_reader :classes, :class_metadata, :options, :collections
+  attr_reader :classes, :class_metadata, :options, :collections, :edmx
   # Creates a new instance of the Service class
   #
   # ==== Required Attributes
@@ -18,7 +18,7 @@ class Service
     default_instance_vars!
     build_collections_and_classes
   end
-  
+
   # Handles the dynamic AddTo<EntityName> methods as well as the collections on the service
   def method_missing(name, *args)
     # Queries
@@ -27,7 +27,7 @@ class Service
       root << "(#{args.join(',')})" unless args.empty?
       @query = QueryBuilder.new(root, @additional_params)
       return @query
-    # Adds	
+    # Adds
     elsif name.to_s =~ /^AddTo(.*)/
       type = $1
       if @collections.include?(type)
@@ -38,7 +38,6 @@ class Service
     else
       super
     end
-
   end
 
   # Queues an object for deletion.  To actually remove it from the server, you must call save_changes as well.
@@ -49,58 +48,58 @@ class Service
   # Note: This method will throw an exception if the +obj+ isn't a tracked entity
   def delete_object(obj)
     type = obj.class.to_s
-    if obj.respond_to?(:__metadata) && !obj.send(:__metadata).nil? 
+    if obj.respond_to?(:__metadata) && !obj.send(:__metadata).nil?
       @save_operations << Operation.new("Delete", type, obj)
     else
       raise "You cannot delete a non-tracked entity"
     end
   end
-  
+
   # Queues an object for update.  To actually update it on the server, you must call save_changes as well.
-  # 
+  #
   # ==== Required Attributes
   # - obj: The object to queue for update
   #
-  # Note: This method will throw an exception if the +obj+ isn't a tracked entity	
+  # Note: This method will throw an exception if the +obj+ isn't a tracked entity
   def update_object(obj)
     type = obj.class.to_s
-    if obj.respond_to?(:__metadata) && !obj.send(:__metadata).nil? 
+    if obj.respond_to?(:__metadata) && !obj.send(:__metadata).nil?
       @save_operations << Operation.new("Update", type, obj)
     else
       raise "You cannot update a non-tracked entity"
-    end	
+    end
   end
-  
+
   # Performs save operations (Create/Update/Delete) against the server
   def save_changes
     return nil if @save_operations.empty?
 
     result = nil
-    
+
     if @save_operations.length == 1
-      result = single_save(@save_operations[0])			
-    else	
-      result = batch_save(@save_operations)			
+      result = single_save(@save_operations[0])
+    else
+      result = batch_save(@save_operations)
     end
-    
-    # TODO: We should probably perform a check here 
+
+    # TODO: We should probably perform a check here
     # to make sure everything worked before clearing it out
-    @save_operations.clear 
-    
+    @save_operations.clear
+
     return result
   end
 
   # Performs query operations (Read) against the server, returns an array of record instances.
-  def execute        
+  def execute
     result = RestClient::Resource.new(build_query_uri, @rest_options).get
     handle_collection_result(result)
   end
-  
-  # Overridden to identify methods handled by method_missing  
+
+  # Overridden to identify methods handled by method_missing
   def respond_to?(method)
     if @collections.include?(method.to_s)
       return true
-    # Adds	
+    # Adds
     elsif method.to_s =~ /^AddTo(.*)/
       type = $1
       if @collections.include?(type)
@@ -112,25 +111,25 @@ class Service
       super
     end
   end
-  
+
   # Retrieves the next resultset of a partial result (if any). Does not honor the :eager_partial option.
   def next
     return if not partial?
     handle_partial
   end
-  
+
   # Does the most recent collection returned represent a partial collection? Will aways be false if a query hasn't executed, even if the query would have a partial
   def partial?
     @has_partial
   end
 
   # Lazy loads a navigation property on a model
-  # 
+  #
   # ==== Required Attributes
   # - obj: The object to fill
   # - nav_prop: The navigation property to fill
   #
-  # Note: This method will throw an exception if the +obj+ isn't a tracked entity	
+  # Note: This method will throw an exception if the +obj+ isn't a tracked entity
   # Note: This method will throw an exception if the +nav_prop+ isn't a valid navigation property
   def load_property(obj, nav_prop)
     raise ArgumentError, "You cannot load a property on an entity that isn't tracked" if obj.send(:__metadata).nil?
@@ -140,9 +139,9 @@ class Service
     prop_results = build_classes_from_result(results)
     obj.send "#{nav_prop}=", (singular?(nav_prop) ? prop_results.first : prop_results)
   end
-  
+
   # Adds a child object to a parent object's collection
-  # 
+  #
   # ==== Required Attributes
   # - parent: The parent object
   # - nav_prop: The name of the navigation property to add the child to
@@ -154,7 +153,7 @@ class Service
     raise ArgumentError, "You cannot add a link on a child entity that isn't tracked (#{child.class})" if child.send(:__metadata).nil?
     @save_operations << Operation.new("AddLink", nav_prop, parent, child)
   end
-  
+
   private
 
   def set_options!(options)
@@ -166,7 +165,7 @@ class Service
     @additional_params = options[:additional_params] || {}
     @namespace = options[:namespace]
   end
-  
+
   def default_instance_vars!
     @collections = {}
     @save_operations = []
@@ -187,18 +186,14 @@ class Service
   def build_collections_and_classes
     @classes = Hash.new
     @class_metadata = Hash.new # This is used to store property information about a class
-    
-    doc = Nokogiri::XML(RestClient::Resource.new(build_metadata_uri, @rest_options).get)
-    
-    # Get the edm namespace
-    edm_ns = doc.xpath("edmx:Edmx/edmx:DataServices/*", "edmx" => "http://schemas.microsoft.com/ado/2007/06/edmx").first.namespaces['xmlns'].to_s
 
-    # Fill in the collections instance variable
-    collections = doc.xpath("//edm:EntityContainer/edm:EntitySet", "edm" => edm_ns)
-    @collections = Hash[collections.collect { |c| [c["Name"],c["EntityType"]]}]
+    @edmx = Nokogiri::XML(RestClient::Resource.new(build_metadata_uri, @rest_options).get)
+
+    # Get the edm namespace
+    edm_ns = @edmx.xpath("edmx:Edmx/edmx:DataServices/*", "edmx" => "http://schemas.microsoft.com/ado/2007/06/edmx").first.namespaces['xmlns'].to_s
 
     # Build complex types first, these will be used for entities
-    complex_types = doc.xpath("//edm:ComplexType", "edm" => edm_ns) || []
+    complex_types = @edmx.xpath("//edm:ComplexType", "edm" => edm_ns) || []
     complex_types.each do |c|
       name = qualify_class_name(c['Name'])
       props = c.xpath(".//edm:Property", "edm" => edm_ns)
@@ -206,22 +201,37 @@ class Service
       @classes[name] = ClassBuilder.new(name, methods, [], self, @namespace).build unless @classes.keys.include?(name)
     end
 
-    entity_types = doc.xpath("//edm:EntityType", "edm" => edm_ns)
+    entity_types = @edmx.xpath("//edm:EntityType", "edm" => edm_ns)
     entity_types.each do |e|
       next if e['Abstract'] == "true"
       klass_name = qualify_class_name(e['Name'])
-      methods = collect_properties(klass_name, edm_ns, e, doc)
-      nav_props = collect_navigation_properties(klass_name, edm_ns, e, doc)
+      methods = collect_properties(klass_name, edm_ns, e, @edmx)
+      nav_props = collect_navigation_properties(klass_name, edm_ns, e, @edmx)
       @classes[klass_name] = ClassBuilder.new(klass_name, methods, nav_props, self, @namespace).build unless @classes.keys.include?(klass_name)
     end
+
+    # Fill in the collections instance variable
+    collections = @edmx.xpath("//edm:EntityContainer/edm:EntitySet", "edm" => edm_ns)
+    collections.each do |c|
+      entity_type = c["EntityType"]
+      @collections[c["Name"]] = { :edmx_type => entity_type, :type => convert_to_local_type(entity_type) }
+    end
+  end
+
+  # Converts the EDMX model type to the local model type
+  def convert_to_local_type(edmx_type)
+    klass_name = qualify_class_name(edmx_type.split('.').last)
+    klass_name.camelize.constantize
   end
 
   # Converts a class name to its fully qualified name (if applicable) and returns the new name
   def qualify_class_name(klass_name)
-    return klass_name if @namespace.nil? || @namespace.blank? || klass_name.include?('::')
-    namespaces = @namespace.split(/\.|::/)
-    namespaces << klass_name
-    namespaces.join '::'
+    unless @namespace.nil? || @namespace.blank? || klass_name.include?('::')
+      namespaces = @namespace.split(/\.|::/)
+      namespaces << klass_name
+      klass_name = namespaces.join '::'
+    end
+    klass_name.camelize
   end
 
   # Builds the metadata need for each property for things like feed customizations and navigation properties
@@ -229,6 +239,8 @@ class Service
     metadata = {}
     props.each do |property_element|
       prop_meta = PropertyMetadata.new(property_element)
+      # If this is a navigation property, we need to add the association to the property metadata
+      prop_meta.association = Association.new(property_element, @edmx) if prop_meta.nav_prop
       metadata[prop_meta.name] = prop_meta
     end
     metadata
@@ -329,7 +341,7 @@ class Service
     
     inline_links = entry.xpath("./atom:link[m:inline]", { "m" => "http://schemas.microsoft.com/ado/2007/08/dataservices/metadata", "atom" => "http://www.w3.org/2005/Atom" })
     
-    for	link in inline_links
+    for link in inline_links
       inline_entries = link.xpath(".//atom:entry", "atom" => "http://www.w3.org/2005/Atom")
 
       # TODO: Use the metadata's associations to determine the multiplicity instead of this "hack"  
@@ -399,7 +411,8 @@ class Service
   def build_add_link_uri(operation)
     uri = "#{operation.klass.send(:__metadata)[:uri]}"
     uri << "/$links/#{operation.klass_name}"
-    uri    
+    uri << "?#{@additional_params.to_query}" unless @additional_params.empty?
+    uri
   end
   def build_resource_uri(operation)
     uri = operation.klass.send(:__metadata)[:uri]
@@ -449,7 +462,18 @@ class Service
       child_collection << operation.child_klass if (post_result.code == 204)
       operation.klass.send("#{operation.klass_name}=", child_collection)
 
-      # TODO: Attach the parent to the child
+      # Attach the parent to the child
+      parent_meta = @class_metadata[operation.klass.class.to_s][operation.klass_name]
+      child_meta = @class_metadata[operation.child_klass.class.to_s]
+      # Find the matching relationship on the child object
+      child_properties = Helpers.normalize_to_hash(
+          child_meta.select { |k,prop|
+          prop.nav_prop &&
+          prop.association.relationship == parent_meta.association.relationship })
+
+      child_property_to_set = child_properties.keys.first # There should be only one match
+      # TODO: Handle many to many scenarios where the child property is an enumerable
+      operation.child_klass.send("#{child_property_to_set}=", operation.klass)
 
       return(post_result.code == 204)
     end
@@ -459,7 +483,7 @@ class Service
   def generate_guid
     rand(36**12).to_s(36).insert(4, "-").insert(9, "-")
   end
-  def batch_save(operations)	
+  def batch_save(operations)  
     batch_num = generate_guid
     changeset_num = generate_guid
     batch_uri = build_batch_uri
@@ -472,7 +496,7 @@ class Service
     return (result.code == 202)
   end
   def build_batch_body(operations, batch_num, changeset_num)
-    # Header		
+    # Header    
     body = "--batch_#{batch_num}\n"
     body << "Content-Type: multipart/mixed;boundary=changeset_#{changeset_num}\n\n"
 
@@ -482,7 +506,7 @@ class Service
       body << "\n"
     end
         
-    # Footer		
+    # Footer    
     body << "\n\n--changeset_#{changeset_num}--\n"
     body << "--batch_#{batch_num}--"
     
@@ -497,7 +521,7 @@ class Service
     content << "Content-Type: application/http\n"
     content << "Content-Transfer-Encoding: binary\n\n"
     
-    if operation.kind == "Add"			
+    if operation.kind == "Add"      
       save_uri = "#{@uri}/#{operation.klass_name}"
       json_klass = operation.klass.to_json(:type => :add)
       
@@ -516,7 +540,7 @@ class Service
       
       content << "DELETE #{delete_uri} HTTP/1.1\n"
       content << accept_headers
-    end		
+    end   
       
     return content
   end

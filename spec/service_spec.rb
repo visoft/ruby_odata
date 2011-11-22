@@ -37,31 +37,6 @@ module OData
         end
       end
     end
-
-    describe "reflection" do
-      before(:each) do
-        # Required for the build_classes method
-        stub_request(:any, /http:\/\/test\.com\/test\.svc(?:.*)/).
-        with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
-        to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/sample_service/edmx_categories_products.xml", __FILE__)), :headers => {})
-      end
-      it "should have an accessor to see the collections exposed by the service" do
-        svc = OData::Service.new "http://test.com/test.svc/"
-        svc.should respond_to(:collections)
-      end
-      it "should list the correct collection names" do
-        svc = OData::Service.new "http://test.com/test.svc/"
-        svc.collections.should include 'Products'
-        svc.collections.should include 'Categories'
-      end
-      
-      it "should expose the object type for a collection" do
-        svc = OData::Service.new "http://test.com/test.svc/"
-        svc.collections['Products'].should eq 'Model.Product'
-        svc.collections['Categories'].should eq 'Model.Category'
-      end
-    end
-
     describe "additional query string parameters" do
       before(:each) do
         # Required for the build_classes method
@@ -106,6 +81,16 @@ module OData
         svc.AddToflight_dataCollection(new_flight2)
         svc.save_changes
         a_request(:post, "http://test.com/test.svc/$batch?x=1&y=2").should have_been_made
+      end
+      it "should pass the parameters as part of an add link" do
+        svc = OData::Service.new "http://test.com/test.svc/", { :additional_params => { :x=>1, :y=>2 } }
+        existing_flight1 = ZDemoFlight.new
+        existing_flight1.__metadata = { :uri => "http://test.com/test.svc/flight_dataCollection/1" }
+        existing_flight2 = ZDemoFlight.new
+        existing_flight2.__metadata = { :uri => "http://test.com/test.svc/flight_dataCollection/2" }
+        svc.add_link(existing_flight1, "flight_data_r", existing_flight2)
+        svc.save_changes
+        a_request(:post, "http://test.com/test.svc/flight_dataCollection/1/$links/flight_data_r?x=1&y=2").should have_been_made
       end
     end    
     
@@ -667,7 +652,6 @@ module OData
           category.Products.should include product
         end
         it "add_link should add the parent to the child's navigation property" do
-          pending "Associations currently only work one way when adding a link"
           svc = OData::Service.new "http://test.com/test.svc/"
           svc.Categories(1)
           category = svc.execute.first
