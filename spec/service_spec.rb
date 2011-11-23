@@ -382,7 +382,7 @@ module OData
         with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
         to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/sample_service/edmx_categories_products.xml", __FILE__)), :headers => {})
         
-        stub_request(:get, "http://test.com/test.svc/Products(1)").
+        stub_request(:get, /http:\/\/test\.com\/test\.svc\/Products\(\d\)/).
         with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
         to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/sample_service/result_single_product.xml", __FILE__)), :headers => {})
         
@@ -403,6 +403,7 @@ module OData
         to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/sample_service/result_multiple_category_products.xml", __FILE__)), :headers => {})
         
         stub_request(:post, "http://test.com/test.svc/Categories(1)/$links/Products").to_return(:status => 204)
+        stub_request(:post, "http://test.com/test.svc/$batch").to_return(:status => 202)
       end
             
       describe "lazy loading" do
@@ -586,7 +587,7 @@ module OData
         end
       end
 
-      describe "add_link between entities" do
+      describe "add_link method" do
         it "should exist as a method on the service" do
           svc = OData::Service.new "http://test.com/test.svc/"
           svc.should respond_to(:add_link)
@@ -627,7 +628,7 @@ module OData
           lambda { svc.add_link(category, property, product) }.should raise_error(ArgumentError, "You cannot add a link on a child entity that isn't tracked (Product)")
         end
         
-        it "add_link should perform a post against the correct URL with the correct body" do
+        it "should perform a post against the correct URL with the correct body on a single_save" do
           svc = OData::Service.new "http://test.com/test.svc/"
           svc.Categories(1)
           category = svc.execute.first
@@ -640,7 +641,8 @@ module OData
             with(:body => { "uri" => "http://test.com/test.svc/Products(1)" },
                  :headers => {'Content-Type' => 'application/json'}).should have_been_made
         end
-        it "add_link should add the child to the parent's navigation property" do
+
+        it "should add the child to the parent's navigation property on a single_save" do
           svc = OData::Service.new "http://test.com/test.svc/"
           svc.Categories(1)
           category = svc.execute.first
@@ -651,7 +653,8 @@ module OData
           svc.save_changes
           category.Products.should include product
         end
-        it "add_link should add the parent to the child's navigation property" do
+
+        it "should add the parent to the child's navigation property on a single_save" do
           svc = OData::Service.new "http://test.com/test.svc/"
           svc.Categories(1)
           category = svc.execute.first
@@ -661,6 +664,33 @@ module OData
           svc.add_link(category, property, product)
           svc.save_changes
           product.Category.should eq category
+        end
+
+        describe "batch_save" do
+          before(:each) do
+            @svc = OData::Service.new "http://test.com/test.svc/"
+            @category = Category.first(1)
+            @product = Product.first(1)
+            new_category = Category.new
+            @svc.AddToCategories(new_category)
+            @svc.add_link(@category, 'Products', @product)
+            @svc.save_changes
+          end
+
+          it "should perform a post with the correct URL and body on a batch_save" do
+            WebMock.should have_requested(:post, "http://test.com/test.svc/$batch").with { |request|
+              request.body.include? "POST http://test.com/test.svc/Categories(1)/$links/Products HTTP/1.1"
+              request.body.include? '{"uri":"http://test.com/test.svc/Products(1)"}'
+            }
+          end
+          context "child is a part of the parent's collection" do
+            subject { @category.Products }
+            it { should include @product }
+          end
+          context "parent object should be filled in on the child"  do
+            subject { @product.Category }
+            it { should eq @category }
+          end
         end
       end
     end

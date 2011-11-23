@@ -59,3 +59,11 @@ Scenario: Entities should be able to be linked together
   When I add a link between category: "cat1" and product: "prod1" on "Products"
   And I save changes
   Then the product: "prod1" should be one of category: "cat1"'s Products
+
+Scenario: Entities should be able to be linked together on a batch save
+  Given a category: "cat1" exists
+  And a product: "prod1" exists
+  When I add a link between category: "cat1" and product: "prod1" on "Products"
+  And I call "AddToCategories" on the service with a new "Category" object with Name: "Test Category"
+  And I save changes
+  Then the product: "prod1" should be one of category: "cat1"'s Products

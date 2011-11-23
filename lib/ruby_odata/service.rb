@@ -437,6 +437,27 @@ class Service
     # Add the property
     klass.send "#{property_name}=", inline_klass
   end
+
+  # Used to link a child object to its parent and vice-versa after a add_link operation
+  def link_child_to_parent(operation)
+    child_collection = operation.klass.send("#{operation.klass_name}") || []
+    child_collection << operation.child_klass
+    operation.klass.send("#{operation.klass_name}=", child_collection)
+
+    # Attach the parent to the child
+    parent_meta = @class_metadata[operation.klass.class.to_s][operation.klass_name]
+    child_meta = @class_metadata[operation.child_klass.class.to_s]
+    # Find the matching relationship on the child object
+    child_properties = Helpers.normalize_to_hash(
+        child_meta.select { |k, prop|
+          prop.nav_prop &&
+              prop.association.relationship == parent_meta.association.relationship })
+
+    child_property_to_set = child_properties.keys.first # There should be only one match
+    # TODO: Handle many to many scenarios where the child property is an enumerable
+    operation.child_klass.send("#{child_property_to_set}=", operation.klass)
+  end
+
   def single_save(operation)
     if operation.kind == "Add"
       save_uri = build_save_uri(operation)
@@ -458,22 +479,7 @@ class Service
       post_result = RestClient::Resource.new(save_uri, @rest_options).post json_klass, {:content_type => :json}
 
       # Attach the child to the parent
-      child_collection = operation.klass.send("#{operation.klass_name}") || []
-      child_collection << operation.child_klass if (post_result.code == 204)
-      operation.klass.send("#{operation.klass_name}=", child_collection)
-
-      # Attach the parent to the child
-      parent_meta = @class_metadata[operation.klass.class.to_s][operation.klass_name]
-      child_meta = @class_metadata[operation.child_klass.class.to_s]
-      # Find the matching relationship on the child object
-      child_properties = Helpers.normalize_to_hash(
-          child_meta.select { |k,prop|
-          prop.nav_prop &&
-          prop.association.relationship == parent_meta.association.relationship })
-
-      child_property_to_set = child_properties.keys.first # There should be only one match
-      # TODO: Handle many to many scenarios where the child property is an enumerable
-      operation.child_klass.send("#{child_property_to_set}=", operation.klass)
+      link_child_to_parent(operation) if (post_result.code == 204)
 
       return(post_result.code == 204)
     end
@@ -540,7 +546,15 @@ class Service
       
       content << "DELETE #{delete_uri} HTTP/1.1\n"
       content << accept_headers
-    end   
+    elsif
+      save_uri = build_add_link_uri(operation)
+      json_klass = operation.child_klass.to_json(:type => :link)
+      
+      content << "POST #{save_uri} HTTP/1.1\n"
+      content << accept_headers
+      content << json_klass
+      link_child_to_parent(operation)
+    end
       
     return content
   end
