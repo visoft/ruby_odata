@@ -37,8 +37,8 @@ module OData
       it { should include 'Products' }
       it { should include 'Categories' }
       it "should expose the edmx type of objects" do
-        subject['Products'][:edmx_type].should eq 'Model.Product'
-        subject['Categories'][:edmx_type].should eq 'Model.Category'
+        subject['Products'][:edmx_type].should eq 'RubyODataService.Product'
+        subject['Categories'][:edmx_type].should eq 'RubyODataService.Category'
       end
       it "should expose the local model type" do
         subject['Products'][:type].should eq Product

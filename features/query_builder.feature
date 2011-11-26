@@ -147,7 +147,6 @@ Scenario: Top should be able to be used along with skip for paging
 
 
 # Links
-@current
 Scenario: Navigation Properties should be able to represented as links
   Given I call "AddToCategories" on the service with a new "Category" object with Name: "Test Category"
   And I save changes

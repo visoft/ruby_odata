@@ -1,7 +1,9 @@
 ﻿using System.Data.Services;
 using System.Data.Services.Common;
+using System.Linq;
 using System.ServiceModel;
 using System.ServiceModel.Web;
+using RubyODataService.Models;
 
 namespace RubyODataService
 {
@@ -23,9 +25,14 @@ namespace RubyODataService
         [WebInvoke]
         public void CleanDatabaseForTesting()
         {
-            var context = new RubyODataContext();
-            context.Database.Delete();
-            context.Database.CreateIfNotExists();
+            CurrentDataSource.Database.Delete();
+            CurrentDataSource.Database.CreateIfNotExists();
+        }
+
+        [WebGet]
+        public IQueryable<Category> EntityCategoryWebGet()
+        {
+            return CurrentDataSource.Categories;
         }
     }
 }
