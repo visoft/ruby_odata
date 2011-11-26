@@ -4,8 +4,6 @@ rerun.txt
 tmp
 tmp/*
 .eprj
-test/SampleService/App_Data/TestDB.mdf
-test/SampleService/App_Data/TestDB_Log.ldf
 pkg/*
 doc/*
 *.gem
@@ -15,3 +13,7 @@ pkg/*
 test/applicationhost.config
 .rvmrc
 .DS_Store
+*ReSharper*
+*.suo
+obj
+/App_Data

@@ -6,7 +6,7 @@ module OData
   module PickleAdapter
     include Pickle::Adapter::Base
     
-    @@service = OData::Service.new "http://#{WEBSERVER}:#{HTTP_PORT_NUMBER}/SampleService/Entities.svc"
+    @@service = OData::Service.new "http://#{WEBSERVER}:#{HTTP_PORT_NUMBER}/SampleService/RubyOData.svc"
     
     # Do not consider these to be part of the class list
     def self.except_classes

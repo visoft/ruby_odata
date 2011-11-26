@@ -1,6 +1,6 @@
-STANDARD_URL = "http://#{WEBSERVER}:#{HTTP_PORT_NUMBER}/SampleService/Entities.svc"
-BASICAUTH_URL = "http://#{WEBSERVER}:#{HTTP_PORT_NUMBER}/SampleService/BasicAuth/Entities.svc"
-HTTPS_BASICAUTH_URL = "https://#{WEBSERVER}:#{HTTPS_PORT_NUMBER}/SampleService/BasicAuth/Entities.svc"
+STANDARD_URL = "http://#{WEBSERVER}:#{HTTP_PORT_NUMBER}/SampleService/RubyOData.svc"
+BASICAUTH_URL = "http://#{WEBSERVER}:#{HTTP_PORT_NUMBER}/SampleService/BasicAuth/RubyOData.svc"
+HTTPS_BASICAUTH_URL = "https://#{WEBSERVER}:#{HTTPS_PORT_NUMBER}/SampleService/BasicAuth/RubyOData.svc"
 
 When /^(.*) first (last query )?result('s)?(.*)$/ do |pre, last_query, apos, post|
   step = "#{pre} #{last_query}result#{apos}#{post}"

@@ -2,7 +2,7 @@ module OData
 # The query builder is used to call query operations against the service.  This shouldn't be called directly, but rather it is returned from the dynamic methods created for the specific service that you are calling.
 #
 # For example, given the following code snippet:
-# 		svc = OData::Service.new "http://127.0.0.1:8989/SampleService/Entities.svc"
+# 		svc = OData::Service.new "http://127.0.0.1:8989/SampleService/RubyOData.svc"
 # 		svc.Categories
 # The *Categories* method would return a QueryBuilder 
 class QueryBuilder

@@ -369,9 +369,9 @@ module OData
         results = svc.execute
         results.count.should eq 3
         results.first.should be_a_kind_of(URI)
-        results[0].path.should eq "/SampleService/Entities.svc/Products(1)"
-        results[1].path.should eq "/SampleService/Entities.svc/Products(2)"
-        results[2].path.should eq "/SampleService/Entities.svc/Products(3)"        
+        results[0].path.should eq "/SampleService/RubyOData.svc/Products(1)"
+        results[1].path.should eq "/SampleService/RubyOData.svc/Products(2)"
+        results[2].path.should eq "/SampleService/RubyOData.svc/Products(3)"        
       end
     end
     

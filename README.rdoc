@@ -34,7 +34,7 @@ When you point at a service, an AddTo<EntityName> method is created for you.  Th
 
   require 'ruby_odata'
   
-  svc = OData::Service.new "http://127.0.0.1:8989/SampleService/Entities.svc"
+  svc = OData::Service.new "http://127.0.0.1:8989/SampleService/RubyOData.svc"
   new_category = Category.new
   new_category.Name = "Sample Category"
   svc.AddToCategories(new_category)
@@ -46,7 +46,7 @@ To update an object, simply pass the modified object to the update_object method
 
   require 'ruby_odata'
     
-  svc = OData::Service.new "http://127.0.0.1:8989/SampleService/Entities.svc"
+  svc = OData::Service.new "http://127.0.0.1:8989/SampleService/RubyOData.svc"
   new_category = Category.new
   new_category.Name = "Sample Category"
   svc.AddToCategories(new_category)
@@ -63,7 +63,7 @@ Deleting an object involves passing the tracked object to the delete_object meth
 
   require 'ruby_odata'
   
-  svc = OData::Service.new "http://127.0.0.1:8989/SampleService/Entities.svc"
+  svc = OData::Service.new "http://127.0.0.1:8989/SampleService/RubyOData.svc"
   new_category = Category.new
   new_category.Name = "Sample Category"
   svc.AddToCategories(new_category)
@@ -79,7 +79,7 @@ Querying is easy, for example to pull all the categories from the SampleService,
 
   require 'ruby_odata'
   
-  svc = OData::Service.new "http://127.0.0.1:8989/SampleService/Entities.svc"
+  svc = OData::Service.new "http://127.0.0.1:8989/SampleService/RubyOData.svc"
   svc.Categories
   categories = svc.execute
   puts categories.to_json
@@ -205,20 +205,20 @@ Basic HTTP Authentication is supported via sending a username and password as se
 
   require 'ruby_odata'
   
-  svc = OData::Service.new "http://127.0.0.1:8989/SampleService/Entities.svc", { :username => "bob", :password=> "12345" }
+  svc = OData::Service.new "http://127.0.0.1:8989/SampleService/RubyOData.svc", { :username => "bob", :password=> "12345" }
 
 === SSL/https Certificate Verification
 The certificate verification mode can be passed in the options hash via the :verify_ssl key. For example, to ignore verification in order to use a self-signed certificate:
 
   require 'ruby_odata'
 
-  svc = OData::Service.new "https://127.0.0.1:44300/SampleService/Entities.svc", { :verify_ssl => false }
+  svc = OData::Service.new "https://127.0.0.1:44300/SampleService/RubyOData.svc", { :verify_ssl => false }
 
 Or an OpenSSL integer constant can be passed as well:
 
   require 'ruby_odata'
 
-  svc = OData::Service.new "https://127.0.0.1:44300/SampleService/Entities.svc", { :verify_ssl => OpenSSL::SSL::VERIFY_PEER }
+  svc = OData::Service.new "https://127.0.0.1:44300/SampleService/RubyOData.svc", { :verify_ssl => OpenSSL::SSL::VERIFY_PEER }
                                                                                                          
 Default verification is OpenSSL::SSL::VERIFY_PEER. Note due to the way Ruby's Request object implements certificate checking, you CAN NOT pass OpenSSL::SSL::VERIFY_NONE, you must instead pass a boolean false.
 
@@ -228,15 +228,17 @@ Instead of relying on looking at the EDMX directly, ruby_odata allows you to per
 * *Collections* - You can look at the collections exposed by a service by accessing the +collections+ method, which is a hash. The key is the name of the collection and the value is the hash with +edmx_type+, which returns the name of the type from the EDMX and +:type+, which is the local type that is created for you
 
 == Tests
-All of the tests are written using Cucumber going against a sample service (Found in /test/SampleService/*).  The SampleService is an ASP.NET Web Site running a SQLEXPRESS 2008 R2 Database (TestDB), as well as the ADO.NET Entity Framework and a WCF Data Service.  In order to run the tests, you need to spin up the SampleService and have it running on port 8989 (http://localhost:8989/SampleService).  
+All of the tests are written using Cucumber going against a sample service (Found in test/RubyODataService/RubyODataService/*).
+The SampleService is an ASP.NET Web Site running a SQL Compact 4 Database, which gets generated at runtime, as well as the ADO.NET Entity Framework 4.1 and WCF Data Services October 2011 CTP. The reason for the CTP is that WCF Data Services currently shipping with .NET 4 doesn't support Entity Framework 4.1's "Code First" approach (e.g. no EDMX, all POCOs)
+In order to run the tests, you need to spin up IIS running a virtual directory of SampleService on port 8989 (http://localhost:8989/SampleService) and another instance running on port 44300.
 
-One way to do this is to open the SampleService within Visual Studio 2010 and run it from there (must use IIS instead of development web server in order for basic auth tests to pass, however).  Another option is to use IIS Express. It is a free download from Microsoft. Once installed, there is a batch file found in /test called "iisExpress x64.bat", you can run the batch file and just close the command window. There is a also an "iisExpress x86.bat" file for those of you running a 32-bit machine.  The only difference is the path to the Program Files directory.  Once you run the batch file, the web server will spin up and you can find the instance in your systray just like if Visual Studio ran it for you.  To stop the server, right click on the icon in your systray and tell it to stop.
+*NOTE* The ports (8989 and 44300) and webserver (localhost by default) here are customizable thanks to +/features/contants.rb+. Take a look in there for the corresponding environment variables that you can set.
 
-Note there are also Cassini batch files that you can use as well, but the basic auth tests will fail if using this server (which doesn't support basic http authentication).
+The SampleService requires IIS or IIS Express. IIS Express is a free download from Microsoft and the prefered approach to running the application. Once installed, there is a batch file found in /test called "iisExpress x64.bat" that will spin up the appropriate instances needed for the Cucumber tests. There is a also an "iisExpress x86.bat" file for those of you running a 32-bit machine.  The only difference is the path to the Program Files directory.  Once you run the batch file, the web server will spin up and you can find the instance in your systray just like if Visual Studio ran it for you.  To stop the server, right click on the icon in your systray and tell it to stop or, if the command window is still open, you can use 'Q' and then enter to end the service.
 
-If you are testing on a Windows machine, you may encounter a problem with using cucumber and Ruby 1.9.2.  You will get a message when you fire up cucumber about missing msvcrt-ruby18.dll.  The fix for this is to make sure you have the {RubyInstaller DevKit}[https://github.com/oneclick/rubyinstaller/wiki/Development-Kit] installed, then do the following:
+If you are testing on a Windows machine, you may encounter a problem with using Cucumber and Ruby 1.9.2.  You will get a message when you fire up cucumber about missing msvcrt-ruby18.dll.  The fix for this is to make sure you have the {RubyInstaller DevKit}[https://github.com/oneclick/rubyinstaller/wiki/Development-Kit] installed, then do the following:
   gem uninstall json
   gem install json --platform=ruby -v 1.4.6
 
-From the BASE ruby_odata directory, run cucumber, which will execute all of the tests.
+Once the SampleService is running, from the BASE ruby_odata directory, simply type +rake+, which will run the RSpec and Cucumber specs. You can also run them separately +rake spec+ for RSpec and +rake features+ for Cucumber.
 

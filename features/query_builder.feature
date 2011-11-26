@@ -160,4 +160,4 @@ Scenario: Navigation Properties should be able to represented as links
   And I ask for the links for "Products"
   And I run the query
   Then the result count should be 3
-  Then the method "path" on the first result should equal: "/SampleService/Entities.svc/Products(1)"
+  Then the method "path" on the first result should equal: "/SampleService/RubyOData.svc/Products(1)"
