@@ -60,6 +60,9 @@
         </AssociationSet>
         <FunctionImport Name="CleanDatabaseForTesting" m:HttpMethod="POST"/>
         <FunctionImport Name="EntityCategoryWebGet" ReturnType="Collection(RubyODataService.Category)" EntitySet="Categories" m:HttpMethod="GET"/>
+        <FunctionImport Name="EntitySingleCategoryWebGet" ReturnType="RubyODataService.Category" EntitySet="Categories" m:HttpMethod="GET">
+          <Parameter Name="id" Type="Edm.Int32"/>
+        </FunctionImport>
       </EntityContainer>
     </Schema>
   </edmx:DataServices>

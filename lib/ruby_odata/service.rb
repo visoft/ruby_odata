@@ -1,7 +1,7 @@
 module OData
   
 class Service
-  attr_reader :classes, :class_metadata, :options, :collections, :edmx
+  attr_reader :classes, :class_metadata, :options, :collections, :edmx, :function_imports
   # Creates a new instance of the Service class
   #
   # ==== Required Attributes
@@ -16,6 +16,7 @@ class Service
     @uri = service_uri.gsub!(/\/?$/, '')
     set_options! options
     default_instance_vars!
+    set_namespaces
     build_collections_and_classes
   end
 
@@ -168,9 +169,24 @@ class Service
 
   def default_instance_vars!
     @collections = {}
+    @function_imports = {}
     @save_operations = []
     @has_partial = false
     @next_uri = nil
+  end
+  
+  def set_namespaces
+    @edmx = Nokogiri::XML(RestClient::Resource.new(build_metadata_uri, @rest_options).get)
+    @ds_namespaces = { 
+      "m" => "http://schemas.microsoft.com/ado/2007/08/dataservices/metadata",
+      "edmx" => "http://schemas.microsoft.com/ado/2007/06/edmx",
+      "ds" => "http://schemas.microsoft.com/ado/2007/08/dataservices",
+      "atom" => "http://www.w3.org/2005/Atom"
+    }
+    
+    # Get the edm namespace from the edmx
+    edm_ns = @edmx.xpath("edmx:Edmx/edmx:DataServices/*", @namespaces).first.namespaces['xmlns'].to_s
+    @ds_namespaces.merge! "edm" => edm_ns
   end
 
   # Gets ssl certificate verification mode, or defaults to verify_peer
@@ -187,34 +203,56 @@ class Service
     @classes = Hash.new
     @class_metadata = Hash.new # This is used to store property information about a class
 
-    @edmx = Nokogiri::XML(RestClient::Resource.new(build_metadata_uri, @rest_options).get)
-
-    # Get the edm namespace
-    edm_ns = @edmx.xpath("edmx:Edmx/edmx:DataServices/*", "edmx" => "http://schemas.microsoft.com/ado/2007/06/edmx").first.namespaces['xmlns'].to_s
-
     # Build complex types first, these will be used for entities
-    complex_types = @edmx.xpath("//edm:ComplexType", "edm" => edm_ns) || []
+    complex_types = @edmx.xpath("//edm:ComplexType", @ds_namespaces) || []
     complex_types.each do |c|
       name = qualify_class_name(c['Name'])
-      props = c.xpath(".//edm:Property", "edm" => edm_ns)
+      props = c.xpath(".//edm:Property", @ds_namespaces)
       methods = props.collect { |p| p['Name'] } # Standard Properties
       @classes[name] = ClassBuilder.new(name, methods, [], self, @namespace).build unless @classes.keys.include?(name)
     end
 
-    entity_types = @edmx.xpath("//edm:EntityType", "edm" => edm_ns)
+    entity_types = @edmx.xpath("//edm:EntityType", @ds_namespaces)
     entity_types.each do |e|
       next if e['Abstract'] == "true"
       klass_name = qualify_class_name(e['Name'])
-      methods = collect_properties(klass_name, edm_ns, e, @edmx)
-      nav_props = collect_navigation_properties(klass_name, edm_ns, e, @edmx)
+      methods = collect_properties(klass_name, e, @edmx)
+      nav_props = collect_navigation_properties(klass_name, e, @edmx)
       @classes[klass_name] = ClassBuilder.new(klass_name, methods, nav_props, self, @namespace).build unless @classes.keys.include?(klass_name)
     end
 
     # Fill in the collections instance variable
-    collections = @edmx.xpath("//edm:EntityContainer/edm:EntitySet", "edm" => edm_ns)
+    collections = @edmx.xpath("//edm:EntityContainer/edm:EntitySet", @ds_namespaces)
     collections.each do |c|
       entity_type = c["EntityType"]
       @collections[c["Name"]] = { :edmx_type => entity_type, :type => convert_to_local_type(entity_type) }
+    end
+    
+    # Fill in the function imports
+    functions = @edmx.xpath("//edm:EntityContainer/edm:FunctionImport", @ds_namespaces)
+    functions.each do |f|
+      http_method = f.xpath("@m:HttpMethod", @ds_namespaces).first.content
+      return_type = f["ReturnType"]
+      inner_return_type = nil
+      unless return_type.nil?
+        return_type = (return_type =~ /^Collection/) ? Array : convert_to_local_type(return_type)
+        if f["ReturnType"] =~ /\((.*)\)/
+          inner_return_type = convert_to_local_type($~[1])
+        end
+      end
+      params = f.xpath("edm:Parameter", @ds_namespaces)
+      parameters = nil
+      if params.length > 0
+        parameters = {}
+        params.each do |p|
+          parameters[p["Name"]] = p["Type"]
+        end
+      end
+      @function_imports[f["Name"]] = { 
+        :http_method => http_method, 
+        :return_type => return_type, 
+        :inner_return_type => inner_return_type,
+        :parameters => parameters }
     end
   end
 
@@ -256,15 +294,14 @@ class Service
   end
   
   # Loops through the standard properties (non-navigation) for a given class and returns the appropriate list of methods
-  def collect_properties(klass_name, edm_ns, element, doc)
-    props = element.xpath(".//edm:Property", "edm" => edm_ns)
+  def collect_properties(klass_name, element, doc)
+    props = element.xpath(".//edm:Property", @ds_namespaces)
     @class_metadata[klass_name] = build_property_metadata(props)
     methods = props.collect { |p| p['Name'] }
     unless element["BaseType"].nil?
       base = element["BaseType"].split(".").last()
-      baseType = doc.xpath("//edm:EntityType[@Name=\"#{base}\"]",
-                           "edm" => edm_ns).first()
-      props = baseType.xpath(".//edm:Property", "edm" => edm_ns)
+      baseType = doc.xpath("//edm:EntityType[@Name=\"#{base}\"]", @ds_namespaces).first()
+      props = baseType.xpath(".//edm:Property", @ds_namespaces)
       @class_metadata[klass_name].merge!(build_property_metadata(props))
       methods = methods.concat(props.collect { |p| p['Name']})
     end
@@ -272,8 +309,8 @@ class Service
   end
   
   # Similar to +collect_properties+, but handles the navigation properties
-  def collect_navigation_properties(klass_name, edm_ns, element, doc)
-    nav_props = element.xpath(".//edm:NavigationProperty", "edm" => edm_ns)
+  def collect_navigation_properties(klass_name, element, doc)
+    nav_props = element.xpath(".//edm:NavigationProperty", @ds_namespaces)
     @class_metadata[klass_name].merge!(build_property_metadata(nav_props))
     nav_props.collect { |p| p['Name'] }
   end
@@ -282,10 +319,10 @@ class Service
   def build_classes_from_result(result)
     doc = Nokogiri::XML(result)
     
-    is_links = doc.at_xpath("/ds:links", "ds" => "http://schemas.microsoft.com/ado/2007/08/dataservices")
+    is_links = doc.at_xpath("/ds:links", @ds_namespaces)
     return parse_link_results(doc) if is_links
     
-    entries = doc.xpath("//atom:entry[not(ancestor::atom:entry)]", "atom" => "http://www.w3.org/2005/Atom")
+    entries = doc.xpath("//atom:entry[not(ancestor::atom:entry)]", @ds_namespaces)
     
     extract_partial(doc)
     
@@ -299,11 +336,11 @@ class Service
   # Converts an XML Entry into a class
   def entry_to_class(entry)
     # Retrieve the class name from the fully qualified name (the last string after the last dot)
-    klass_name = entry.xpath("./atom:category/@term", "atom" => "http://www.w3.org/2005/Atom").to_s.split('.')[-1]
+    klass_name = entry.xpath("./atom:category/@term", @ds_namespaces).to_s.split('.')[-1]
     
     # Is the category missing? See if there is a title that we can use to build the class
     if klass_name.nil?
-      title = entry.xpath("./atom:title", "atom" => "http://www.w3.org/2005/Atom").first
+      title = entry.xpath("./atom:title", @ds_namespaces).first
       return nil if title.nil?
       klass_name = title.content.to_s
     end
@@ -312,14 +349,14 @@ class Service
 
     # If we are working against a child (inline) entry, we need to use the more generic xpath because a child entry WILL 
     # have properties that are ancestors of m:inline. Check if there is an m:inline child to determine the xpath query to use
-    has_inline = entry.xpath(".//m:inline", { "m" => "http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" }).any?
+    has_inline = entry.xpath(".//m:inline", @ds_namespaces).any?
     properties_xpath = has_inline ? ".//m:properties[not(ancestor::m:inline)]/*" : ".//m:properties/*"
-    properties = entry.xpath(properties_xpath, { "m" => "http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" })
+    properties = entry.xpath(properties_xpath, @ds_namespaces)
 
     klass = @classes[qualify_class_name(klass_name)].new
     
     # Fill metadata
-    meta_id = entry.xpath("./atom:id", "atom" => "http://www.w3.org/2005/Atom")[0].content
+    meta_id = entry.xpath("./atom:id", @ds_namespaces)[0].content
     klass.send :__metadata=, { :uri => meta_id }
 
     # Fill properties
@@ -331,18 +368,18 @@ class Service
     # Fill properties represented outside of the properties collection
     @class_metadata[qualify_class_name(klass_name)].select { |k,v| v.fc_keep_in_content == false }.each do |k, meta|
       if meta.fc_target_path == "SyndicationTitle"
-        title = entry.xpath("./atom:title", "atom" => "http://www.w3.org/2005/Atom").first
+        title = entry.xpath("./atom:title", @ds_namespaces).first
         klass.send "#{meta.name}=", title.content
       elsif meta.fc_target_path == "SyndicationSummary"
-        summary = entry.xpath("./atom:summary", "atom" => "http://www.w3.org/2005/Atom").first
+        summary = entry.xpath("./atom:summary", @ds_namespaces).first
         klass.send "#{meta.name}=", summary.content
       end
     end
     
-    inline_links = entry.xpath("./atom:link[m:inline]", { "m" => "http://schemas.microsoft.com/ado/2007/08/dataservices/metadata", "atom" => "http://www.w3.org/2005/Atom" })
+    inline_links = entry.xpath("./atom:link[m:inline]", @ds_namespaces)
     
     for link in inline_links
-      inline_entries = link.xpath(".//atom:entry", "atom" => "http://www.w3.org/2005/Atom")
+      inline_entries = link.xpath(".//atom:entry", @ds_namespaces)
 
       # TODO: Use the metadata's associations to determine the multiplicity instead of this "hack"  
       property_name = link.attributes['title'].to_s
@@ -360,7 +397,7 @@ class Service
         end
 
         # Assign the array of classes to the property
-        property_name = link.xpath("@title", "atom" => "http://www.w3.org/2005/Atom")
+        property_name = link.xpath("@title", @ds_namespaces)
         klass.send "#{property_name}=", inline_classes
       end
     end
@@ -370,7 +407,7 @@ class Service
   
   # Tests for and extracts the next href of a partial
   def extract_partial(doc)
-    next_links = doc.xpath('//atom:link[@rel="next"]', "atom" => "http://www.w3.org/2005/Atom")
+    next_links = doc.xpath('//atom:link[@rel="next"]', @ds_namespaces)
     @has_partial = next_links.any?
     @next_uri = next_links[0]['href'] if @has_partial
   end
@@ -385,7 +422,7 @@ class Service
   
   # Handle link results
   def parse_link_results(doc)
-    uris = doc.xpath("/ds:links/ds:uri", "ds" => "http://schemas.microsoft.com/ado/2007/08/dataservices")
+    uris = doc.xpath("/ds:links/ds:uri", @ds_namespaces)
     results = []
     uris.each do |uri_el|
       link = uri_el.content

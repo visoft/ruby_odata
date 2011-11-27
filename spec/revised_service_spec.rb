@@ -24,6 +24,7 @@ module OData
       it { should respond_to :class_metadata }
       it { should respond_to :collections }
       it { should respond_to :options }
+      it { should respond_to :function_imports }
     
       context "after parsing metadata" do
         it { should respond_to :Products }
@@ -89,6 +90,30 @@ module OData
           meta.association.should_not be_nil
         end
       end
+    end
+    context "function_imports method" do
+      subject { @cat_prod_service.function_imports }
+      it { should_not be_empty}
+      it { should have_key 'CleanDatabaseForTesting' }
+      it { should have_key 'EntityCategoryWebGet' }
+      it { should have_key 'EntitySingleCategoryWebGet' }
+      it "should expose the http method" do
+        subject['CleanDatabaseForTesting'][:http_method].should eq 'POST'
+        subject['EntityCategoryWebGet'][:http_method].should eq 'GET'
+        subject['EntitySingleCategoryWebGet'][:http_method].should eq 'GET'
+      end
+      it "should expose the return type" do
+        subject['CleanDatabaseForTesting'][:return_typo].should be_nil
+        subject['EntityCategoryWebGet'][:return_type].should eq Array
+        subject['EntityCategoryWebGet'][:inner_return_type].should eq Category        
+        subject['EntitySingleCategoryWebGet'][:return_type].should eq Category
+        subject['EntitySingleCategoryWebGet'][:inner_return_type].should be_nil
+      end
+      it "should provide a hash of parameters" do
+        subject['EntityCategoryWebGet'][:parameters].should be_nil
+        subject['EntitySingleCategoryWebGet'][:parameters].should be_a Hash
+        subject['EntitySingleCategoryWebGet'][:parameters]['id'].should eq 'Edm.Int32'
+      end     
     end
   end
 end

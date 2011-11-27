@@ -34,5 +34,10 @@ namespace RubyODataService
         {
             return CurrentDataSource.Categories;
         }
+        [WebGet]
+        public Category EntitySingleCategoryWebGet(int id)
+        {
+            return CurrentDataSource.Categories.FirstOrDefault(c => c.Id == id);
+        }
     }
 }
