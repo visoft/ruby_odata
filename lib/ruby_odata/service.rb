@@ -36,6 +36,8 @@ class Service
       else
         super
       end
+    elsif @function_imports.include?(name.to_s)
+      execute_import_function(name.to_s, args)
     else
       super
     end
@@ -108,6 +110,9 @@ class Service
       else
         super
       end
+    # Function Imports
+    elsif @function_imports.include?(method.to_s)
+      return true
     else
       super
     end
@@ -228,6 +233,11 @@ class Service
       @collections[c["Name"]] = { :edmx_type => entity_type, :type => convert_to_local_type(entity_type) }
     end
     
+    build_function_imports
+  end
+
+  # Parses the function imports and fills the @function_imports collection
+  def build_function_imports
     # Fill in the function imports
     functions = @edmx.xpath("//edm:EntityContainer/edm:FunctionImport", @ds_namespaces)
     functions.each do |f|
@@ -258,6 +268,7 @@ class Service
 
   # Converts the EDMX model type to the local model type
   def convert_to_local_type(edmx_type)
+    return edm_to_ruby_type(edmx_type) if edmx_type =~ /^Edm/
     klass_name = qualify_class_name(edmx_type.split('.').last)
     klass_name.camelize.constantize
   end
@@ -466,6 +477,12 @@ class Service
     uri << "/#{property}"
     uri
   end
+  def build_function_import_uri(name, params)
+    uri = "#{@uri}/#{name}"
+    params.merge! @additional_params
+    uri << "?#{params.to_query}" unless params.empty?
+    uri
+  end
   
   def build_inline_class(klass, entry, property_name)
     # Build the class
@@ -611,6 +628,8 @@ class Service
   end
 
   # Field Converters
+  
+  # Parses a value into the proper type
   def parse_value(property_xml)
     property_type = property_xml.attr('type')
     property_null = property_xml.attr('null')
@@ -652,6 +671,35 @@ class Service
 
     # If we can't parse the value, just return the element's content
     property_xml.content
+  end
+
+  def edm_to_ruby_type(edm_type)
+    return String if edm_type =~ /Edm.String/
+    return Integer if edm_type =~ /^Edm.Int/
+    return Decimal if edm_type =~ /Edm.Decimal/
+    return Time if edm_type =~ /Edm.DateTime/
+    return String
+  end
+
+  # Method Missing Handlers
+  
+  # Executes an import function
+  def execute_import_function(name, *args)
+    func = @function_imports[name]
+    
+    # Check the args making sure that more weren't passed in than the function needs
+    param_count = func[:parameters].nil? ? 0 : func[:parameters].count
+    arg_count = args.nil? ? 0 : args[0].count
+    if arg_count > param_count
+      raise ArgumentError, "wrong number of arguments (#{arg_count} for #{param_count})"
+    end
+    
+    # Convert the parameters to a hash
+    params = {}
+    func[:parameters].keys.each_with_index { |key, i| params[key] = args[0][i] } unless func[:parameters].nil?
+    
+    function_uri = build_function_import_uri(name, params)
+    result = RestClient::Resource.new(function_uri, @rest_options).send(func[:http_method].downcase, {})
   end
 
   # Helpers

@@ -7,7 +7,7 @@ module OData
       with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
       to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/sample_service/edmx_categories_products.xml", __FILE__)), :headers => {})
 
-      @cat_prod_service = OData::Service.new "http://test.com/test.svc/$metadata"
+      @cat_prod_service = OData::Service.new "http://test.com/test.svc"
     end
     subject { @cat_prod_service }
     
@@ -105,15 +105,53 @@ module OData
       it "should expose the return type" do
         subject['CleanDatabaseForTesting'][:return_typo].should be_nil
         subject['EntityCategoryWebGet'][:return_type].should eq Array
-        subject['EntityCategoryWebGet'][:inner_return_type].should eq Category        
+        subject['EntityCategoryWebGet'][:inner_return_type].should eq Category
         subject['EntitySingleCategoryWebGet'][:return_type].should eq Category
         subject['EntitySingleCategoryWebGet'][:inner_return_type].should be_nil
+        subject['CategoryNames'][:return_type].should eq Array
+        subject['CategoryNames'][:inner_return_type].should eq String
       end
       it "should provide a hash of parameters" do
         subject['EntityCategoryWebGet'][:parameters].should be_nil
         subject['EntitySingleCategoryWebGet'][:parameters].should be_a Hash
         subject['EntitySingleCategoryWebGet'][:parameters]['id'].should eq 'Edm.Int32'
       end     
+      context "after parsing function imports" do
+        subject { @cat_prod_service }
+        it { should respond_to :CleanDatabaseForTesting }
+        it { should respond_to :EntityCategoryWebGet }
+        it { should respond_to :EntitySingleCategoryWebGet }
+        it { should respond_to :CategoryNames }
+      end
+      context "error checking" do
+        subject { @cat_prod_service }
+        it "should throw an exception if a parameter is passed in to a method that doesn't require one" do
+          lambda { subject.EntityCategoryWebGet(1) }.should raise_error(ArgumentError, "wrong number of arguments (1 for 0)")
+        end
+        it "should throw and exception if more parameters are passed in than required by the function" do
+          lambda { subject.EntitySingleCategoryWebGet(1,2) }.should raise_error(ArgumentError, "wrong number of arguments (2 for 1)")
+        end
+      end
+      context "url and http method checks" do
+        subject { @cat_prod_service }
+        before { stub_request(:any, /http:\/\/test\.com\/test\.svc\/(.*)/) }
+        it "should call the correct url with the correct http method for a post with no parameters" do
+          subject.CleanDatabaseForTesting
+          a_request(:post, "http://test.com/test.svc/CleanDatabaseForTesting").should have_been_made
+        end
+        it "should call the correct url with the correct http method for a get with no parameters" do
+          subject.EntityCategoryWebGet
+          a_request(:get, "http://test.com/test.svc/EntityCategoryWebGet").should have_been_made
+        end
+        it "should call the correct url with the correct http method for a get with parameters" do
+          subject.EntitySingleCategoryWebGet(1)
+          a_request(:get, "http://test.com/test.svc/EntitySingleCategoryWebGet?id=1").should have_been_made
+        end
+        it "should call the correct url with the correct http method for a get with parameters" do
+          subject.EntitySingleCategoryWebGet(1)
+          a_request(:get, "http://test.com/test.svc/EntitySingleCategoryWebGet?id=1").should have_been_made
+        end
+      end
     end
   end
 end

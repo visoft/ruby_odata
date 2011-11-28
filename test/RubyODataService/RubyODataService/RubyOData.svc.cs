@@ -4,6 +4,7 @@ using System.Linq;
 using System.ServiceModel;
 using System.ServiceModel.Web;
 using RubyODataService.Models;
+using System.Collections.Generic;
 
 namespace RubyODataService
 {
@@ -34,6 +35,13 @@ namespace RubyODataService
         {
             return CurrentDataSource.Categories;
         }
+
+        [WebGet]
+        public IQueryable<string> CategoryNames()
+        {
+            return CurrentDataSource.Categories.Select(c => c.Name);
+        }
+
         [WebGet]
         public Category EntitySingleCategoryWebGet(int id)
         {

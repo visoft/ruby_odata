@@ -51,6 +51,10 @@
       <EntityContainer Name="DEMO_FLIGHT" m:IsDefaultEntityContainer="true">
         <EntitySet Name="flight_dataCollection" EntityType="DEMO_FLIGHT.flight_data" sap:content-version="1" sap:creatable="false" sap:updatable="false" sap:deletable="false"/>
         <EntitySet Name="z_demo_flightCollection" EntityType="DEMO_FLIGHT.z_demo_flight" sap:content-version="1" sap:creatable="false" sap:updatable="false" sap:deletable="false"/>
+        <FunctionImport Name="get_flight" ReturnType="DEMO_FLIGHT.z_demo_flight" EntitySet="z_demo_flightCollection" m:HttpMethod="GET">
+          <Parameter Name="id" Type="Edm.Int32"/>
+        </FunctionImport>
+        <FunctionImport Name="get_top_flight" ReturnType="DEMO_FLIGHT.z_demo_flight" EntitySet="z_demo_flightCollection" m:HttpMethod="GET" />
         <AssociationSet Name="AssocSet_flight_data_r" Association="DEMO_FLIGHT.flight_data_r" sap:content-version="1" sap:creatable="false" sap:updatable="false" sap:deletable="false">
           <End EntitySet="z_demo_flightCollection" Role="FromRole_z_demo_flight_flight_data"/>
           <End EntitySet="flight_dataCollection" Role="ToRole_flight_data_z_demo_flight"/>
