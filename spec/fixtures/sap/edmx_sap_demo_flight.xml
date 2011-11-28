@@ -1,61 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" xmlns:gp="http://www.sap.com/Protocols/SAPData/GenericPlayer" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
-	<edmx:DataServices m:DataServiceVersion="2.0">
-		<Schema Namespace="DEMO_FLIGHT" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
-			<EntityType Name="flight_data" m:HasStream="false" sap:content-version="1">
-				<Key>
-					<PropertyRef Name="scheme_id"/>
-					<PropertyRef Name="value"/>
-					<PropertyRef Name="scheme_agency_id"/>
-				</Key>
-				<Property Name="scheme_id" Type="Edm.String" Nullable="false" MaxLength="30" sap:creatable="false" sap:updatable="false" sap:filterable="false"/>
-				<Property Name="airlineid" Type="Edm.String" MaxLength="3" sap:label="Airline" sap:creatable="false" sap:updatable="false" sap:filterable="false"/>
-				<Property Name="value" Type="Edm.String" Nullable="false" MaxLength="72" sap:creatable="false" sap:updatable="false" sap:filterable="false"/>
-				<Property Name="scheme_agency_id" Type="Edm.String" Nullable="false" MaxLength="16" sap:creatable="false" sap:updatable="false" sap:filterable="false"/>
-			</EntityType>
-			<EntityType Name="z_demo_flight" m:HasStream="false" sap:content-version="1">
-				<Key>
-					<PropertyRef Name="scheme_id"/>
-					<PropertyRef Name="scheme_agency_id"/>
-					<PropertyRef Name="value"/>
-				</Key>
-				<Property Name="cityto" Type="Edm.String" MaxLength="20" sap:label="Arrival city" sap:creatable="false" sap:updatable="false" sap:filterable="false"/>
-				<Property Name="scheme_id" Type="Edm.String" Nullable="false" MaxLength="30" sap:creatable="false" sap:updatable="false" sap:filterable="false"/>
-				<Property Name="curr" Type="Edm.String" MaxLength="5" sap:label="Airline local currency" sap:creatable="false" sap:updatable="false" sap:filterable="false"/>
-				<Property Name="businmax" Type="Edm.Int32" sap:creatable="false" sap:updatable="false" sap:filterable="false"/>
-				<Property Name="arrdate" Type="Edm.DateTime" Precision="8" sap:label="Arrival date" sap:creatable="false" sap:updatable="false" sap:filterable="false"/>
-				<Property Name="deptime" Type="Edm.Time" Precision="6" sap:label="Departure time" sap:creatable="false" sap:updatable="false" sap:filterable="false"/>
-				<Property Name="firstmax" Type="Edm.Int32" sap:creatable="false" sap:updatable="false" sap:filterable="false"/>
-				<Property Name="price" Type="Edm.Decimal" Precision="23" Scale="4" sap:label="Airfare" sap:creatable="false" sap:updatable="false" sap:filterable="false"/>
-				<Property Name="businfree" Type="Edm.Int32" sap:creatable="false" sap:updatable="false" sap:filterable="false"/>
-				<Property Name="scheme_agency_id" Type="Edm.String" Nullable="false" MaxLength="16" sap:creatable="false" sap:updatable="false" sap:filterable="false"/>
-				<Property Name="airline" Type="Edm.String" MaxLength="20" sap:label="Airline" sap:creatable="false" sap:updatable="false" sap:filterable="false"/>
-				<Property Name="economax" Type="Edm.Int32" sap:creatable="false" sap:updatable="false" sap:filterable="false"/>
-				<Property Name="cityfrom" Type="Edm.String" MaxLength="20" sap:label="Depart. city" sap:creatable="false" sap:updatable="false" sap:filterable="false"/>
-				<Property Name="airportfr" Type="Edm.String" MaxLength="3" sap:label="Departure airport" sap:creatable="false" sap:updatable="false" sap:filterable="false"/>
-				<Property Name="connectid" Type="Edm.String" MaxLength="4" sap:creatable="false" sap:updatable="false" sap:filterable="false"/>
-				<Property Name="firstfree" Type="Edm.Int32" sap:creatable="false" sap:updatable="false" sap:filterable="false"/>
-				<Property Name="econofree" Type="Edm.Int32" sap:creatable="false" sap:updatable="false" sap:filterable="false"/>
-				<Property Name="airlineid" Type="Edm.String" MaxLength="2" sap:creatable="false" sap:updatable="false" sap:filterable="false"/>
-				<Property Name="curr_iso" Type="Edm.String" MaxLength="3" sap:label="ISO code" sap:creatable="false" sap:updatable="false" sap:filterable="false"/>
-				<Property Name="value" Type="Edm.String" Nullable="false" MaxLength="72" sap:creatable="false" sap:updatable="false" sap:filterable="false"/>
-				<Property Name="flightdate" Type="Edm.DateTime" Nullable="true" Precision="0" sap:creatable="false" sap:updatable="false" sap:filterable="false"/>
-				<Property Name="airportto" Type="Edm.String" MaxLength="3" sap:label="Destination airport" sap:creatable="false" sap:updatable="false" sap:filterable="false"/>
-				<Property Name="arrtime" Type="Edm.Time" Precision="6" sap:label="Arrival Time" sap:creatable="false" sap:updatable="false" sap:filterable="false"/>
-				<NavigationProperty Name="flight_data_r" Relationship="DEMO_FLIGHT.flight_data_r" FromRole="FromRole_z_demo_flight_flight_data" ToRole="ToRole_flight_data_z_demo_flight"/>
-			</EntityType>
-			<Association Name="flight_data_r" sap:content-version="1">
-				<End Type="DEMO_FLIGHT.z_demo_flight" Multiplicity="0..1" Role="FromRole_z_demo_flight_flight_data"/>
-				<End Type="DEMO_FLIGHT.flight_data" Multiplicity="0..1" Role="ToRole_flight_data_z_demo_flight"/>
-			</Association>
-			<EntityContainer Name="DEMO_FLIGHT" m:IsDefaultEntityContainer="true">
-				<EntitySet Name="flight_dataCollection" EntityType="DEMO_FLIGHT.flight_data" sap:content-version="1" sap:creatable="false" sap:updatable="false" sap:deletable="false"/>
-				<EntitySet Name="z_demo_flightCollection" EntityType="DEMO_FLIGHT.z_demo_flight" sap:content-version="1" sap:creatable="false" sap:updatable="false" sap:deletable="false"/>
-				<AssociationSet Name="AssocSet_flight_data_r" Association="DEMO_FLIGHT.flight_data_r" sap:content-version="1" sap:creatable="false" sap:updatable="false" sap:deletable="false">
-					<End EntitySet="z_demo_flightCollection" Role="FromRole_z_demo_flight_flight_data"/>
-					<End EntitySet="flight_dataCollection" Role="ToRole_flight_data_z_demo_flight"/>
-				</AssociationSet>
-			</EntityContainer>
-		</Schema>
-	</edmx:DataServices>
+  <edmx:DataServices m:DataServiceVersion="2.0">
+    <Schema Namespace="DEMO_FLIGHT" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+      <EntityType Name="flight_data" m:HasStream="false" sap:content-version="1">
+        <Key>
+          <PropertyRef Name="scheme_id"/>
+          <PropertyRef Name="value"/>
+          <PropertyRef Name="scheme_agency_id"/>
+        </Key>
+        <Property Name="scheme_id" Type="Edm.String" Nullable="false" MaxLength="30" sap:creatable="false" sap:updatable="false" sap:filterable="false"/>
+        <Property Name="airlineid" Type="Edm.String" MaxLength="3" sap:label="Airline" sap:creatable="false" sap:updatable="false" sap:filterable="false"/>
+        <Property Name="value" Type="Edm.String" Nullable="false" MaxLength="72" sap:creatable="false" sap:updatable="false" sap:filterable="false"/>
+        <Property Name="scheme_agency_id" Type="Edm.String" Nullable="false" MaxLength="16" sap:creatable="false" sap:updatable="false" sap:filterable="false"/>
+      </EntityType>
+      <EntityType Name="z_demo_flight" m:HasStream="false" sap:content-version="1">
+        <Key>
+          <PropertyRef Name="scheme_id"/>
+          <PropertyRef Name="scheme_agency_id"/>
+          <PropertyRef Name="value"/>
+        </Key>
+        <Property Name="cityto" Type="Edm.String" MaxLength="20" sap:label="Arrival city" sap:creatable="false" sap:updatable="false" sap:filterable="false"/>
+        <Property Name="scheme_id" Type="Edm.String" Nullable="false" MaxLength="30" sap:creatable="false" sap:updatable="false" sap:filterable="false"/>
+        <Property Name="curr" Type="Edm.String" MaxLength="5" sap:label="Airline local currency" sap:creatable="false" sap:updatable="false" sap:filterable="false"/>
+        <Property Name="businmax" Type="Edm.Int32" sap:creatable="false" sap:updatable="false" sap:filterable="false"/>
+        <Property Name="arrdate" Type="Edm.DateTime" Precision="8" sap:label="Arrival date" sap:creatable="false" sap:updatable="false" sap:filterable="false"/>
+        <Property Name="deptime" Type="Edm.Time" Precision="6" sap:label="Departure time" sap:creatable="false" sap:updatable="false" sap:filterable="false"/>
+        <Property Name="firstmax" Type="Edm.Int32" sap:creatable="false" sap:updatable="false" sap:filterable="false"/>
+        <Property Name="price" Type="Edm.Decimal" Precision="23" Scale="4" sap:label="Airfare" sap:creatable="false" sap:updatable="false" sap:filterable="false"/>
+        <Property Name="businfree" Type="Edm.Int32" sap:creatable="false" sap:updatable="false" sap:filterable="false"/>
+        <Property Name="scheme_agency_id" Type="Edm.String" Nullable="false" MaxLength="16" sap:creatable="false" sap:updatable="false" sap:filterable="false"/>
+        <Property Name="airline" Type="Edm.String" MaxLength="20" sap:label="Airline" sap:creatable="false" sap:updatable="false" sap:filterable="false"/>
+        <Property Name="economax" Type="Edm.Int32" sap:creatable="false" sap:updatable="false" sap:filterable="false"/>
+        <Property Name="cityfrom" Type="Edm.String" MaxLength="20" sap:label="Depart. city" sap:creatable="false" sap:updatable="false" sap:filterable="false"/>
+        <Property Name="airportfr" Type="Edm.String" MaxLength="3" sap:label="Departure airport" sap:creatable="false" sap:updatable="false" sap:filterable="false"/>
+        <Property Name="connectid" Type="Edm.String" MaxLength="4" sap:creatable="false" sap:updatable="false" sap:filterable="false"/>
+        <Property Name="firstfree" Type="Edm.Int32" sap:creatable="false" sap:updatable="false" sap:filterable="false"/>
+        <Property Name="econofree" Type="Edm.Int32" sap:creatable="false" sap:updatable="false" sap:filterable="false"/>
+        <Property Name="airlineid" Type="Edm.String" MaxLength="2" sap:creatable="false" sap:updatable="false" sap:filterable="false"/>
+        <Property Name="curr_iso" Type="Edm.String" MaxLength="3" sap:label="ISO code" sap:creatable="false" sap:updatable="false" sap:filterable="false"/>
+        <Property Name="value" Type="Edm.String" Nullable="false" MaxLength="72" sap:creatable="false" sap:updatable="false" sap:filterable="false"/>
+        <Property Name="flightdate" Type="Edm.DateTime" Nullable="true" Precision="0" sap:creatable="false" sap:updatable="false" sap:filterable="false"/>
+        <Property Name="airportto" Type="Edm.String" MaxLength="3" sap:label="Destination airport" sap:creatable="false" sap:updatable="false" sap:filterable="false"/>
+        <Property Name="arrtime" Type="Edm.Time" Precision="6" sap:label="Arrival Time" sap:creatable="false" sap:updatable="false" sap:filterable="false"/>
+        <NavigationProperty Name="flight_data_r" Relationship="DEMO_FLIGHT.flight_data_r" FromRole="FromRole_z_demo_flight_flight_data" ToRole="ToRole_flight_data_z_demo_flight"/>
+      </EntityType>
+      <Association Name="flight_data_r" sap:content-version="1">
+        <End Type="DEMO_FLIGHT.z_demo_flight" Multiplicity="0..1" Role="FromRole_z_demo_flight_flight_data"/>
+        <End Type="DEMO_FLIGHT.flight_data" Multiplicity="0..1" Role="ToRole_flight_data_z_demo_flight"/>
+      </Association>
+      <EntityContainer Name="DEMO_FLIGHT" m:IsDefaultEntityContainer="true">
+        <EntitySet Name="flight_dataCollection" EntityType="DEMO_FLIGHT.flight_data" sap:content-version="1" sap:creatable="false" sap:updatable="false" sap:deletable="false"/>
+        <EntitySet Name="z_demo_flightCollection" EntityType="DEMO_FLIGHT.z_demo_flight" sap:content-version="1" sap:creatable="false" sap:updatable="false" sap:deletable="false"/>
+        <AssociationSet Name="AssocSet_flight_data_r" Association="DEMO_FLIGHT.flight_data_r" sap:content-version="1" sap:creatable="false" sap:updatable="false" sap:deletable="false">
+          <End EntitySet="z_demo_flightCollection" Role="FromRole_z_demo_flight_flight_data"/>
+          <End EntitySet="flight_dataCollection" Role="ToRole_flight_data_z_demo_flight"/>
+        </AssociationSet>
+      </EntityContainer>
+    </Schema>
+  </edmx:DataServices>
 </edmx:Edmx>
