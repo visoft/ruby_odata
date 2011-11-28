@@ -2,8 +2,8 @@
 require File.expand_path('../../../lib/ruby_odata', __FILE__)
 require File.expand_path('../../../features/support/constants', __FILE__)
 
-svc = OData::Service.new "http://#{WEBSERVER}:#{HTTP_PORT_NUMBER}/SampleService/Entities.svc"
-ns_svc = OData::Service.new "http://#{WEBSERVER}:#{HTTP_PORT_NUMBER}/SampleService/Entities.svc", { :namespace => 'Models' }
+svc = OData::Service.new "http://#{WEBSERVER}:#{HTTP_PORT_NUMBER}/SampleService/RubyOData.svc"
+ns_svc = OData::Service.new "http://#{WEBSERVER}:#{HTTP_PORT_NUMBER}/SampleService/RubyOData.svc", { :namespace => 'Models' }
 
 puts "Querying for a list of data"
 svc.Categories
