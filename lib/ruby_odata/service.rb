@@ -629,7 +629,24 @@ class Service
 
   # Field Converters
   
-  # Parses a value into the proper type
+  # Handles parsing datetimes from a string
+  def parse_date(sdate)
+    # Assume this is UTC if no timezone is specified
+    sdate = sdate + "Z" unless sdate.match(/Z|([+|-]\d{2}:\d{2})$/)
+    
+    # This is to handle older versions of Ruby (e.g. ruby 1.8.7 (2010-12-23 patchlevel 330) [i386-mingw32])
+    # See http://makandra.com/notes/1017-maximum-representable-value-for-a-ruby-time-object
+    # In recent versions of Ruby, Time has a much larger range
+    begin
+      result = Time.parse(sdate)  
+    rescue ArgumentError
+      result = DateTime.parse(sdate)
+    end
+    
+    return result
+  end
+  
+  # Parses a value into the proper type based on an xml property element
   def parse_value(property_xml)
     property_type = property_xml.attr('type')
     property_null = property_xml.attr('null')
@@ -651,36 +668,29 @@ class Service
 
     # Handle DateTimes
     # return Time.parse(property_xml.content) if property_type.match(/Edm.DateTime/)
-    if property_type.match(/Edm.DateTime/)
-      sdate = property_xml.content
-
-      # Assume this is UTC if no timezone is specified
-      sdate = sdate + "Z" unless sdate.match(/Z|([+|-]\d{2}:\d{2})$/)
-      
-      # This is to handle older versions of Ruby (e.g. ruby 1.8.7 (2010-12-23 patchlevel 330) [i386-mingw32])
-      # See http://makandra.com/notes/1017-maximum-representable-value-for-a-ruby-time-object
-      # In recent versions of Ruby, Time has a much larger range
-      begin
-        result = Time.parse(sdate)  
-      rescue ArgumentError
-        result = DateTime.parse(sdate)
-      end
-      
-      return result
-    end
+    return parse_date(property_xml.content) if property_type.match(/Edm.DateTime/)
 
     # If we can't parse the value, just return the element's content
     property_xml.content
   end
-
+  
+  # Parses a value into the proper type based on a specified return type
+  def parse_primative_type(value, return_type)
+    return value.to_i if return_type == Fixnum
+    return value.to_d if return_type == Float
+    return parse_date(value.to_s) if return_type == Time
+    return value.to_s
+  end
+  
+  # Converts an edm type (string) to a ruby type
   def edm_to_ruby_type(edm_type)
     return String if edm_type =~ /Edm.String/
-    return Integer if edm_type =~ /^Edm.Int/
-    return Decimal if edm_type =~ /Edm.Decimal/
+    return Fixnum if edm_type =~ /^Edm.Int/
+    return Float if edm_type =~ /Edm.Decimal/
     return Time if edm_type =~ /Edm.DateTime/
     return String
   end
-
+  
   # Method Missing Handlers
   
   # Executes an import function
@@ -700,6 +710,37 @@ class Service
     
     function_uri = build_function_import_uri(name, params)
     result = RestClient::Resource.new(function_uri, @rest_options).send(func[:http_method].downcase, {})
+    
+    # Is this a 204 (No content) result?
+    return true if result.code == 204
+    
+    # No? Then we need to parse the results. There are 4 kinds...
+    if func[:return_type] == Array
+      # a collection of entites
+      return build_classes_from_result(result) if @classes.include?(func[:inner_return_type].to_s)
+      # a collection of native types
+      elements = Nokogiri::XML(result).xpath("//ds:element", @ds_namespaces)
+      results = []
+      elements.each do |e|
+        results << parse_primative_type(e.content, func[:inner_return_type])
+      end
+      return results
+    end
+    
+    # a single entity
+    if @classes.include?(func[:return_type].to_s)
+      entry = Nokogiri::XML(result).xpath("atom:entry[not(ancestor::atom:entry)]", @ds_namespaces)
+      return entry_to_class(entry)
+    end
+    
+    # or a single native type
+    unless func[:return_type].nil?
+      e = Nokogiri::XML(result).xpath("/*").first
+      return parse_primative_type(e.content, func[:return_type])
+    end
+    
+    # Nothing could be parsed, so just return if we got a 200 or not
+    return (result.code == 200)
   end
 
   # Helpers

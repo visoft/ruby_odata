@@ -43,6 +43,12 @@ namespace RubyODataService
         }
 
         [WebGet]
+        public int? FirstCategoryId()
+        {
+            return CurrentDataSource.Categories.Select(c => c.Id).FirstOrDefault();
+        }
+
+        [WebGet]
         public Category EntitySingleCategoryWebGet(int id)
         {
             return CurrentDataSource.Categories.FirstOrDefault(c => c.Id == id);

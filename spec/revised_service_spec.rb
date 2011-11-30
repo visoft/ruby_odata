@@ -152,6 +152,50 @@ module OData
           a_request(:get, "http://test.com/test.svc/EntitySingleCategoryWebGet?id=1").should have_been_made
         end
       end
+      context "function import result parsing" do
+        subject { @cat_prod_service }
+        before(:each) do
+          stub_request(:post, "http://test.com/test.svc/CleanDatabaseForTesting").to_return(:status => 204)
+          
+          stub_request(:get, "http://test.com/test.svc/EntityCategoryWebGet").
+          to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/sample_service/result_entity_category_web_get.xml", __FILE__)), :headers => {})
+          
+          stub_request(:get, "http://test.com/test.svc/EntitySingleCategoryWebGet?id=1").
+          to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/sample_service/result_entity_single_category_web_get.xml", __FILE__)), :headers => {})
+
+          stub_request(:get, "http://test.com/test.svc/CategoryNames").
+          to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/sample_service/result_category_names.xml", __FILE__)), :headers => {})
+
+          stub_request(:get, "http://test.com/test.svc/FirstCategoryId").
+          to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/sample_service/result_first_category_id.xml", __FILE__)), :headers => {})
+        end
+        it "should return true if a function import post that returns successfully and doesn't have a return value (HTTP 204)" do
+          result = subject.CleanDatabaseForTesting
+          result.should be_true
+        end
+        it "should return a collection of entities for a collection" do
+          result = subject.EntityCategoryWebGet
+          result.should be_an Enumerable
+          result.first.should be_a Category
+          result.first.Name.should eq "Test Category"
+        end
+        it "should return a single entity if it isn't a collection" do
+          result = subject.EntitySingleCategoryWebGet(1)
+          result.should be_a Category
+          result.Name.should eq "Test Category"
+        end
+        it "should return a collection of primitive types" do
+          result = subject.CategoryNames
+          result.should be_an Enumerable
+          result.first.should be_a String
+          result.first.should eq "Test Category 1"
+        end
+        it "should return a single primitive type" do
+          result = subject.FirstCategoryId
+          result.should be_a Fixnum
+          result.should eq 1
+        end
+      end
     end
   end
 end
