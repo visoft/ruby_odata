@@ -10,9 +10,13 @@ svc.Categories
 categories = svc.execute
 puts categories.to_json 
 
-puts "\n\nQuerying for a single result"
+puts "\n\nQuerying for a single result #execute"
 svc.Categories(1)
 category = svc.execute.first # Note the use of first here since execute will always return an enumerable
+puts category.to_json
+
+puts "\nAn easier way to do the same thing #Category.first(1)"
+category = Category.first(1)
 puts category.to_json
 
 puts "\n\nLazy Loading/Eager Loading"

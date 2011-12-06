@@ -4,6 +4,10 @@ Sham.define do
   price(:unique => false) { ['5.00', '10.00', '20.00', '15.00' , '25.00', '7.50'].rand }
 end
 
+AuditFields.blueprint do
+  CreatedBy     "Machinist"
+end
+
 Product.blueprint do
   Name          { Sham.product_name }
   Description   "Test Widget"
@@ -14,8 +18,5 @@ end
 
 Category.blueprint do
   Name          { Sham.category_name }
-end
-
-AuditFields.blueprint do
-  CreatedBy     "Cucumber"
+  AuditFields   { AuditFields.make }
 end
