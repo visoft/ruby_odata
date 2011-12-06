@@ -222,10 +222,18 @@ Or an OpenSSL integer constant can be passed as well:
                                                                                                          
 Default verification is OpenSSL::SSL::VERIFY_PEER. Note due to the way Ruby's Request object implements certificate checking, you CAN NOT pass OpenSSL::SSL::VERIFY_NONE, you must instead pass a boolean false.
 
+== Function Imports / Custom Service Methods
+Function Imports are custom service methods exposed by the WCF Data Service. Each function import will be created as a method on the ruby_odata Service. When you make a call to one of these, they return a result immediately without the need to call +execute+ or +save_changes+.
+
 == Reflection
 Instead of relying on looking at the EDMX directly, ruby_odata allows you to perform basic reflection on objects
 === Service Level Methods
 * *Collections* - You can look at the collections exposed by a service by accessing the +collections+ method, which is a hash. The key is the name of the collection and the value is the hash with +edmx_type+, which returns the name of the type from the EDMX and +:type+, which is the local type that is created for you
+* *Classes* - To see the generated classes, you can utilize the +classes+ method on the service. The return result is a hash where the key is the class name and the value is the class type.
+* *Function Imports* - You can find any function import (custom service methods) exposed by the service by accessing the +function_imports+ method. This is a hash where the key is the Function Import name and the value is metadata about the Function Import.
+
+=== Class Level Methods
+* *Properties* - You can call the class method +properties+ on a generated class to see the method (properties) that were created. The returned result is a hash where the key is the property name and the value is metadata for the property like if it is nullable, the EDM Type, etc.
 
 == Tests
 All of the tests are written using Cucumber going against a sample service (Found in test/RubyODataService/RubyODataService/*).

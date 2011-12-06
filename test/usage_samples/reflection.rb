@@ -9,5 +9,8 @@ puts svc.collections
 puts "\nClasses created by the service"
 puts svc.classes
 
+puts "\nFunction Imports (custom service methods) found on the service"
+puts svc.function_imports.to_json
+
 puts "\nRetrieving the properties for the Product class"
-puts Product.properties
+puts Product.properties.to_json

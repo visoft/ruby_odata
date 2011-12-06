@@ -80,3 +80,4 @@
   * Added support for lazy loading
   * Added basic reflection of the entity model via the ruby_odata service
   * Added the ability to create ruby_odata models in a specified namespace to prevent conflicts with local models
+  * Added the ability to call function imports exposed by the WCF Data Service
