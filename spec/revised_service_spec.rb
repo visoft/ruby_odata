@@ -147,10 +147,6 @@ module OData
           subject.EntitySingleCategoryWebGet(1)
           a_request(:get, "http://test.com/test.svc/EntitySingleCategoryWebGet?id=1").should have_been_made
         end
-        it "should call the correct url with the correct http method for a get with parameters" do
-          subject.EntitySingleCategoryWebGet(1)
-          a_request(:get, "http://test.com/test.svc/EntitySingleCategoryWebGet?id=1").should have_been_made
-        end
       end
       context "function import result parsing" do
         subject { @cat_prod_service }

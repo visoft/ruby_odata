@@ -58,6 +58,10 @@ Then /^the result should be "([^\"]*)"$/ do |result|
   @service_result.should eq result 
 end
 
+Then /^the integer result should be ([^\"]*)$/ do |result|
+  @service_result.should eq result.to_i
+end
+
 Then /^I should be able to call "([^\"]*)" on the service$/ do |method|
   lambda { @service.send(method) }.should_not raise_error
 end
@@ -174,24 +178,11 @@ Then /^no "([^\"]*)" should exist$/ do |collection|
   results.should eq []
 end
 
-
-Given /^the following (.*) exist:$/ do |plural_factory, table|
+Then /^the primitive results should be:$/ do |table|
   # table is a Cucumber::Ast::Table
-  factory = plural_factory.singularize
-  table.hashes.map do |hash|
-    obj = factory.constantize.send(:make, parse_fields_hash(hash))
-    @service.send("AddTo#{plural_factory}", obj)
-    @service.save_changes
-  end
-end
-
-Given /^(\d+) (.*) exist$/ do |num, plural_factory|
-  factory = plural_factory.singularize
-  num.to_i.times do 
-    obj = factory.constantize.send(:make)
-    @service.send("AddTo#{plural_factory}", obj)
-  end
-  @service.save_changes # Batch save
+  values = table.hashes  
+  result_table = Cucumber::Ast::Table.new(values)
+  table.diff!(result_table)
 end
 
 Then /^the result should be:$/ do |table|
@@ -212,7 +203,7 @@ Then /^the result should be:$/ do |table|
   
   result_table = Cucumber::Ast::Table.new(results)
   
-  table.diff!(result_table) 	
+  table.diff!(result_table)
 end
 
 Then /^the save result should be:$/ do |table|
@@ -300,4 +291,12 @@ end
 
 When /^I add a link between #{capture_model} and #{capture_model} on "([^"]*)"$/ do |parent, child, property|
   @service.add_link(created_model(parent), property, created_model(child))
+end
+
+Given /^I call the service method "([^"]*)"(?: with (.*))?$/ do |method, args|
+  if args
+    @service_result = @service.send(method, args)
+  else
+    @service_result = @service.send(method)
+  end
 end

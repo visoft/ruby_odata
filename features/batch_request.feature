@@ -67,7 +67,7 @@ Scenario: Save Changes should allow for batch deletes
   | Product 4 |
 
 Scenario: Save Changes should allow for a mix of adds, updates, and deletes to be batched
-  Given the following Products exist:
+  Given the following products exist:
   | Name      |
   | Product 1 |
   | Product 2 |
