@@ -8,39 +8,39 @@ module OData
       to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/sample_service/edmx_categories_products.xml", __FILE__)), :headers => {})
 
       @svc = OData::Service.new "http://test.com/test.svc/$metadata"
-      @product_category = RSpecSupport::ElementHelpers.string_to_element('<NavigationProperty Name="Category" Relationship="Model.CategoryProduct" FromRole="Product" ToRole="Category"/>')
+      @product_category = RSpecSupport::ElementHelpers.string_to_element('<NavigationProperty Name="Category" Relationship="RubyODataService.Category_Products" ToRole="Category_Products_Source" FromRole="Category_Products_Target"/>')
     end
     describe "#initialize singlular navigation property" do
       before { @association = Association.new @product_category, @svc.edmx }
       subject { @association }
       
       it "should set the association name" do
-        subject.name.should eq 'CategoryProduct'
+        subject.name.should eq 'Category_Products'
       end
       it "should set the association namespace" do
-        subject.namespace.should eq 'Model'
+        subject.namespace.should eq 'RubyODataService'
       end
       it "should set the relationship name" do
-        subject.relationship.should eq 'Model.CategoryProduct'
+        subject.relationship.should eq 'RubyODataService.Category_Products'
       end
       context "from_role method" do
         subject { @association.from_role }
-        it { should have_key 'Product'}        
+        it { should have_key 'Category_Products_Target'}        
         it "should set the edmx type" do
-          subject['Product'][:edmx_type].should eq 'Model.Product'
+          subject['Category_Products_Target'][:edmx_type].should eq 'RubyODataService.Product'
         end
         it "should set the multiplicity" do
-          subject['Product'][:multiplicity].should eq '*'
+          subject['Category_Products_Target'][:multiplicity].should eq '*'
         end
       end
       context "to_role method" do
         subject { @association.to_role }
-        it { should have_key 'Category'}        
+        it { should have_key 'Category_Products_Source'}        
         it "should set the edmx type" do
-          subject['Category'][:edmx_type].should eq 'Model.Category'
+          subject['Category_Products_Source'][:edmx_type].should eq 'RubyODataService.Category'
         end
         it "should set the multiplicity" do
-          subject['Category'][:multiplicity].should eq '1'
+          subject['Category_Products_Source'][:multiplicity].should eq '1'
         end
       end
     end

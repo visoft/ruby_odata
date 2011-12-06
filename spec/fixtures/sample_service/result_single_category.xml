@@ -8,7 +8,7 @@
   </author>
   <link rel="edit" title="Category" href="Categories(1)" />
   <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Products" type="application/atom+xml;type=feed" title="Products" href="Categories(1)/Products" />
-  <category term="Model.Category" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" />
+  <category term="RubyODataService.Category" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" />
   <content type="application/xml">
     <m:properties>
       <d:Id m:type="Edm.Int32">1</d:Id>

@@ -92,7 +92,17 @@ module OData
         svc.save_changes
         a_request(:post, "http://test.com/test.svc/flight_dataCollection/1/$links/flight_data_r?x=1&y=2").should have_been_made
       end
-    end    
+      it "should pass the parameters as part of a function import with a parameter" do
+        svc = OData::Service.new "http://test.com/test.svc/", { :additional_params => { :x=>1, :y=>2 } }
+        svc.get_flight(1)
+        a_request(:get, "http://test.com/test.svc/get_flight?id=1&x=1&y=2").should have_been_made
+      end
+      it "should pass the parameters as part of a function import without parameters" do
+        svc = OData::Service.new "http://test.com/test.svc/", { :additional_params => { :x=>1, :y=>2 } }
+        svc.get_top_flight
+        a_request(:get, "http://test.com/test.svc/get_top_flight?x=1&y=2").should have_been_made
+      end
+    end
     
     describe "lowercase collections" do
       before(:each) do

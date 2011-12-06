@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<entry xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:georss="http://www.georss.org/georss" xmlns:gml="http://www.opengis.net/gml" xml:base="http://win7dev:8989/SampleService/RubyOData.svc/">
+  <id>http://win7dev:8989/SampleService/RubyOData.svc/Categories(1)</id>
+  <category term="RubyODataService.Category" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"/>
+  <link rel="edit" title="Category" href="Categories(1)"/>
+  <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Products" type="application/atom+xml;type=feed" title="Products" href="Categories(1)/Products"/>
+  <title/>
+  <updated>2011-11-28T02:51:40Z</updated>
+  <author>
+    <name/>
+  </author>
+  <content type="application/xml">
+    <m:properties>
+      <d:Id m:type="Edm.Int32">1</d:Id>
+      <d:Name>Test Category</d:Name>
+      <d:AuditFields m:type="RubyODataService.AuditFields">
+        <d:CreateDate m:type="Edm.DateTime">2011-11-28T02:42:58.407</d:CreateDate>
+        <d:ModifiedDate m:type="Edm.DateTime">2011-11-28T02:42:58.407</d:ModifiedDate>
+        <d:CreatedBy m:null="true"/>
+      </d:AuditFields>
+    </m:properties>
+  </content>
+</entry>

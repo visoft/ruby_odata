@@ -34,7 +34,7 @@ Scenario: Filters should be allowed on the root level entity
 
 # Order By
 Scenario: Order by should be allowed on the root level entity
-  Given the following Products exist:
+  Given the following products exist:
   | Name      |
   | Product 2 |
   | Product 4 |
@@ -53,7 +53,7 @@ Scenario: Order by should be allowed on the root level entity
   | Product 5 |
 
 Scenario: Order by should accept sorting descending
-  Given the following Products exist:
+  Given the following products exist:
   | Name      |
   | Product 2 |
   | Product 4 |
@@ -72,7 +72,7 @@ Scenario: Order by should accept sorting descending
   | Product 1 |
 
 Scenario: Order by should access sorting acsending
-  Given the following Products exist:
+  Given the following products exist:
   | Name      |
   | Product 2 |
   | Product 4 |
@@ -93,7 +93,7 @@ Scenario: Order by should access sorting acsending
 
 # Skip
 Scenario: Skip should be allowed on the root level entity
-  Given the following Products exist:
+  Given the following products exist:
   | Name      |
   | Product 1 |
   | Product 2 |
@@ -111,7 +111,7 @@ Scenario: Skip should be allowed on the root level entity
 
 # Top
 Scenario: Top should be allowed on the root level entity
-  Given the following Products exist:
+  Given the following products exist:
   | Name      |
   | Product 1 |
   | Product 2 |
@@ -128,7 +128,7 @@ Scenario: Top should be allowed on the root level entity
   | Product 3 |
 
 Scenario: Top should be able to be used along with skip for paging
-  Given the following Products exist:
+  Given the following products exist:
   | Name      |
   | Product 1 |
   | Product 2 |
@@ -147,15 +147,14 @@ Scenario: Top should be able to be used along with skip for paging
 
 
 # Links
-@current
 Scenario: Navigation Properties should be able to represented as links
-  Given I call "AddToCategories" on the service with a new "Category" object with Name: "Test Category"
+  Given a category: "cat1" exists with Name: "Test Category"
   And I save changes
-  And the following Products exist:
+  And the following products exist:
   | Name      | Category         |
-  | Product 1 | @@LastSave.first |
-  | Product 2 | @@LastSave.first |
-  | Product 3 | @@LastSave.first |
+  | Product 1 | category: "cat1" |
+  | Product 2 | category: "cat1" |
+  | Product 3 | category: "cat1" |
   When I call "Categories" on the service with args: "1"
   And I ask for the links for "Products"
   And I run the query
