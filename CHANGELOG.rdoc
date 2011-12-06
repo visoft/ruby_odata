@@ -72,12 +72,16 @@
 
 === 0.1.0
 * **BREAKING CHANGES**
-  * Previously the ruby_odata `Service` used to return a single object if there was only one result returned. Now, the results are always an Enumerable, so if you just need one result, use the `first` method on the result set
+  * Previously the ruby_odata +Service.execute+ and +Service.save_changes+ used to return a single entity object if there was only one result returned. Now, the results are always an Enumerable (except in the case of boolean results like a delete), so if you just need one result, use the +first+ method on the result set
 * New Features
   * Support for partial results (thanks arienmalec)
   * Added support for single layer inheritance (thanks to http://odetocode.com/Blogs/scott/archive/2010/07/11/odata-and-ruby.aspx)
   * Added support for querying links (see https://github.com/visoft/ruby_odata/issues/10)
   * Added support for lazy loading
+  * Added a convenience method (+first+) for accessing a single result by id
   * Added basic reflection of the entity model via the ruby_odata service
   * Added the ability to create ruby_odata models in a specified namespace to prevent conflicts with local models
   * Added the ability to call function imports exposed by the WCF Data Service
+* Other
+  * Changed the test project (for Cucumber integration tests) to use SQL Compact 4, Entity Framework 4.1, and WCF Data Services October 2011 CTP
+  * Added {Pickle}[https://github.com/ianwhite/pickle] integration to simplify Cucumber step definitions
