@@ -34,7 +34,7 @@ Scenario: Complex properties should be able to be added
   And I save changes
   And I call "Products" on the service with args: "1"
   When I run the query
-  Then the method "CreatedBy" on the first result's method "AuditFields" should equal: "Cucumber"
+  Then the method "CreatedBy" on the first result's method "AuditFields" should equal: "Machinist"
 
 Scenario: Complex properties should be able to be updated
   Given I call "AddToProducts" on the service with a new "Product" object
