@@ -4,61 +4,99 @@ module OData
     # Creates a new instance of the ClassBuilder class
     #
     # ==== Required Attributes
-    # - klass_name: 	The name/type of the class to create
-    # - methods:			The accessor methods to add to the class
-    # - nav_props:		The accessor methods to add for navigation properties
-    def initialize(klass_name, methods, nav_props)
+    # - klass_name:   The name/type of the class to create
+    # - methods:      The accessor methods to add to the class
+    # - nav_props:    The accessor methods to add for navigation properties
+    # - context:      The service context that this entity belongs to
+    # - namespaces:   Optional namespace to create the classes in
+    def initialize(klass_name, methods, nav_props, context, namespace = nil)
       @klass_name = klass_name.camelcase
       @methods = methods
       @nav_props = nav_props
+      @context = context
+      @namespace = namespace
     end
-    
+
     # Returns a dynamically generated class definition based on the constructor parameters
     def build
       # return if already built
       return @klass unless @klass.nil?
-    
+
       # need the class name to build class
       return nil    if @klass_name.nil?
-          
+
       # return if we can find constant corresponding to class name
-      if Object.const_defined? @klass_name
+      already_defined = eval("defined?(#{@klass_name}) == 'constant' and #{@klass_name}.class == Class")
+      if already_defined
         @klass = @klass_name.constantize
         return @klass
       end
 
-      Object.const_set(@klass_name, Class.new.extend(ActiveSupport::JSON))
+      if @namespace
+        namespaces = @namespace.split(/\.|::/)
+
+        namespaces.each_with_index do |ns, index|
+          if index == 0
+            next if Object.const_defined? ns
+            Object.const_set(ns, Module.new)
+          else
+            current_ns = namespaces[0..index-1].join '::'
+            next if eval "#{current_ns}.const_defined? '#{ns}'"
+            eval "#{current_ns}.const_set('#{ns}', Module.new)"
+          end
+        end
+
+        klass_constant = @klass_name.split('::').last
+        eval "#{namespaces.join '::'}.const_set('#{klass_constant}', Class.new.extend(ActiveSupport::JSON))"
+      else
+        Object.const_set(@klass_name, Class.new.extend(ActiveSupport::JSON))
+      end
+
       @klass = @klass_name.constantize
       @klass.class_eval do
         include OData
       end
 
+      add_initializer(@klass)
       add_methods(@klass)
       add_nav_props(@klass)
-      
+      add_class_methods(@klass)
+
       return @klass
     end
-    
+
     private
+    def add_initializer(klass)
+      klass.send :define_method, :initialize do |*args|
+        return if args.blank?
+        props = args[0]
+        return unless props.is_a? Hash
+        props.each do |k,v|
+          raise NoMethodError, "undefined method `#{k}'" unless self.respond_to? k.to_sym
+          instance_variable_set("@#{k}", v)
+        end
+      end
+    end
+    
     def add_methods(klass)
       # Add metadata methods
       klass.send :define_method, :__metadata do
         instance_variable_get("@__metadata")
       end
       klass.send :define_method, :__metadata= do |value|
-          instance_variable_set("@__metadata", value)
+        instance_variable_set("@__metadata", value)
       end
       klass.send :define_method, :as_json do |*args|
-        meta = RUBY_VERSION < "1.9" ? '@__metadata' :'@__metadata'.to_sym
+        meta = RUBY_VERSION < "1.9" ? '@__metadata' : ('@__metadata'.to_sym)
 
         options = args[0] || {}
         options[:type] ||= :unknown
 
         vars = self.instance_values
 
-        # For adds, we need to get rid of all attributes except __metadata when passing
-        # the object to the server
-        if(options[:type] == :add)
+        if options[:type] == :add
+          # For adds, we need to get rid of all attributes except __metadata when passing
+          # the object to the server
           vars.each_value do |value|
             if value.is_a? OData
               child_vars = value.instance_variables
@@ -89,6 +127,12 @@ module OData
           vars[t[0]] = sdate
         end
 
+        if options[:type] == :link
+          # For links, delete all of the vars and just add a uri
+          uri = self.__metadata[:uri]
+          vars = { 'uri' => uri }
+        end
+
         vars
       end
 
@@ -101,6 +145,23 @@ module OData
           instance_variable_set("@#{method_name}", value)
         end
       end
+      
+      # Add an id method pulling out the id from the uri (mainly for Pickle support)
+      klass.send :define_method, :id do
+        metadata = self.__metadata
+        id = nil
+        if metadata && metadata[:uri]  =~ /\((\d+)\)$/
+          id = $~[1]
+        end
+        return (true if Integer(id) rescue false) ? id.to_i : id
+      end
+      
+      # Override equals
+      klass.send :define_method, :== do |other|
+        self.class == other.class && 
+        self.id == other.id &&
+        self.__metadata == other.__metadata
+      end
     end
 
     def add_nav_props(klass)
@@ -111,6 +172,25 @@ module OData
         klass.send :define_method, "#{method_name}=" do |value|
           instance_variable_set("@#{method_name}", value)
         end
+      end
+    end
+
+    def add_class_methods(klass)
+      context = @context
+
+      # Retrieves a list of properties defined on a type (standard and navigation properties)
+      klass.send :define_singleton_method, 'properties' do
+        context.class_metadata[klass.to_s] || {}
+      end
+      
+      # Finds a single model by ID
+      klass.send :define_singleton_method, 'first' do |id|
+        return nil if id.nil?
+        # TODO: Instead of just pluralizing the klass name, use the actual collection name
+        collection = klass.to_s.pluralize
+        context.send "#{collection}", id
+        results = context.execute
+        results.count == 0 ? nil : results.first
       end
     end
   end

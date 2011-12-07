@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="iso-8859-1" standalone="yes"?>
+<feed xml:base="http://test.com/test.svc/" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="http://www.w3.org/2005/Atom">
+  <title type="text">Products</title>
+  <id>http://test.com/test.svc/Categories(1)/Products</id>
+  <updated>2011-11-13T21:29:28Z</updated>
+  <link rel="self" title="Products" href="Products" />
+  <entry>
+    <id>http://test.com/test.svc/Products(1)</id>
+    <title type="text"></title>
+    <updated>2011-11-13T21:29:28Z</updated>
+    <author>
+      <name />
+    </author>
+    <link rel="edit" title="Product" href="Products(1)" />
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Category" type="application/atom+xml;type=entry" title="Category" href="Products(1)/Category" />
+    <category term="RubyODataService.Product" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" />
+    <content type="application/xml">
+      <m:properties>
+        <d:Id m:type="Edm.Int32">1</d:Id>
+        <d:Name>Widget 1</d:Name>
+        <d:Description>Test Widget</d:Description>
+        <d:Price m:type="Edm.Decimal">7.5000</d:Price>
+        <d:DiscontinuedDate m:type="Edm.DateTime" m:null="true" />
+        <d:AuditFields m:type="RubyODataService.AuditFields">
+          <d:CreateDate m:type="Edm.DateTime">2011-11-13T05:00:23.547</d:CreateDate>
+          <d:ModifiedDate m:type="Edm.DateTime">2011-11-13T05:00:23.547</d:ModifiedDate>
+          <d:CreatedBy>Cucumber</d:CreatedBy>
+        </d:AuditFields>
+      </m:properties>
+    </content>
+  </entry>
+  <entry>
+    <id>http://test.com/test.svc/Products(2)</id>
+    <title type="text"></title>
+    <updated>2011-11-13T21:29:28Z</updated>
+    <author>
+      <name />
+    </author>
+    <link rel="edit" title="Product" href="Products(2)" />
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Category" type="application/atom+xml;type=entry" title="Category" href="Products(2)/Category" />
+    <category term="RubyODataService.Product" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" />
+    <content type="application/xml">
+      <m:properties>
+        <d:Id m:type="Edm.Int32">2</d:Id>
+        <d:Name>Widget 2</d:Name>
+        <d:Description>Test Widget 2</d:Description>
+        <d:Price m:type="Edm.Decimal">17.5000</d:Price>
+        <d:DiscontinuedDate m:type="Edm.DateTime" m:null="true" />
+        <d:AuditFields m:type="RubyODataService.AuditFields">
+          <d:CreateDate m:type="Edm.DateTime">2011-11-13T05:00:23.547</d:CreateDate>
+          <d:ModifiedDate m:type="Edm.DateTime">2011-11-13T05:00:23.547</d:ModifiedDate>
+          <d:CreatedBy>Cucumber</d:CreatedBy>
+        </d:AuditFields>
+      </m:properties>
+    </content>
+  </entry>  
+</feed>

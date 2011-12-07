@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<doc>
+  <assembly>
+    <name>Microsoft.Data.Spatial</name>
+  </assembly>
+  <members>
+    <member name="T:Microsoft.Data.Spatial.DefaultSpatialImplementation">
+      <summary>Exposes a factory method to register the <see cref="T:System.Spatial.SpatialImplementation" /> of this spatial provider.</summary>
+    </member>
+    <member name="M:Microsoft.Data.Spatial.DefaultSpatialImplementation.Create">
+      <summary>Create a new instance of <see cref="T:System.Spatial.SpatialImplementation" /> for the provider.</summary>
+      <returns>Returns the provider-specific implementation.</returns>
+    </member>
+  </members>
+</doc>

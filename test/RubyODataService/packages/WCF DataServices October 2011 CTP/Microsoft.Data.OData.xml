@@ -1,0 +1,1969 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<doc>
+  <assembly>
+    <name>Microsoft.Data.OData</name>
+  </assembly>
+  <members>
+    <member name="T:Microsoft.Data.OData.HttpMethod">
+      <summary>Enumeration representing the Http methods supported in batches. This is a subset of all HTTP methods specified in HTTP RFC 2616 Section 5.1.1.</summary>
+    </member>
+    <member name="F:Microsoft.Data.OData.HttpMethod.Get">
+      <summary>Http 'Get' method.</summary>
+    </member>
+    <member name="F:Microsoft.Data.OData.HttpMethod.Post">
+      <summary>Http 'Post' method.</summary>
+    </member>
+    <member name="F:Microsoft.Data.OData.HttpMethod.Put">
+      <summary>Http 'Put' method.</summary>
+    </member>
+    <member name="F:Microsoft.Data.OData.HttpMethod.Delete">
+      <summary>Http 'Delete' method.</summary>
+    </member>
+    <member name="F:Microsoft.Data.OData.HttpMethod.Patch">
+      <summary>Http 'Patch' method.</summary>
+    </member>
+    <member name="F:Microsoft.Data.OData.HttpMethod.Merge">
+      <summary>Custom Http 'Merge' method.</summary>
+    </member>
+    <member name="T:Microsoft.Data.OData.IODataRequestMessage">
+      <summary>Represents an interface for synchronous OData request messages.</summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.IODataRequestMessage.GetHeader(System.String)">
+      <summary>Returns a value of an HTTP header.</summary>
+      <returns>The value of the HTTP header, or null if no such header was present on the message.</returns>
+      <param name="headerName">The name of the header to get.</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.IODataRequestMessage.GetStream">
+      <summary>Gets the stream backing for this message.</summary>
+      <returns>The stream backing for this message.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.IODataRequestMessage.Headers">
+      <summary>Gets an enumerable over all the headers for this message.</summary>
+      <returns>An enumerable over all the headers for this message.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.IODataRequestMessage.Method">
+      <summary>Gets or sets the HTTP method used for this request message.</summary>
+      <returns>The HTTP method used for this request message.</returns>
+    </member>
+    <member name="M:Microsoft.Data.OData.IODataRequestMessage.SetHeader(System.String,System.String)">
+      <summary>Sets the value of an HTTP header.</summary>
+      <param name="headerName">The name of the header to set.</param>
+      <param name="headerValue">The value of the HTTP header or 'null' if the header should be removed.</param>
+    </member>
+    <member name="P:Microsoft.Data.OData.IODataRequestMessage.Url">
+      <summary>Gets or sets the request URL for this request message.</summary>
+      <returns>The request URL for this request message.</returns>
+    </member>
+    <member name="T:Microsoft.Data.OData.IODataRequestMessageAsync">
+      <summary>Represents an interface for asynchronous OData request messages.</summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.IODataRequestMessageAsync.GetStreamAsync">
+      <summary>Asynchronously get the stream backing for this message.</summary>
+      <returns>The stream for this message.</returns>
+    </member>
+    <member name="T:Microsoft.Data.OData.IODataResponseMessage">
+      <summary>Represents an interface for synchronous OData response messages.</summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.IODataResponseMessage.GetHeader(System.String)">
+      <summary>Returns a value of an HTTP header.</summary>
+      <returns>The value of the HTTP header, or null if no such header was present on the message.</returns>
+      <param name="headerName">The name of the header to get.</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.IODataResponseMessage.GetStream">
+      <summary>Gets the stream backing for this message.</summary>
+      <returns>The stream backing for this message.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.IODataResponseMessage.Headers">
+      <summary>Gets an enumerable over all the headers for this message.</summary>
+      <returns>An enumerable over all the headers for this message.</returns>
+    </member>
+    <member name="M:Microsoft.Data.OData.IODataResponseMessage.SetHeader(System.String,System.String)">
+      <summary>Sets the value of an HTTP header.</summary>
+      <param name="headerName">The name of the header to set.</param>
+      <param name="headerValue">The value of the HTTP header or 'null' if the header should be removed.</param>
+    </member>
+    <member name="P:Microsoft.Data.OData.IODataResponseMessage.StatusCode">
+      <summary>Gets or sets the result status code of the response message.</summary>
+      <returns>The result status code of the response message.</returns>
+    </member>
+    <member name="T:Microsoft.Data.OData.IODataResponseMessageAsync">
+      <summary>Represents an interface for asynchronous OData response messages.</summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.IODataResponseMessageAsync.GetStreamAsync">
+      <summary>Asynchronously get the stream backing for this message.</summary>
+      <returns>The stream backing for this message.</returns>
+    </member>
+    <member name="T:Microsoft.Data.OData.IODataUrlResolver">
+      <summary> Interface that supports custom resolution of URLs found in the payload. </summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.IODataUrlResolver.ResolveUrl(System.Uri,System.Uri)">
+      <summary> Method to implement a custom URL resolution scheme. This method returns null if no custom resolution is desired. If the method returns a non-null URL that value will be used without further validation. </summary>
+      <returns> A <see cref="T:System.Uri" /> instance that reflects the custom resolution of the method arguments into a URL or null if no custom resolution is desired; in that case the default resolution is used. </returns>
+      <param name="baseUri">The (optional) base URI to use for the resolution.</param>
+      <param name="payloadUri">The URI read from the payload.</param>
+    </member>
+    <member name="T:Microsoft.Data.OData.ODataAction">
+      <summary> Represents an action. </summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataAction.#ctor">
+      <summary>Initializes a new instance of the <see cref="T:Microsoft.Data.OData.ODataAction" /> class.</summary>
+    </member>
+    <member name="T:Microsoft.Data.OData.ODataAnnotatable">
+      <summary>Represents the base class for all annotatable types in OData library.</summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataAnnotatable.#ctor">
+      <summary>Initializes a new instance of the <see cref="T:Microsoft.Data.OData.ODataAnnotatable" /> class.</summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataAnnotatable.GetAnnotation``1">
+      <summary>Gets or sets the annotation by type.</summary>
+      <returns>The annotation of type T or null if not present.</returns>
+      <typeparam name="T">The type of the annotation.</typeparam>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataAnnotatable.SetAnnotation``1(``0)">
+      <summary>Sets an annotation of type T.</summary>
+      <param name="annotation">The annotation to set.</param>
+      <typeparam name="T">The type of the annotation.</typeparam>
+    </member>
+    <member name="T:Microsoft.Data.OData.ODataAssociationLink">
+      <summary>Represents an association link.</summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataAssociationLink.#ctor">
+      <summary>Initializes a new instance of the <see cref="T:Microsoft.Data.OData.ODataAssociationLink" /> class.</summary>
+    </member>
+    <member name="P:Microsoft.Data.OData.ODataAssociationLink.Name">
+      <summary>Gets or sets the name of the association link.</summary>
+      <returns>The name of the associate link.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.ODataAssociationLink.Url">
+      <summary>Gets or sets the URI representing the Unified Resource Locator (URL) of the link.</summary>
+      <returns>The URI representing the Unified Resource Locator (URL) of the link.</returns>
+    </member>
+    <member name="T:Microsoft.Data.OData.ODataBatchOperationRequestMessage">
+      <summary>Displays a message representing an operation in a batch request.</summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataBatchOperationRequestMessage.GetHeader(System.String)">
+      <summary>Returns a value of an HTTP header of this operation.</summary>
+      <returns>The value of the HTTP header, or null if no such header was present on the message.</returns>
+      <param name="headerName">The name of the header to get.</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataBatchOperationRequestMessage.GetStream">
+      <summary>Gets the stream backing for this message.</summary>
+      <returns>The stream backing for this message.</returns>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataBatchOperationRequestMessage.GetStreamAsync">
+      <summary>Asynchronously get the stream backing for this message.</summary>
+      <returns>The stream backing for this message.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.ODataBatchOperationRequestMessage.Headers">
+      <summary>Gets an enumerable over all the headers for this message.</summary>
+      <returns>An enumerable over all the headers for this message.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.ODataBatchOperationRequestMessage.Method">
+      <summary>Gets the HTTP method used for this request message.</summary>
+      <returns>The HTTP method used for this request message.</returns>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataBatchOperationRequestMessage.Microsoft#Data#OData#IODataUrlResolver#ResolveUrl(System.Uri,System.Uri)"></member>
+    <member name="M:Microsoft.Data.OData.ODataBatchOperationRequestMessage.SetHeader(System.String,System.String)">
+      <summary>Sets the value of an HTTP header of this operation.</summary>
+      <param name="headerName">The name of the header to set.</param>
+      <param name="headerValue">The value of the HTTP header or 'null' if the header should be removed.</param>
+    </member>
+    <member name="P:Microsoft.Data.OData.ODataBatchOperationRequestMessage.Url">
+      <summary>Gets or sets the request URL for this request message.</summary>
+      <returns>The request URL for this request message.</returns>
+    </member>
+    <member name="T:Microsoft.Data.OData.ODataBatchOperationResponseMessage">
+      <summary>Displays a message representing an operation in a batch response.</summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataBatchOperationResponseMessage.GetHeader(System.String)">
+      <summary>Returns a value of an HTTP header of this operation.</summary>
+      <returns>The value of the HTTP header, or null if no such header was present on the message.</returns>
+      <param name="headerName">The name of the header to get.</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataBatchOperationResponseMessage.GetStream">
+      <summary>Gets the stream backing for this message.</summary>
+      <returns>The stream backing for this message.</returns>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataBatchOperationResponseMessage.GetStreamAsync">
+      <summary>Asynchronously get the stream backing for this message.</summary>
+      <returns>The stream backing for this message.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.ODataBatchOperationResponseMessage.Headers">
+      <summary>Gets an enumerable over all the headers for this message.</summary>
+      <returns>An enumerable over all the headers for this message.</returns>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataBatchOperationResponseMessage.SetHeader(System.String,System.String)">
+      <summary>Sets the value of an HTTP header of this operation.</summary>
+      <param name="headerName">The name of the header to set.</param>
+      <param name="headerValue">The value of the HTTP header or 'null' if the header should be removed.</param>
+    </member>
+    <member name="P:Microsoft.Data.OData.ODataBatchOperationResponseMessage.StatusCode">
+      <summary>Gets or sets the result status code of the response message.</summary>
+      <returns>The result status code of the response message.</returns>
+    </member>
+    <member name="T:Microsoft.Data.OData.ODataBatchReader">
+      <summary>Represents a class for reading OData batch messages; also verifies the proper sequence of read calls on the reader.</summary>
+    </member>
+    <member name="T:Microsoft.Data.OData.ODataBatchWriter">
+      <summary>Writes OData batch messages; also verifies the proper sequence of write calls on the writer.</summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataBatchWriter.CreateOperationRequestMessage(Microsoft.Data.OData.HttpMethod,System.Uri)">
+      <summary>Creates a message  for writing an operation of a batch request.</summary>
+      <returns>The message that can be used to write the request operation.</returns>
+      <param name="method">The Http method to be used for this request operation.</param>
+      <param name="uri">The URI to be used for this request operation.</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataBatchWriter.CreateOperationRequestMessageAsync(System.Void,Microsoft.Data.OData.ODataBatchOperationRequestMessage)"></member>
+    <member name="M:Microsoft.Data.OData.ODataBatchWriter.CreateOperationResponseMessage">
+      <summary>Creates a message for writing an operation of a batch response.</summary>
+      <returns>The message that can be used to write the response operation.</returns>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataBatchWriter.CreateOperationResponseMessageAsync">
+      <summary> Asynchronously creates an <see cref="T:Microsoft.Data.OData.ODataBatchOperationResponseMessage" /> for writing an operation of a batch response. </summary>
+      <returns>A task that when completed returns the newly created operation response message.</returns>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataBatchWriter.Flush">
+      <summary>Flushes the write buffer to the underlying stream.</summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataBatchWriter.FlushAsync">
+      <summary>Flushes the write buffer to the underlying stream asynchronously.</summary>
+      <returns>A task instance that represents the asynchronous operation.</returns>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataBatchWriter.WriteEndBatch">
+      <summary>Ends a batch; can only be called after WriteStartBatch has been called and if no other active changeset or operation exist.</summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataBatchWriter.WriteEndBatchAsync">
+      <summary> Asynchronously ends a batch; can only be called after WriteStartBatch has been called and if no other active changeset or operation exist. </summary>
+      <returns>A task instance that represents the asynchronous write operation.</returns>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataBatchWriter.WriteEndChangeset">
+      <summary>Ends an active changeset; this can only be called after WriteStartChangeset and only once for each changeset.</summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataBatchWriter.WriteEndChangesetAsync">
+      <summary> Asynchronously ends an active changeset; this can only be called after WriteStartChangeset and only once for each changeset. </summary>
+      <returns>A task instance that represents the asynchronous write operation.</returns>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataBatchWriter.WriteStartBatch">
+      <summary>Starts a new batch; can be only called once and as first call.</summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataBatchWriter.WriteStartBatchAsync">
+      <summary> Asynchronously starts a new batch; can be only called once and as first call. </summary>
+      <returns>A task instance that represents the asynchronous write operation.</returns>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataBatchWriter.WriteStartChangeset">
+      <summary>Starts a new changeset; can only be called after WriteStartBatch and if no other active operation or changeset exists.</summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataBatchWriter.WriteStartChangesetAsync">
+      <summary> Asynchronously starts a new changeset; can only be called after WriteStartBatch and if no other active operation or changeset exists. </summary>
+      <returns>A task instance that represents the asynchronous write operation.</returns>
+    </member>
+    <member name="T:Microsoft.Data.OData.ODataCollectionReader">
+      <summary>Represents the base class for OData collection readers.</summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataCollectionReader.#ctor">
+      <summary>Initializes a new instance of the <see cref="T:Microsoft.Data.OData.ODataCollectionReader" /> class.</summary>
+    </member>
+    <member name="P:Microsoft.Data.OData.ODataCollectionReader.Item">
+      <summary>Gets the most recent item that has been read.</summary>
+      <returns>The most recent item that has been read.</returns>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataCollectionReader.Read">
+      <summary>Reads the next item from the message payload. </summary>
+      <returns>True if more items were read; otherwise false.</returns>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataCollectionReader.ReadAsync">
+      <summary>Asynchronously reads the next item from the message payload.</summary>
+      <returns>A task that when completed indicates whether more items were read.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.ODataCollectionReader.State">
+      <summary>Gets or sets the current state of the reader.</summary>
+      <returns>The current state of the reader.</returns>
+    </member>
+    <member name="T:Microsoft.Data.OData.ODataCollectionReaderState">
+      <summary>Enumerates all the possible states of <see cref="T:Microsoft.Data.OData.ODataCollectionReader" />.</summary>
+    </member>
+    <member name="F:Microsoft.Data.OData.ODataCollectionReaderState.Start">
+      <summary>The reader is at the start; nothing has been read yet.</summary>
+    </member>
+    <member name="F:Microsoft.Data.OData.ODataCollectionReaderState.CollectionStart">
+      <summary>The reader has started reading and is reading the start element of the collection wrapper.</summary>
+    </member>
+    <member name="F:Microsoft.Data.OData.ODataCollectionReaderState.Value">
+      <summary>The reader read an item from the collection.</summary>
+    </member>
+    <member name="F:Microsoft.Data.OData.ODataCollectionReaderState.CollectionEnd">
+      <summary>The reader has finished reading and is reading the end element of the collection wrapper.</summary>
+    </member>
+    <member name="F:Microsoft.Data.OData.ODataCollectionReaderState.Exception">
+      <summary>The reader has thrown an exception; nothing can be read from the reader anymore.</summary>
+    </member>
+    <member name="F:Microsoft.Data.OData.ODataCollectionReaderState.Completed">
+      <summary>The reader has completed; nothing can be read anymore.</summary>
+    </member>
+    <member name="T:Microsoft.Data.OData.ODataCollectionResult">
+      <summary>Represents the Open Data collection result.</summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataCollectionResult.#ctor">
+      <summary>Initializes a new instance of the <see cref="T:Microsoft.Data.OData.ODataCollectionResult" /> class.</summary>
+    </member>
+    <member name="P:Microsoft.Data.OData.ODataCollectionResult.Name">
+      <summary>Gets or sets the name of the collection (Atom only).</summary>
+      <returns>The name of the collection.</returns>
+    </member>
+    <member name="T:Microsoft.Data.OData.ODataCollectionWriter">
+      <summary>Represents the base class for OData collection writers.</summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataCollectionWriter.#ctor">
+      <summary>Initializes a new instance of the <see cref="T:Microsoft.Data.OData.ODataCollectionWriter" /> class.</summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataCollectionWriter.DisposeWriterImplementation">
+      <summary>Implements the disposal of unmanaged resources.</summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataCollectionWriter.Flush">
+      <summary>Flushes the write buffer to the underlying stream.</summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataCollectionWriter.FlushAsync">
+      <summary>Flushes the write buffer to the underlying stream asynchronously.</summary>
+      <returns>A task instance that represents the asynchronous operation.</returns>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataCollectionWriter.WriteEnd">
+      <summary>Finishes writing a collection.</summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataCollectionWriter.WriteEndAsync">
+      <summary> Asynchronously finish writing a collection. </summary>
+      <returns>A task instance that represents the asynchronous write operation.</returns>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataCollectionWriter.WriteErrorImplementation(Microsoft.Data.OData.ODataError,System.Boolean)">
+      <summary>Writes an OData error.</summary>
+      <param name="errorInstance">The error information to write.</param>
+      <param name="includeDebugInformation">If in debug mode error details will be included (if present).</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataCollectionWriter.WriteItem(System.Object)">
+      <summary>Starts writing an entry.</summary>
+      <param name="item">The collection item to write.</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataCollectionWriter.WriteItemAsync(System.Object)">
+      <summary> Asynchronously start writing a collection item. </summary>
+      <returns>A task instance that represents the asynchronous write operation.</returns>
+      <param name="item">The collection item to write.</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataCollectionWriter.WriteStart(Microsoft.Data.OData.ODataCollectionResult)">
+      <summary>Start writing a collection.</summary>
+      <param name="collection">The <see cref="T:Microsoft.Data.OData.ODataCollectionResult" /> representing the collection.</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataCollectionWriter.WriteStartAsync(Microsoft.Data.OData.ODataCollectionResult)">
+      <summary> Asynchronously start writing a collection. </summary>
+      <returns>A task instance that represents the asynchronous write operation.</returns>
+      <param name="collection">The <see cref="T:Microsoft.Data.OData.ODataCollectionResult" /> representing the collection.</param>
+    </member>
+    <member name="T:Microsoft.Data.OData.ODataComplexValue">
+      <summary>Represents the OData complex value.</summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataComplexValue.#ctor">
+      <summary>Initializes a new instance of the <see cref="T:Microsoft.Data.OData.ODataComplexValue" /> class.</summary>
+    </member>
+    <member name="P:Microsoft.Data.OData.ODataComplexValue.Properties">
+      <summary>Gets or sets the properties and values of the complex value.</summary>
+      <returns>The properties and values of the complex value.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.ODataComplexValue.TypeName">
+      <summary>Gets or sets the type of the complex value.</summary>
+      <returns>The type of the complex value.</returns>
+    </member>
+    <member name="T:Microsoft.Data.OData.ODataContentTypeException">
+      <summary> Exception type representing exception when Content-Type of a message is not supported.. </summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataContentTypeException.#ctor">
+      <summary> Initializes a new instance of the ODataContentTypeException class. </summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataContentTypeException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+      <summary> Initializes a new instance of the ODataContentTypeException class from the  specified SerializationInfo and StreamingContext instances. </summary>
+      <param name="info"> A SerializationInfo containing the information required to serialize  the new ODataException. </param>
+      <param name="context"> A StreamingContext containing the source of the serialized stream  associated with the new ODataException. </param>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataContentTypeException.#ctor(System.String)">
+      <summary> Initializes a new instance of the ODataContentTypeException class. </summary>
+      <param name="message">Plain text error message for this exception.</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataContentTypeException.#ctor(System.String,System.Exception)">
+      <summary> Initializes a new instance of the ODataContentTypeException class. </summary>
+      <param name="message">Plain text error message for this exception.</param>
+      <param name="innerException">Exception that caused this exception to be thrown.</param>
+    </member>
+    <member name="T:Microsoft.Data.OData.ODataEntityReferenceLink">
+      <summary>Represents an OData entity reference link.</summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataEntityReferenceLink.#ctor">
+      <summary>Initializes a new instance of the <see cref="T:Microsoft.Data.OData.ODataEntityReferenceLink" /> class.</summary>
+    </member>
+    <member name="P:Microsoft.Data.OData.ODataEntityReferenceLink.Url">
+      <summary>Gets or sets the URI representing the URL of the referenced entity.</summary>
+      <returns>The URI representing the URL of the referenced entity.</returns>
+    </member>
+    <member name="T:Microsoft.Data.OData.ODataEntityReferenceLinks">
+      <summary>Represents a collection of entity reference links.</summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataEntityReferenceLinks.#ctor">
+      <summary>Initializes a new instance of the <see cref="T:Microsoft.Data.OData.ODataEntityReferenceLinks" /> class.</summary>
+    </member>
+    <member name="P:Microsoft.Data.OData.ODataEntityReferenceLinks.InlineCount">
+      <summary>Gets or sets the optional inline count of the $links collection.</summary>
+      <returns>The optional inline count of the $links collection.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.ODataEntityReferenceLinks.Links">
+      <summary>Gets or sets the enumerable of <see cref="T:Microsoft.Data.OData.ODataEntityReferenceLink" /> instances representing the links of the referenced entities.</summary>
+      <returns>The enumerable of <see cref="T:Microsoft.Data.OData.ODataEntityReferenceLink" /> instances.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.ODataEntityReferenceLinks.NextLink">
+      <summary>Gets or sets the optional next link of the $links collection.</summary>
+      <returns>The optional next link of the $links collection.</returns>
+    </member>
+    <member name="T:Microsoft.Data.OData.ODataEntry">
+      <summary>Represents a single entity.</summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataEntry.#ctor">
+      <summary>Initializes a new instance of the <see cref="T:Microsoft.Data.OData.ODataEntry" /> class.</summary>
+    </member>
+    <member name="P:Microsoft.Data.OData.ODataEntry.Actions"></member>
+    <member name="P:Microsoft.Data.OData.ODataEntry.AssociationLinks">
+      <summary>Gets or sets the association links.</summary>
+      <returns>The association links.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.ODataEntry.EditLink">
+      <summary>Gets or sets the link used to edit the entry.</summary>
+      <returns>The link used to edit the entry.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.ODataEntry.ETag">
+      <summary>Gets or sets the entry ETag.</summary>
+      <returns>The entry ETag.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.ODataEntry.Functions"></member>
+    <member name="P:Microsoft.Data.OData.ODataEntry.Id">
+      <summary>Gets or sets the Entry identifier.</summary>
+      <returns>The Entry identifier.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.ODataEntry.MediaResource">
+      <summary>Gets or sets the default media resource of the media link entry.</summary>
+      <returns>The default media resource of the media link entry.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.ODataEntry.Properties">
+      <summary>Gets or sets the entry properties.</summary>
+      <returns>The entry properties.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.ODataEntry.ReadLink">
+      <summary>Gets or sets a link that can be used to read the entry.</summary>
+      <returns>The link that can be used to read the entry.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.ODataEntry.TypeName">
+      <summary>Gets or sets the type name of the entry.</summary>
+      <returns>The type name of the entry.</returns>
+    </member>
+    <member name="T:Microsoft.Data.OData.ODataError">
+      <summary>Class representing an error payload.</summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataError.#ctor">
+      <summary>Initializes a new instance of the <see cref="T:Microsoft.Data.OData.ODataError" /> class.</summary>
+    </member>
+    <member name="P:Microsoft.Data.OData.ODataError.ErrorCode">
+      <summary>Gets or sets the error code to be used in payloads.</summary>
+      <returns>The error code to be used in payloads.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.ODataError.InnerError">
+      <summary>Gets or sets the implementation specific debugging information to help determine the cause of the error.</summary>
+      <returns>The implementation specific debugging information.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.ODataError.Message">
+      <summary>Gets or sets the error message.</summary>
+      <returns>The error message.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.ODataError.MessageLanguage">
+      <summary>Gets or sets the language for the exception Message.</summary>
+      <returns>The language for the exception Message.</returns>
+    </member>
+    <member name="T:Microsoft.Data.OData.ODataErrorException">
+      <summary>Exception type representing an in-stream error parsed when reading a payload.</summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataErrorException.#ctor">
+      <summary>Initializes a new instance of the <see cref="T:Microsoft.Data.OData.ODataErrorException" /> class with default values.</summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataErrorException.#ctor(Microsoft.Data.OData.ODataError)">
+      <summary>Initializes a new instance of the <see cref="T:Microsoft.Data.OData.ODataErrorException" /> class with an <see cref="T:Microsoft.Data.OData.ODataError" /> object.</summary>
+      <param name="error">The <see cref="T:Microsoft.Data.OData.ODataError" /> instance representing the error read from the payload.</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataErrorException.#ctor(System.String)">
+      <summary>Initializes a new instance of the <see cref="T:Microsoft.Data.OData.ODataErrorException" /> class with an error message.</summary>
+      <param name="message">The plain text error message for this exception.</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataErrorException.#ctor(System.String,Microsoft.Data.OData.ODataError)">
+      <summary>Initializes a new instance of the <see cref="T:Microsoft.Data.OData.ODataErrorException" /> class with an error message and an <see cref="T:Microsoft.Data.OData.ODataError" /> object.</summary>
+      <param name="message">The plain text error message for this exception.</param>
+      <param name="error">The <see cref="T:Microsoft.Data.OData.ODataError" /> instance representing the error read from the payload.</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataErrorException.#ctor(System.String,System.Exception)">
+      <summary>Initializes a new instance of the <see cref="T:Microsoft.Data.OData.ODataErrorException" /> class with an error message and an inner exception.</summary>
+      <param name="message">The plain text error message for this exception.</param>
+      <param name="innerException">The inner exception that is the cause of this exception to be thrown.</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataErrorException.#ctor(System.String,System.Exception,Microsoft.Data.OData.ODataError)">
+      <summary>Initializes a new instance of the <see cref="T:Microsoft.Data.OData.ODataErrorException" /> class with an error message, an inner exception, and an <see cref="T:Microsoft.Data.OData.ODataError" /> object.</summary>
+      <param name="message">The plain text error message for this exception.</param>
+      <param name="innerException">The inner exception that is the cause of this exception to be thrown.</param>
+      <param name="error">The <see cref="T:Microsoft.Data.OData.ODataError" /> instance representing the error read from the payload.</param>
+    </member>
+    <member name="P:Microsoft.Data.OData.ODataErrorException.Error">
+      <summary>Gets or sets the <see cref="T:Microsoft.Data.OData.ODataError" /> instance representing the error read from the payload.</summary>
+      <returns>The <see cref="T:Microsoft.Data.OData.ODataError" /> instance representing the error read from the payload.</returns>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataErrorException.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+      <summary>Recreates the <see cref="T:Microsoft.Data.OData.ODataError" /> instance of the exception.</summary>
+      <param name="info">A <see cref="T:System.Runtime.Serialization.SerializationInfo" /> containing the information required to serialize the <see cref="T:Microsoft.Data.OData.ODataErrorException" />.</param>
+      <param name="context">A <see cref="T:System.Runtime.Serialization.StreamingContext" /> containing the source of the serialized stream associated with the new <see cref="T:Microsoft.Data.OData.ODataErrorException" />.</param>
+    </member>
+    <member name="T:Microsoft.Data.OData.ODataException">
+      <summary> Exception type representing exceptions in the OData library. </summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataException.#ctor">
+      <summary> Initializes a new instance of the <see cref="T:Microsoft.Data.OData.ODataException" /> class with default values. </summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+      <summary> Initializes a new instance of the <see cref="T:Microsoft.Data.OData.ODataException" /> class from the specified <see cref="T:System.Runtime.Serialization.SerializationInfo" /> and <see cref="T:System.Runtime.Serialization.StreamingContext" /> instances. </summary>
+      <param name="info"> A <see cref="T:System.Runtime.Serialization.SerializationInfo" /> containing the information required to serialize  the new <see cref="T:Microsoft.Data.OData.ODataException" />. </param>
+      <param name="context"> A <see cref="T:System.Runtime.Serialization.StreamingContext" /> containing the source of the serialized stream  associated with the new <see cref="T:Microsoft.Data.OData.ODataException" />. </param>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataException.#ctor(System.String)">
+      <summary> Initializes a new instance of the <see cref="T:Microsoft.Data.OData.ODataException" /> class with an error message. </summary>
+      <param name="message">The plain text error message for this exception.</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataException.#ctor(System.String,System.Exception)">
+      <summary> Initializes a new instance of the <see cref="T:Microsoft.Data.OData.ODataException" /> class with an error message and an inner exception. </summary>
+      <param name="message">The plain text error message for this exception.</param>
+      <param name="innerException">The inner exception that is the cause of this exception to be thrown.</param>
+    </member>
+    <member name="T:Microsoft.Data.OData.ODataFeed">
+      <summary>Describes a collection of entities.</summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataFeed.#ctor">
+      <summary>Initializes a new instance of the <see cref="T:Microsoft.Data.OData.ODataFeed" /> class.</summary>
+    </member>
+    <member name="P:Microsoft.Data.OData.ODataFeed.Count">
+      <summary>Gets or sets the number of items in the feed.</summary>
+      <returns>The number of items in the feed.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.ODataFeed.Id">
+      <summary>Gets or sets the URI that identifies the entity set represented by the feed.</summary>
+      <returns>The URI that identifies the entity set represented by the feed.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.ODataFeed.NextPageLink">
+      <summary>Gets or sets the URI representing the next page link.</summary>
+      <returns>The URI representing the next page link.</returns>
+    </member>
+    <member name="T:Microsoft.Data.OData.ODataFormat">
+      <summary>Enumerates the format type in connection to processing OData payloads.</summary>
+    </member>
+    <member name="F:Microsoft.Data.OData.ODataFormat.Default">
+      <summary>Specifies the default format that is dependent on the writer being used.</summary>
+    </member>
+    <member name="F:Microsoft.Data.OData.ODataFormat.Atom">
+      <summary>Specifies the Atom format. You can use this for all Xml based formats, if Atom cannot be used.</summary>
+    </member>
+    <member name="F:Microsoft.Data.OData.ODataFormat.Json">
+      <summary>Specifies the JSON format.</summary>
+    </member>
+    <member name="T:Microsoft.Data.OData.ODataFunction">
+      <summary> Represents a function. </summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataFunction.#ctor">
+      <summary>Initializes a new instance of the <see cref="T:Microsoft.Data.OData.ODataFunction" /> class.</summary>
+    </member>
+    <member name="T:Microsoft.Data.OData.ODataHttpHeaders">
+      <summary>Represents the names of HTTP headers used by the OData library.</summary>
+    </member>
+    <member name="F:Microsoft.Data.OData.ODataHttpHeaders.ContentType">
+      <summary>Specifies the name of the HTTP content type header.</summary>
+    </member>
+    <member name="F:Microsoft.Data.OData.ODataHttpHeaders.DataServiceVersion">
+      <summary>Specifies the name of the OData 'DataServiceVersion' HTTP header.</summary>
+    </member>
+    <member name="T:Microsoft.Data.OData.ODataInnerError">
+      <summary>Contains properties used to implement specific debugging information to help determine the cause of the error. </summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataInnerError.#ctor">
+      <summary>Initializes a new instance of the <see cref="T:Microsoft.Data.OData.ODataInnerError" /> class with default values.</summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataInnerError.#ctor(System.Exception)">
+      <summary>Initializes a new instance of the <see cref="T:Microsoft.Data.OData.ODataInnerError" /> class with exception object.</summary>
+      <param name="exception">The <see cref="T:System.Exception" /> used to create the inner error.</param>
+    </member>
+    <member name="P:Microsoft.Data.OData.ODataInnerError.InnerError">
+      <summary>Gets or sets the nested implementation specific debugging information. </summary>
+      <returns>The nested implementation specific debugging information.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.ODataInnerError.Message">
+      <summary>Gets or sets the error message.</summary>
+      <returns>The error message.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.ODataInnerError.StackTrace">
+      <summary>Gets or sets the stack trace for this error.</summary>
+      <returns>The stack trace for this error.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.ODataInnerError.TypeName">
+      <summary>Gets or sets the type name of this error, for example, the type name of an exception.</summary>
+      <returns>The type name of this error.</returns>
+    </member>
+    <member name="T:Microsoft.Data.OData.ODataItem">
+      <summary>Represents the base class for <see cref="T:Microsoft.Data.OData.ODataFeed" /> and <see cref="T:Microsoft.Data.OData.ODataEntry" /> classes. </summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataItem.#ctor">
+      <summary>Initializes a new instance of the <see cref="T:Microsoft.Data.OData.ODataItem" /> class.</summary>
+    </member>
+    <member name="T:Microsoft.Data.OData.ODataMessageReader">
+      <summary>Represents the reader class used to read all OData payloads (entries, feeds, metadata documents, service documents, and so on). </summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMessageReader.#ctor(Microsoft.Data.OData.IODataRequestMessage)">
+      <summary> Creates a new <see cref="T:Microsoft.Data.OData.ODataMessageReader" /> for the given request message. </summary>
+      <param name="requestMessage">The request message for which to create the reader.</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMessageReader.#ctor(Microsoft.Data.OData.IODataRequestMessage,Microsoft.Data.OData.ODataMessageReaderSettings)">
+      <summary> Creates a new <see cref="T:Microsoft.Data.OData.ODataMessageReader" /> for the given request message and message reader settings. </summary>
+      <param name="requestMessage">The request message for which to create the reader.</param>
+      <param name="settings">The message reader settings to use for reading the message payload.</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMessageReader.#ctor(Microsoft.Data.OData.IODataRequestMessage,Microsoft.Data.OData.ODataMessageReaderSettings,Microsoft.Data.Edm.IEdmModel)">
+      <summary> Creates a new <see cref="T:Microsoft.Data.OData.ODataMessageReader" /> for the given request message and message reader settings. </summary>
+      <param name="requestMessage">The request message for which to create the reader.</param>
+      <param name="settings">The message reader settings to use for reading the message payload.</param>
+      <param name="model">The metadata provider to use.</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMessageReader.#ctor(Microsoft.Data.OData.IODataResponseMessage)">
+      <summary> Creates a new <see cref="T:System.Data.OData.ODataMessageReader" /> for the given response message. </summary>
+      <param name="responseMessage">The response message for which to create the reader.</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMessageReader.#ctor(Microsoft.Data.OData.IODataResponseMessage,Microsoft.Data.OData.ODataMessageReaderSettings)">
+      <summary> Creates a new <see cref="T:Microsoft.Data.OData.ODataMessageReader" /> for the given response message and message reader settings. </summary>
+      <param name="responseMessage">The response message for which to create the reader.</param>
+      <param name="settings">The message reader settings to use for reading the message payload.</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMessageReader.#ctor(Microsoft.Data.OData.IODataResponseMessage,Microsoft.Data.OData.ODataMessageReaderSettings,Microsoft.Data.Edm.IEdmModel)">
+      <summary> Creates a new <see cref="T:Microsoft.Data.OData.ODataMessageReader" /> for the given response message and message reader settings. </summary>
+      <param name="responseMessage">The response message for which to create the reader.</param>
+      <param name="settings">The message reader settings to use for reading the message payload.</param>
+      <param name="model">The metadata provider to use.</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMessageReader.CreateODataBatchReader">
+      <summary> Creates an <see cref="T:Microsoft.Data.OData.ODataBatchReader" /> to read a batch of requests or responses. </summary>
+      <returns>The created batch reader.</returns>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMessageReader.CreateODataBatchReaderAsync">
+      <summary> Asynchronously creates an <see cref="T:Microsoft.Data.OData.ODataBatchReader" /> to read a batch of requests or responses. </summary>
+      <returns>A running task for the created batch reader.</returns>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMessageReader.CreateODataCollectionReader">
+      <summary> Creates an <see cref="T:Microsoft.Data.OData.ODataCollectionReader" /> to read a collection of primitive or complex values (as result of a service operation invocation). </summary>
+      <returns>The created collection reader.</returns>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMessageReader.CreateODataCollectionReader(Microsoft.Data.Edm.IEdmTypeReference)">
+      <summary> Creates an <see cref="T:Microsoft.Data.OData.ODataCollectionReader" /> to read a collection of primitive or complex values (as result of a service operation invocation). </summary>
+      <returns>The created collection reader.</returns>
+      <param name="expectedItemTypeReference">The expected resource type for the items in the collection.</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMessageReader.CreateODataCollectionReaderAsync">
+      <summary> Asynchronously creates an <see cref="T:Microsoft.Data.OData.ODataCollectionReader" /> to read a collection of primitive or complex values (as result of a service operation invocation). </summary>
+      <returns>A running task for the created collection reader.</returns>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMessageReader.CreateODataCollectionReaderAsync(System.Void)"></member>
+    <member name="M:Microsoft.Data.OData.ODataMessageReader.CreateODataEntryReader">
+      <summary> Creates an <see cref="T:Microsoft.Data.OData.ODataReader" /> to read an entry. </summary>
+      <returns>The created reader.</returns>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMessageReader.CreateODataEntryReader(Microsoft.Data.Edm.IEdmEntityType)">
+      <summary> Creates an <see cref="T:System.Data.OData.ODataReader" /> to read an entry. </summary>
+      <returns>The created reader.</returns>
+      <param name="expectedEntityType">The expected entity type for the entry to be read.</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMessageReader.CreateODataEntryReaderAsync">
+      <summary> Asynchronously creates an <see cref="T:System.Data.OData.ODataReader" /> to read an entry. </summary>
+      <returns>A running task for the created reader.</returns>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMessageReader.CreateODataEntryReaderAsync(System.Void)"></member>
+    <member name="M:Microsoft.Data.OData.ODataMessageReader.CreateODataFeedReader">
+      <summary> Creates an <see cref="T:Microsoft.Data.OData.ODataReader" /> to read a feed. </summary>
+      <returns>The created reader.</returns>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMessageReader.CreateODataFeedReader(Microsoft.Data.Edm.IEdmEntityType)">
+      <summary> Creates an <see cref="T:Microsoft.Data.OData.ODataReader" /> to read a feed. </summary>
+      <returns>The created reader.</returns>
+      <param name="expectedBaseEntityType">The expected base resource type for the entities in the feed.</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMessageReader.CreateODataFeedReaderAsync">
+      <summary> Asynchronously creates an <see cref="T:Microsoft.Data.OData.ODataReader" /> to read a feed. </summary>
+      <returns>A running task for the created reader.</returns>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMessageReader.CreateODataFeedReaderAsync(System.Void)"></member>
+    <member name="M:Microsoft.Data.OData.ODataMessageReader.CreateODataParameterReader(Microsoft.Data.Edm.IEdmFunctionImport)"></member>
+    <member name="M:Microsoft.Data.OData.ODataMessageReader.CreateODataParameterReaderAsync(System.Void)"></member>
+    <member name="M:Microsoft.Data.OData.ODataMessageReader.Dispose">
+      <summary>
+        <see cref="M:System.IDisposable.Dispose()" /> implementation to cleanup unmanaged resources of the reader. </summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMessageReader.GetFormat">
+      <summary> Determines and returns the format of the payload being read by this reader. </summary>
+      <returns>The format of the payload being read by this reader.</returns>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMessageReader.ReadEntityReferenceLink">
+      <summary> Reads a singleton result of a $links query (entity reference link) as the message payload. </summary>
+      <returns>The entity reference link read from the message payload.</returns>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMessageReader.ReadEntityReferenceLinkAsync">
+      <summary> Asynchronously reads a singleton result of a $links query (entity reference link) as the message payload. </summary>
+      <returns>A running task representing the reading of the entity reference link.</returns>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMessageReader.ReadEntityReferenceLinks">
+      <summary> Reads the result of a $links query (entity reference links) as the message payload. </summary>
+      <returns>The entity reference links read as message payload.</returns>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMessageReader.ReadEntityReferenceLinksAsync">
+      <summary> Asynchronously reads the result of a $links query as the message payload. </summary>
+      <returns>A task representing the asynchronous reading of the entity reference links.</returns>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMessageReader.ReadError">
+      <summary> Reads an <see cref="T:Microsoft.Data.OData.ODataError" /> as the message payload. </summary>
+      <returns>The <see cref="T:Microsoft.Data.OData.ODataError" /> read from the message payload.</returns>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMessageReader.ReadErrorAsync">
+      <summary> Asynchronously reades an <see cref="T:Microsoft.Data.OData.ODataError" /> as the message payload. </summary>
+      <returns>A task representing the asynchronous operation of reading the error.</returns>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMessageReader.ReadMetadataDocument">
+      <summary> Reads the message body as metadata document. </summary>
+      <returns>Returns <see cref="T:Microsoft.Data.Edm.IEdmModel" />.</returns>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMessageReader.ReadProperty">
+      <summary> Reads an <see cref="T:Microsoft.Data.OData.ODataProperty" /> as message payload. </summary>
+      <returns>The property read from the payload.</returns>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMessageReader.ReadProperty(Microsoft.Data.Edm.IEdmTypeReference)">
+      <summary> Reads an <see cref="T:Microsoft.Data.OData.ODataProperty" /> as message payload. </summary>
+      <returns>The property read from the payload.</returns>
+      <param name="expectedPropertyTypeReference">The expected resource type of the property to read.</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMessageReader.ReadPropertyAsync">
+      <summary> Asynchronously reads an <see cref="T:Microsoft.Data.OData.ODataProperty" /> as message payload. </summary>
+      <returns>A task representing the asynchronous operation of reading the property.</returns>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMessageReader.ReadPropertyAsync(System.Void)"></member>
+    <member name="M:Microsoft.Data.OData.ODataMessageReader.ReadServiceDocument">
+      <summary> Reads a service document payload. </summary>
+      <returns>The service document read.</returns>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMessageReader.ReadServiceDocumentAsync">
+      <summary> Asynchronously reads a service document payload. </summary>
+      <returns>A task representing the asynchronous operation of reading the service document.</returns>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMessageReader.ReadValue(Microsoft.Data.Edm.IEdmTypeReference)">
+      <summary> Reads a single value as the message body. </summary>
+      <returns>The read value.</returns>
+      <param name="expectedTypeReference">The expected resource type for the value to be read; null if no expected type is available.</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMessageReader.ReadValueAsync(System.Void)"></member>
+    <member name="T:Microsoft.Data.OData.ODataMessageReaderSettings">
+      <summary>Represents the configuration settings for OData message readers.</summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMessageReaderSettings.#ctor">
+      <summary>Initializes a new instance of the <see cref="T:Microsoft.Data.OData.ODataMessageReaderSettings" /> class with default values.</summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMessageReaderSettings.#ctor(Microsoft.Data.OData.ODataMessageReaderSettings)"></member>
+    <member name="P:Microsoft.Data.OData.ODataMessageReaderSettings.BaseUri">
+      <summary>Gets or sets the document base Uri (used as base for all relative Uris). If this is set, it must be an absolute URI. </summary>
+      <returns>The base URI.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.ODataMessageReaderSettings.CheckCharacters">
+      <summary>Gets or sets a value that indicates whether the reader checks for valid Xml characters.</summary>
+      <returns>true if the reader checks for valid Xml characters; otherwise, false.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.ODataMessageReaderSettings.DisableMessageStreamDisposal">
+      <summary>Gets or sets a value that indicates whether the message stream will not be disposed after finishing writing with the message.</summary>
+      <returns>true if the message stream will not be disposed after finishing writing with the message; otherwise false. The default value is false.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.ODataMessageReaderSettings.DisablePrimitiveTypeConversion">
+      <summary>Gets or sets a value that indicates whether not to convert all primitive values to the type specified in the payload.</summary>
+      <returns>true if primitive values and report values are not converted; false if all primitive values are converted to the type specified in the payload. The default value is false.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.ODataMessageReaderSettings.DisableStrictMetadataValidation"></member>
+    <member name="P:Microsoft.Data.OData.ODataMessageReaderSettings.EnableAtomMetadataReading"></member>
+    <member name="M:Microsoft.Data.OData.ODataMessageReaderSettings.EnableDefaultBehavior"></member>
+    <member name="M:Microsoft.Data.OData.ODataMessageReaderSettings.EnableWcfDataServicesClientBehavior"></member>
+    <member name="M:Microsoft.Data.OData.ODataMessageReaderSettings.EnableWcfDataServicesServerBehavior(System.Boolean)"></member>
+    <member name="T:Microsoft.Data.OData.ODataMessageWriter">
+      <summary>Represents the writer class used to write all OData payloads (entries, feeds, metadata documents, service documents, and so on.). </summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMessageWriter.#ctor(Microsoft.Data.OData.IODataRequestMessage)">
+      <summary> Creates a new <see cref="T:Microsoft.Data.OData.ODataMessageWriter" /> for the given request message. </summary>
+      <param name="requestMessage">The request message for which to create the writer.</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMessageWriter.#ctor(Microsoft.Data.OData.IODataRequestMessage,Microsoft.Data.OData.ODataMessageWriterSettings)">
+      <summary> Creates a new <see cref="T:Microsoft.Data.OData.ODataMessageWriter" /> for the given request message and message writer settings. </summary>
+      <param name="requestMessage">The request message for which to create the writer.</param>
+      <param name="settings">The message writer settings to use for writing the message payload.</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMessageWriter.#ctor(Microsoft.Data.OData.IODataRequestMessage,Microsoft.Data.OData.ODataMessageWriterSettings,Microsoft.Data.Edm.IEdmModel)">
+      <summary> Creates a new <see cref="T:Microsoft.Data.OData.ODataMessageWriter" /> for the given request message and message writer settings. </summary>
+      <param name="requestMessage">The request message for which to create the writer.</param>
+      <param name="settings">The message writer settings to use for writing the message payload.</param>
+      <param name="model">The metadata provider to use.</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMessageWriter.#ctor(Microsoft.Data.OData.IODataResponseMessage)">
+      <summary> Creates a new <see cref="T:Microsoft.Data.OData.ODataMessageWriter" /> for the given response message. </summary>
+      <param name="responseMessage">The response message for which to create the writer.</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMessageWriter.#ctor(Microsoft.Data.OData.IODataResponseMessage,Microsoft.Data.OData.ODataMessageWriterSettings)">
+      <summary> Creates a new <see cref="T:Microsoft.Data.OData.ODataMessageWriter" /> for the given response message and message writer settings. </summary>
+      <param name="responseMessage">The response message for which to create the writer.</param>
+      <param name="settings">The message writer settings to use for writing the message payload.</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMessageWriter.#ctor(Microsoft.Data.OData.IODataResponseMessage,Microsoft.Data.OData.ODataMessageWriterSettings,Microsoft.Data.Edm.IEdmModel)">
+      <summary> Creates a new <see cref="T:Microsoft.Data.OData.ODataMessageWriter" /> for the given response message and message writer settings. </summary>
+      <param name="responseMessage">The response message for which to create the writer.</param>
+      <param name="settings">The message writer settings to use for writing the message payload.</param>
+      <param name="model">The metadata provider to use.</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMessageWriter.CreateODataBatchWriter">
+      <summary> Creates an <see cref="T:Microsoft.Data.OData.ODataBatchWriter" /> to write a batch of requests or responses. </summary>
+      <returns>The created batch writer.</returns>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMessageWriter.CreateODataBatchWriterAsync">
+      <summary> Asynchronously creates an <see cref="T:Microsoft.Data.OData.ODataBatchWriter" /> to write a batch of requests or responses. </summary>
+      <returns>A running task for the created batch writer.</returns>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMessageWriter.CreateODataCollectionWriter">
+      <summary> Creates an <see cref="T:Microsoft.Data.OData.ODataCollectionWriter" /> to write a collection of primitive or complex values (as result of a service operation invocation). </summary>
+      <returns>The created collection writer.</returns>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMessageWriter.CreateODataCollectionWriterAsync">
+      <summary> Asynchronously creates an <see cref="T:Microsoft.Data.OData.ODataCollectionWriter" /> to write a collection of primitive or complex values (as result of a service operation invocation). </summary>
+      <returns>A running task for the created collection writer.</returns>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMessageWriter.CreateODataEntryWriter">
+      <summary> Creates an <see cref="T:Microsoft.Data.OData.ODataWriter" /> to write an entry. </summary>
+      <returns>The created writer.</returns>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMessageWriter.CreateODataEntryWriterAsync">
+      <summary> Asynchronously creates an <see cref="T:Microsoft.Data.OData.ODataWriter" /> to write an entry. </summary>
+      <returns>A running task for the created writer.</returns>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMessageWriter.CreateODataFeedWriter">
+      <summary> Creates an <see cref="T:Microsoft.Data.OData.ODataWriter" /> to write a feed. </summary>
+      <returns>The created writer.</returns>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMessageWriter.CreateODataFeedWriterAsync">
+      <summary> Asynchronously creates an <see cref="T:Microsoft.Data.OData.ODataWriter" /> to write a feed. </summary>
+      <returns>A running task for the created writer.</returns>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMessageWriter.Dispose">
+      <summary>
+        <see cref="M:System.IDisposable.Dispose()" /> implementation to cleanup unmanaged resources of the writer. </summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMessageWriter.WriteEntityReferenceLink(Microsoft.Data.OData.ODataEntityReferenceLink)">
+      <summary> Writes a singleton result of a $links query as the message payload. </summary>
+      <param name="link">The entity reference link to write as the message payload.</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMessageWriter.WriteEntityReferenceLinkAsync(Microsoft.Data.OData.ODataEntityReferenceLink)">
+      <summary> Asynchronously writes a singleton result of a $links query as the message payload. </summary>
+      <returns>A running task representing the writing of the link.</returns>
+      <param name="link">The link result to write as the message payload.</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMessageWriter.WriteEntityReferenceLinks(Microsoft.Data.OData.ODataEntityReferenceLinks)">
+      <summary> Writes the result of a $links query as the message payload. </summary>
+      <param name="links">The entity reference links to write as message payload.</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMessageWriter.WriteEntityReferenceLinksAsync(Microsoft.Data.OData.ODataEntityReferenceLinks)">
+      <summary> Asynchronously writes the result of a $links query as the message payload. </summary>
+      <returns>A task representing the asynchronous writing of the entity reference links.</returns>
+      <param name="links">The entity reference links to write as message payload.</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMessageWriter.WriteError(Microsoft.Data.OData.ODataError,System.Boolean)">
+      <summary> Writes an <see cref="T:Microsoft.Data.OData.ODataError" /> as the message payload. </summary>
+      <param name="error">The error to write.</param>
+      <param name="includeDebugInformation"> A flag indicating whether debug information (for example, the inner error from the <paramref name="error" /> should be included in the payload. This should only be used in debug scenarios. </param>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMessageWriter.WriteErrorAsync(Microsoft.Data.OData.ODataError,System.Boolean)">
+      <summary> Asynchronously writes an <see cref="T:Microsoft.Data.OData.ODataError" /> as the message payload. </summary>
+      <returns>A task representing the asynchronous operation of writing the error.</returns>
+      <param name="error">The error to write.</param>
+      <param name="includeDebugInformation"> A flag indicating whether debug information (for example, the inner error from the <paramref name="error" /> should  be included in the payload. This should only be used in debug scenarios. </param>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMessageWriter.WriteMetadataDocument">
+      <summary> Writes the metadata document as the message body. </summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMessageWriter.WriteProperty(Microsoft.Data.OData.ODataProperty)">
+      <summary> Writes an <see cref="T:Microsoft.Data.OData.ODataProperty" /> as the message payload. </summary>
+      <param name="property">The property to write.</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMessageWriter.WritePropertyAsync(Microsoft.Data.OData.ODataProperty)">
+      <summary> Asynchronously writes an <see cref="T:Microsoft.Data.OData.ODataProperty" /> as the message payload. </summary>
+      <returns>A task representing the asynchronous operation of writing the property.</returns>
+      <param name="property">The property to write</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMessageWriter.WriteServiceDocument(Microsoft.Data.OData.ODataWorkspace)">
+      <summary> Writes a service document with the specified <paramref name="defaultWorkspace" /> as the message payload. </summary>
+      <param name="defaultWorkspace">The default workspace to write in the service document.</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMessageWriter.WriteServiceDocumentAsync(Microsoft.Data.OData.ODataWorkspace)">
+      <summary> Asynchronously writes a service document with the specified <paramref name="defaultWorkspace" /> as the message payload. </summary>
+      <returns>A task representing the asynchronous operation of writing the service document.</returns>
+      <param name="defaultWorkspace">The default workspace to write in the service document.</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMessageWriter.WriteValue(System.Object)">
+      <summary> Writes a single value as the message body. </summary>
+      <param name="value">The value to write.</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMessageWriter.WriteValueAsync(System.Object)">
+      <summary> Asynchronously writes a single value as the message body. </summary>
+      <returns>A running task representing the writing of the value.</returns>
+      <param name="value">The value to write.</param>
+    </member>
+    <member name="T:Microsoft.Data.OData.ODataMessageWriterSettings">
+      <summary>Represents the configuration settings for OData message writers. </summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMessageWriterSettings.#ctor">
+      <summary>Initializes a new instance of the <see cref="T:Microsoft.Data.OData.ODataMessageWriterSettings" /> class with default settings. </summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMessageWriterSettings.#ctor(Microsoft.Data.OData.ODataMessageWriterSettings)"></member>
+    <member name="P:Microsoft.Data.OData.ODataMessageWriterSettings.BaseUri">
+      <summary>Gets or sets the document base URI which is used as base for all relative URIs. </summary>
+      <returns>The document base URI which is used as base for all relative URIs.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.ODataMessageWriterSettings.CheckCharacters">
+      <summary>Gets or sets a value that indicates whether the reader checks for valid Xml characters.</summary>
+      <returns>true if the reader checks for valid Xml characters; otherwise, false.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.ODataMessageWriterSettings.DisableMessageStreamDisposal">
+      <summary>Gets or sets a value that indicates whether the message stream will not be disposed after finishing writing with the message.</summary>
+      <returns>true if the message stream will not be disposed after finishing writing with the message; otherwise false. The default value is false.</returns>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMessageWriterSettings.EnableDefaultBehavior"></member>
+    <member name="M:Microsoft.Data.OData.ODataMessageWriterSettings.EnableWcfDataServicesClientBehavior(System.Func`3,System.Char)"></member>
+    <member name="M:Microsoft.Data.OData.ODataMessageWriterSettings.EnableWcfDataServicesServerBehavior(System.Boolean)"></member>
+    <member name="P:Microsoft.Data.OData.ODataMessageWriterSettings.Indent">
+      <summary>Gets or sets a value to indicate whether the writer uses indentation. </summary>
+      <returns>true if the writer uses indentation; otherwise, false.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.ODataMessageWriterSettings.MaxBatchSize">
+      <summary>Gets or sets the maximum number of query operations and changesets allowed in a single batch. </summary>
+      <returns>The maximum number of query operations and changesets allowed in a single batch.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.ODataMessageWriterSettings.MaxChangesetSize">
+      <summary>Gets or sets the maximum number of requests allowed in a single changeset. </summary>
+      <returns>The maximum number of requests allowed in a single changeset.</returns>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMessageWriterSettings.SetContentType(Microsoft.Data.OData.ODataFormat)">
+      <summary> Sets the format to be used when writing the payload. This will automatically set a compatible content type header. </summary>
+      <param name="payloadFormat">The format to use for writing the payload.</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMessageWriterSettings.SetContentType(System.String,System.String)">
+      <summary> Sets the acceptable media types and character sets from which the content type will be computed when writing the payload. </summary>
+      <param name="acceptableMediaTypes"> The acceptable media types used to determine the content type of the message. This is a comma separated list of content types as specified in RFC 2616, Section 14.1 </param>
+      <param name="acceptableCharSets"> The acceptable charsets to use to determine the encoding of the message. This is a comma separated list of charsets as specified in RFC 2616, Section 14.2 </param>
+    </member>
+    <member name="P:Microsoft.Data.OData.ODataMessageWriterSettings.Version">
+      <summary>Gets or sets the OData protocol version to be used for writing payloads. </summary>
+      <returns>The OData protocol version to be used for writing payloads.</returns>
+    </member>
+    <member name="T:Microsoft.Data.OData.ODataMultiValue">
+      <summary>The OData representation of a MultiValue.</summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataMultiValue.#ctor">
+      <summary>Initializes a new instance of the <see cref="T:Microsoft.Data.OData.ODataMultiValue" /> class.</summary>
+    </member>
+    <member name="P:Microsoft.Data.OData.ODataMultiValue.Items">
+      <summary>Gets or sets the items in the bag value.</summary>
+      <returns>The collection of item in the bag value.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.ODataMultiValue.TypeName">
+      <summary>Gets or sets the type name of the complex value.</summary>
+      <returns>The type name of the complex value.</returns>
+    </member>
+    <member name="T:Microsoft.Data.OData.ODataNavigationLink">
+      <summary>Represents a single link.</summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataNavigationLink.#ctor">
+      <summary>Initializes a new instance of the <see cref="T:Microsoft.Data.OData.ODataNavigationLink" /> class.</summary>
+    </member>
+    <member name="P:Microsoft.Data.OData.ODataNavigationLink.IsCollection">
+      <summary>Gets or sets a value that indicates whether the navigation link represents a collection or an entry.</summary>
+      <returns>true if the navigation link represents a collection; false if the navigation represents an entry.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.ODataNavigationLink.Name">
+      <summary>Gets or sets the name of the link.</summary>
+      <returns>The name of the link.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.ODataNavigationLink.Url">
+      <summary>Gets or sets the URI representing the Unified Resource Locator (URL) of the link.</summary>
+      <returns>The URI representing the Unified Resource Locator (URL) of the link.</returns>
+    </member>
+    <member name="T:Microsoft.Data.OData.ODataOperation">
+      <summary> Represents a function or an action. </summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataOperation.#ctor">
+      <summary>Initializes a new instance of the <see cref="T:Microsoft.Data.OData.ODataOperation" /> class.</summary>
+    </member>
+    <member name="P:Microsoft.Data.OData.ODataOperation.Metadata">
+      <summary> The URI to get metadata for the <see cref="T:Microsoft.Data.OData.ODataAction" /> or the <see cref="T:Microsoft.Data.OData.ODataAction" /></summary>
+    </member>
+    <member name="P:Microsoft.Data.OData.ODataOperation.Relation">
+      <summary> The URI that identifies the <see cref="T:Microsoft.Data.OData.ODataAction" /> or the <see cref="T:Microsoft.Data.OData.ODataAction" />. </summary>
+    </member>
+    <member name="P:Microsoft.Data.OData.ODataOperation.Target">
+      <summary> The URI to invoke the <see cref="T:Microsoft.Data.OData.ODataAction" /> or the <see cref="T:Microsoft.Data.OData.ODataAction" />. </summary>
+    </member>
+    <member name="P:Microsoft.Data.OData.ODataOperation.Title">
+      <summary> A human-readable description of the <see cref="T:Microsoft.Data.OData.ODataAction" /> or the <see cref="T:Microsoft.Data.OData.ODataAction" />. </summary>
+    </member>
+    <member name="T:Microsoft.Data.OData.ODataParameterReader">
+      <summary> Base class for OData parameter readers. </summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataParameterReader.#ctor">
+      <summary>Initializes a new instance of the <see cref="T:Microsoft.Data.OData.ODataParameterReader" /> class.</summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataParameterReader.CreateCollectionReader">
+      <summary> This method creates an <see cref="T:Microsoft.Data.OData.ODataCollectionReader" /> to read the collection value when the state is ODataParameterReaderState.Collection. </summary>
+      <returns>Returns an <see cref="T:Microsoft.Data.OData.ODataCollectionReader" /> to read the collection value when the state is ODataParameterReaderState.Collection.</returns>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataParameterReader.CreateEntryReader">
+      <summary> This method creates an <see cref="T:Microsoft.Data.OData.ODataReader" /> to read the entry value when the state is ODataParameterReaderState.Entry. </summary>
+      <returns>Returns an <see cref="T:Microsoft.Data.OData.ODataReader" /> to read the entry value when the state is ODataParameterReaderState.Entry.</returns>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataParameterReader.CreateFeedReader">
+      <summary> This method creates an <see cref="T:Microsoft.Data.OData.ODataReader" /> to read the feed value when the state is ODataParameterReaderState.Feed. </summary>
+      <returns>Returns an <see cref="T:Microsoft.Data.OData.ODataReader" /> to read the feed value when the state is ODataParameterReaderState.Feed.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.ODataParameterReader.Name">
+      <summary> The name of the current parameter that is being read. </summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataParameterReader.Read">
+      <summary> Reads the next parameter from the message payload. </summary>
+      <returns>true if more items were read; otherwise false.</returns>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataParameterReader.ReadAsync">
+      <summary> Asynchronously reads the next item from the message payload. </summary>
+      <returns>A task that when completed indicates whether more items were read.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.ODataParameterReader.State">
+      <summary> The current state of the reader. </summary>
+    </member>
+    <member name="P:Microsoft.Data.OData.ODataParameterReader.Value">
+      <summary> The value of the current parameter that is being read. </summary>
+    </member>
+    <member name="T:Microsoft.Data.OData.ODataParameterReaderState">
+      <summary> Enumeration of all possible states of an <see cref="T:Microsoft.Data.OData.ODataParameterReader" />. </summary>
+    </member>
+    <member name="F:Microsoft.Data.OData.ODataParameterReaderState.Start">
+      <summary>The reader is at the start; nothing has been read yet.</summary>
+    </member>
+    <member name="F:Microsoft.Data.OData.ODataParameterReaderState.Value">
+      <summary>The reader read a primitive or a complex parameter.</summary>
+    </member>
+    <member name="F:Microsoft.Data.OData.ODataParameterReaderState.Entry">
+      <summary>The reader is reading an entry parameter.</summary>
+    </member>
+    <member name="F:Microsoft.Data.OData.ODataParameterReaderState.Feed">
+      <summary>The reader is reading a feed parameter.</summary>
+    </member>
+    <member name="F:Microsoft.Data.OData.ODataParameterReaderState.Collection">
+      <summary>The reader is reading a collection parameter.</summary>
+    </member>
+    <member name="F:Microsoft.Data.OData.ODataParameterReaderState.Exception">
+      <summary>The reader has thrown an exception; nothing can be read from the reader anymore.</summary>
+    </member>
+    <member name="F:Microsoft.Data.OData.ODataParameterReaderState.Completed">
+      <summary>The reader has completed; nothing can be read anymore.</summary>
+    </member>
+    <member name="T:Microsoft.Data.OData.ODataPayloadKind">
+      <summary>Enumerates the different kinds of payloads that ODatLib can write.</summary>
+    </member>
+    <member name="F:Microsoft.Data.OData.ODataPayloadKind.Feed">
+      <summary>Specifies a payload kind for writing a feed.</summary>
+    </member>
+    <member name="F:Microsoft.Data.OData.ODataPayloadKind.Entry">
+      <summary>Specifies a payload kind for writing an entry.</summary>
+    </member>
+    <member name="F:Microsoft.Data.OData.ODataPayloadKind.Property">
+      <summary>Specifies a payload kind for writing a property.</summary>
+    </member>
+    <member name="F:Microsoft.Data.OData.ODataPayloadKind.EntityReferenceLink">
+      <summary>Specifies the payload kind for writing an entity reference link.</summary>
+    </member>
+    <member name="F:Microsoft.Data.OData.ODataPayloadKind.EntityReferenceLinks">
+      <summary>Specifies the payload kind for writing entity reference links.</summary>
+    </member>
+    <member name="F:Microsoft.Data.OData.ODataPayloadKind.Value">
+      <summary>Specifies a payload kind for writing a raw value.</summary>
+    </member>
+    <member name="F:Microsoft.Data.OData.ODataPayloadKind.BinaryValue">
+      <summary>Specifies the payload kind for writing a binary value.</summary>
+    </member>
+    <member name="F:Microsoft.Data.OData.ODataPayloadKind.Collection">
+      <summary>Specifies a payload kind for writing a collection.</summary>
+    </member>
+    <member name="F:Microsoft.Data.OData.ODataPayloadKind.ServiceDocument">
+      <summary>Specifies a payload kind for writing a service document.</summary>
+    </member>
+    <member name="F:Microsoft.Data.OData.ODataPayloadKind.MetadataDocument">
+      <summary>Specifies a payload kind for writing a metadata document.</summary>
+    </member>
+    <member name="F:Microsoft.Data.OData.ODataPayloadKind.Error">
+      <summary>Specifies a payload kind for writing an error.</summary>
+    </member>
+    <member name="F:Microsoft.Data.OData.ODataPayloadKind.Batch">
+      <summary>Specifies the payload kind for writing a batch.</summary>
+    </member>
+    <member name="F:Microsoft.Data.OData.ODataPayloadKind.Parameter">
+      <summary />
+    </member>
+    <member name="F:Microsoft.Data.OData.ODataPayloadKind.Unsupported">
+      <summary>Specifies an unknown format.</summary>
+    </member>
+    <member name="T:Microsoft.Data.OData.ODataProperty">
+      <summary>Represents a single property of an entry.</summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataProperty.#ctor">
+      <summary>Initializes a new instance of the <see cref="T:Microsoft.Data.OData.ODataProperty" /> class.</summary>
+    </member>
+    <member name="P:Microsoft.Data.OData.ODataProperty.Name">
+      <summary>Gets or sets the property name.</summary>
+      <returns>The property name.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.ODataProperty.Value">
+      <summary>Gets or sets the property value.</summary>
+      <returns>The property value.</returns>
+    </member>
+    <member name="T:Microsoft.Data.OData.ODataReader">
+      <summary>Represents the base class for OData readers. </summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataReader.#ctor">
+      <summary>Initializes a new instance of the <see cref="T:Microsoft.Data.OData.ODataReader" /> class.</summary>
+    </member>
+    <member name="P:Microsoft.Data.OData.ODataReader.Item">
+      <summary>Gets or sets the most recent <see cref="T:Microsoft.Data.OData.ODataItem" /> that has been read. </summary>
+      <returns>The most recent <see cref="T:Microsoft.Data.OData.ODataItem" /> that has been read.</returns>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataReader.Read">
+      <summary> Reads the next <see cref="T:Microsoft.Data.OData.ODataItem" /> from the message payload. </summary>
+      <returns>true if more items were read; otherwise false.</returns>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataReader.ReadAsync">
+      <summary> Asynchronously reads the next <see cref="T:Microsoft.Data.OData.ODataItem" /> from the message payload. </summary>
+      <returns>A task that when completed indicates whether more items were read.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.ODataReader.State">
+      <summary>Gets or sets the current state of the reader. </summary>
+      <returns>The current state of the reader.</returns>
+    </member>
+    <member name="T:Microsoft.Data.OData.ODataReaderState">
+      <summary>Enumeration of all possible states of an <see cref="T:Microsoft.Data.OData.ODataReader" />.</summary>
+    </member>
+    <member name="F:Microsoft.Data.OData.ODataReaderState.Start">
+      <summary>The reader is at the start; nothing has been read yet.</summary>
+    </member>
+    <member name="F:Microsoft.Data.OData.ODataReaderState.FeedStart">
+      <summary>The start of a feed has been read.</summary>
+    </member>
+    <member name="F:Microsoft.Data.OData.ODataReaderState.FeedEnd">
+      <summary>The end of a feed has been read.</summary>
+    </member>
+    <member name="F:Microsoft.Data.OData.ODataReaderState.EntryStart">
+      <summary>The start of an entry has been read.</summary>
+    </member>
+    <member name="F:Microsoft.Data.OData.ODataReaderState.EntryEnd">
+      <summary>The end of an entry has been read.</summary>
+    </member>
+    <member name="F:Microsoft.Data.OData.ODataReaderState.NavigationLinkStart">
+      <summary>The start of a navigation link has been read.</summary>
+    </member>
+    <member name="F:Microsoft.Data.OData.ODataReaderState.NavigationLinkEnd">
+      <summary>The end of a navigation link has been read.</summary>
+    </member>
+    <member name="F:Microsoft.Data.OData.ODataReaderState.Exception">
+      <summary>The reader has thrown an exception; nothing can be read from the reader anymore.</summary>
+    </member>
+    <member name="F:Microsoft.Data.OData.ODataReaderState.Completed">
+      <summary>The reader has completed; nothing can be read anymore.</summary>
+    </member>
+    <member name="T:Microsoft.Data.OData.ODataResourceCollectionInfo">
+      <summary>Represents a class that contains collection of information about a resource in a workspace of a data service.</summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataResourceCollectionInfo.#ctor">
+      <summary>Initializes a new instance of the <see cref="T:Microsoft.Data.OData.ODataResourceCollectionInfo" /> class.</summary>
+    </member>
+    <member name="P:Microsoft.Data.OData.ODataResourceCollectionInfo.Url"></member>
+    <member name="T:Microsoft.Data.OData.ODataStreamReferenceValue">
+      <summary>Represents a media resource.</summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataStreamReferenceValue.#ctor">
+      <summary>Initializes a new instance of the <see cref="T:Microsoft.Data.OData.ODataStreamReferenceValue" /> class.</summary>
+    </member>
+    <member name="P:Microsoft.Data.OData.ODataStreamReferenceValue.ContentType">
+      <summary>Gets or sets the content media type.</summary>
+      <returns>The content media type.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.ODataStreamReferenceValue.EditLink">
+      <summary>Gets or sets the edit link for media resource.</summary>
+      <returns>The edit link for media resource.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.ODataStreamReferenceValue.ETag">
+      <summary>Gets or sets the media resource ETag.</summary>
+      <returns>The media resource ETag.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.ODataStreamReferenceValue.ReadLink">
+      <summary>Gets or sets the read link for media resource.</summary>
+      <returns>The read link for media resource.</returns>
+    </member>
+    <member name="T:Microsoft.Data.OData.ODataUtils">
+      <summary>Represents the utility methods used with the OData library.</summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataUtils.GetCanReflectOnInstanceType(Microsoft.Data.Edm.IEdmTypeReference)"></member>
+    <member name="M:Microsoft.Data.OData.ODataUtils.GetCanReflectOnInstanceTypeProperty(Microsoft.Data.Edm.IEdmProperty)"></member>
+    <member name="M:Microsoft.Data.OData.ODataUtils.GetHttpMethod(Microsoft.Data.Edm.IEdmAnnotatable)"></member>
+    <member name="M:Microsoft.Data.OData.ODataUtils.GetInstanceType(Microsoft.Data.Edm.IEdmType)"></member>
+    <member name="M:Microsoft.Data.OData.ODataUtils.GetInstanceType(Microsoft.Data.Edm.IEdmTypeReference)"></member>
+    <member name="M:Microsoft.Data.OData.ODataUtils.GetMimeType(Microsoft.Data.Edm.IEdmAnnotatable)"></member>
+    <member name="M:Microsoft.Data.OData.ODataUtils.GetServiceOperationResultKind(Microsoft.Data.Edm.IEdmFunctionImport)"></member>
+    <member name="M:Microsoft.Data.OData.ODataUtils.HasDefaultStream(Microsoft.Data.Edm.IEdmEntityType)"></member>
+    <member name="M:Microsoft.Data.OData.ODataUtils.IsDefaultEntityContainer(Microsoft.Data.Edm.IEdmEntityContainer)"></member>
+    <member name="M:Microsoft.Data.OData.ODataUtils.LoadODataAnnotations(Microsoft.Data.Edm.IEdmEntityType)"></member>
+    <member name="M:Microsoft.Data.OData.ODataUtils.LoadODataAnnotations(Microsoft.Data.Edm.IEdmModel)"></member>
+    <member name="M:Microsoft.Data.OData.ODataUtils.ODataVersionToString(Microsoft.Data.OData.ODataVersion)"></member>
+    <member name="M:Microsoft.Data.OData.ODataUtils.ResolveEntitySet(Microsoft.Data.Edm.IEdmModel,System.String)"></member>
+    <member name="M:Microsoft.Data.OData.ODataUtils.ResolveServiceOperation(Microsoft.Data.Edm.IEdmModel,System.String)"></member>
+    <member name="M:Microsoft.Data.OData.ODataUtils.SaveODataAnnotations(Microsoft.Data.Edm.IEdmEntityType)"></member>
+    <member name="M:Microsoft.Data.OData.ODataUtils.SaveODataAnnotations(Microsoft.Data.Edm.IEdmModel)"></member>
+    <member name="M:Microsoft.Data.OData.ODataUtils.SetCanReflectOnInstanceType(Microsoft.Data.Edm.IEdmType,System.Boolean)"></member>
+    <member name="M:Microsoft.Data.OData.ODataUtils.SetCanReflectOnInstanceType(Microsoft.Data.Edm.IEdmTypeReference,System.Boolean)"></member>
+    <member name="M:Microsoft.Data.OData.ODataUtils.SetCanReflectOnInstanceTypeProperty(Microsoft.Data.Edm.IEdmProperty,System.Boolean)"></member>
+    <member name="M:Microsoft.Data.OData.ODataUtils.SetHasDefaultStream(Microsoft.Data.Edm.IEdmEntityType,System.Boolean)"></member>
+    <member name="M:Microsoft.Data.OData.ODataUtils.SetHeadersForPayload(Microsoft.Data.OData.ODataMessageWriter,Microsoft.Data.OData.ODataPayloadKind)">
+      <summary>Sets the content-type and data service version headers on the message used by the message writer. This method can be called if it is important to set all the message headers before calling any of the write methods on the <paramref name="messageWriter" />. If it is sufficient to set the headers when the write methods on the <paramref name="messageWriter" /> are called, you don't have to call this method and setting the headers will happen automatically.</summary>
+      <param name="messageWriter">The message writer to set the headers for.</param>
+      <param name="payloadKind">The kind of payload to be written with the message writer.</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataUtils.SetHeadersForPayload(Microsoft.Data.OData.ODataMessageWriter,Microsoft.Data.OData.ODataPayloadKind,System.String)">
+      <summary>Sets the content-type and data service version headers on the message used by the message writer. This method can be called if it is important to set all the message headers before calling any of the write methods on the <paramref name="messageWriter" />. If it is sufficient to set the headers when the write methods on the <paramref name="messageWriter" /> are called, you don't have to call this method and setting the headers will happen automatically.</summary>
+      <param name="messageWriter">The message writer to set the headers for.</param>
+      <param name="payloadKind">The kind of payload to be written with the message writer.</param>
+      <param name="mimeType">The MIME type to be used for writing the content of the message. Note that this is only supported for top-level raw values.</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataUtils.SetHttpMethod(Microsoft.Data.Edm.IEdmAnnotatable,System.String)"></member>
+    <member name="M:Microsoft.Data.OData.ODataUtils.SetInstanceType(Microsoft.Data.Edm.IEdmType,System.Type)"></member>
+    <member name="M:Microsoft.Data.OData.ODataUtils.SetIsDefaultEntityContainer(Microsoft.Data.Edm.IEdmEntityContainer,System.Boolean)"></member>
+    <member name="M:Microsoft.Data.OData.ODataUtils.SetMimeType(Microsoft.Data.Edm.IEdmAnnotatable,System.String)"></member>
+    <member name="M:Microsoft.Data.OData.ODataUtils.SetServiceOperationResultKind(Microsoft.Data.Edm.IEdmFunctionImport,Microsoft.Data.OData.Metadata.ODataServiceOperationResultKind)"></member>
+    <member name="M:Microsoft.Data.OData.ODataUtils.StringToODataVersion(System.String)"></member>
+    <member name="M:Microsoft.Data.OData.ODataUtils.TryResolveEntitySet(Microsoft.Data.Edm.IEdmModel,System.String)"></member>
+    <member name="M:Microsoft.Data.OData.ODataUtils.TryResolveServiceOperation(Microsoft.Data.Edm.IEdmModel,System.String)"></member>
+    <member name="T:Microsoft.Data.OData.ODataVersion">
+      <summary>Specifies the OData protocol version.</summary>
+    </member>
+    <member name="F:Microsoft.Data.OData.ODataVersion.V1">
+      <summary>The version 1.0.</summary>
+    </member>
+    <member name="F:Microsoft.Data.OData.ODataVersion.V2">
+      <summary>The version 2.0.</summary>
+    </member>
+    <member name="F:Microsoft.Data.OData.ODataVersion.V3">
+      <summary>The version 3.0.</summary>
+    </member>
+    <member name="T:Microsoft.Data.OData.ODataWorkspace">
+      <summary>Represents the workspace of a data service.</summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataWorkspace.#ctor">
+      <summary>Initializes a new instance of the <see cref="T:Microsoft.Data.OData.ODataWorkspace" /> class.</summary>
+    </member>
+    <member name="P:Microsoft.Data.OData.ODataWorkspace.Collections">
+      <summary>Gets or sets the set of collections in the workspace.</summary>
+      <returns>The set of collections in the workspace.</returns>
+    </member>
+    <member name="T:Microsoft.Data.OData.ODataWriter">
+      <summary>Represents a base class for OData writers.</summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataWriter.#ctor">
+      <summary>Initializes a new instance of the <see cref="T:Microsoft.Data.OData.ODataWriter" /> class.</summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataWriter.DisposeWriterImplementation">
+      <summary>Implements the disposal of unmanaged resources.</summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataWriter.Flush">
+      <summary>Flushes the write buffer to the underlying stream.</summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataWriter.FlushAsync">
+      <summary>Flushes the write buffer to the underlying stream asynchronously.</summary>
+      <returns>A task instance that represents the asynchronous operation.</returns>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataWriter.WriteEnd">
+      <summary>Finishes the writing of a feed/entry/navigation link.</summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataWriter.WriteEndAsync">
+      <summary> Asynchronously finish writing a feed/entry/navigation link. </summary>
+      <returns>A task instance that represents the asynchronous write operation.</returns>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataWriter.WriteErrorImplementation(Microsoft.Data.OData.ODataError,System.Boolean)">
+      <summary>Writes an OData error.</summary>
+      <param name="errorInstance">The error information to write.</param>
+      <param name="includeDebugInformation">If in debug mode error details will be included (if present).</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataWriter.WriteStart(Microsoft.Data.OData.ODataEntry)">
+      <summary>Starts the writing of an entry.</summary>
+      <param name="entry">The entry/item to write.</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataWriter.WriteStart(Microsoft.Data.OData.ODataFeed)">
+      <summary>Starts the writing of a feed.</summary>
+      <param name="feed">The feed/collection to write.</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataWriter.WriteStart(Microsoft.Data.OData.ODataNavigationLink)">
+      <summary>Starts the writing of a navigation link.</summary>
+      <param name="navigationLink">The navigation link to write.</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataWriter.WriteStartAsync(Microsoft.Data.OData.ODataEntry)">
+      <summary> Asynchronously start writing an entry. </summary>
+      <returns>A task instance that represents the asynchronous write operation.</returns>
+      <param name="entry">Entry/item to write.</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataWriter.WriteStartAsync(Microsoft.Data.OData.ODataFeed)">
+      <summary> Asynchronously start writing a feed. </summary>
+      <returns>A task instance that represents the asynchronous write operation.</returns>
+      <param name="feed">Feed/collection to write.</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.ODataWriter.WriteStartAsync(Microsoft.Data.OData.ODataNavigationLink)">
+      <summary> Asynchronously start writing a navigation link. </summary>
+      <returns>A task instance that represents the asynchronous write operation.</returns>
+      <param name="navigationLink">Navigation link to writer.</param>
+    </member>
+    <member name="T:Microsoft.Data.OData.ProjectedPropertiesAnnotation">
+      <summary>Represents an annotation which stores a list of projected properties for an entry.</summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.ProjectedPropertiesAnnotation.#ctor(System.Collections.Generic.IEnumerable{System.String})">
+      <summary>Initializes a new instance of the <see cref="T:Microsoft.Data.OData.ProjectedPropertiesAnnotation" /> class.</summary>
+      <param name="projectedPropertyNames">The enumeration of projected property names.</param>
+    </member>
+    <member name="T:Microsoft.Data.OData.SerializationTypeNameAnnotation">
+      <summary> Annotation which stores the type name to serialize. </summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.SerializationTypeNameAnnotation.#ctor">
+      <summary>Initializes a new instance of the <see cref="T:Microsoft.Data.OData.SerializationTypeNameAnnotation" /> class.</summary>
+    </member>
+    <member name="P:Microsoft.Data.OData.SerializationTypeNameAnnotation.TypeName">
+      <summary> The type name to serialize, for the annotated item. </summary>
+    </member>
+    <member name="T:Microsoft.Data.OData.Atom.AtomCategoriesMetadata">
+      <summary> Atom metadata description for a categories element (app:categories). </summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.Atom.AtomCategoriesMetadata.#ctor">
+      <summary>Initializes a new instance of the <see cref="T:Microsoft.Data.OData.Atom.AtomCategoriesMetadata" /> class.</summary>
+    </member>
+    <member name="P:Microsoft.Data.OData.Atom.AtomCategoriesMetadata.Categories">
+      <summary> Atom category elements inside this categories element. </summary>
+    </member>
+    <member name="P:Microsoft.Data.OData.Atom.AtomCategoriesMetadata.Fixed">
+      <summary> Specified if the list of categories is fixed or an open set. </summary>
+    </member>
+    <member name="P:Microsoft.Data.OData.Atom.AtomCategoriesMetadata.Href">
+      <summary> The IRI of the category document. </summary>
+    </member>
+    <member name="P:Microsoft.Data.OData.Atom.AtomCategoriesMetadata.Scheme">
+      <summary> The IRI indicating the scheme of the categories without a scheme. </summary>
+    </member>
+    <member name="T:Microsoft.Data.OData.Atom.AtomCategoryMetadata">
+      <summary>Represents an Atom metadata description for a category.</summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.Atom.AtomCategoryMetadata.#ctor">
+      <summary>Initializes a new instance of the <see cref="T:Microsoft.Data.OData.Atom.AtomCategoryMetadata" /> class.</summary>
+    </member>
+    <member name="P:Microsoft.Data.OData.Atom.AtomCategoryMetadata.Label">
+      <summary>Gets or sets a human-readable label for display in user interfaces.</summary>
+      <returns>A human-readable label.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.Atom.AtomCategoryMetadata.Scheme">
+      <summary>Gets or sets the IRI that indicates the scheme of the category.</summary>
+      <returns>The IRI that indicates the scheme of the category.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.Atom.AtomCategoryMetadata.Term">
+      <summary>Gets or sets the string value identifying the category.</summary>
+      <returns>The string value identifying the category.</returns>
+    </member>
+    <member name="T:Microsoft.Data.OData.Atom.AtomEntryMetadata">
+      <summary>Represents a type for Atom Syndication Format (Atom) entry annotationsAsArray.</summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.Atom.AtomEntryMetadata.#ctor">
+      <summary>Initializes a new instance of the <see cref="T:Microsoft.Data.OData.Atom.AtomEntryMetadata" /> class.</summary>
+    </member>
+    <member name="P:Microsoft.Data.OData.Atom.AtomEntryMetadata.Authors">
+      <summary>Gets or sets a collection of authors of an entry.</summary>
+      <returns>A collection of authors of an entry.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.Atom.AtomEntryMetadata.Categories">
+      <summary>Gets or sets the categories of an entry.</summary>
+      <returns>The categories of an entry.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.Atom.AtomEntryMetadata.Contributors">
+      <summary>Gets or sets a collection of contributors of an entry.</summary>
+      <returns>A collection of contributors of an entry.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.Atom.AtomEntryMetadata.EditLink">
+      <summary>Gets or sets an Atom link metadata for the edit link.</summary>
+      <returns>An Atom link metadata for the edit link.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.Atom.AtomEntryMetadata.Icon">
+      <summary>Get or sets the URI of the icon for an entry.</summary>
+      <returns>The URI of the icon for an entry.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.Atom.AtomEntryMetadata.Links">
+      <summary>Gets or sets the collection of all Atom link information except for the self/edit links and the navigation property links.</summary>
+      <returns>The collection of all Atom link information except for the self/edit links and the navigation property links.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.Atom.AtomEntryMetadata.Published">
+      <summary>Gets or sets the date/time when the entry was published.</summary>
+      <returns>The date/time when the entry was published.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.Atom.AtomEntryMetadata.Rights">
+      <summary>Gets or sets the rights text of an entry.</summary>
+      <returns>The rights text of an entry.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.Atom.AtomEntryMetadata.SelfLink">
+      <summary>Gets or sets an Atom link metadata for the self link.</summary>
+      <returns>An Atom link metadata for the self link.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.Atom.AtomEntryMetadata.Source">
+      <summary>Gets or sets the source of an entry and if the entry was copied from a different stream the property contains the feed metadata of the original feed.</summary>
+      <returns>The source of an entry.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.Atom.AtomEntryMetadata.Summary">
+      <summary>Gets or sets the summary of the entry.</summary>
+      <returns>The summary of the entry.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.Atom.AtomEntryMetadata.Title">
+      <summary>Gets or sets the title of the entry.</summary>
+      <returns>The title of the entry.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.Atom.AtomEntryMetadata.Updated">
+      <summary>Gets or sets the date/time of last update to the source.</summary>
+      <returns>The date/time of last update to the source.</returns>
+    </member>
+    <member name="T:Microsoft.Data.OData.Atom.AtomFeedMetadata">
+      <summary>Represents a type for Atom Syndication Format (Atom) feed annotationsAsArray.</summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.Atom.AtomFeedMetadata.#ctor">
+      <summary>Initializes a new instance of the <see cref="T:Microsoft.Data.OData.Atom.AtomFeedMetadata" /> class.</summary>
+    </member>
+    <member name="P:Microsoft.Data.OData.Atom.AtomFeedMetadata.Authors">
+      <summary>Gets or sets a collection of authors of a feed.</summary>
+      <returns>A collection of authors of a feed.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.Atom.AtomFeedMetadata.Categories">
+      <summary>Gets or sets the categories of a feed.</summary>
+      <returns>The categories of a feed.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.Atom.AtomFeedMetadata.Contributors">
+      <summary>Gets or sets a collection of contributors of a feed.</summary>
+      <returns>A collection of contributors of a feed.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.Atom.AtomFeedMetadata.Generator">
+      <summary>Gets or sets the generator of a feed.</summary>
+      <returns>The generator of a feed.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.Atom.AtomFeedMetadata.Icon">
+      <summary>Gets or sets the URI of the icon for a feed.</summary>
+      <returns>The URI of the icon for a feed.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.Atom.AtomFeedMetadata.Links">
+      <summary>Gets or sets the collection of all Atom link information except for the next page and self links.</summary>
+      <returns>The collection of all Atom link information except for the next page and self links.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.Atom.AtomFeedMetadata.Logo">
+      <summary>Gets or sets the URI for the feed's logo.</summary>
+      <returns>The URI for the feed’s logo.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.Atom.AtomFeedMetadata.Rights">
+      <summary>Gets or sets the rights text of a feed.</summary>
+      <returns>The rights text of a feed.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.Atom.AtomFeedMetadata.SelfLink">
+      <summary>Gets or sets the self link of the feed. This link should point to the source of the feed.</summary>
+      <returns>The self link of the feed.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.Atom.AtomFeedMetadata.SourceId">
+      <summary>Gets or sets the identifier for the feed if used as metadata of an Atom:source element.</summary>
+      <returns>The identifier for the feed if used as metadata of an Atom:source element.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.Atom.AtomFeedMetadata.Subtitle">
+      <summary>Gets or sets the subtitle of a feed.</summary>
+      <returns>The subtitle of a feed.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.Atom.AtomFeedMetadata.Title">
+      <summary>Gets or sets the title of the feed.</summary>
+      <returns>The title of the feed.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.Atom.AtomFeedMetadata.Updated">
+      <summary>Gets or sets the date/time of last update to the source.</summary>
+      <returns>The date/time of last update to the source.</returns>
+    </member>
+    <member name="T:Microsoft.Data.OData.Atom.AtomGeneratorMetadata">
+      <summary>Represents an Atom metadata description of a content generator.</summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.Atom.AtomGeneratorMetadata.#ctor">
+      <summary>Initializes a new instance of the <see cref="T:Microsoft.Data.OData.Atom.AtomGeneratorMetadata" /> class.</summary>
+    </member>
+    <member name="P:Microsoft.Data.OData.Atom.AtomGeneratorMetadata.Name">
+      <summary>Gets or sets the human readable name of the generator of the content.</summary>
+      <returns>The human readable name of the generator of the content.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.Atom.AtomGeneratorMetadata.Uri">
+      <summary>Gets or sets the (optional) IRI describing the generator of the content.</summary>
+      <returns>The (optional) IRI describing the generator of the content.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.Atom.AtomGeneratorMetadata.Version">
+      <summary>Gets or sets the (optional) version of the generator.</summary>
+      <returns>The (optional) version of the generator.</returns>
+    </member>
+    <member name="T:Microsoft.Data.OData.Atom.AtomLinkMetadata">
+      <summary>Represents an Atom metadata description for a link.</summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.Atom.AtomLinkMetadata.#ctor">
+      <summary>Initializes a new instance of the <see cref="T:Microsoft.Data.OData.Atom.AtomLinkMetadata" /> class.</summary>
+    </member>
+    <member name="P:Microsoft.Data.OData.Atom.AtomLinkMetadata.Href">
+      <summary>Gets or sets the IRI of the link.</summary>
+      <returns>The IRI of the link.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.Atom.AtomLinkMetadata.HrefLang">
+      <summary>Gets or sets the language tag (e.g., en-US) of the resource pointed to by the link.</summary>
+      <returns>The language tag of the resource pointed to by the link.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.Atom.AtomLinkMetadata.Length">
+      <summary>Gets or sets a hint at the length of the content returned from the link.</summary>
+      <returns>A hint at the length of the content returned from the link.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.Atom.AtomLinkMetadata.MediaType">
+      <summary>Gets or sets the media type of the data returned by the link.</summary>
+      <returns>The media type of the data returned by the link.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.Atom.AtomLinkMetadata.Relation">
+      <summary>Gets or sets the link's relation type.</summary>
+      <returns>The link’s relation type.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.Atom.AtomLinkMetadata.Title">
+      <summary>Gets or sets a human-readable description of the link.</summary>
+      <returns>A human-readable description of the link.</returns>
+    </member>
+    <member name="T:Microsoft.Data.OData.Atom.AtomPersonMetadata">
+      <summary>Represents an Atom metadata description for a person.</summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.Atom.AtomPersonMetadata.#ctor">
+      <summary>Initializes a new instance of the <see cref="T:Microsoft.Data.OData.Atom.AtomPersonMetadata" /> class.</summary>
+    </member>
+    <member name="P:Microsoft.Data.OData.Atom.AtomPersonMetadata.Email">
+      <summary>Gets or sets an email address associated with the person.</summary>
+      <returns>An email address associated with the person.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.Atom.AtomPersonMetadata.Name">
+      <summary>Gets or sets the name of the person (required).</summary>
+      <returns>The name of the person (required).</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.Atom.AtomPersonMetadata.Uri">
+      <summary>Gets or sets an IRI associated with the person.</summary>
+      <returns>An IRI associated with the person.</returns>
+    </member>
+    <member name="T:Microsoft.Data.OData.Atom.AtomResourceCollectionMetadata">
+      <summary>Represents an Atom metadata description for a collection (in a workspace).</summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.Atom.AtomResourceCollectionMetadata.#ctor">
+      <summary>Initializes a new instance of the <see cref="T:Microsoft.Data.OData.Atom.AtomResourceCollectionMetadata" /> class.</summary>
+    </member>
+    <member name="P:Microsoft.Data.OData.Atom.AtomResourceCollectionMetadata.Accept">
+      <summary>The accept range of media types for this collection.</summary>
+      <returns>Returns <see cref="T:System.String" />.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.Atom.AtomResourceCollectionMetadata.Categories">
+      <summary>The categories for this collection.</summary>
+      <returns>Returns <see cref="T:Microsoft.Data.OData.Atom.AtomCategoriesMetadata" />.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.Atom.AtomResourceCollectionMetadata.Title">
+      <summary>Gets or sets the title of the collection.</summary>
+      <returns>The title of the collection.</returns>
+    </member>
+    <member name="T:Microsoft.Data.OData.Atom.AtomStreamReferenceMetadata">
+      <summary>Represents an Atom metadata for stream reference values.</summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.Atom.AtomStreamReferenceMetadata.#ctor">
+      <summary>Initializes a new instance of the <see cref="T:Microsoft.Data.OData.Atom.AtomStreamReferenceMetadata" /> class.</summary>
+    </member>
+    <member name="P:Microsoft.Data.OData.Atom.AtomStreamReferenceMetadata.EditLink">
+      <summary>Gets or sets an Atom link metadata for the edit link.</summary>
+      <returns>An Atom link metadata for the edit link.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.Atom.AtomStreamReferenceMetadata.SelfLink">
+      <summary>Gets or sets an Atom link metadata for the self link.</summary>
+      <returns>An Atom link metadata for the self link.</returns>
+    </member>
+    <member name="T:Microsoft.Data.OData.Atom.AtomTextConstruct">
+      <summary>Represents an Atom metadata description for a text construct (plain text, html or xhtml).</summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.Atom.AtomTextConstruct.#ctor">
+      <summary>Initializes a new instance of the <see cref="T:Microsoft.Data.OData.Atom.AtomTextConstruct" /> class.</summary>
+    </member>
+    <member name="P:Microsoft.Data.OData.Atom.AtomTextConstruct.Kind">
+      <summary>Gets or sets the kind of the text construct (plain text, html, xhtml).</summary>
+      <returns>The kind of the text construct.</returns>
+    </member>
+    <member name="P:Microsoft.Data.OData.Atom.AtomTextConstruct.Text">
+      <summary>Gets or sets the text content.</summary>
+      <returns>The text content.</returns>
+    </member>
+    <member name="T:Microsoft.Data.OData.Atom.AtomTextConstructKind">
+      <summary>Specifies the different kinds of text content in Atom metadata.</summary>
+    </member>
+    <member name="F:Microsoft.Data.OData.Atom.AtomTextConstructKind.Text">
+      <summary>The plain text.</summary>
+    </member>
+    <member name="F:Microsoft.Data.OData.Atom.AtomTextConstructKind.Html">
+      <summary>The html text.</summary>
+    </member>
+    <member name="F:Microsoft.Data.OData.Atom.AtomTextConstructKind.Xhtml">
+      <summary>The xhtml text.</summary>
+    </member>
+    <member name="T:Microsoft.Data.OData.Atom.AtomWorkspaceMetadata">
+      <summary>Represents an Atom metadata description for a workspace.</summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.Atom.AtomWorkspaceMetadata.#ctor">
+      <summary>Initializes a new instance of the <see cref="T:Microsoft.Data.OData.Atom.AtomWorkspaceMetadata" /> class.</summary>
+    </member>
+    <member name="P:Microsoft.Data.OData.Atom.AtomWorkspaceMetadata.Title">
+      <summary>Gets or sets the title of the workspace.</summary>
+      <returns>The title of the workspace.</returns>
+    </member>
+    <member name="T:Microsoft.Data.OData.Atom.ExtensionMethods">
+      <summary>Represents the Atom-specific extension methods.</summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.Atom.ExtensionMethods.Atom(Microsoft.Data.OData.ODataAssociationLink)">
+      <summary>Determines an extension method to get the <see cref="T:Microsoft.Data.OData.Atom.AtomLinkMetadata" /> for an association link.</summary>
+      <returns>An <see cref="T:Microsoft.Data.OData.Atom.AtomLinkMetadata" /> instance or null if no annotation of that type exists.</returns>
+      <param name="associationLink">The association link to get the annotation from.</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.Atom.ExtensionMethods.Atom(Microsoft.Data.OData.ODataEntry)">
+      <summary>Determines an extension method to get the <see cref="T:Microsoft.Data.OData.Atom.AtomEntryMetadata" /> annotation for an annotatable entry.</summary>
+      <returns>An <see cref="T:Microsoft.Data.OData.Atom.AtomEntryMetadata" /> instance or null if no annotation of that type exists.</returns>
+      <param name="entry">The entry instance to get the annotation from.</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.Atom.ExtensionMethods.Atom(Microsoft.Data.OData.ODataFeed)">
+      <summary>Determines an extension method to get the <see cref="T:Microsoft.Data.OData.Atom.AtomFeedMetadata" /> for an annotatable feed.</summary>
+      <returns>An <see cref="T:Microsoft.Data.OData.Atom.AtomFeedMetadata" /> instance or null if no annotation of that type exists.</returns>
+      <param name="feed">The feed instance to get the annotation from.</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.Atom.ExtensionMethods.Atom(Microsoft.Data.OData.ODataNavigationLink)">
+      <summary>Determines an extension method to get the <see cref="T:Microsoft.Data.OData.Atom.AtomLinkMetadata" /> for an annotatable navigation link.</summary>
+      <returns>An <see cref="T:Microsoft.Data.OData.Atom.AtomLinkMetadata" /> instance or null if no annotation of that type exists.</returns>
+      <param name="navigationLink">The navigation link instance to get the annotation from.</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.Atom.ExtensionMethods.Atom(Microsoft.Data.OData.ODataResourceCollectionInfo)">
+      <summary>Determines an extension method to get the <see cref="T:Microsoft.Data.OData.Atom.AtomResourceCollectionMetadata" /> for an annotatable (resource) collection.</summary>
+      <returns>An <see cref="T:Microsoft.Data.OData.Atom.AtomResourceCollectionMetadata" /> instance or null if no annotation of that type exists.</returns>
+      <param name="collection">The (resource) collection to get the annotation from.</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.Atom.ExtensionMethods.Atom(Microsoft.Data.OData.ODataWorkspace)">
+      <summary>Determines an extension method to get the <see cref="T:System.Data.OData.Atom.AtomWorkspaceMetadata" /> for an annotatable workspace.</summary>
+      <returns>An <see cref="T:Microsoft.Data.OData.Atom.AtomWorkspaceMetadata" /> instance or null if no annotation of that type exists.</returns>
+      <param name="workspace">The workspace to get the annotation from.</param>
+    </member>
+    <member name="T:Microsoft.Data.OData.Metadata.EdmLibraryExtensions">
+      <summary>Class with code that will eventually live in EdmLib. </summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.Metadata.EdmLibraryExtensions.Clone(Microsoft.Data.Edm.IEdmTypeReference,System.Boolean)">
+      <summary> Clones the specified type reference. </summary>
+      <returns>The cloned <see cref="T:Microsoft.Data.Edm.IEdmTypeReference" /> instance.</returns>
+      <param name="typeReference">The type reference to clone.</param>
+      <param name="nullable">true to make the cloned type reference nullable; false to make it non-nullable.</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.Metadata.EdmLibraryExtensions.ContainsProperty(Microsoft.Data.Edm.IEdmType,Microsoft.Data.Edm.IEdmProperty)">
+      <summary> Checks whether the specified property is defined for the type type. </summary>
+      <returns>true if the property is defined for the type; otherwise false.</returns>
+      <param name="type">The type to check the properties on.</param>
+      <param name="property">The property to check for.</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.Metadata.EdmLibraryExtensions.ContainsProperty(Microsoft.Data.Edm.IEdmTypeReference,Microsoft.Data.Edm.IEdmProperty)">
+      <summary> Checks whether the specified property is defined for the type typeReference. </summary>
+      <returns>true if the property is defined for the typeReference; otherwise false.</returns>
+      <param name="typeReference">The type to check the properties on.</param>
+      <param name="property">The property to check for.</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.Metadata.EdmLibraryExtensions.EntityTypes(Microsoft.Data.Edm.IEdmModel)">
+      <summary> Returns all the entity types in a model. </summary>
+      <returns>An enumerable of all <see cref="T:Microsoft.Data.Edm.IEdmEntityType" /> instances in the model.</returns>
+      <param name="model">The <see cref="T:Microsoft.Data.Edm.IEdmModel" /> to get the entity types for (must not be null).</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.Metadata.EdmLibraryExtensions.GetMultiValueItemType(Microsoft.Data.Edm.IEdmTypeReference)">
+      <summary> Get the <see cref="T:Microsoft.Data.Edm.IEdmEntityTypeReference" /> of the item type of the typeReference. </summary>
+      <returns>The item type of the typeReference.</returns>
+      <param name="typeReference">The multi value type to get the item type for.</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.Metadata.EdmLibraryExtensions.GetMultiValueType(Microsoft.Data.Edm.IEdmType)">
+      <summary> Returns the IEdmCollectionType implementation with the given IEdmTypeReference as element type. </summary>
+      <returns>An <see cref="T:Microsoft.Data.Edm.IEdmCollectionType" /> instance using the itemType as MultiValue item type.</returns>
+      <param name="itemType">IEdmTypeReference instance which is the element type.</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.Metadata.EdmLibraryExtensions.GetPrimitiveTypeReference(System.Type)">
+      <summary> Returns the primitive type reference for the given Clr type. </summary>
+      <returns>The primitive type reference for the given Clr type.</returns>
+      <param name="clrType">The Clr type to resolve.</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.Metadata.EdmLibraryExtensions.IsAssignableFrom(Microsoft.Data.Edm.IEdmStructuredType,Microsoft.Data.Edm.IEdmStructuredType)">
+      <summary> Checks if the baseType is assignable to subtype. In other words, if subtype is a subtype of baseType or not. </summary>
+      <returns>true, if the baseType is assignable to subtype. Otherwise returns false.</returns>
+      <param name="baseType">Type of the base type.</param>
+      <param name="subtype">Type of the sub type.</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.Metadata.EdmLibraryExtensions.IsGeographyType(Microsoft.Data.Edm.IEdmPrimitiveType)">
+      <summary> Checks if the primitive type is a geography type. </summary>
+      <returns>true, if the primitiveType is a geography type.</returns>
+      <param name="primitiveType">The type to check.</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.Metadata.EdmLibraryExtensions.IsOpenType(Microsoft.Data.Edm.IEdmType)">
+      <summary> Determines whether the provided type is an open type. </summary>
+      <returns>true if the type is an open type; otherwise false.</returns>
+      <param name="type">The type to check.</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.Metadata.EdmLibraryExtensions.IsStream(Microsoft.Data.Edm.IEdmType)">
+      <summary> Determines whether the provided type is a stream. </summary>
+      <returns>true if the type represents a stream; otherwise false.</returns>
+      <param name="type">The type to check.</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.Metadata.EdmLibraryExtensions.ToMultiValueTypeReference(Microsoft.Data.Edm.IEdmComplexTypeReference)">
+      <summary> Creates a multi value type for the specified itemTypeReference. </summary>
+      <returns>The created <see cref="T:Microsoft.Data.Edm.IEdmCollectionTypeReference" />.</returns>
+      <param name="itemTypeReference">The <see cref="T:Microsoft.Data.Edm.IEdmComplexTypeReference" /> for the item type.</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.Metadata.EdmLibraryExtensions.ToMultiValueTypeReference(Microsoft.Data.Edm.IEdmPrimitiveTypeReference)">
+      <summary> Creates a multi value type for the specified itemTypeReference. </summary>
+      <returns>The created <see cref="T:Microsoft.Data.Edm.IEdmCollectionTypeReference" />.</returns>
+      <param name="itemTypeReference">The <see cref="T:Microsoft.Data.Edm.IEdmPrimitiveTypeReference" /> for the item type.</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.Metadata.EdmLibraryExtensions.ToTypeReference(Microsoft.Data.Edm.IEdmType)">
+      <summary> Turns a <see cref="T:Microsoft.Data.Edm.IEdmType" /> into the corresponding non-nullable <see cref="T:Microsoft.Data.Edm.IEdmType" />. </summary>
+      <returns>A non-nullable type reference for the type.</returns>
+      <param name="type">The type to convert.</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.Metadata.EdmLibraryExtensions.ToTypeReference(Microsoft.Data.Edm.IEdmType,System.Boolean)">
+      <summary> Turns a <see cref="T:Microsoft.Data.Edm.IEdmType" /> into the corresponding <see cref="T:Microsoft.Data.Edm.IEdmType" />. </summary>
+      <returns>A type reference for the type.</returns>
+      <param name="type">The type to convert.</param>
+      <param name="nullable">true if the returned type reference should be nullable; otherwise false.</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.Metadata.EdmLibraryExtensions.TryGetPrimitiveTypeName(System.Object,System.String@)">
+      <summary> Try to determine the primitive type of the value argument and return the name of the primitive type. </summary>
+      <returns>True if the value is of a known primitive type; otherwise false.</returns>
+      <param name="value">The value to determine the type for.</param>
+      <param name="typeName">The name of the primitive type of the value.</param>
+    </member>
+    <member name="T:Microsoft.Data.OData.Metadata.ODataEdmPropertyAnnotation">
+      <summary> Annotation to hold information for a particular property. </summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.Metadata.ODataEdmPropertyAnnotation.#ctor">
+      <summary>Initializes a new instance of the <see cref="T:Microsoft.Data.OData.Metadata.ODataEdmPropertyAnnotation" /> class.</summary>
+    </member>
+    <member name="P:Microsoft.Data.OData.Metadata.ODataEdmPropertyAnnotation.CanReflectOnProperty">
+      <summary> true if reflection over the property is allowed; otherwise false. </summary>
+    </member>
+    <member name="T:Microsoft.Data.OData.Metadata.ODataEdmServiceOperationAnnotation">
+      <summary> In-memory annotation class to associate a result kind with a service operation. </summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.Metadata.ODataEdmServiceOperationAnnotation.#ctor">
+      <summary>Initializes a new instance of the <see cref="T:Microsoft.Data.OData.Metadata.ODataEdmServiceOperationAnnotation" /> class.</summary>
+    </member>
+    <member name="P:Microsoft.Data.OData.Metadata.ODataEdmServiceOperationAnnotation.ResultKind">
+      <summary> The result kind of the service operation. </summary>
+    </member>
+    <member name="T:Microsoft.Data.OData.Metadata.ODataEdmTypeAnnotation">
+      <summary> In-memory annotation class to associate CLR instance types with  (non-primitive) EDM types. </summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.Metadata.ODataEdmTypeAnnotation.#ctor">
+      <summary>Initializes a new instance of the <see cref="T:Microsoft.Data.OData.Metadata.ODataEdmTypeAnnotation" /> class.</summary>
+    </member>
+    <member name="P:Microsoft.Data.OData.Metadata.ODataEdmTypeAnnotation.CanReflectOnInstanceType">
+      <summary> true if reflection over the instance type is supported; otherwise false. </summary>
+    </member>
+    <member name="P:Microsoft.Data.OData.Metadata.ODataEdmTypeAnnotation.InstanceType">
+      <summary> The instance type represented by this annotation. </summary>
+    </member>
+    <member name="T:Microsoft.Data.OData.Metadata.ODataEntityPropertyMappingCollection">
+      <summary> Represents an enumerable of <see cref="T:System.Data.Services.Common.EntityPropertyMappingAttribute" /> that new items can be added to. </summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.Metadata.ODataEntityPropertyMappingCollection.#ctor">
+      <summary> Constructor. </summary>
+    </member>
+    <member name="M:Microsoft.Data.OData.Metadata.ODataEntityPropertyMappingCollection.#ctor(System.Collections.Generic.IEnumerable{System.Data.Services.Common.EntityPropertyMappingAttribute})">
+      <summary> Constructor. </summary>
+      <param name="other">An enumerable of <see cref="T:System.Data.Services.Common.EntityPropertyMappingAttribute" /> used to initialize the instance. This argument must not be null.</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.Metadata.ODataEntityPropertyMappingCollection.Add(System.Data.Services.Common.EntityPropertyMappingAttribute)">
+      <summary> Adds the mapping to the list of all mappings represented by this class. </summary>
+      <param name="mapping">The <see cref="T:System.Data.Services.Common.EntityPropertyMappingAttribute" /> to add to the enumerable represented by this class.</param>
+    </member>
+    <member name="M:Microsoft.Data.OData.Metadata.ODataEntityPropertyMappingCollection.GetEnumerator">
+      <summary> Return an enumerator for the <see cref="T:System.Data.Services.Common.EntityPropertyMappingAttribute" /> instances in this enumerable. </summary>
+      <returns>An enumerator for the <see cref="T:System.Data.Services.Common.EntityPropertyMappingAttribute" /> instances in this enumerable.</returns>
+    </member>
+    <member name="M:Microsoft.Data.OData.Metadata.ODataEntityPropertyMappingCollection.System#Collections#IEnumerable#GetEnumerator">
+      <summary> Return a non-generic enumerator for the <see cref="T:System.Data.Services.Common.EntityPropertyMappingAttribute" /> instances in this enumerable. </summary>
+      <returns>A non-generic enumerator for the <see cref="T:System.Data.Services.Common.EntityPropertyMappingAttribute" /> instances in this enumerable.</returns>
+    </member>
+    <member name="T:Microsoft.Data.OData.Metadata.ODataServiceOperationResultKind">
+      <summary> Use this type to describe the kind of results returned by a service operation. </summary>
+    </member>
+    <member name="F:Microsoft.Data.OData.Metadata.ODataServiceOperationResultKind.DirectValue">
+      <summary> A single direct value which cannot be further composed. </summary>
+    </member>
+    <member name="F:Microsoft.Data.OData.Metadata.ODataServiceOperationResultKind.Enumeration">
+      <summary> An enumeration of values which cannot be further composed. </summary>
+    </member>
+    <member name="F:Microsoft.Data.OData.Metadata.ODataServiceOperationResultKind.QueryWithMultipleResults">
+      <summary> A queryable object which returns multiple elements. </summary>
+    </member>
+    <member name="F:Microsoft.Data.OData.Metadata.ODataServiceOperationResultKind.QueryWithSingleResult">
+      <summary> A queryable object which returns a single element. </summary>
+    </member>
+    <member name="F:Microsoft.Data.OData.Metadata.ODataServiceOperationResultKind.Void">
+      <summary> No result return. </summary>
+    </member>
+    <member name="T:System.Data.Services.Common.EntityPropertyMappingAttribute">
+      <summary>Attribute that specifies a custom mapping between properties of an entity type and elements of an entry returned by an OData feed. </summary>
+    </member>
+    <member name="M:System.Data.Services.Common.EntityPropertyMappingAttribute.#ctor(System.String,System.Data.Services.Common.SyndicationItemProperty,System.Boolean,System.String)">
+      <summary>Creates a new instance of the <see cref="T:System.Data.Services.Common.EntityPropertyMappingAttribute" /> that defines a conditional mapping.</summary>
+      <param name="sourcePath">The name of the property, as string, of the entity type that is mapped to the specified property of the feed item.</param>
+      <param name="targetSyndicationItem">A <see cref="T:System.Data.Services.Common.SyndicationItemProperty" /> value that represents the element in the feed to which to map the property. This value must be set to None if the <see cref="P:System.Data.Services.Common.EntityPropertyMappingAttribute.TargetPath" /> is not null.</param>
+      <param name="keepInContent">Boolean value that is true when the property being mapped must appear both in its mapped-to location and in the content section of the feed.</param>
+      <param name="criteriaValue">The criteria value that is used to define a conditional mapping.</param>
+    </member>
+    <member name="M:System.Data.Services.Common.EntityPropertyMappingAttribute.#ctor(System.String,System.Data.Services.Common.SyndicationItemProperty,System.Data.Services.Common.SyndicationTextContentKind,System.Boolean)">
+      <summary>Creates a new instance of the <see cref="T:System.Data.Services.Common.EntityPropertyMappingAttribute" />.</summary>
+      <param name="sourcePath">The name of the property, as string, of the entity type that is mapped to the specified property of the feed item.</param>
+      <param name="targetSyndicationItem">A <see cref="T:System.Data.Services.Common.SyndicationItemProperty" /> value that represents the element in the feed to which to map the property. This value must be set to None if the <see cref="P:System.Data.Services.Common.EntityPropertyMappingAttribute.TargetPath" /> is not null.</param>
+      <param name="targetTextContentKind">A <see cref="P:System.Data.Services.Common.EntityPropertyMappingAttribute.TargetTextContentKind" /> value that identifies the format of the content to display in the feed.</param>
+      <param name="keepInContent">Boolean value that is true when the property being mapped must appear both in its mapped-to location and in the content section of the feed. </param>
+    </member>
+    <member name="M:System.Data.Services.Common.EntityPropertyMappingAttribute.#ctor(System.String,System.String,System.String,System.String,System.Boolean)">
+      <summary>Creates an instance of the <see cref="T:System.Data.Services.Common.EntityPropertyMappingAttribute" /> to map a property to a custom feed element.</summary>
+      <param name="sourcePath">The name of the property of the entity type, as string, that is mapped to the specified property in the feed.</param>
+      <param name="targetPath">The name of the target, as string, in the resulting feed to which the property is mapped.</param>
+      <param name="targetNamespacePrefix">This parameter, together with <paramref name="targetNamespaceUri" />, specifies the namespace in which the <paramref name="targetPath " />element exists.</param>
+      <param name="targetNamespaceUri">Specifies the namespace URI of the element, as string, specified by the <paramref name="targetName" /> property. </param>
+      <param name="keepInContent">Boolean value that is true when the property being mapped must appear both in its mapped-to location and in the content section of the feed. </param>
+    </member>
+    <member name="P:System.Data.Services.Common.EntityPropertyMappingAttribute.CriteriaValue">
+      <summary>Gets or sets the criteria value that is used to define a conditional mapping.</summary>
+      <returns>The value that is used to define the mapping condition.</returns>
+    </member>
+    <member name="P:System.Data.Services.Common.EntityPropertyMappingAttribute.KeepInContent">
+      <summary>Gets a Boolean value that indicates whether a property value should be repeated both in the content section of the feed and in the mapped location.</summary>
+      <returns>A <see cref="T:System.Boolean" /> value that is true when the property is mapped into both locations in the feed; otherwise, false.</returns>
+    </member>
+    <member name="P:System.Data.Services.Common.EntityPropertyMappingAttribute.SourcePath">
+      <summary>Gets the name of the property of the syndication item that will be mapped to the specified element of the feed.</summary>
+      <returns>String value that contains property name.</returns>
+    </member>
+    <member name="P:System.Data.Services.Common.EntityPropertyMappingAttribute.TargetNamespacePrefix">
+      <summary>Gets a string value that, together with <see cref="P:System.Data.Services.Common.EntityPropertyMappingAttribute.TargetNamespaceUri" />, specifies the namespace in which the <see cref="P:System.Data.Services.Common.EntityPropertyMappingAttribute.TargetPath" />element exists.</summary>
+      <returns>String value that contains the target namespace prefix.</returns>
+    </member>
+    <member name="P:System.Data.Services.Common.EntityPropertyMappingAttribute.TargetNamespaceUri">
+      <summary>Gets a string value that specifies the namespace URI of the element specified by the <see cref="P:System.Data.Services.Common.EntityPropertyMappingAttribute.TargetPath" /> property.</summary>
+      <returns>String that contains the namespace URI.</returns>
+    </member>
+    <member name="P:System.Data.Services.Common.EntityPropertyMappingAttribute.TargetPath">
+      <summary>Gets the name of the custom target in the feed to which the property is mapped.</summary>
+      <returns>String value with target XML element or attribute.</returns>
+    </member>
+    <member name="P:System.Data.Services.Common.EntityPropertyMappingAttribute.TargetSyndicationItem">
+      <summary>Gets the syndication item in the entry targeted by the mapping.</summary>
+      <returns>A <see cref="T:System.Data.Services.Common.SyndicationItemProperty" /> value that is the target of the mapping.</returns>
+    </member>
+    <member name="P:System.Data.Services.Common.EntityPropertyMappingAttribute.TargetTextContentKind">
+      <summary>Gets the type of content of the property mapped by <see cref="T:System.Data.Services.Common.EntityPropertyMappingAttribute" />.</summary>
+      <returns>A string that identifies the type of content in the feed element.</returns>
+    </member>
+    <member name="T:System.Data.Services.Common.SyndicationItemProperty">
+      <summary>Enumeration type that is used to identify the syndication item element or attribute in the Open Data Protocol (OData) feed to which an entity property is mapped.</summary>
+    </member>
+    <member name="F:System.Data.Services.Common.SyndicationItemProperty.CustomProperty">
+      <summary>A custom property element.</summary>
+    </member>
+    <member name="F:System.Data.Services.Common.SyndicationItemProperty.AuthorEmail">
+      <summary>The atom:email child element of the atom:author element.</summary>
+    </member>
+    <member name="F:System.Data.Services.Common.SyndicationItemProperty.AuthorName">
+      <summary>The atom:name child element of the atom:author element.</summary>
+    </member>
+    <member name="F:System.Data.Services.Common.SyndicationItemProperty.AuthorUri">
+      <summary>The atom:uri child element of the atom:author element.</summary>
+    </member>
+    <member name="F:System.Data.Services.Common.SyndicationItemProperty.ContributorEmail">
+      <summary>The atom:email child element of the atom:contributor element.</summary>
+    </member>
+    <member name="F:System.Data.Services.Common.SyndicationItemProperty.ContributorName">
+      <summary>The atom:name child element of the atom:contributor element.</summary>
+    </member>
+    <member name="F:System.Data.Services.Common.SyndicationItemProperty.ContributorUri">
+      <summary>The atom:uri child element of the atom:contributor element.</summary>
+    </member>
+    <member name="F:System.Data.Services.Common.SyndicationItemProperty.Updated">
+      <summary>The atom:updated element.</summary>
+    </member>
+    <member name="F:System.Data.Services.Common.SyndicationItemProperty.Published">
+      <summary>The atom:published element.</summary>
+    </member>
+    <member name="F:System.Data.Services.Common.SyndicationItemProperty.Rights">
+      <summary>The atom:rights element.</summary>
+    </member>
+    <member name="F:System.Data.Services.Common.SyndicationItemProperty.Summary">
+      <summary>The atom:summary element.</summary>
+    </member>
+    <member name="F:System.Data.Services.Common.SyndicationItemProperty.Title">
+      <summary>The atom:title element.</summary>
+    </member>
+    <member name="F:System.Data.Services.Common.SyndicationItemProperty.CategoryLabel">
+      <summary>The label attribute of the atom:category element.</summary>
+    </member>
+    <member name="F:System.Data.Services.Common.SyndicationItemProperty.CategoryScheme">
+      <summary>The scheme attribute of the atom:category element.</summary>
+    </member>
+    <member name="F:System.Data.Services.Common.SyndicationItemProperty.CategoryTerm">
+      <summary>The term attribute of the atom:category element.</summary>
+    </member>
+    <member name="F:System.Data.Services.Common.SyndicationItemProperty.LinkHref">
+      <summary>The href attribute of the atom:link element. </summary>
+    </member>
+    <member name="F:System.Data.Services.Common.SyndicationItemProperty.LinkHrefLang">
+      <summary>The hreflang attribute of the atom:link element.</summary>
+    </member>
+    <member name="F:System.Data.Services.Common.SyndicationItemProperty.LinkLength">
+      <summary>The length attribute of the atom:link element.</summary>
+    </member>
+    <member name="F:System.Data.Services.Common.SyndicationItemProperty.LinkRel">
+      <summary>The rel attribute of the atom:link element.</summary>
+    </member>
+    <member name="F:System.Data.Services.Common.SyndicationItemProperty.LinkTitle">
+      <summary>The title attribute of the atom:link element.</summary>
+    </member>
+    <member name="F:System.Data.Services.Common.SyndicationItemProperty.LinkType">
+      <summary>The type attribute of the atom:link element.</summary>
+    </member>
+    <member name="T:System.Data.Services.Common.SyndicationTextContentKind">
+      <summary>Enumeration used to identify text content of syndication item. </summary>
+    </member>
+    <member name="F:System.Data.Services.Common.SyndicationTextContentKind.Plaintext">
+      <summary>Plain text content.</summary>
+    </member>
+    <member name="F:System.Data.Services.Common.SyndicationTextContentKind.Html">
+      <summary>HTML content.</summary>
+    </member>
+    <member name="F:System.Data.Services.Common.SyndicationTextContentKind.Xhtml">
+      <summary>XHTML content.</summary>
+    </member>
+  </members>
+</doc>

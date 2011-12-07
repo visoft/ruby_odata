@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="iso-8859-1" standalone="yes"?>
+<entry xml:base="http://test.com/test.svc/" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="http://www.w3.org/2005/Atom">
+  <id>http://test.com/test.svc/Products(1)</id>
+  <title type="text"></title>
+  <updated>2011-11-13T02:51:18Z</updated>
+  <author>
+    <name />
+  </author>
+  <link rel="edit" title="Product" href="Products(1)" />
+  <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Category" type="application/atom+xml;type=entry" title="Category" href="Products(1)/Category" />
+  <category term="RubyODataService.Product" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" />
+  <content type="application/xml">
+    <m:properties>
+      <d:Id m:type="Edm.Int32">1</d:Id>
+      <d:Name>Widget 1</d:Name>
+      <d:Description>Test Widget</d:Description>
+      <d:Price m:type="Edm.Decimal">7.5000</d:Price>
+      <d:DiscontinuedDate m:type="Edm.DateTime" m:null="true" />
+      <d:AuditFields m:type="RubyODataService.AuditFields">
+        <d:CreateDate m:type="Edm.DateTime">2011-11-13T01:10:06.673</d:CreateDate>
+        <d:ModifiedDate m:type="Edm.DateTime">2011-11-13T01:10:06.673</d:ModifiedDate>
+        <d:CreatedBy>Cucumber</d:CreatedBy>
+      </d:AuditFields>
+    </m:properties>
+  </content>
+</entry>
