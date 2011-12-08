@@ -74,6 +74,13 @@ Deleting an object involves passing the tracked object to the delete_object meth
   result = svc.save_changes
   puts "Was the category deleted? #{result}"
 
+=== Add Link
+Adding a linkage between entities can now be performed outside of creation or modification of the objects. See the {OData documents}[http://www.odata.org/developers/protocols/operations#CreatingLinksbetweenEntries] for more details.
+To add a link between entities, simply call the +add_link+ method on the Service passing the parent object, the name of the navigation property, and the child object. Like all save operations, you need to call +save_changes+ to persist the changes.
+
+  svc.add_link(<Parent>, <Navigation Property Name>, <Child>)
+  svc.save_changes
+
 === Querying
 Querying is easy, for example to pull all the categories from the SampleService, you simply can run:
 
