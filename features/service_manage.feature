@@ -19,7 +19,7 @@ Scenario: Service should allow for deletes
   Then the first save result should be of type "Product"
   When I call "delete_object" on the service with the first last save result
   And I save changes
-  Then the save result should equal: "true" 
+  Then the save result should equal: "true"
   And no "Products" should exist
 
 Scenario: Untracked entities shouldn't be able to be deleted
@@ -47,7 +47,7 @@ Scenario: Related entities shouldn't be recreated on a child add
   Given I call "AddToCategories" on the service with a new "Category" object with Name: "Test Category"
   And I save changes
   And I call "AddToProducts" on the service with a new "Product" object with Category: "@@LastSave.first"
-  And I save changes	
+  And I save changes
   And I call "Products" on the service with args: "1"
   And I expand the query to include "Category"
   When I run the query
