@@ -30,11 +30,11 @@ Given /^a HTTP BasicAuth ODataService exists using username "([^\"]*)" and passw
   @service = OData::Service.new(BASICAUTH_URL, { :username => username, :password => password })
 end
 
-Given /^a HTTP BasicAuth ODataService exists using username "([^\"]*)" and password "([^\"]*)" it should throw an exception with message "([^\"]*)"$/ do |username, password, msg|  
+Given /^a HTTP BasicAuth ODataService exists using username "([^\"]*)" and password "([^\"]*)" it should throw an exception with message "([^\"]*)"$/ do |username, password, msg|
   lambda { @service = OData::Service.new(BASICAUTH_URL, { :username => username, :password => password }) }.should raise_error(msg)
 end
 
-Given /^a HTTP BasicAuth ODataService exists it should throw an exception with message containing "([^\"]*)"$/ do |msg|  
+Given /^a HTTP BasicAuth ODataService exists it should throw an exception with message containing "([^\"]*)"$/ do |msg|
   lambda { @service = OData::Service.new(BASICAUTH_URL) }.should raise_error(/#{msg}.*/)
 end
 
@@ -42,7 +42,7 @@ Given /^a HTTPS BasicAuth ODataService exists it should throw an exception with 
   lambda { @service = OData::Service.new(HTTPS_BASICAUTH_URL) }.should raise_error(/#{msg}.*/)
 end
 
-Given /^a HTTP BasicAuth ODataService exists it should throw an exception with message "([^\"]*)"$/ do |msg|  
+Given /^a HTTP BasicAuth ODataService exists it should throw an exception with message "([^\"]*)"$/ do |msg|
   lambda { @service = OData::Service.new(BASICAUTH_URL) }.should raise_error(msg)
 end
 
@@ -55,7 +55,7 @@ When /^I call "([^\"]*)" on the service$/ do |method|
 end
 
 Then /^the result should be "([^\"]*)"$/ do |result|
-  @service_result.should eq result 
+  @service_result.should eq result
 end
 
 Then /^the integer result should be ([^\"]*)$/ do |result|
@@ -127,13 +127,13 @@ When /^I ask for the links for "([^\"]*)"$/ do |nav_prop|
 end
 
 Then /^the method "([^\"]*)" on the result should be of type "([^\"]*)"$/ do |method, type|
-  result = @service_result.send(method.to_sym) 
+  result = @service_result.send(method.to_sym)
   result.class.to_s.should eq type
 end
 
 Given /^I call "([^\"]*)" on the service with a new "([^\"]*)" object(?: with (.*))?$/ do |method, object, fields|
   fields_hash = parse_fields_string(fields)
-  
+
   obj = object.constantize.send(:make, fields_hash)
   @service.send(method.to_sym, obj)
 end
@@ -172,6 +172,10 @@ Given /^I call "([^\"]*)" on the service with a new "([^\"]*)" object it should 
   lambda { @service.send(method.to_sym, obj) }.should raise_error(msg)
 end
 
+When /^I save changes it should throw an exception with message containing "([^"]*)"$/ do |msg|
+  lambda { @service.save_changes }.should raise_error(/#{msg}.*/)
+end
+
 Then /^no "([^\"]*)" should exist$/ do |collection|
   @service.send(collection)
   results = @service.execute
@@ -180,19 +184,19 @@ end
 
 Then /^the primitive results should be:$/ do |table|
   # table is a Cucumber::Ast::Table
-  values = table.hashes  
+  values = table.hashes
   result_table = Cucumber::Ast::Table.new(values)
   table.diff!(result_table)
 end
 
 Then /^the result should be:$/ do |table|
   # table is a Cucumber::Ast::Table
-  
+
   fields = table.hashes[0].keys
-  
+
   # Build an array of hashes so that we can compare tables
   results = []
-  
+
   @service_result.each do |result|
     obj_hash = Hash.new
     fields.each do |field|
@@ -200,20 +204,20 @@ Then /^the result should be:$/ do |table|
     end
     results << obj_hash
   end
-  
+
   result_table = Cucumber::Ast::Table.new(results)
-  
+
   table.diff!(result_table)
 end
 
 Then /^the save result should be:$/ do |table|
   # table is a Cucumber::Ast::Table
-  
+
   fields = table.hashes[0].keys
-  
+
   # Build an array of hashes so that we can compare tables
   results = []
-  
+
   @saved_result.each do |result|
     obj_hash = Hash.new
     fields.each do |field|
@@ -221,10 +225,10 @@ Then /^the save result should be:$/ do |table|
     end
     results << obj_hash
   end
-  
+
   result_table = Cucumber::Ast::Table.new(results)
-  
-  table.diff!(result_table) 	
+
+  table.diff!(result_table)
 end
 
 Then /^a class named "([^\"]*)" should exist$/ do |klass_name|
