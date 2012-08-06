@@ -19,7 +19,7 @@ class QueryBuilder
     @order_bys = []
     @skip = nil
     @top = nil
-    @links = nil
+    @count = nil
     @additional_params = additional_params
   end
 
@@ -98,7 +98,19 @@ class QueryBuilder
   #   svc.Categories(1).links("Products")
   #   product_links = svc.execute # => returns URIs for the products under the Category with an ID of 1
   def links(navigation_property)
+    raise OData::NotSupportedError.new("You cannot call both the `links` method and the `count` method in the same query.") if @count
     @navigation_property = navigation_property
+    self
+  end
+
+  # Used to return a count of objects instead of the objects themselves
+  # ==== Example
+  #   svc.Products
+  #   svc.count
+  #   product_count = svc.execute
+  def count
+    raise OData::NotSupportedError.new("You cannot call both the `links` method and the `count` method in the same query.") if @navigation_property
+    @count = true
     self
   end
 
@@ -110,6 +122,11 @@ class QueryBuilder
     # Handle links queries, this isn't just a standard query option
     if @navigation_property
       q << "/$links/#{@navigation_property}"
+    end
+
+    # Handle count queries, this isn't just a standard query option
+    if @count
+      q << "/$count"
     end
 
     query_options = []

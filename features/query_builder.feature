@@ -1,7 +1,7 @@
 Feature: Query Builder
   In order to query OData services
   As a user
-  I want to be able to perform valid OData protocol operations 
+  I want to be able to perform valid OData protocol operations
 
 Background:
   Given a HTTP ODataService exists
@@ -12,7 +12,7 @@ Scenario: Navigation Properties should be able to be eager loaded
   Given I call "AddToCategories" on the service with a new "Category" object with Name: "Test Category"
   And I save changes
   And I call "AddToProducts" on the service with a new "Product" object with Category: "@@LastSave.first"
-  And I save changes	
+  And I save changes
   And I call "Products" on the service with args: "1"
   And I expand the query to include "Category"
   When I run the query
@@ -99,14 +99,14 @@ Scenario: Skip should be allowed on the root level entity
   | Product 2 |
   | Product 3 |
   | Product 4 |
-  | Product 5 | 
+  | Product 5 |
   When I call "Products" on the service
   And I skip 3
   And I run the query
   Then the result should be:
   | Name      |
   | Product 4 |
-  | Product 5 |  
+  | Product 5 |
 
 
 # Top
@@ -117,14 +117,14 @@ Scenario: Top should be allowed on the root level entity
   | Product 2 |
   | Product 3 |
   | Product 4 |
-  | Product 5 | 
+  | Product 5 |
   When I call "Products" on the service
   And I ask for the top 3
   And I run the query
   Then the result should be:
   | Name      |
   | Product 1 |
-  | Product 2 | 
+  | Product 2 |
   | Product 3 |
 
 Scenario: Top should be able to be used along with skip for paging
@@ -134,8 +134,8 @@ Scenario: Top should be able to be used along with skip for paging
   | Product 2 |
   | Product 3 |
   | Product 4 |
-  | Product 5 | 
-  | Product 6 |  
+  | Product 5 |
+  | Product 6 |
   When I call "Products" on the service
   And I skip 2
   And I ask for the top 2
@@ -143,7 +143,7 @@ Scenario: Top should be able to be used along with skip for paging
   Then the result should be:
   | Name      |
   | Product 3 |
-  | Product 4 |  
+  | Product 4 |
 
 
 # Links
@@ -160,3 +160,13 @@ Scenario: Navigation Properties should be able to represented as links
   And I run the query
   Then the result count should be 3
   Then the method "path" on the first result should equal: "/SampleService/RubyOData.svc/Products(1)"
+
+# Count
+Scenario: Count should be able to be used on a root collection
+  Given 4 products exist
+  When I call "Products" on the service
+  And I ask for the count
+  And I run the query
+  Then the integer result should be 4
+
+

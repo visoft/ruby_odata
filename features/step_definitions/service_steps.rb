@@ -122,6 +122,10 @@ When /^I ask for the top (\d+)$/ do |top|
   @service_query.top(top)
 end
 
+When /^I ask for the count$/ do
+  @service_query.count
+end
+
 When /^I ask for the links for "([^\"]*)"$/ do |nav_prop|
   @service_query.links(nav_prop)
 end

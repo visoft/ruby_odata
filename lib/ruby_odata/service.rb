@@ -96,9 +96,11 @@ class Service
     end
   end
 
-  # Performs query operations (Read) against the server, returns an array of record instances.
+  # Performs query operations (Read) against the server.
+  # Typically this returns an array of record instances, except in the case of count queries
   def execute
     result = RestClient::Resource.new(build_query_uri, @rest_options).get
+    return Integer(result) if result =~ /^\d+$/
     handle_collection_result(result)
   end
 

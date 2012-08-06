@@ -13,6 +13,7 @@ require "bigdecimal"
 require "bigdecimal/util"
 require "backports"
 
+require lib + "/ruby_odata/exceptions"
 require lib + "/ruby_odata/association"
 require lib + "/ruby_odata/property_metadata"
 require lib + "/ruby_odata/query_builder"
