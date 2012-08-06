@@ -1,22 +1,28 @@
-Sham.define do
-  category_name           { |i| "Category #{i}" }
-  product_name            { |i| "Widget #{i}" }
-  price(:unique => false) { ['5.00', '10.00', '20.00', '15.00' , '25.00', '7.50'].rand }
+class AuditFields
+  extend Machinist::Machinable
+end
+
+class Product
+  extend Machinist::Machinable
+end
+
+class Category
+  extend Machinist::Machinable
 end
 
 AuditFields.blueprint do
-  CreatedBy     "Machinist"
+  CreatedBy     { "Machinist" }
 end
 
 Product.blueprint do
-  Name          { Sham.product_name }
-  Description   "Test Widget"
-  Price         { Sham.price }
+  Name          { "Widget #{sn}" }
+  Description   { "Test Widget" }
+  Price         { ["10.25", "25.00", "50.00", "75.50", "100.00"].sample }
   Category      { Category.make }
   AuditFields   { AuditFields.make }
 end
 
 Category.blueprint do
-  Name          { Sham.category_name }
+  Name          { "Category #{sn}" }
   AuditFields   { AuditFields.make }
 end

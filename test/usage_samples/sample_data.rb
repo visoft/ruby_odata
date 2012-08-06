@@ -1,8 +1,6 @@
 require File.expand_path('../../../lib/ruby_odata', __FILE__)
 require File.expand_path('../../../features/support/constants', __FILE__)
-require 'machinist/object'
-require 'sham'
-require 'faker'
+require "machinist"
 
 svc = OData::Service.new "http://#{WEBSERVER}:#{HTTP_PORT_NUMBER}/SampleService/RubyOData.svc"
 svc.CleanDatabaseForTesting #=> Comment this line out if you don't want to clear your test database

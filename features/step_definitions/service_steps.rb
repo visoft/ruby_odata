@@ -2,16 +2,16 @@ STANDARD_URL = "http://#{WEBSERVER}:#{HTTP_PORT_NUMBER}/SampleService/RubyOData.
 BASICAUTH_URL = "http://#{WEBSERVER}:#{HTTP_PORT_NUMBER}/SampleService/BasicAuth/RubyOData.svc"
 HTTPS_BASICAUTH_URL = "https://#{WEBSERVER}:#{HTTPS_PORT_NUMBER}/SampleService/BasicAuth/RubyOData.svc"
 
-When /^(.*) first (last query )?result('s)?(.*)$/ do |pre, last_query, apos, post|
-  step = "#{pre} #{last_query}result#{apos}#{post}"
+When /^(.*) first (last query )?result(\'s)?(.*)$/ do |pre, last_query, apos, post|
+  the_step = "#{pre} #{last_query}result#{apos}#{post}"
   first_result
-  When step
+  step the_step
 end
 
 When /^(.*) first (last )?save result(.*)$/ do |pre, last, post|
-  step = "#{pre} #{last}save result#{post}"
+  the_step = "#{pre} #{last}save result#{post}"
   first_save
-  When step
+  step the_step
 end
 
 Given /^a HTTP ODataService exists$/ do

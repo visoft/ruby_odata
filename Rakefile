@@ -1,9 +1,9 @@
-require 'rake/rdoctask'
+require 'rdoc/task'
 require 'bundler'
 require 'rspec/core/rake_task'
 require 'cucumber/rake/task'
 
-Rake::RDocTask.new do |rd|
+RDoc::Task.new do |rd|
   rd.main = "README.rdoc"
   rd.rdoc_files.include("README.rdoc", "CHANGELOG.rdoc", "lib/**/*.rb")
   rd.rdoc_dir = 'doc'
