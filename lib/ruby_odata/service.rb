@@ -1,17 +1,16 @@
 module OData
-
+# The main service class, also known as a *Context*
 class Service
   attr_reader :classes, :class_metadata, :options, :collections, :edmx, :function_imports
   # Creates a new instance of the Service class
   #
-  # ==== Required Attributes
-  # - service_uri: The root URI of the OData service
-  # ==== Options in options hash
-  # - username: username for http basic auth
-  # - password: password for http basic auth
-  # - verify_ssl: false if no verification, otherwise mode (OpenSSL::SSL::VERIFY_PEER is default)
-  # - additional_params: a hash of query string params that will be passed on all calls
-  # - eager_partial: true (default) if queries should consume partial feeds until the feed is complete, false if explicit calls to next must be performed
+  # @param [String] service_uri the root URI of the OData service
+  # @param [Hash] options the options to pass to the service
+  # @option options [String] :username for http basic auth
+  # @option options [String] :password for http basic auth
+  # @option options [Object] :verify_ssl false if no verification, otherwise mode (OpenSSL::SSL::VERIFY_PEER is default)
+  # @option options [Hash] :additional_params a hash of query string params that will be passed on all calls
+  # @option options [Boolean, true] :eager_partial true if queries should consume partial feeds until the feed is complete, false if explicit calls to next must be performed
   def initialize(service_uri, options = {})
     @uri = service_uri.gsub!(/\/?$/, '')
     set_options! options
@@ -20,7 +19,7 @@ class Service
     build_collections_and_classes
   end
 
-  # Handles the dynamic AddTo<EntityName> methods as well as the collections on the service
+  # Handles the dynamic `AddTo<EntityName>` methods as well as the collections on the service
   def method_missing(name, *args)
     # Queries
     if @collections.include?(name.to_s)
@@ -45,25 +44,23 @@ class Service
 
   # Queues an object for deletion.  To actually remove it from the server, you must call save_changes as well.
   #
-  # ==== Required Attributes
-  # - obj: The object to mark for deletion
+  # @param [Object] obj the object to mark for deletion
   #
-  # Note: This method will throw an exception if the +obj+ isn't a tracked entity
+  # @raise [NotSupportedError] if the `obj` isn't a tracked entity
   def delete_object(obj)
     type = obj.class.to_s
     if obj.respond_to?(:__metadata) && !obj.send(:__metadata).nil?
       @save_operations << Operation.new("Delete", type, obj)
     else
-      raise "You cannot delete a non-tracked entity"
+      raise OData::NotSupportedError.new "You cannot delete a non-tracked entity"
     end
   end
 
   # Queues an object for update.  To actually update it on the server, you must call save_changes as well.
   #
-  # ==== Required Attributes
-  # - obj: The object to queue for update
+  # @param [Object] obj the object to queue for update
   #
-  # Note: This method will throw an exception if the +obj+ isn't a tracked entity
+  # @raise [NotSupportedError] if the `obj` isn't a tracked entity
   def update_object(obj)
     type = obj.class.to_s
     if obj.respond_to?(:__metadata) && !obj.send(:__metadata).nil?
@@ -124,7 +121,7 @@ class Service
     end
   end
 
-  # Retrieves the next resultset of a partial result (if any). Does not honor the :eager_partial option.
+  # Retrieves the next resultset of a partial result (if any). Does not honor the `:eager_partial` option.
   def next
     return if not partial?
     handle_partial
@@ -137,14 +134,13 @@ class Service
 
   # Lazy loads a navigation property on a model
   #
-  # ==== Required Attributes
-  # - obj: The object to fill
-  # - nav_prop: The navigation property to fill
+  # @param [Object] obj the object to fill
+  # @param [String] nav_prop the navigation property to fill
   #
-  # Note: This method will throw an exception if the +obj+ isn't a tracked entity
-  # Note: This method will throw an exception if the +nav_prop+ isn't a valid navigation property
+  # @raise [NotSupportedError] if the `obj` isn't a tracked entity
+  # @raise [ArgumentError] if the `nav_prop` isn't a valid navigation property
   def load_property(obj, nav_prop)
-    raise ArgumentError, "You cannot load a property on an entity that isn't tracked" if obj.send(:__metadata).nil?
+    raise NotSupportedError, "You cannot load a property on an entity that isn't tracked" if obj.send(:__metadata).nil?
     raise ArgumentError, "'#{nav_prop}' is not a valid navigation property" unless obj.respond_to?(nav_prop.to_sym)
     raise ArgumentError, "'#{nav_prop}' is not a valid navigation property" unless @class_metadata[obj.class.to_s][nav_prop].nav_prop
     results = RestClient::Resource.new(build_load_property_uri(obj, nav_prop), @rest_options).get
@@ -154,15 +150,17 @@ class Service
 
   # Adds a child object to a parent object's collection
   #
-  # ==== Required Attributes
-  # - parent: The parent object
-  # - nav_prop: The name of the navigation property to add the child to
-  # - child: The child object
+  # @param [Object] parent the parent object
+  # @param [String] nav_prop the name of the navigation property to add the child to
+  # @param [Object] child the child object
+  # @raise [NotSupportedError] if the `parent` isn't a tracked entity
+  # @raise [ArgumentError] if the `nav_prop` isn't a valid navigation property
+  # @raise [NotSupportedError] if the `child` isn't a tracked entity
   def add_link(parent, nav_prop, child)
-    raise ArgumentError, "You cannot add a link on an entity that isn't tracked (#{parent.class})" if parent.send(:__metadata).nil?
+    raise NotSupportedError, "You cannot add a link on an entity that isn't tracked (#{parent.class})" if parent.send(:__metadata).nil?
     raise ArgumentError, "'#{nav_prop}' is not a valid navigation property for #{parent.class}" unless parent.respond_to?(nav_prop.to_sym)
     raise ArgumentError, "'#{nav_prop}' is not a valid navigation property for #{parent.class}" unless @class_metadata[parent.class.to_s][nav_prop].nav_prop
-    raise ArgumentError, "You cannot add a link on a child entity that isn't tracked (#{child.class})" if child.send(:__metadata).nil?
+    raise NotSupportedError, "You cannot add a link on a child entity that isn't tracked (#{child.class})" if child.send(:__metadata).nil?
     @save_operations << Operation.new("AddLink", nav_prop, parent, child)
   end
 

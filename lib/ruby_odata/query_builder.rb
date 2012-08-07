@@ -1,17 +1,15 @@
 module OData
 # The query builder is used to call query operations against the service.  This shouldn't be called directly, but rather it is returned from the dynamic methods created for the specific service that you are calling.
 #
-# For example, given the following code snippet:
-#     svc = OData::Service.new "http://127.0.0.1:8989/SampleService/RubyOData.svc"
-#     svc.Categories
+# @example For example, given the following code snippet:
+#   svc = OData::Service.new "http://127.0.0.1:8989/SampleService/RubyOData.svc"
+#   svc.Categories
 # The *Categories* method would return a QueryBuilder
 class QueryBuilder
   # Creates a new instance of the QueryBuilder class
   #
-  # ==== Required Attributes
-  # - root: The root entity collection to query against
-  # ==== Optional
-  # Hash of additional parameters to use for a query
+  # @param [String] root entity collection to query against
+  # @param [Hash, {}] additional_params hash of additional parameters to use for a query
   def initialize(root, additional_params = {})
     @root = root.to_s
     @expands = []
@@ -24,10 +22,9 @@ class QueryBuilder
   end
 
   # Used to eagerly-load data for nested objects, for example, obtaining a Category for a Product within one call to the server
-  # ==== Required Attributes
-  # - path: The path of the entity to expand relative to the root
   #
-  # ==== Example
+  # @param [String] path of the entity to expand relative to the root
+  # @example
   #   # Without expanding the query (no Category will be filled in for the Product)
   #   svc.Products(1)
   #   prod1 = svc.execute
@@ -41,22 +38,22 @@ class QueryBuilder
   end
 
   # Used to filter data being returned
-  # ==== Required Attributes
-  # - filter: The conditions to apply to the query
   #
-  # ==== Example
-  #   svc.Products.filter("Name eq 'Product 2'")
-  #   products = svc.execute
+  # @param [String] filter conditions to apply to the query
+  #
+  # @example
+  #  svc.Products.filter("Name eq 'Product 2'")
+  #  products = svc.execute
   def filter(filter)
     @filters << CGI.escape(filter)
     self
   end
 
   # Used to order the data being returned
-  # ==== Required Attributes
-  # - order_by: The order by statement.  Note to specify direction, use "desc" or "asc"; must be lowercase
   #
-  # ==== Example
+  # @param [String] order_by the order by statement.  Note to specify direction, use "desc" or "asc"; must be lowercase
+  #
+  # @example
   #   svc.Products.order_by("Name")
   #   products = svc.execute
   def order_by(order_by)
@@ -65,11 +62,11 @@ class QueryBuilder
   end
 
   # Used to skip a number of records
-  # This is typically used for paging, where it would be used along with the +top+ method.
-  # ==== Required Attributes
-  # - num: The number of items to skip
+  # This is typically used for paging, where it would be used along with the `top` method.
   #
-  # ==== Example
+  # @param [Integer] num the number of items to skip
+  #
+  # @example
   #   svc.Products.skip(5)
   #   products = svc.execute # => skips the first 5 items
   def skip(num)
@@ -78,11 +75,11 @@ class QueryBuilder
   end
 
   # Used to take only the top X records
-  # This is typically used for paging, where it would be used along with the +skip+ method.
-  # ==== Required Attributes
-  # - num: The number of items to return
+  # This is typically used for paging, where it would be used along with the `skip` method.
   #
-  # ==== Example
+  # @param [Integer] num the number of items to return
+  #
+  # @example
   #   svc.Products.top(5)
   #   products = svc.execute # => returns only the first 5 items
   def top(num)
@@ -91,10 +88,12 @@ class QueryBuilder
   end
 
   # Used to return links instead of actual objects
-  # ==== Required Attributes
-  # - navigation_property: The NavigationProperty name to retrieve the links for
   #
-  # ==== Example
+  # @param [String] navigation_property the NavigationProperty name to retrieve the links for
+  #
+  # @raise [NotSupportedError] if count has already been called on the query
+  #
+  # @example
   #   svc.Categories(1).links("Products")
   #   product_links = svc.execute # => returns URIs for the products under the Category with an ID of 1
   def links(navigation_property)
@@ -104,7 +103,10 @@ class QueryBuilder
   end
 
   # Used to return a count of objects instead of the objects themselves
-  # ==== Example
+  #
+  # @raise [NotSupportedError] if links has already been called on the query
+  #
+  # @example
   #   svc.Products
   #   svc.count
   #   product_count = svc.execute
