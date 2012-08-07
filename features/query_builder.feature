@@ -169,4 +169,14 @@ Scenario: Count should be able to be used on a root collection
   And I run the query
   Then the integer result should be 4
 
+Scenario: Count should be able to be used on with a filter
+  Given the following products exist:
+  | Name      |
+  | Product 1 |
+  | Product 2 |
+  When I call "Products" on the service
+  And I filter the query with: "Name eq 'Product 2'"
+  And I ask for the count
+  And I run the query
+  Then the integer result should be 1
 
