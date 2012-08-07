@@ -186,10 +186,18 @@ Top allows you only retrieve the top X number of records when querying.  This is
     products = svc.execute # => returns only the first 5 items
 
 ### Navigation Property Links Only Query
-OData allows you to [query navigation properties and only return the links for the entities](http://www.odata.org/developers/protocols/uri-conventions#AddressingLinksBetweenEntries) (instead of the data)
+OData allows you to [query navigation properties and only return the links for the entities](http://www.odata.org/developers/protocols/uri-conventions#AddressingLinksBetweenEntries) (instead of the data).
+**Note**: You cannot use the `links` method and the `count` method in the same query
 
     svc.Categories(1).links("Products")
     product_links = svc.execute # => returns URIs for the products under the Category with an ID of 1
+
+### Count
+Sometimes all you want to do is count records, for that, you can use the `count` method.
+This method can be combined with other options, such as `filter` but cannot be combined with the `links` method.
+
+    svc.Products.count
+    puts svc.execute # => 2
 
 ### Partial feeds
 OData allows services to do server-side paging in Atom by defining a next link. The default behavior is to repeatedly consume partial feeds until the result set is complete.
