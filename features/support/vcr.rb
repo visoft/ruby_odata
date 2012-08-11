@@ -3,7 +3,7 @@ require "vcr"
 VCR.configure do |c|
   c.hook_into :webmock
   c.cassette_library_dir     = "features/cassettes"
-  c.default_cassette_options = { :record => :once }
+  c.default_cassette_options = { :record => :none }
 end
 
 VCR.cucumber_tags do |t|

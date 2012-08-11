@@ -16,5 +16,6 @@ Scenario: Entity should fill values on protected resource
   Then the method "Id" on the first result should equal: "1"
   And the method "Name" on the first result should equal: "Auth Test Category"
 
+# TODO: Commented this scenario out because it requires the server to be online in order for the tests to run. Would like to move this to a mocked test that would accomplish the same thing...
 # Scenario: Should get SSL failure if SSL used with self-signed certificate and not passing "false" as :verify_ssl option
 #   Given a HTTPS BasicAuth ODataService exists it should throw an exception with message containing "SSL Verification failed"
