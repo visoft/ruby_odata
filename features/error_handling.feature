@@ -1,3 +1,4 @@
+@error_handling
 Feature: Error handling
   In order to assist debugging
   As a user

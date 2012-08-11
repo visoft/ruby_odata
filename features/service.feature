@@ -1,3 +1,4 @@
+@service
 Feature: Service Should Generate a Proxy
   In order to consume the OData
   As a user

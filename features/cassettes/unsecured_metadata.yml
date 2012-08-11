@@ -1,0 +1,89 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://win7dev:8989/SampleService/RubyOData.svc/$metadata
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*; q=0.5, application/xml'
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - '4055'
+      Content-Type:
+      - application/xml;charset=utf-8
+      Server:
+      - Microsoft-IIS/7.5
+      Set-Cookie:
+      - ASP.NET_SessionId=tvkikr3xqyy43kcx0mk1uwdr; path=/; HttpOnly
+      X-Content-Type-Options:
+      - nosniff
+      Dataserviceversion:
+      - 1.0;
+      X-Aspnet-Version:
+      - 4.0.30319
+      X-Powered-By:
+      - ASP.NET
+      Date:
+      - Tue, 07 Aug 2012 21:47:40 GMT
+    body:
+      encoding: US-ASCII
+      string: <?xml version="1.0" encoding="utf-8"?><edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx"><edmx:DataServices
+        m:DataServiceVersion="1.0" m:MaxDataServiceVersion="3.0" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"><Schema
+        Namespace="RubyODataService" xmlns="http://schemas.microsoft.com/ado/2008/09/edm"><EntityType
+        Name="Product"><Key><PropertyRef Name="Id" /></Key><Property Name="Id" Type="Edm.Int32"
+        Nullable="false" p6:StoreGeneratedPattern="Identity" xmlns:p6="http://schemas.microsoft.com/ado/2009/02/edm/annotation"
+        /><Property Name="Name" Type="Edm.String" MaxLength="4000" FixedLength="false"
+        Unicode="true" /><Property Name="Description" Type="Edm.String" MaxLength="4000"
+        FixedLength="false" Unicode="true" /><Property Name="Price" Type="Edm.Decimal"
+        Nullable="false" Precision="18" Scale="2" /><Property Name="DiscontinuedDate"
+        Type="Edm.DateTime" /><Property Name="CategoryId" Type="Edm.Int32" Nullable="false"
+        /><Property Name="AuditFields" Type="RubyODataService.AuditFields" Nullable="false"
+        /><NavigationProperty Name="Category" Relationship="RubyODataService.Category_Products"
+        ToRole="Category_Products_Source" FromRole="Category_Products_Target" /></EntityType><ComplexType
+        Name="AuditFields"><Property Name="CreateDate" Type="Edm.DateTime" Nullable="false"
+        /><Property Name="ModifiedDate" Type="Edm.DateTime" Nullable="false" /><Property
+        Name="CreatedBy" Type="Edm.String" MaxLength="4000" FixedLength="false" Unicode="true"
+        /></ComplexType><EntityType Name="Category"><Key><PropertyRef Name="Id" /></Key><Property
+        Name="Id" Type="Edm.Int32" Nullable="false" p6:StoreGeneratedPattern="Identity"
+        xmlns:p6="http://schemas.microsoft.com/ado/2009/02/edm/annotation" /><Property
+        Name="Name" Type="Edm.String" MaxLength="4000" FixedLength="false" Unicode="true"
+        /><Property Name="AuditFields" Type="RubyODataService.AuditFields" Nullable="false"
+        /><NavigationProperty Name="Products" Relationship="RubyODataService.Category_Products"
+        ToRole="Category_Products_Target" FromRole="Category_Products_Source" /></EntityType><EntityType
+        Name="EdmMetadata"><Key><PropertyRef Name="Id" /></Key><Property Name="Id"
+        Type="Edm.Int32" Nullable="false" p6:StoreGeneratedPattern="Identity" xmlns:p6="http://schemas.microsoft.com/ado/2009/02/edm/annotation"
+        /><Property Name="ModelHash" Type="Edm.String" MaxLength="4000" FixedLength="false"
+        Unicode="true" /></EntityType><Association Name="Category_Products"><End Type="RubyODataService.Product"
+        Role="Category_Products_Target" Multiplicity="*" /><End Type="RubyODataService.Category"
+        Role="Category_Products_Source" Multiplicity="1"><OnDelete Action="Cascade"
+        /></End><ReferentialConstraint><Principal Role="Category_Products_Source"><PropertyRef
+        Name="Id" /></Principal><Dependent Role="Category_Products_Target"><PropertyRef
+        Name="CategoryId" /></Dependent></ReferentialConstraint></Association><EntityContainer
+        Name="RubyODataContext" m:IsDefaultEntityContainer="true"><EntitySet Name="Products"
+        EntityType="RubyODataService.Product" /><EntitySet Name="Categories" EntityType="RubyODataService.Category"
+        /><EntitySet Name="EdmMetadatas" EntityType="RubyODataService.EdmMetadata"
+        /><AssociationSet Name="Category_Products" Association="RubyODataService.Category_Products"><End
+        Role="Category_Products_Target" EntitySet="Products" /><End Role="Category_Products_Source"
+        EntitySet="Categories" /></AssociationSet><FunctionImport Name="CleanDatabaseForTesting"
+        m:HttpMethod="POST" /><FunctionImport Name="EntityCategoryWebGet" ReturnType="Collection(RubyODataService.Category)"
+        EntitySet="Categories" m:HttpMethod="GET" /><FunctionImport Name="CategoryNames"
+        ReturnType="Collection(Edm.String)" m:HttpMethod="GET" /><FunctionImport Name="FirstCategoryId"
+        ReturnType="Edm.Int32" m:HttpMethod="GET" /><FunctionImport Name="EntitySingleCategoryWebGet"
+        ReturnType="RubyODataService.Category" EntitySet="Categories" m:HttpMethod="GET"><Parameter
+        Name="id" Type="Edm.Int32" /></FunctionImport></EntityContainer></Schema></edmx:DataServices></edmx:Edmx>
+    http_version: !!null 
+  recorded_at: Tue, 07 Aug 2012 21:47:41 GMT
+recorded_with: VCR 2.2.4

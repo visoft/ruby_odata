@@ -1,5 +1,6 @@
+@basic_auth
 Feature: Service Should Access Basic Auth Protected Resources
-  
+
 Background:
   Given a HTTP BasicAuth ODataService exists using username "admin" and password "passwd"
   And blueprints exist for the service

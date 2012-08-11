@@ -66,7 +66,7 @@ class Service
     if obj.respond_to?(:__metadata) && !obj.send(:__metadata).nil?
       @save_operations << Operation.new("Update", type, obj)
     else
-      raise "You cannot update a non-tracked entity"
+      raise OData::NotSupportedError.new "You cannot update a non-tracked entity"
     end
   end
 

@@ -1,3 +1,4 @@
+@complex_types
 Feature: Complex types
   In order to fully support OData services
   As a user of ruby_odata
@@ -12,7 +13,7 @@ Scenario: The proxy must generate classes for complex types if they exist
 
 Scenario: Complex properties on an entity must be the correct type
   Given I call "AddToProducts" on the service with a new "Product" object
-  And I save changes		
+  And I save changes
   And I call "Products" on the service with args: "1"
   When I run the query
   Then the first result should have a method: "AuditFields"
@@ -25,10 +26,10 @@ Scenario: Complex properties on an entity must be filled
   When I run the query
   Then the first result should have a method: "AuditFields"
   When I call "CreateDate" for "AuditFields" on the first result
-  Then the operation should not be null 
+  Then the operation should not be null
 
 # TODO: This scenario should have the AuditFields.CreatedBy field set in the Given
-# instead it is set by the blueprint  
+# instead it is set by the blueprint
 Scenario: Complex properties should be able to be added
   Given I call "AddToProducts" on the service with a new "Product" object
   And I save changes

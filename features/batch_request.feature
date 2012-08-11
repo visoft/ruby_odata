@@ -1,8 +1,9 @@
+@batch_request
 Feature: Batch request
   In order to minimize network traffic
   As a user of the library
   I want to be able to batch changes (Add/Update/Delete) and persist the batch instead of one at a time
-  
+
 Background:
   Given a HTTP ODataService exists
   And blueprints exist for the service
@@ -14,7 +15,7 @@ Scenario: Save Changes should allow for batch additions
   Then the save result should equal: "true"
   When I call "Products" on the service
   And I order by: "Name"
-  And I run the query
+  And I run the query within a cassette named "batch_request_additions"
   Then the result should be:
   | Name      |
   | Product 1 |
@@ -31,13 +32,13 @@ Scenario: Save Changes should allow for batch updates
   And I call "update_object" on the service with the first last query result
   When I call "Products" on the service
   And I filter the query with: "Name eq 'Product 2'"
-  And I run the query 
+  And I run the query
   And I set "Name" on the first result to "Product 2 - Updated"
   And I call "update_object" on the service with the first last query result
   When I save changes
   When I call "Products" on the service
   And I order by: "Name"
-  And I run the query
+  And I run the query within a cassette named "batch_request_updates"
   Then the result should be:
   | Name                |
   | Product 1 - Updated |
@@ -55,12 +56,12 @@ Scenario: Save Changes should allow for batch deletes
   And I call "delete_object" on the service with the first last query result
   When I call "Products" on the service
   And I filter the query with: "Name eq 'Product 3'"
-  And I run the query 
+  And I run the query
   And I call "delete_object" on the service with the first last query result
   When I save changes
   When I call "Products" on the service
   And I order by: "Name"
-  And I run the query
+  And I run the query within a cassette named "batch_request_deletes"
   Then the result should be:
   | Name      |
   | Product 1 |

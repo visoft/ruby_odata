@@ -1,3 +1,4 @@
+@query_builder
 Feature: Query Builder
   In order to query OData services
   As a user
