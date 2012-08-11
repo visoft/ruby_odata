@@ -1,3 +1,4 @@
+@service_methods
 Feature: Service methods
   In order to use a WCF Data Service more efficiently
   As a consumer
@@ -5,9 +6,9 @@ Feature: Service methods
 
 Background:
   Given a HTTP ODataService exists
-  And blueprints exist for the service  
+  And blueprints exist for the service
 
-  
+
 Scenario: A custom web get (no parameters) that returns an entity
   Given a category exists
   And I call the service method "EntityCategoryWebGet"

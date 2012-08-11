@@ -15,7 +15,9 @@ When /^(.*) first (last )?save result(.*)$/ do |pre, last, post|
 end
 
 Given /^a HTTP ODataService exists$/ do
-  @service = OData::Service.new(STANDARD_URL)
+  VCR.use_cassette("unsecured_metadata") do
+    @service = OData::Service.new(STANDARD_URL)
+  end
 end
 
 Given /^a HTTP BasicAuth ODataService exists$/ do
@@ -307,4 +309,8 @@ Given /^I call the service method "([^"]*)"(?: with (.*))?$/ do |method, args|
   else
     @service_result = @service.send(method)
   end
+end
+
+When /^(.*) within a cassette named "([^"]*)"$/ do |the_step, cassette_name|
+  VCR.use_cassette(cassette_name) { step the_step }
 end

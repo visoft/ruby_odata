@@ -2,6 +2,8 @@
 
 The **Open Data Protocol** (OData) is a fantastic way to query and update data over standard Web technologies.  The ruby_odata library acts as a consumer of OData services.
 
+[![Build Status](https://secure.travis-ci.org/visoft/ruby_odata.png)](http://travis-ci.org/visoft/ruby_odata)
+
 ## Resources
 
 * Source Code (hosted on GitHub): http://github.com/visoft/ruby_odata

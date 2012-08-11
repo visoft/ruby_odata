@@ -1,3 +1,4 @@
+@service_manage
 Feature: Service management
   In order to manage entities
   As a admin
@@ -9,7 +10,7 @@ Background:
 
 Scenario: Service should respond to AddToEntityName for adding objects
   Given I call "AddToProducts" on the service with a new "Product" object with Name: "Sample Product"
-  When I save changes
+  When I save changes within a cassette named "service_manage_additions"
   Then the first save result should be of type "Product"
   And the method "Name" on the first save result should equal: "Sample Product"
 
@@ -29,7 +30,7 @@ Scenario: Entities should be able to be updated
   Given I call "AddToProducts" on the service with a new "Product" object with Name: "Test Product"
   When I save changes
   And I call "Products" on the service with args: "1"
-  And I run the query
+  And I run the query within a cassette named "service_manage_deletions"
   Then the method "Name" on the first result should equal: "Test Product"
   When I set "Name" on the first result to "Changed Test Product"
   Then the method "Name" on the first result should equal: "Changed Test Product"
@@ -37,7 +38,7 @@ Scenario: Entities should be able to be updated
   And I save changes
   Then the save result should equal: "true"
   When I call "Products" on the service with args: "1"
-  And I run the query
+  And I run the query within a cassette named "service_manage_deletions_2"
   Then the method "Name" on the first result should equal: "Changed Test Product"
 
 Scenario: Untracked entities shouldn't be able to be updated
