@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
   s.add_dependency("nokogiri", ">= 1.4.2")
   s.add_dependency("backports", "~> 2.3.0")
 
-  s.add_development_dependency("rake", "~> 0.8.7")
+  s.add_development_dependency("rake", "0.9.2")
   s.add_development_dependency("rspec", "~> 2.11.0")
   s.add_development_dependency("cucumber", "~> 1.2.1")
   s.add_development_dependency("pickle", "~> 0.4.11")
