@@ -11,7 +11,7 @@ class QueryBuilder
   # @param [String] root entity collection to query against
   # @param [Hash, {}] additional_params hash of additional parameters to use for a query
   def initialize(root, additional_params = {})
-    @root = root.to_s
+    @root = Helpers.uri_escape(root.to_s)
     @expands = []
     @filters = []
     @order_bys = []
