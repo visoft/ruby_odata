@@ -60,6 +60,34 @@ module OData
       end
     end
 
+    describe "#navigate" do
+      it "should allow a user to drill down into a navigaion property on an initial query" do
+        builder = QueryBuilder.new "Genres('Horror Movies')"
+        builder.navigate("Titles")
+        builder.filter("Name eq 'Halloween'")
+        builder.query.should eq "Genres('Horror%20Movies')/Titles?$filter=Name+eq+%27Halloween%27"
+      end
+      it "should allow for multiple levels of drill down" do
+        builder = QueryBuilder.new "Genres('Horror Movies')"
+        builder.navigate("Titles('6aBu')")
+        builder.navigate("Awards")
+        builder.filter("Type eq 'Afi'")
+        builder.query.should eq "Genres('Horror%20Movies')/Titles('6aBu')/Awards?$filter=Type+eq+%27Afi%27"
+      end
+      it "should allow for a drill down plus links" do
+        builder = QueryBuilder.new "Genres('Horror Movies')"
+        builder.navigate("Titles('6aBu')")
+        builder.links("Awards")
+        builder.query.should eq "Genres('Horror%20Movies')/Titles('6aBu')/$links/Awards"
+      end
+      it "should allow for a drill down plus count" do
+        builder = QueryBuilder.new "Genres('Horror Movies')"
+        builder.navigate("Titles")
+        builder.count
+        builder.query.should eq "Genres('Horror%20Movies')/Titles/$count"
+      end
+    end
+
     describe "#query" do
       it "should encode spaces in IDs" do
         builder = QueryBuilder.new "Categories('Cool Stuff')"

@@ -15,9 +15,11 @@ class QueryBuilder
     @expands = []
     @filters = []
     @order_bys = []
+    @navigation_paths = []
     @skip = nil
     @top = nil
     @count = nil
+    @links_navigation_property = nil
     @additional_params = additional_params
   end
 
@@ -98,7 +100,7 @@ class QueryBuilder
   #   product_links = svc.execute # => returns URIs for the products under the Category with an ID of 1
   def links(navigation_property)
     raise OData::NotSupportedError.new("You cannot call both the `links` method and the `count` method in the same query.") if @count
-    @navigation_property = navigation_property
+    @links_navigation_property = navigation_property
     self
   end
 
@@ -111,9 +113,19 @@ class QueryBuilder
   #   svc.count
   #   product_count = svc.execute
   def count
-    raise OData::NotSupportedError.new("You cannot call both the `links` method and the `count` method in the same query.") if @navigation_property
+    raise OData::NotSupportedError.new("You cannot call both the `links` method and the `count` method in the same query.") if @links_navigation_property
     @count = true
     self
+  end
+
+  # Used to navigate to a child collection, typically used to filter or perform a similar function against the children
+  #
+  # @param [String] navigation_property the NavigationProperty to drill-down into
+  #
+  # @example
+  #   svc.Genres('Horror Movies').navigate("Titles").filter("Name eq 'Halloween'")
+  def navigate(navigation_property)
+    @navigation_paths << Helpers.uri_escape(navigation_property)
   end
 
   # Builds the query URI (path, not including root) incorporating expands, filters, etc.
@@ -121,9 +133,12 @@ class QueryBuilder
   def query
     q = @root.clone
 
+    # Navigation paths come first in the query
+    q << "/" + @navigation_paths.join("/") unless @navigation_paths.empty?
+
     # Handle links queries, this isn't just a standard query option
-    if @navigation_property
-      q << "/$links/#{@navigation_property}"
+    if @links_navigation_property
+      q << "/$links/#{@links_navigation_property}"
     end
 
     # Handle count queries, this isn't just a standard query option
