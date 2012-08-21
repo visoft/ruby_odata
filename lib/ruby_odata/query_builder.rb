@@ -126,6 +126,7 @@ class QueryBuilder
   #   svc.Genres('Horror Movies').navigate("Titles").filter("Name eq 'Halloween'")
   def navigate(navigation_property)
     @navigation_paths << Helpers.uri_escape(navigation_property)
+    self
   end
 
   # Builds the query URI (path, not including root) incorporating expands, filters, etc.
