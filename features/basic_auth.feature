@@ -1,5 +1,6 @@
+@basic_auth
 Feature: Service Should Access Basic Auth Protected Resources
-  
+
 Background:
   Given a HTTP BasicAuth ODataService exists using username "admin" and password "passwd"
   And blueprints exist for the service
@@ -11,7 +12,7 @@ Scenario: Entity should fill values on protected resource
   Given I call "AddToCategories" on the service with a new "Category" object with Name: "Auth Test Category"
   And I save changes
   And I call "Categories" on the service with args: "1"
-  When I run the query
+  When I run the query within a cassette named "basic_auth_protected_resource"
   Then the method "Id" on the first result should equal: "1"
   And the method "Name" on the first result should equal: "Auth Test Category"
 

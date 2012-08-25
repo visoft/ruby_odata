@@ -8,7 +8,11 @@ ns_svc = OData::Service.new "http://#{WEBSERVER}:#{HTTP_PORT_NUMBER}/SampleServi
 puts "Querying for a list of data"
 svc.Categories
 categories = svc.execute
-puts categories.to_json 
+puts categories.to_json
+
+puts "Querying for a simple count"
+svc.Categories.count
+puts svc.execute
 
 puts "\n\nQuerying for a single result #execute"
 svc.Categories(1)

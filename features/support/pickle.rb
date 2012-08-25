@@ -1,23 +1,28 @@
-require 'pickle/world'
-require File.expand_path('../../../lib/ruby_odata', __FILE__)
+require "pickle/world"
+require "vcr"
+require File.expand_path("../../../lib/ruby_odata", __FILE__)
 
 module OData
-
   module PickleAdapter
     include Pickle::Adapter::Base
-    
-    @@service = OData::Service.new "http://#{WEBSERVER}:#{HTTP_PORT_NUMBER}/SampleService/RubyOData.svc"
-    
+    @@service = nil
+    def self.get_service
+      return @@service if @@service
+      VCR.use_cassette("unsecured_metadata") do
+        return OData::Service.new "http://#{WEBSERVER}:#{HTTP_PORT_NUMBER}/SampleService/RubyOData.svc"
+      end
+    end
+
     # Do not consider these to be part of the class list
     def self.except_classes
       @@except_classes ||= []
     end
-    
+
     # Gets a list of the available models for this adapter
     def self.model_classes
-      @@service.classes.values
+      self.get_service.classes.values
     end
-    
+
     # get a list of column names for a given class
     def self.column_names(klass)
       klass.properties.keys
@@ -26,7 +31,9 @@ module OData
     # Get an instance by id of the model
     def self.get_model(klass, id, expand = false)
       collection = klass.to_s.split('::').last.pluralize
-      query = @@service.send collection, id
+      service = self.get_service
+
+      query = service.send collection, id
 
       if expand then
         # Expand all navigation properties
@@ -38,24 +45,28 @@ module OData
         end
       end
 
-      @@service.execute.first
+      service.execute.first
     end
 
     # Find the first instance matching conditions
     def self.find_first_model(klass, conditions)
       collection = klass.to_s.split('::').last.pluralize
-      q = @@service.send collection
+      service = self.get_service
+
+      q = service.send collection
       q.filter(conditions)
       q.take(1)
-      @@service.execute.first
+      service.execute.first
     end
 
     # Find all models matching conditions
     def self.find_all_models(klass, conditions)
       collection = klass.to_s.split('::').last.pluralize
-      q = @@service.send collection
+      service = self.get_service
+
+      q = service.send collection
       q.filter(conditions)
-      @@service.execute
+      service.execute
     end
 
     # Create a model using attributes
@@ -63,10 +74,10 @@ module OData
       instance = klass.send :make, attributes
 
       collection = klass.to_s.split('::').last.pluralize
-      @@service.send "AddTo#{collection}", instance
-      @@service.save_changes.first
+      service = self.get_service
+      service.send "AddTo#{collection}", instance
+      service.save_changes.first
     end
-    
   end
 end
 

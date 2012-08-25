@@ -1,3 +1,4 @@
+.yardoc
 .idea
 .idea/*
 rerun.txt
@@ -16,6 +17,6 @@ test/applicationhost.config
 *ReSharper*
 *.suo
 obj
-App_Data/
 *.pdb
 test/RubyODataService/RubyODataService/bin/*.xml
+test/RubyODataService/RubyODataService/App_Data/*.sdf

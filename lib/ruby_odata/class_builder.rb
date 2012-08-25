@@ -1,14 +1,13 @@
 module OData
-  # Internally used helper class for building a dynamic class.  This class shouldn't be called directly.
+  # Internal helper class for building a dynamic class.  This class shouldn't be called directly.
   class ClassBuilder
     # Creates a new instance of the ClassBuilder class
     #
-    # ==== Required Attributes
-    # - klass_name:   The name/type of the class to create
-    # - methods:      The accessor methods to add to the class
-    # - nav_props:    The accessor methods to add for navigation properties
-    # - context:      The service context that this entity belongs to
-    # - namespaces:   Optional namespace to create the classes in
+    # @param [String] klass_name the name/type of the class to create
+    # @param [Array] methods the accessor methods to add to the class
+    # @param [Array] nav_props the accessor methods to add for navigation properties
+    # @param [Service] context the service context that this entity belongs to
+    # @param [String, nil] namespace optional namespace to create the classes in
     def initialize(klass_name, methods, nav_props, context, namespace = nil)
       @klass_name = klass_name.camelcase
       @methods = methods

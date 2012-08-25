@@ -15,13 +15,12 @@ module OData
     attr_reader :nav_prop
     # Applies only to navigation properties; the association corresponding to the property
     attr_accessor :association
-    
+
     # Creates a new instance of the Class Property class
     #
-    # ==== Required Attributes
-    # property_element: The property element from the EDMX 
-    
-    def initialize(property_element)      
+    # @param [Nokogiri::XML::Node] property_element from the EDMX
+
+    def initialize(property_element)
       @name =                 property_element['Name']
       @type =                 property_element['Type']
       @nullable =             ((property_element['Nullable'] && property_element['Nullable'] == "true") || property_element.name == 'NavigationProperty') || false

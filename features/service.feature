@@ -1,3 +1,4 @@
+@service
 Feature: Service Should Generate a Proxy
   In order to consume the OData
   As a user
@@ -30,7 +31,7 @@ Scenario: Entity should have the correct accessors
   When I run the query
   Then the first result should have a method: "Id"
   And the first result should have a method: "Name"
-  
+
 Scenario: Entity should fill values
   Given I call "AddToCategories" on the service with a new "Category" object with Name: "Test Category"
   And I save changes
@@ -39,9 +40,9 @@ Scenario: Entity should fill values
   Then the method "Id" on the first result should equal: "1"
   And the method "Name" on the first result should equal: "Test Category"
 
-Scenario: Navigation Properties should be included in results	
+Scenario: Navigation Properties should be included in results
   Given I call "AddToProducts" on the service with a new "Product" object
-  And I save changes		
+  And I save changes
   And I call "Products" on the service with args: "1"
   When I run the query
   Then the first result should have a method: "Category"

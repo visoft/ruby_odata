@@ -1,3 +1,5 @@
+# The ruby_odata namespace
 module OData
-  VERSION = "0.1.0"
+  # The current version of ruby_odata
+  VERSION = "0.1.1"
 end

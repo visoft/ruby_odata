@@ -1,0 +1,6 @@
+--no-cache
+--verbose
+--markup markdown
+--readme README.md
+--hide-void-return
+lib/**/*.rb
