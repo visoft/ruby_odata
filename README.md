@@ -194,6 +194,19 @@ OData allows you to [query navigation properties and only return the links for t
     svc.Categories(1).links("Products")
     product_links = svc.execute # => returns URIs for the products under the Category with an ID of 1
 
+### Advanced Navigation Property Functions
+There are instances where you may need to navigate down a level in order to form the proper query.
+Take for example [Netflix's OData Service](http://developer.netflix.com/docs/oData_Catalog/) and their `Genres` Entity Collection, where you can access a Navigation Property (in this case `Titles` through the `Genre` and filter on it:
+
+    http://odata.netflix.com/Catalog/Genres('Horror%20Movies')/Titles?$filter=Name%20eq'Halloween'
+
+In order to do this within ruby_odata, you can use the `navigate` method of the `QueryBuilder` to drill-down into the Navigation Property. This will allow you to perform `filter`s, `skip`s, `orderby`s, etc. against the children.
+
+    svc = OData::Service.new("http://odata.netflix.com/Catalog")
+    svc.Genres("'Horror Movies'").navigate("Titles").filter("Name eq 'Halloween'")
+    movies = svc.execute
+    movies.each { |m| puts m.Name }
+
 ### Count
 Sometimes all you want to do is count records, for that, you can use the `count` method.
 This method can be combined with other options, such as `filter` but cannot be combined with the `links` method.

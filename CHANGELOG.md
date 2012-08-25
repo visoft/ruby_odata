@@ -61,7 +61,7 @@
     * Added the ability to pass additional parameters that are appended to the query string for requests
     * Added initial support for feed customizations (SyndicationTitle and SyndicationSummary)
     * Enhanced ruby_odata's awareness of classes based on the metadata instead of relying on results that are returned
-  * Bug Fixes
+* Bug Fixes
     * Fixed issues with nested collections (eager loading)
     * Handled ArgumentError on the Time.parse for older versions of Ruby; used DateTime.parse instead if Time.parse fails
     * Removed the camelize method call when building the root URL for collections (Reported by mkoegel, issue #3 on github)
@@ -86,3 +86,17 @@
   * Other
     * Changed the test project (for Cucumber integration tests) to use SQL Compact 4, Entity Framework 4.1, and WCF Data Services October 2011 CTP
     * Added [Pickle](https://github.com/ianwhite/pickle) integration to simplify Cucumber step definitions
+
+### 0.1.1
+* New Features
+    * Added the `count` method (to `QueryBuilder`) for returning a count from an OData service
+    * Added the `navigate` method (to `QueryBuilder`) in order to handle filtering of children
+
+* Bug Fixes
+    * Escaped IDs in queries where the ID is a string with spaces
+
+* Other
+    * Goodbye RDoc; Hello Markdown/YARD
+    * Refactored exceptions to use proper error classes
+    * Integrated [Guard](https://github.com/guard/guard) into the test suite for continuous testing
+    * Integrated [VCR](https://github.com/myronmarston/vcr) into test suite in order to run Cucumber steps without running the test server.
