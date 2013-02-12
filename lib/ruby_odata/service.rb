@@ -630,7 +630,7 @@ class Service
 
   # Complex Types
   def complex_type_to_class(complex_type_xml)
-    klass_name = qualify_class_name(complex_type_xml.attr('type').split('.')[-1])
+    klass_name = qualify_class_name(Helpers.get_namespaced_attribute(complex_type_xml, 'type', 'm').split('.')[-1])
     klass = @classes[klass_name].new
 
     # Fill in the properties
@@ -663,8 +663,8 @@ class Service
 
   # Parses a value into the proper type based on an xml property element
   def parse_value(property_xml)
-    property_type = property_xml.attr('type')
-    property_null = property_xml.attr('null')
+    property_type = Helpers.get_namespaced_attribute(property_xml, 'type', 'm')
+    property_null = Helpers.get_namespaced_attribute(property_xml, 'null', 'm')
 
     # Handle a nil property type, this is a string
     return property_xml.content if property_type.nil?

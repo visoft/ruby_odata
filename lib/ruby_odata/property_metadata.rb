@@ -24,8 +24,9 @@ module OData
       @name =                 property_element['Name']
       @type =                 property_element['Type']
       @nullable =             ((property_element['Nullable'] && property_element['Nullable'] == "true") || property_element.name == 'NavigationProperty') || false
-      @fc_target_path =       property_element['FC_TargetPath']
-      @fc_keep_in_content  =  (property_element['FC_KeepInContent']) ? (property_element['FC_KeepInContent'] == "true") : nil
+      @fc_target_path =       Helpers.get_namespaced_attribute(property_element, 'FC_TargetPath', 'm')
+      keep_in_content =       Helpers.get_namespaced_attribute(property_element, 'FC_KeepInContent', 'm')
+      @fc_keep_in_content  =  (keep_in_content) ? (keep_in_content == "true") : nil
       @nav_prop =             property_element.name == 'NavigationProperty'
     end
   end

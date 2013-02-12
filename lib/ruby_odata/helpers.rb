@@ -17,5 +17,11 @@ module OData
         URI.escape(*args)
       end
     end
+
+    # Nokogiri changed how it handles namespaced attributes with v1.5.1, this is for backwards compatibility to >= 1.4.2
+    # Nokogiri now >=1.5.1 requires the namespace prefix is used
+    def self.get_namespaced_attribute(node, attr_name, prefix)
+      return node["#{prefix}:#{attr_name}"] || node[attr_name]
+    end
   end
 end
