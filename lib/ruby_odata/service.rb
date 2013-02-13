@@ -9,6 +9,7 @@ class Service
   # @option options [String] :username for http basic auth
   # @option options [String] :password for http basic auth
   # @option options [Object] :verify_ssl false if no verification, otherwise mode (OpenSSL::SSL::VERIFY_PEER is default)
+  # @option options [Hash] :rest_options a hash of rest-client options that will be passed to all RestClient::Resource.new calls
   # @option options [Hash] :additional_params a hash of query string params that will be passed on all calls
   # @option options [Boolean, true] :eager_partial true if queries should consume partial feeds until the feed is complete, false if explicit calls to next must be performed
   def initialize(service_uri, options = {})
@@ -172,6 +173,7 @@ class Service
       @options[:eager_partial] = true
     end
     @rest_options = { :verify_ssl => get_verify_mode, :user => @options[:username], :password => @options[:password] }
+    @rest_options.merge!(options[:rest_options] || {})
     @additional_params = options[:additional_params] || {}
     @namespace = options[:namespace]
   end

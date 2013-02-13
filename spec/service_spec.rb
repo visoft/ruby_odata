@@ -36,6 +36,23 @@ module OData
           a_request(:get, "http://test.com/test.svc/$metadata?x=1&y=2").should have_been_made
         end
       end
+
+      describe "rest-client options" do
+        before(:each) do
+          # Required for the build_classes method
+          stub_request(:get, /http:\/\/test\.com\/test\.svc\/\$metadata(?:\?.+)?/).
+          with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
+          to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/edmx_empty.xml", __FILE__)), :headers => {})
+        end
+        it "should accept in options that will be passed to the rest-client lib" do
+          svc = OData::Service.new "http://test.com/test.svc/", { :rest_options => { :ssl_ca_file => "ca_certificate.pem" } }
+          svc.options[:rest_options].should eq Hash[:ssl_ca_file => "ca_certificate.pem"]
+        end
+        it "should merge the rest options with the built in options" do
+          svc = OData::Service.new "http://test.com/test.svc/", { :rest_options => { :ssl_ca_file => "ca_certificate.pem" } }
+          svc.instance_variable_get(:@rest_options).should eq Hash[:verify_ssl => 1, :user => nil, :password => nil, :ssl_ca_file => "ca_certificate.pem"]
+        end
+      end
     end
     describe "additional query string parameters" do
       before(:each) do
@@ -702,6 +719,12 @@ module OData
             it { should eq @category }
           end
         end
+      end
+    end
+
+    describe "restful options" do
+      it "should allow " do
+        
       end
     end
   end

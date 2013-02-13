@@ -29,6 +29,7 @@ There are various options that you can pass when creating an instance of the ser
 * username: username for http basic auth
 * password: password for http basic auth
 * verify_ssl: false if no verification, otherwise mode (OpenSSL::SSL::VERIFY_PEER is default)
+* rest_options: a hash of options that will be passed on to the rest-client calls. The passed in rest_options will be merged with the standard options that are set (username, password, and verify_ssl). This will allow you to set additional SSL settings. See [the rest-client docs](http://rubydoc.info/gems/rest-client/1.6.7/file/README.rdoc#SSL_Client_Certificates) for more information. Note, the options that you pass in will take precedence over the previous 3 options, so it is possible to set/override the username, password, and verify_ssl options directly with this hash.
 * additional_params: a hash of query string params that will be passed on all calls (query, new, update, delete, batch)
 * namespace: a string based namespace to create your objects in. You can specify the namespace using periods as separators (like .NET, for example `VisoftInc.Sample.Models`) or using double colons as separators (like Ruby `VisoftInc::Sample::Models`). By providing a namespace you can prevent naming collisions in your applications.
 
