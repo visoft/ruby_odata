@@ -106,3 +106,6 @@
     * Added support for nokogiri >= 1.5.1 while maintaining backwards compatibility for >=1.4.2
     * Backports requirement is now for >= 2.3.0
     * Added the ability to pass in :rest_options to the service constructor within the options hash.
+
+* Bug Fixes
+    * Prevented `svc.load_property` from mutating the obj's metadata uri (thanks [@sillylogger](https://github.com/sillylogger))
