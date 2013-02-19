@@ -466,6 +466,15 @@ module OData
           category.Products[0].Id.should eq 1
           category.Products[1].Id.should eq 2
         end
+
+        it "should not mutate the object's metadata" do
+          svc = OData::Service.new "http://test.com/test.svc/"
+          svc.Products(1)
+          product = svc.execute.first
+          original_metadata = product.__metadata.to_json
+          svc.load_property(product, "Category")
+          product.__metadata.to_json.should == original_metadata
+        end
       end
 
       describe "find, create, add, update, and delete" do

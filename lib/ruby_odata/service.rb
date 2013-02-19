@@ -472,13 +472,13 @@ class Service
     uri
   end
   def build_add_link_uri(operation)
-    uri = "#{operation.klass.send(:__metadata)[:uri]}"
+    uri = operation.klass.send(:__metadata)[:uri].dup
     uri << "/$links/#{operation.klass_name}"
     uri << "?#{@additional_params.to_query}" unless @additional_params.empty?
     uri
   end
   def build_resource_uri(operation)
-    uri = operation.klass.send(:__metadata)[:uri]
+    uri = operation.klass.send(:__metadata)[:uri].dup
     uri << "?#{@additional_params.to_query}" unless @additional_params.empty?
     uri
   end
@@ -488,7 +488,7 @@ class Service
     uri
   end
   def build_load_property_uri(obj, property)
-    uri = obj.__metadata[:uri]
+    uri = obj.__metadata[:uri].dup
     uri << "/#{property}"
     uri
   end
