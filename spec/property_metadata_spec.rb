@@ -28,13 +28,13 @@ module OData
         property_metadata.nullable.should eq false
       end      
       it "parses an EDMX property with the fc_target_path and fc_keep_in_content attribute" do        
-        property_element = RSpecSupport::ElementHelpers.string_to_element('<Property Name="Title" Type="Edm.String" Nullable="true" m:FC_TargetPath="SyndicationTitle" m:FC_ContentKind="text" m:FC_KeepInContent="false" />')
+        property_element = RSpecSupport::ElementHelpers.string_to_element('<Property xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" Name="Title" Type="Edm.String" Nullable="true" m:FC_TargetPath="SyndicationTitle" m:FC_ContentKind="text" m:FC_KeepInContent="false" />')
         property_metadata = PropertyMetadata.new property_element
         property_metadata.fc_target_path.should eq "SyndicationTitle"
         property_metadata.fc_keep_in_content.should eq false
       end
       it "parses an EDMX property where fc_keep_in_content is true" do        
-        property_element = RSpecSupport::ElementHelpers.string_to_element('<Property Name="Title" Type="Edm.String" Nullable="true" m:FC_TargetPath="SyndicationTitle" m:FC_ContentKind="text" m:FC_KeepInContent="true" />')
+        property_element = RSpecSupport::ElementHelpers.string_to_element('<Property xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" Name="Title" Type="Edm.String" Nullable="true" m:FC_TargetPath="SyndicationTitle" m:FC_ContentKind="text" m:FC_KeepInContent="true" />')
         property_metadata = PropertyMetadata.new property_element
         property_metadata.fc_keep_in_content.should eq true
       end

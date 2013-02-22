@@ -88,6 +88,23 @@ module OData
       end
     end
 
+    describe "additional_parameters" do
+      it "should be able to be added at any time" do
+        builder = QueryBuilder.new "PollingLocations"
+        builder.filter("Address/Zip eq 45693")
+        builder.expand("Election")
+        builder.additional_params[:foo] = "bar"
+        builder.query.should eq "PollingLocations?$expand=Election&$filter=Address%2FZip+eq+45693&foo=bar"
+      end
+
+      it "should not overwrite what is already there" do
+        builder = QueryBuilder.new "Products", { :x=>1, :y=>2 }
+        builder.top(10)
+        builder.additional_params[:foo] = "bar"
+        builder.query.should eq "Products?$top=10&foo=bar&x=1&y=2"
+      end
+    end
+
     describe "#query" do
       it "should encode spaces in IDs" do
         builder = QueryBuilder.new "Categories('Cool Stuff')"

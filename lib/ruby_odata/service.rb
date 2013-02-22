@@ -9,6 +9,7 @@ class Service
   # @option options [String] :username for http basic auth
   # @option options [String] :password for http basic auth
   # @option options [Object] :verify_ssl false if no verification, otherwise mode (OpenSSL::SSL::VERIFY_PEER is default)
+  # @option options [Hash] :rest_options a hash of rest-client options that will be passed to all RestClient::Resource.new calls
   # @option options [Hash] :additional_params a hash of query string params that will be passed on all calls
   # @option options [Boolean, true] :eager_partial true if queries should consume partial feeds until the feed is complete, false if explicit calls to next must be performed
   def initialize(service_uri, options = {})
@@ -172,6 +173,7 @@ class Service
       @options[:eager_partial] = true
     end
     @rest_options = { :verify_ssl => get_verify_mode, :user => @options[:username], :password => @options[:password] }
+    @rest_options.merge!(options[:rest_options] || {})
     @additional_params = options[:additional_params] || {}
     @namespace = options[:namespace]
   end
@@ -472,13 +474,13 @@ class Service
     uri
   end
   def build_add_link_uri(operation)
-    uri = "#{operation.klass.send(:__metadata)[:uri]}"
+    uri = operation.klass.send(:__metadata)[:uri].dup
     uri << "/$links/#{operation.klass_name}"
     uri << "?#{@additional_params.to_query}" unless @additional_params.empty?
     uri
   end
   def build_resource_uri(operation)
-    uri = operation.klass.send(:__metadata)[:uri]
+    uri = operation.klass.send(:__metadata)[:uri].dup
     uri << "?#{@additional_params.to_query}" unless @additional_params.empty?
     uri
   end
@@ -488,7 +490,7 @@ class Service
     uri
   end
   def build_load_property_uri(obj, property)
-    uri = obj.__metadata[:uri]
+    uri = obj.__metadata[:uri].dup
     uri << "/#{property}"
     uri
   end
@@ -630,7 +632,7 @@ class Service
 
   # Complex Types
   def complex_type_to_class(complex_type_xml)
-    klass_name = qualify_class_name(complex_type_xml.attr('type').split('.')[-1])
+    klass_name = qualify_class_name(Helpers.get_namespaced_attribute(complex_type_xml, 'type', 'm').split('.')[-1])
     klass = @classes[klass_name].new
 
     # Fill in the properties
@@ -663,8 +665,8 @@ class Service
 
   # Parses a value into the proper type based on an xml property element
   def parse_value(property_xml)
-    property_type = property_xml.attr('type')
-    property_null = property_xml.attr('null')
+    property_type = Helpers.get_namespaced_attribute(property_xml, 'type', 'm')
+    property_null = Helpers.get_namespaced_attribute(property_xml, 'null', 'm')
 
     # Handle a nil property type, this is a string
     return property_xml.content if property_type.nil?

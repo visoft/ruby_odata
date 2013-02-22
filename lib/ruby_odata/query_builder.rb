@@ -6,6 +6,8 @@ module OData
 #   svc.Categories
 # The *Categories* method would return a QueryBuilder
 class QueryBuilder
+  attr_accessor :additional_params
+
   # Creates a new instance of the QueryBuilder class
   #
   # @param [String] root entity collection to query against

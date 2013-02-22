@@ -16,6 +16,7 @@ The **Open Data Protocol** (OData) is a fantastic way to query and update data o
     * [Ruby OData Update v0.0.7](http://bit.ly/ruby_odata007)
     * [Ruby OData Update v0.0.8](http://bit.ly/ruby_odata008)
     * [Ruby OData Update v0.0.10](http://bit.ly/ruby_odata0010)
+    * [Major Ruby OData Update v0.1.0](http://bit.ly/ruby_odata010)
 
 ## Installation
 You can install ruby_odata as a gem using:
@@ -29,6 +30,7 @@ There are various options that you can pass when creating an instance of the ser
 * username: username for http basic auth
 * password: password for http basic auth
 * verify_ssl: false if no verification, otherwise mode (OpenSSL::SSL::VERIFY_PEER is default)
+* rest_options: a hash of options that will be passed on to the rest-client calls. The passed in rest_options will be merged with the standard options that are set (username, password, and verify_ssl). This will allow you to set additional SSL settings. See [the rest-client docs](http://rubydoc.info/gems/rest-client/1.6.7/file/README.rdoc#SSL_Client_Certificates) for more information. Note, the options that you pass in will take precedence over the previous 3 options, so it is possible to set/override the username, password, and verify_ssl options directly with this hash.
 * additional_params: a hash of query string params that will be passed on all calls (query, new, update, delete, batch)
 * namespace: a string based namespace to create your objects in. You can specify the namespace using periods as separators (like .NET, for example `VisoftInc.Sample.Models`) or using double colons as separators (like Ruby `VisoftInc::Sample::Models`). By providing a namespace you can prevent naming collisions in your applications.
 
@@ -275,6 +277,8 @@ In order to run the tests, you need to spin up IIS running a virtual directory o
 **NOTE** The ports (8989 and 44300) and webserver (localhost by default) here are customizable thanks to `/features/contants.rb`. Take a look in there for the corresponding environment variables that you can set.
 
 The SampleService requires IIS or IIS Express. IIS Express is a free download from Microsoft and the preferred approach to running the application. Once installed, there is a batch file found in /test called "iisExpress x64.bat" that will spin up the appropriate instances needed for the Cucumber tests. There is a also an "iisExpress x86.bat" file for those of you running a 32-bit machine.  The only difference is the path to the Program Files directory.  Once you run the batch file, the web server will spin up.  To stop the server, use 'Q' and then enter or close the command window.
+
+If you are having trouble with IIS Express, you may need to perform the following: Upon running the IIS Express installer copy the config folder from the IIS Express installed folder (e.g. c:\Progam Files (x86)\IIS Express\config) to the IIS folder in your home folder (e.g. c:\Users\Administrator\Documents\IISExpress). Within the newly copied config folder, copy the aspnet.config file from the templates\PersonalWebServer\aspnet.config folder into the config folder as well (e.g. c:\Users\Administrator\Documents\IISExpres\config\aspnet.config).
 
 If you are testing on a Windows machine, you may encounter a problem with using Cucumber and Ruby 1.9.2.  You will get a message when you fire up cucumber about missing msvcrt-ruby18.dll.  The fix for this is to make sure you have the [RubyInstaller DevKit](https://github.com/oneclick/rubyinstaller/wiki/Development-Kit) installed, then do the following:
 
