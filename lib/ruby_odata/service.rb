@@ -437,7 +437,11 @@ class Service
   def extract_partial(doc)
     next_links = doc.xpath('//atom:link[@rel="next"]', @ds_namespaces)
     @has_partial = next_links.any?
-    @next_uri = next_links[0]['href'] if @has_partial
+    if @has_partial
+      uri = Addressable::URI.parse(next_links[0]['href']) 
+      uri.query_values = uri.query_values.merge @additional_params unless @additional_params.empty?
+      @next_uri = uri.to_s
+    end
   end
 
   def handle_partial

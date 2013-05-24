@@ -377,6 +377,30 @@ module OData
         end
         results.count.should eq 3
       end
+
+      context "with additional_params" do
+        before(:each) do
+          stub_request(:get, "http://test.com/test.svc/$metadata?extra_param=value").
+         with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate', 'User-Agent'=>'Ruby'}).
+         to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/partial/partial_feed_metadata.xml", __FILE__)), :headers => {})
+
+          stub_request(:get, "http://test.com/test.svc/Partials?extra_param=value").
+            with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
+            to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/partial/partial_feed_part_1.xml", __FILE__)), :headers => {})
+
+          stub_request(:get, "http://test.com/test.svc/Partials?$skiptoken='ERNSH'&extra_param=value").
+            with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'})
+        end
+
+        it "should persist the additional parameters for the next call" do
+          svc = OData::Service.new("http://test.com/test.svc/", :eager_partial => false, :additional_params => { :extra_param => 'value' })
+          svc.Partials
+          svc.execute
+          svc.next
+          
+          a_request(:get, "http://test.com/test.svc/Partials?$skiptoken='ERNSH'&extra_param=value").should have_been_made
+        end
+      end
     end
 
     describe "link queries" do
