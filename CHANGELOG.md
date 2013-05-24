@@ -109,3 +109,10 @@
 
 * Bug Fixes
     * Prevented `svc.load_property` from mutating the obj's metadata uri (thanks [@sillylogger](https://github.com/sillylogger))
+
+### 0.1.3
+* Bug Fixes
+    * Persists the additional_params for partial calls (thanks [@levelboy](https://github.com/levelboy))
+
+* Other
+    * Specified v2.3.4 of the addressable gem since there was a bug when testing ruby_odata against Ruby 1.8.7
