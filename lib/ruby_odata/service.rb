@@ -375,11 +375,7 @@ class Service
 
     return nil if klass_name.nil?
 
-    # If we are working against a child (inline) entry, we need to use the more generic xpath because a child entry WILL
-    # have properties that are ancestors of m:inline. Check if there is an m:inline child to determine the xpath query to use
-    has_inline = entry.xpath(".//m:inline", @ds_namespaces).any?
-    properties_xpath = has_inline ? ".//m:properties[not(ancestor::m:inline)]/*" : ".//m:properties/*"
-    properties = entry.xpath(properties_xpath, @ds_namespaces)
+    properties = entry.xpath("./atom:content/m:properties/*", @ds_namespaces)
 
     klass = @classes[qualify_class_name(klass_name)].new
 
@@ -407,15 +403,14 @@ class Service
     inline_links = entry.xpath("./atom:link[m:inline]", @ds_namespaces)
 
     for link in inline_links
-      inline_entries = link.xpath(".//atom:entry", @ds_namespaces)
-
       # TODO: Use the metadata's associations to determine the multiplicity instead of this "hack"
       property_name = link.attributes['title'].to_s
-      if inline_entries.length == 1 && singular?(property_name)
-        inline_klass = build_inline_class(klass, inline_entries[0], property_name)
+      if singular?(property_name)
+        inline_entry = link.xpath("./m:inline/atom:entry", @ds_namespaces).first
+        inline_klass = build_inline_class(klass, inline_entry, property_name)
         klass.send "#{property_name}=", inline_klass
       else
-        inline_classes = []
+        inline_classes, inline_entries = [], link.xpath("./m:inline/atom:feed/atom:entry", @ds_namespaces)
         for inline_entry in inline_entries
           # Build the class
           inline_klass = entry_to_class(inline_entry)
