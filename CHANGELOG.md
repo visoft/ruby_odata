@@ -120,3 +120,5 @@
 ### 0.1.4
 * Bug Fixes
     * Fixed issue with building a collection of complex types ([issue 26](https://github.com/visoft/ruby_odata/issues/26))
+    * A collection of complex types is now returned as an array ([issue 26](https://github.com/visoft/ruby_odata/issues/26))
+
