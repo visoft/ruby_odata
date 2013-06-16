@@ -116,3 +116,7 @@
 
 * Other
     * Specified v2.3.4 of the addressable gem since there was a bug when testing ruby_odata against Ruby 1.8.7
+
+### 0.1.4
+* Bug Fixes
+    * Fixed issue with building a collection of complex types ([issue 26](https://github.com/visoft/ruby_odata/issues/26))
