@@ -761,6 +761,26 @@ module OData
 
       end
     end
+
+    describe "handling of Microsoft System Center 2012" do
+      before(:each) do
+        # Required for the build_classes method
+        stub_request(:get, "http://blabla:@test.com/test.svc/$metadata").
+        with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
+        to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/ms_system_center/edmx_ms_system_center.xml", __FILE__)), :headers => {})
+
+        stub_request(:get, "http://blabla:@test.com/test.svc/VirtualMachines").
+        with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
+        to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/ms_system_center/virtual_machines.xml", __FILE__)), :headers => {})
+      end
+
+      it "should successfully return a virtual machine" do
+        svc = OData::Service.new "http://test.com/test.svc/", { :username => "blabla", :password=> "", :verify_ssl => false, :namespace => "VMM" }
+        svc.VirtualMachines
+        results = svc.execute
+        results.first.should be_a_kind_of(VMM::VirtualMachine)
+      end
+    end
   end
 
   describe_private OData::Service do

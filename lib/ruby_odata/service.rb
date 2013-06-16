@@ -636,7 +636,14 @@ class Service
 
   # Complex Types
   def complex_type_to_class(complex_type_xml)
-    klass_name = qualify_class_name(Helpers.get_namespaced_attribute(complex_type_xml, 'type', 'm').split('.')[-1])
+    type = Helpers.get_namespaced_attribute(complex_type_xml, 'type', 'm')
+
+    # Extract the class name in case this is a Collection
+    if type =~ /\(([^)]*)\)/m
+    	type = $~[1]
+    end
+
+    klass_name = qualify_class_name(type.split('.')[-1])
     klass = @classes[klass_name].new
 
     # Fill in the properties
