@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:georss="http://www.georss.org/georss" xmlns:gml="http://www.opengis.net/gml" xml:base="https://srv-spf-98.bs.unsi.no:8090/SC2012/VMM/Microsoft.Management.Odata.svc/">
+  <id>https://srv-spf-98.bs.unsi.no:8090/SC2012/VMM/Microsoft.Management.Odata.svc/VirtualMachines</id>
+  <title type="text">VirtualMachines</title>
+  <updated>2013-06-15T20:50:58Z</updated>
+  <link rel="self" title="VirtualMachines" href="VirtualMachines"/>
+  <entry>
+    <id>https://srv-spf-98.bs.unsi.no:8090/SC2012/VMM/Microsoft.Management.Odata.svc/VirtualMachines(ID=guid'03535a97-cafc-46ca-9585-6884a83d3a01',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')</id>
+    <category term="VMM.VirtualMachine" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"/>
+    <link rel="edit" title="VirtualMachine" href="VirtualMachines(ID=guid'03535a97-cafc-46ca-9585-6884a83d3a01',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Cloud" type="application/atom+xml;type=entry" title="Cloud" href="VirtualMachines(ID=guid'03535a97-cafc-46ca-9585-6884a83d3a01',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')/Cloud"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/MostRecentTask" type="application/atom+xml;type=entry" title="MostRecentTask" href="VirtualMachines(ID=guid'03535a97-cafc-46ca-9585-6884a83d3a01',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')/MostRecentTask"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/FailedJob" type="application/atom+xml;type=entry" title="FailedJob" href="VirtualMachines(ID=guid'03535a97-cafc-46ca-9585-6884a83d3a01',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')/FailedJob"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/VirtualNetworkAdapters" type="application/atom+xml;type=feed" title="VirtualNetworkAdapters" href="VirtualMachines(ID=guid'03535a97-cafc-46ca-9585-6884a83d3a01',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')/VirtualNetworkAdapters"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/VMCheckpoints" type="application/atom+xml;type=feed" title="VMCheckpoints" href="VirtualMachines(ID=guid'03535a97-cafc-46ca-9585-6884a83d3a01',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')/VMCheckpoints"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/VirtualSCSIAdapters" type="application/atom+xml;type=feed" title="VirtualSCSIAdapters" href="VirtualMachines(ID=guid'03535a97-cafc-46ca-9585-6884a83d3a01',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')/VirtualSCSIAdapters"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/VirtualHardDisks" type="application/atom+xml;type=feed" title="VirtualHardDisks" href="VirtualMachines(ID=guid'03535a97-cafc-46ca-9585-6884a83d3a01',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')/VirtualHardDisks"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/VirtualDVDDrives" type="application/atom+xml;type=feed" title="VirtualDVDDrives" href="VirtualMachines(ID=guid'03535a97-cafc-46ca-9585-6884a83d3a01',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')/VirtualDVDDrives"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/VirtualDiskDrives" type="application/atom+xml;type=feed" title="VirtualDiskDrives" href="VirtualMachines(ID=guid'03535a97-cafc-46ca-9585-6884a83d3a01',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')/VirtualDiskDrives"/>
+    <title/>
+    <updated>2013-06-15T20:50:58Z</updated>
+    <author>
+      <name/>
+    </author>
+    <content type="application/xml">
+      <m:properties>
+        <d:AddedTime m:type="Edm.DateTime">2013-06-12T12:01:51.503+02:00</d:AddedTime>
+        <d:AllocatedGPU m:null="true"/>
+        <d:BackupEnabled m:type="Edm.Boolean">true</d:BackupEnabled>
+        <d:BlockLiveMigrationIfHostBusy m:null="true"/>
+        <d:CheckpointLocation m:null="true"/>
+        <d:CloudId m:null="true"/>
+        <d:ComputerName>pw2x4h8m</d:ComputerName>
+        <d:ComputerTierId m:null="true"/>
+        <d:CostCenter m:null="true"/>
+        <d:CPUCount m:type="Edm.Byte">1</d:CPUCount>
+        <d:CPUMax m:type="Edm.Int32">100</d:CPUMax>
+        <d:CPUReserve m:type="Edm.Int32">0</d:CPUReserve>
+        <d:CPUType>3.60 GHz Xeon (2 MB L2 cache)</d:CPUType>
+        <d:CPUUtilization m:type="Edm.Int32">0</d:CPUUtilization>
+        <d:CreationSource>Temporary Templatef58b06ed-ad7f-4204-8dd7-886cc17f877a</d:CreationSource>
+        <d:CreationTime m:type="Edm.DateTime">2013-06-12T12:01:51.503+02:00</d:CreationTime>
+        <d:DataExchangeEnabled m:type="Edm.Boolean">true</d:DataExchangeEnabled>
+        <d:DelayStart m:type="Edm.Int32">0</d:DelayStart>
+        <d:DeployPath m:null="true"/>
+        <d:Description/>
+        <d:DiskIO m:type="Edm.Int32">0</d:DiskIO>
+        <d:Dismiss m:null="true"/>
+        <d:DynamicMemoryDemandMB m:type="Edm.Int32">512</d:DynamicMemoryDemandMB>
+        <d:Enabled m:type="Edm.Boolean">true</d:Enabled>
+        <d:ExcludeFromPRO m:type="Edm.Boolean">false</d:ExcludeFromPRO>
+        <d:ExpectedCPUUtilization m:type="Edm.Int32">20</d:ExpectedCPUUtilization>
+        <d:FailedJobID m:null="true"/>
+        <d:HasPassthroughDisk m:type="Edm.Boolean">false</d:HasPassthroughDisk>
+        <d:HasSavedState m:type="Edm.Boolean">false</d:HasSavedState>
+        <d:HasVMAdditions m:type="Edm.Boolean">true</d:HasVMAdditions>
+        <d:HeartbeatEnabled m:type="Edm.Boolean">true</d:HeartbeatEnabled>
+        <d:HighlyAvailable m:null="true"/>
+        <d:ID m:type="Edm.Guid">03535a97-cafc-46ca-9585-6884a83d3a01</d:ID>
+        <d:IsFaultTolerant m:type="Edm.Boolean">false</d:IsFaultTolerant>
+        <d:IsHighlyAvailable m:type="Edm.Boolean">true</d:IsHighlyAvailable>
+        <d:IsUndergoingLiveMigration m:type="Edm.Boolean">false</d:IsUndergoingLiveMigration>
+        <d:LastRestoredCheckpointId m:type="Edm.Guid">59acd7a5-1bcf-43b8-bd33-815734e7cd63</d:LastRestoredCheckpointId>
+        <d:LibraryGroup/>
+        <d:LimitCPUForMigration m:type="Edm.Boolean">false</d:LimitCPUForMigration>
+        <d:LimitCPUFunctionality m:type="Edm.Boolean">false</d:LimitCPUFunctionality>
+        <d:VMNetworkAssignments m:type="Collection(VMM.VMNetworkAssignment)"/>
+        <d:Location/>
+        <d:MarkedAsTemplate m:type="Edm.Boolean">false</d:MarkedAsTemplate>
+        <d:Memory m:type="Edm.Int32">512</d:Memory>
+        <d:MemoryAssignedMB m:type="Edm.Int32">512</d:MemoryAssignedMB>
+        <d:MemoryAvailablePercentage m:type="Edm.Int16">0</d:MemoryAvailablePercentage>
+        <d:ModifiedTime m:type="Edm.DateTime">2013-06-14T13:41:47.11+02:00</d:ModifiedTime>
+        <d:MostRecentTaskId m:type="Edm.Guid">49aafca8-ad45-4180-b1f3-9b75512d3b2b</d:MostRecentTaskId>
+        <d:Name>mortenk-pvlan-ipv6-test</d:Name>
+        <d:NetworkUtilization m:type="Edm.Int32">0</d:NetworkUtilization>
+        <d:NumLock m:null="true"/>
+        <d:OperatingSystem>Other Linux (64 bit)</d:OperatingSystem>
+        <d:OperatingSystemShutdownEnabled m:type="Edm.Boolean">true</d:OperatingSystemShutdownEnabled>
+        <d:Operation m:null="true"/>
+        <d:Owner m:type="VMM.UserAndRole">
+          <d:UserName>BS-UNSI\SCVMMadmin</d:UserName>
+          <d:RoleName>Administrator</d:RoleName>
+          <d:RoleID m:type="Edm.Guid">75700cd5-893e-4f68-ada7-50ef4668acc6</d:RoleID>
+        </d:Owner>
+        <d:GrantedToList m:type="Collection(VMM.UserAndRole)"/>
+        <d:Path m:null="true"/>
+        <d:PerfCPUUtilization m:type="Edm.Int32">0</d:PerfCPUUtilization>
+        <d:PerfDiskBytesRead m:type="Edm.Int64">0</d:PerfDiskBytesRead>
+        <d:PerfDiskBytesWrite m:type="Edm.Int64">0</d:PerfDiskBytesWrite>
+        <d:PerfNetworkBytesRead m:type="Edm.Int64">102</d:PerfNetworkBytesRead>
+        <d:PerfNetworkBytesWrite m:type="Edm.Int64">1</d:PerfNetworkBytesWrite>
+        <d:CPURelativeWeight m:null="true"/>
+        <d:Retry m:null="true"/>
+        <d:RunGuestAccount m:null="true"/>
+        <d:ServiceDeploymentErrorMessage m:null="true"/>
+        <d:ServiceId m:null="true"/>
+        <d:SharePath m:null="true"/>
+        <d:SourceObjectType>VM Template</d:SourceObjectType>
+        <d:StartAction>TurnOnVMIfRunningWhenVSStopped</d:StartAction>
+        <d:StartVM m:null="true"/>
+        <d:Status>Running</d:Status>
+        <d:StatusString>Running</d:StatusString>
+        <d:StopAction>SaveVM</d:StopAction>
+        <d:Tag>(none)</d:Tag>
+        <d:TimeSynchronizationEnabled m:type="Edm.Boolean">true</d:TimeSynchronizationEnabled>
+        <d:TotalSize m:type="Edm.Int64">1168113664</d:TotalSize>
+        <d:Undo m:null="true"/>
+        <d:UndoDisksEnabled m:type="Edm.Boolean">false</d:UndoDisksEnabled>
+        <d:UpgradeDomain m:null="true"/>
+        <d:UseCluster m:null="true"/>
+        <d:UseLAN m:null="true"/>
+        <d:VirtualHardDiskId m:null="true"/>
+        <d:VirtualizationPlatform>HyperV</d:VirtualizationPlatform>
+        <d:CapabilityProfile>Hyper-V</d:CapabilityProfile>
+        <d:VMBaseConfigurationId m:null="true"/>
+        <d:VMConfigResource m:null="true"/>
+        <d:VMCPath m:null="true"/>
+        <d:VMHostName m:null="true"/>
+        <d:VMId m:type="Edm.Guid">59acd7a5-1bcf-43b8-bd33-815734e7cd63</d:VMId>
+        <d:StampId m:type="Edm.Guid">a68f9b8b-f8af-46b2-8636-255248c9b5ab</d:StampId>
+        <d:VMResource m:null="true"/>
+        <d:VMResourceGroup m:null="true"/>
+        <d:VirtualMachineState>Running</d:VirtualMachineState>
+        <d:VMTemplateId m:null="true"/>
+        <d:HardwareProfileId m:null="true"/>
+        <d:BlockDynamicOptimization m:null="true"/>
+        <d:CPULimitForMigration m:null="true"/>
+        <d:CPULimitFunctionality m:null="true"/>
+        <d:Domain m:null="true"/>
+        <d:DynamicMemoryBufferPercentage m:null="true"/>
+        <d:DynamicMemoryEnabled m:type="Edm.Boolean">false</d:DynamicMemoryEnabled>
+        <d:DynamicMemoryMaximumMB m:null="true"/>
+        <d:FullName m:null="true"/>
+        <d:MemoryWeight m:type="Edm.Int32">5000</d:MemoryWeight>
+        <d:OrganizationName m:null="true"/>
+        <d:DelayStartSeconds m:null="true"/>
+        <d:ProductKey m:null="true"/>
+        <d:WorkGroup m:null="true"/>
+        <d:TimeZone m:null="true"/>
+        <d:RunAsAccountUserName m:null="true"/>
+        <d:UserName m:null="true"/>
+        <d:Password m:null="true"/>
+        <d:LocalAdminRunAsAccountName m:null="true"/>
+        <d:LocalAdminUserName m:null="true"/>
+        <d:LocalAdminPassword m:null="true"/>
+        <d:LinuxDomainName m:null="true"/>
+        <d:LinuxAdministratorSSHKey m:null="true"/>
+        <d:DeploymentErrorInfo m:type="VMM.ErrorInfo">
+          <d:CloudProblem m:null="true"/>
+          <d:Code m:null="true"/>
+          <d:DetailedCode m:null="true"/>
+          <d:DetailedErrorCode m:null="true"/>
+          <d:DetailedSource m:null="true"/>
+          <d:DisplayableErrorCode m:null="true"/>
+          <d:ErrorCodeString m:null="true"/>
+          <d:ErrorType m:null="true"/>
+          <d:ExceptionDetails m:null="true"/>
+          <d:IsConditionallyTerminating m:null="true"/>
+          <d:IsDeploymentBlocker m:null="true"/>
+          <d:IsMomAlert m:null="true"/>
+          <d:IsSuccess m:null="true"/>
+          <d:IsTerminating m:null="true"/>
+          <d:MessageParameters m:null="true"/>
+          <d:MomAlertSeverity m:null="true"/>
+          <d:Problem m:null="true"/>
+          <d:RecommendedAction m:null="true"/>
+          <d:RecommendedActionCLI m:null="true"/>
+          <d:ShowDetailedError m:null="true"/>
+        </d:DeploymentErrorInfo>
+        <d:NewVirtualNetworkAdapterInput m:type="Collection(VMM.NewVMVirtualNetworkAdapterInput)"/>
+      </m:properties>
+    </content>
+  </entry>
+</feed>
