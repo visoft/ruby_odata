@@ -772,6 +772,10 @@ module OData
         stub_request(:get, "http://blabla:@test.com/test.svc/VirtualMachines").
         with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
         to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/ms_system_center/virtual_machines.xml", __FILE__)), :headers => {})
+
+        stub_request(:get, "http://blabla:@test.com/test.svc/HardwareProfiles?$filter=Memory%20eq%203500").
+        with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
+        to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/ms_system_center/hardware_profiles.xml", __FILE__)), :headers => {})
       end
 
       it "should successfully return a virtual machine" do
@@ -779,6 +783,23 @@ module OData
         svc.VirtualMachines
         results = svc.execute
         results.first.should be_a_kind_of(VMM::VirtualMachine)
+      end
+
+      it "should successfully return a hardware profile for results that include a collection of complex types" do
+        svc = OData::Service.new "http://test.com/test.svc/", { :username => "blabla", :password=> "", :verify_ssl => false, :namespace => "VMM" }
+        svc.HardwareProfiles.filter("Memory eq 3500")
+        results = svc.execute
+        results.first.should be_a_kind_of(VMM::HardwareProfile)
+      end
+      it "should successfully return a collection of complex types" do
+        svc = OData::Service.new "http://test.com/test.svc/", { :username => "blabla", :password=> "", :verify_ssl => false, :namespace => "VMM" }
+        svc.HardwareProfiles.filter("Memory eq 3500")
+        results = svc.execute
+        granted_list = results.first.GrantedToList
+        granted_list.should be_a_kind_of(Array)
+        granted_list.first.should be_a_kind_of(VMM::UserAndRole)
+        granted_list.first.RoleName.should == "Important Tenant"
+
       end
     end
   end

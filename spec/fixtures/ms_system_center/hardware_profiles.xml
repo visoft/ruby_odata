@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:georss="http://www.georss.org/georss" xmlns:gml="http://www.opengis.net/gml" xml:base="https://srv-spf-98.bs.unsi.no:8090/SC2012/VMM/Microsoft.Management.Odata.svc/">
+  <id>https://srv-spf-98.bs.unsi.no:8090/SC2012/VMM/Microsoft.Management.Odata.svc/HardwareProfiles</id>
+  <title type="text">HardwareProfiles</title>
+  <updated>2013-06-16T10:01:46Z</updated>
+  <link rel="self" title="HardwareProfiles" href="HardwareProfiles"/>
+  <entry>
+    <id>https://srv-spf-98.bs.unsi.no:8090/SC2012/VMM/Microsoft.Management.Odata.svc/HardwareProfiles(ID=guid'8967da8e-eaf0-4414-b1ab-0b8d7a848af7',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')</id>
+    <category term="VMM.HardwareProfile" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"/>
+    <link rel="edit" title="HardwareProfile" href="HardwareProfiles(ID=guid'8967da8e-eaf0-4414-b1ab-0b8d7a848af7',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/VirtualNetworkAdapters" type="application/atom+xml;type=feed" title="VirtualNetworkAdapters" href="HardwareProfiles(ID=guid'8967da8e-eaf0-4414-b1ab-0b8d7a848af7',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')/VirtualNetworkAdapters"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/VirtualSCSIAdapters" type="application/atom+xml;type=feed" title="VirtualSCSIAdapters" href="HardwareProfiles(ID=guid'8967da8e-eaf0-4414-b1ab-0b8d7a848af7',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')/VirtualSCSIAdapters"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/VirtualDVDDrives" type="application/atom+xml;type=feed" title="VirtualDVDDrives" href="HardwareProfiles(ID=guid'8967da8e-eaf0-4414-b1ab-0b8d7a848af7',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')/VirtualDVDDrives"/>
+    <title/>
+    <updated>2013-06-16T10:01:46Z</updated>
+    <author>
+      <name/>
+    </author>
+    <content type="application/xml">
+      <m:properties>
+        <d:StampId m:type="Edm.Guid">a68f9b8b-f8af-46b2-8636-255248c9b5ab</d:StampId>
+        <d:ID m:type="Edm.Guid">8967da8e-eaf0-4414-b1ab-0b8d7a848af7</d:ID>
+        <d:AccessedTime m:null="true"/>
+        <d:AddedTime m:type="Edm.DateTime">2013-06-04T17:28:29.597+02:00</d:AddedTime>
+        <d:CPUCount m:type="Edm.Byte">2</d:CPUCount>
+        <d:CPUMax m:type="Edm.Int32">100</d:CPUMax>
+        <d:CPUReserve m:type="Edm.Int32">0</d:CPUReserve>
+        <d:CPUTypeId m:null="true"/>
+        <d:CreationTime m:null="true"/>
+        <d:DiskIO m:type="Edm.Int32">0</d:DiskIO>
+        <d:ExpectedCPUUtilization m:type="Edm.Int32">20</d:ExpectedCPUUtilization>
+        <d:Enabled m:type="Edm.Boolean">true</d:Enabled>
+        <d:LimitCPUForMigration m:type="Edm.Boolean">false</d:LimitCPUForMigration>
+        <d:LimitCPUFunctionality m:type="Edm.Boolean">false</d:LimitCPUFunctionality>
+        <d:Memory m:type="Edm.Int32">3500</d:Memory>
+        <d:ModifiedTime m:type="Edm.DateTime">2013-06-04T17:41:30.287+02:00</d:ModifiedTime>
+        <d:Name>[Hardware] - Linux Medium VM</d:Name>
+        <d:NetworkUtilization m:type="Edm.Int32">0</d:NetworkUtilization>
+        <d:Owner m:type="VMM.UserAndRole">
+          <d:UserName>foo\bar</d:UserName>
+          <d:RoleName>Administrator</d:RoleName>
+          <d:RoleID m:type="Edm.Guid">75700cd5-893e-4f68-ada7-50ef4668acc6</d:RoleID>
+        </d:Owner>
+        <d:GrantedToList m:type="Collection(VMM.UserAndRole)">
+          <d:element>
+            <d:UserName m:null="true"/>
+            <d:RoleName>Important Tenant</d:RoleName>
+            <d:RoleID m:type="Edm.Guid">ee41a0fc-fa48-4ed6-8403-f42a45529003</d:RoleID>
+          </d:element>
+        </d:GrantedToList>
+        <d:RelativeWeight m:type="Edm.Int32">100</d:RelativeWeight>
+        <d:ShareSCSIBus m:type="Edm.Boolean">false</d:ShareSCSIBus>
+        <d:TotalVHDCapacity m:null="true"/>
+        <d:UndoDisksEnabled m:type="Edm.Boolean">false</d:UndoDisksEnabled>
+        <d:Accessibility>Public</d:Accessibility>
+        <d:Description/>
+        <d:NumLockEnabled m:type="Edm.Boolean">false</d:NumLockEnabled>
+      </m:properties>
+    </content>
+  </entry>
+</feed>

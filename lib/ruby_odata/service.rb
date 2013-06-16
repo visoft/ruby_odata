@@ -438,7 +438,7 @@ class Service
     next_links = doc.xpath('//atom:link[@rel="next"]', @ds_namespaces)
     @has_partial = next_links.any?
     if @has_partial
-      uri = Addressable::URI.parse(next_links[0]['href']) 
+      uri = Addressable::URI.parse(next_links[0]['href'])
       uri.query_values = uri.query_values.merge @additional_params unless @additional_params.empty?
       @next_uri = uri.to_s
     end
@@ -638,21 +638,39 @@ class Service
   def complex_type_to_class(complex_type_xml)
     type = Helpers.get_namespaced_attribute(complex_type_xml, 'type', 'm')
 
+    is_collection = false
     # Extract the class name in case this is a Collection
     if type =~ /\(([^)]*)\)/m
     	type = $~[1]
+      is_collection = true
+      collection = []
     end
 
     klass_name = qualify_class_name(type.split('.')[-1])
-    klass = @classes[klass_name].new
 
-    # Fill in the properties
+    if is_collection
+      # extract the elements from the collection
+      elements = complex_type_xml.xpath(".//d:element", @namespaces)
+      elements.each do |e|
+        element = @classes[klass_name].new
+        fill_complex_type_properties(e, element)
+        collection << element
+      end
+      return collection
+    else
+      klass = @classes[klass_name].new
+      # Fill in the properties
+      fill_complex_type_properties(complex_type_xml, klass)
+      return klass
+    end
+  end
+
+  # Helper method for complex_type_to_class
+  def fill_complex_type_properties(complex_type_xml, klass)
     properties = complex_type_xml.xpath(".//*")
     properties.each do |prop|
       klass.send "#{prop.name}=", parse_value(prop)
     end
-
-    return klass
   end
 
   # Field Converters
