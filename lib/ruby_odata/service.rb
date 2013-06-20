@@ -390,7 +390,7 @@ class Service
     # Fill properties
     for prop in properties
       prop_name = prop.name
-      klass.send "#{prop_name}=", parse_value(prop)
+      klass.send "#{prop_name}=", parse_value_xml(prop)
     end
 
     # Fill properties represented outside of the properties collection
@@ -652,9 +652,13 @@ class Service
       # extract the elements from the collection
       elements = complex_type_xml.xpath(".//d:element", @namespaces)
       elements.each do |e|
-        element = @classes[klass_name].new
-        fill_complex_type_properties(e, element)
-        collection << element
+        if type.match(/^Edm/)
+          collection << parse_value(e.content, type)
+        else
+          element = @classes[klass_name].new
+          fill_complex_type_properties(e, element)
+          collection << element
+        end
       end
       return collection
     else
@@ -669,7 +673,7 @@ class Service
   def fill_complex_type_properties(complex_type_xml, klass)
     properties = complex_type_xml.xpath(".//*")
     properties.each do |prop|
-      klass.send "#{prop.name}=", parse_value(prop)
+      klass.send "#{prop.name}=", parse_value_xml(prop)
     end
   end
 
@@ -693,31 +697,36 @@ class Service
   end
 
   # Parses a value into the proper type based on an xml property element
-  def parse_value(property_xml)
+  def parse_value_xml(property_xml)
     property_type = Helpers.get_namespaced_attribute(property_xml, 'type', 'm')
     property_null = Helpers.get_namespaced_attribute(property_xml, 'null', 'm')
 
+    if property_type.nil? || (property_type && property_type.match(/^Edm/))
+      return parse_value(property_xml.content, property_type, property_null)
+    end
+
+    complex_type_to_class(property_xml)
+  end
+
+  def parse_value(content, property_type = nil, property_null = nil)
     # Handle a nil property type, this is a string
-    return property_xml.content if property_type.nil?
+    return content if property_type.nil?
 
     # Handle anything marked as null
     return nil if !property_null.nil? && property_null == "true"
 
-    # Handle complex types
-    return complex_type_to_class(property_xml) if !property_type.match(/^Edm/)
-
     # Handle integers
-    return property_xml.content.to_i if property_type.match(/^Edm.Int/)
+    return content.to_i if property_type.match(/^Edm.Int/)
 
     # Handle decimals
-    return property_xml.content.to_d if property_type.match(/Edm.Decimal/)
+    return content.to_d if property_type.match(/Edm.Decimal/)
 
     # Handle DateTimes
     # return Time.parse(property_xml.content) if property_type.match(/Edm.DateTime/)
-    return parse_date(property_xml.content) if property_type.match(/Edm.DateTime/)
+    return parse_date(content) if property_type.match(/Edm.DateTime/)
 
     # If we can't parse the value, just return the element's content
-    property_xml.content
+    content
   end
 
   # Parses a value into the proper type based on a specified return type

@@ -1,0 +1,1193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:georss="http://www.georss.org/georss" xmlns:gml="http://www.opengis.net/gml" xml:base="https://srv-spf-98.bs.unsi.no:8090/SC2012/VMM/Microsoft.Management.Odata.svc/">
+  <id>https://srv-spf-98.bs.unsi.no:8090/SC2012/VMM/Microsoft.Management.Odata.svc/VMTemplates/</id>
+  <title type="text">VMTemplates</title>
+  <updated>2013-06-19T12:49:08Z</updated>
+  <link rel="self" title="VMTemplates" href="VMTemplates"/>
+  <entry>
+    <id>https://srv-spf-98.bs.unsi.no:8090/SC2012/VMM/Microsoft.Management.Odata.svc/VMTemplates(ID=guid'45c55fc3-4abc-4a0f-8a38-3306e7d291f7',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')</id>
+    <category term="VMM.VMTemplate" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"/>
+    <link rel="edit" title="VMTemplate" href="VMTemplates(ID=guid'45c55fc3-4abc-4a0f-8a38-3306e7d291f7',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/VirtualNetworkAdapters" type="application/atom+xml;type=feed" title="VirtualNetworkAdapters" href="VMTemplates(ID=guid'45c55fc3-4abc-4a0f-8a38-3306e7d291f7',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')/VirtualNetworkAdapters"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/VirtualSCSIAdapters" type="application/atom+xml;type=feed" title="VirtualSCSIAdapters" href="VMTemplates(ID=guid'45c55fc3-4abc-4a0f-8a38-3306e7d291f7',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')/VirtualSCSIAdapters"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/VirtualHardDisks" type="application/atom+xml;type=feed" title="VirtualHardDisks" href="VMTemplates(ID=guid'45c55fc3-4abc-4a0f-8a38-3306e7d291f7',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')/VirtualHardDisks"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/VirtualDVDDrives" type="application/atom+xml;type=feed" title="VirtualDVDDrives" href="VMTemplates(ID=guid'45c55fc3-4abc-4a0f-8a38-3306e7d291f7',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')/VirtualDVDDrives"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/VirtualDiskDrives" type="application/atom+xml;type=feed" title="VirtualDiskDrives" href="VMTemplates(ID=guid'45c55fc3-4abc-4a0f-8a38-3306e7d291f7',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')/VirtualDiskDrives"/>
+    <title/>
+    <updated>2013-06-19T12:49:08Z</updated>
+    <author>
+      <name/>
+    </author>
+    <content type="application/xml">
+      <m:properties>
+        <d:StampId m:type="Edm.Guid">a68f9b8b-f8af-46b2-8636-255248c9b5ab</d:StampId>
+        <d:ID m:type="Edm.Guid">45c55fc3-4abc-4a0f-8a38-3306e7d291f7</d:ID>
+        <d:AccessedTime m:null="true"/>
+        <d:AddedTime m:type="Edm.DateTime">2013-05-08T10:45:14.54+02:00</d:AddedTime>
+        <d:Admin>root</d:Admin>
+        <d:AdminPasswordHasValue m:type="Edm.Boolean">true</d:AdminPasswordHasValue>
+        <d:ComputerName>gitlab</d:ComputerName>
+        <d:CPUCount m:type="Edm.Byte">2</d:CPUCount>
+        <d:CPUMax m:type="Edm.Int32">100</d:CPUMax>
+        <d:CPUReserve m:type="Edm.Int32">0</d:CPUReserve>
+        <d:CPUTypeId m:null="true"/>
+        <d:CreationTime m:type="Edm.DateTime">2013-05-08T10:45:14.54+02:00</d:CreationTime>
+        <d:DiskIO m:type="Edm.Int32">0</d:DiskIO>
+        <d:DomainAdmin m:null="true"/>
+        <d:DomainAdminPasswordHasValue m:type="Edm.Boolean">false</d:DomainAdminPasswordHasValue>
+        <d:ExpectedCPUUtilization m:type="Edm.Int32">20</d:ExpectedCPUUtilization>
+        <d:Enabled m:type="Edm.Boolean">true</d:Enabled>
+        <d:FullName m:null="true"/>
+        <d:HasVMAdditions m:type="Edm.Boolean">false</d:HasVMAdditions>
+        <d:IsHighlyAvailable m:type="Edm.Boolean">true</d:IsHighlyAvailable>
+        <d:JoinDomain m:null="true"/>
+        <d:JoinWorkgroup>WORKGROUP</d:JoinWorkgroup>
+        <d:LibraryGroup/>
+        <d:LimitCPUForMigration m:type="Edm.Boolean">false</d:LimitCPUForMigration>
+        <d:LimitCPUFunctionality m:type="Edm.Boolean">false</d:LimitCPUFunctionality>
+        <d:Location/>
+        <d:Memory m:type="Edm.Int32">3500</d:Memory>
+        <d:MergeAnswerFile m:type="Edm.Boolean">false</d:MergeAnswerFile>
+        <d:ModifiedTime m:type="Edm.DateTime">2013-06-19T13:36:52.757+02:00</d:ModifiedTime>
+        <d:Name>Temporary Template44658d7a-fb6c-4bf9-9d5f-3686d3ed1f4f</d:Name>
+        <d:NetworkUtilization m:type="Edm.Int32">0</d:NetworkUtilization>
+        <d:OperatingSystem>Other Linux (64 bit)</d:OperatingSystem>
+        <d:OrgName m:null="true"/>
+        <d:Owner m:type="VMM.UserAndRole">
+          <d:UserName>xx-yyy\zzzz</d:UserName>
+          <d:RoleName>Administrator</d:RoleName>
+          <d:RoleID m:type="Edm.Guid">75700cd5-893e-4f68-ada7-50ef4668acc6</d:RoleID>
+        </d:Owner>
+        <d:GrantedToList m:type="Collection(VMM.UserAndRole)"/>
+        <d:QuotaPoint m:type="Edm.Int32">1</d:QuotaPoint>
+        <d:ProductKeyHasValue m:type="Edm.Boolean">false</d:ProductKeyHasValue>
+        <d:RelativeWeight m:type="Edm.Int32">100</d:RelativeWeight>
+        <d:ShareSCSIBus m:type="Edm.Boolean">false</d:ShareSCSIBus>
+        <d:Tag>(none)</d:Tag>
+        <d:TimeZone m:type="Edm.Int32">110</d:TimeZone>
+        <d:TotalVHDCapacity m:type="Edm.Int64">42949672960</d:TotalVHDCapacity>
+        <d:UndoDisksEnabled m:type="Edm.Boolean">false</d:UndoDisksEnabled>
+        <d:UseHardwareAssistedVirtualization m:type="Edm.Boolean">false</d:UseHardwareAssistedVirtualization>
+        <d:Accessibility>Public</d:Accessibility>
+        <d:CostCenter m:null="true"/>
+        <d:Description/>
+        <d:IsTagEmpty m:type="Edm.Boolean">false</d:IsTagEmpty>
+        <d:NicCount m:type="Edm.Int32">1</d:NicCount>
+        <d:NumLockEnabled m:type="Edm.Boolean">false</d:NumLockEnabled>
+        <d:VMAddition>Not Detected</d:VMAddition>
+        <d:IsCustomizable m:type="Edm.Boolean">true</d:IsCustomizable>
+        <d:DomainAdminPasswordIsServiceSetting m:type="Edm.Boolean">false</d:DomainAdminPasswordIsServiceSetting>
+        <d:SANCopyCapable m:type="Edm.Boolean">false</d:SANCopyCapable>
+        <d:IsTemporaryTemplate m:type="Edm.Boolean">true</d:IsTemporaryTemplate>
+        <d:VMTemplateId m:null="true"/>
+        <d:VirtualHardDiskId m:null="true"/>
+        <d:VMId m:null="true"/>
+        <d:SharePath m:null="true"/>
+        <d:ApplicationProfileId m:null="true"/>
+        <d:CloudID m:null="true"/>
+        <d:DynamicMemoryBufferPercentage m:null="true"/>
+        <d:DynamicMemoryEnabled m:type="Edm.Boolean">false</d:DynamicMemoryEnabled>
+        <d:DynamicMemoryMaximumMB m:null="true"/>
+        <d:MemoryWeight m:type="Edm.Int16">5000</d:MemoryWeight>
+        <d:DynamicMemoryPreferredBufferPercentage m:null="true"/>
+        <d:SQLProfileId m:null="true"/>
+        <d:VirtualFloppyDriveId m:null="true"/>
+        <d:BootOrder m:type="Collection(Edm.String)">
+          <d:element>CD</d:element>
+          <d:element>IdeHardDrive</d:element>
+          <d:element>PxeBoot</d:element>
+          <d:element>Floppy</d:element>
+        </d:BootOrder>
+        <d:CustomProperties m:type="Collection(Edm.String)">
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+        </d:CustomProperties>
+        <d:GuiRunOnceCommands m:type="Collection(Edm.String)"/>
+        <d:ServerFeatures m:type="Collection(Edm.String)"/>
+        <d:Status>Normal</d:Status>
+        <d:VirtualizationPlatform>HyperV</d:VirtualizationPlatform>
+        <d:CapabilityProfile>Hyper-V</d:CapabilityProfile>
+        <d:AutoLogonCount m:null="true"/>
+        <d:DomainJoinOrganizationalUnit m:null="true"/>
+        <d:SANStatus m:type="Collection(Edm.String)"/>
+      </m:properties>
+    </content>
+  </entry>
+  <entry>
+    <id>https://srv-spf-98.bs.unsi.no:8090/SC2012/VMM/Microsoft.Management.Odata.svc/VMTemplates(ID=guid'67e1a108-7b72-45f7-a3cf-ac73e1b76aeb',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')</id>
+    <category term="VMM.VMTemplate" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"/>
+    <link rel="edit" title="VMTemplate" href="VMTemplates(ID=guid'67e1a108-7b72-45f7-a3cf-ac73e1b76aeb',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/VirtualNetworkAdapters" type="application/atom+xml;type=feed" title="VirtualNetworkAdapters" href="VMTemplates(ID=guid'67e1a108-7b72-45f7-a3cf-ac73e1b76aeb',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')/VirtualNetworkAdapters"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/VirtualSCSIAdapters" type="application/atom+xml;type=feed" title="VirtualSCSIAdapters" href="VMTemplates(ID=guid'67e1a108-7b72-45f7-a3cf-ac73e1b76aeb',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')/VirtualSCSIAdapters"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/VirtualHardDisks" type="application/atom+xml;type=feed" title="VirtualHardDisks" href="VMTemplates(ID=guid'67e1a108-7b72-45f7-a3cf-ac73e1b76aeb',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')/VirtualHardDisks"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/VirtualDVDDrives" type="application/atom+xml;type=feed" title="VirtualDVDDrives" href="VMTemplates(ID=guid'67e1a108-7b72-45f7-a3cf-ac73e1b76aeb',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')/VirtualDVDDrives"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/VirtualDiskDrives" type="application/atom+xml;type=feed" title="VirtualDiskDrives" href="VMTemplates(ID=guid'67e1a108-7b72-45f7-a3cf-ac73e1b76aeb',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')/VirtualDiskDrives"/>
+    <title/>
+    <updated>2013-06-19T12:49:08Z</updated>
+    <author>
+      <name/>
+    </author>
+    <content type="application/xml">
+      <m:properties>
+        <d:StampId m:type="Edm.Guid">a68f9b8b-f8af-46b2-8636-255248c9b5ab</d:StampId>
+        <d:ID m:type="Edm.Guid">67e1a108-7b72-45f7-a3cf-ac73e1b76aeb</d:ID>
+        <d:AccessedTime m:null="true"/>
+        <d:AddedTime m:type="Edm.DateTime">2013-05-08T10:45:14.54+02:00</d:AddedTime>
+        <d:Admin>root</d:Admin>
+        <d:AdminPasswordHasValue m:type="Edm.Boolean">true</d:AdminPasswordHasValue>
+        <d:ComputerName>*</d:ComputerName>
+        <d:CPUCount m:type="Edm.Byte">2</d:CPUCount>
+        <d:CPUMax m:type="Edm.Int32">100</d:CPUMax>
+        <d:CPUReserve m:type="Edm.Int32">0</d:CPUReserve>
+        <d:CPUTypeId m:null="true"/>
+        <d:CreationTime m:type="Edm.DateTime">2013-05-08T10:45:14.54+02:00</d:CreationTime>
+        <d:DiskIO m:type="Edm.Int32">0</d:DiskIO>
+        <d:DomainAdmin m:null="true"/>
+        <d:DomainAdminPasswordHasValue m:type="Edm.Boolean">false</d:DomainAdminPasswordHasValue>
+        <d:ExpectedCPUUtilization m:type="Edm.Int32">20</d:ExpectedCPUUtilization>
+        <d:Enabled m:type="Edm.Boolean">true</d:Enabled>
+        <d:FullName m:null="true"/>
+        <d:HasVMAdditions m:type="Edm.Boolean">false</d:HasVMAdditions>
+        <d:IsHighlyAvailable m:type="Edm.Boolean">true</d:IsHighlyAvailable>
+        <d:JoinDomain m:null="true"/>
+        <d:JoinWorkgroup>WORKGROUP</d:JoinWorkgroup>
+        <d:LibraryGroup/>
+        <d:LimitCPUForMigration m:type="Edm.Boolean">false</d:LimitCPUForMigration>
+        <d:LimitCPUFunctionality m:type="Edm.Boolean">false</d:LimitCPUFunctionality>
+        <d:Location/>
+        <d:Memory m:type="Edm.Int32">3500</d:Memory>
+        <d:MergeAnswerFile m:type="Edm.Boolean">false</d:MergeAnswerFile>
+        <d:ModifiedTime m:type="Edm.DateTime">2013-06-19T13:54:07.32+02:00</d:ModifiedTime>
+        <d:Name>Temporary Template9cd81051-3eb0-4fee-84a6-2f6d39f2f5c2</d:Name>
+        <d:NetworkUtilization m:type="Edm.Int32">0</d:NetworkUtilization>
+        <d:OperatingSystem>Other Linux (64 bit)</d:OperatingSystem>
+        <d:OrgName m:null="true"/>
+        <d:Owner m:type="VMM.UserAndRole">
+          <d:UserName>xx-yyy\ffff</d:UserName>
+          <d:RoleName>Administrator</d:RoleName>
+          <d:RoleID m:type="Edm.Guid">75700cd5-893e-4f68-ada7-50ef4668acc6</d:RoleID>
+        </d:Owner>
+        <d:GrantedToList m:type="Collection(VMM.UserAndRole)"/>
+        <d:QuotaPoint m:type="Edm.Int32">1</d:QuotaPoint>
+        <d:ProductKeyHasValue m:type="Edm.Boolean">false</d:ProductKeyHasValue>
+        <d:RelativeWeight m:type="Edm.Int32">100</d:RelativeWeight>
+        <d:ShareSCSIBus m:type="Edm.Boolean">false</d:ShareSCSIBus>
+        <d:Tag>(none)</d:Tag>
+        <d:TimeZone m:type="Edm.Int32">110</d:TimeZone>
+        <d:TotalVHDCapacity m:type="Edm.Int64">42949672960</d:TotalVHDCapacity>
+        <d:UndoDisksEnabled m:type="Edm.Boolean">false</d:UndoDisksEnabled>
+        <d:UseHardwareAssistedVirtualization m:type="Edm.Boolean">false</d:UseHardwareAssistedVirtualization>
+        <d:Accessibility>Public</d:Accessibility>
+        <d:CostCenter m:null="true"/>
+        <d:Description/>
+        <d:IsTagEmpty m:type="Edm.Boolean">false</d:IsTagEmpty>
+        <d:NicCount m:type="Edm.Int32">1</d:NicCount>
+        <d:NumLockEnabled m:type="Edm.Boolean">false</d:NumLockEnabled>
+        <d:VMAddition>Not Detected</d:VMAddition>
+        <d:IsCustomizable m:type="Edm.Boolean">true</d:IsCustomizable>
+        <d:DomainAdminPasswordIsServiceSetting m:type="Edm.Boolean">false</d:DomainAdminPasswordIsServiceSetting>
+        <d:SANCopyCapable m:type="Edm.Boolean">false</d:SANCopyCapable>
+        <d:IsTemporaryTemplate m:type="Edm.Boolean">true</d:IsTemporaryTemplate>
+        <d:VMTemplateId m:null="true"/>
+        <d:VirtualHardDiskId m:null="true"/>
+        <d:VMId m:null="true"/>
+        <d:SharePath m:null="true"/>
+        <d:ApplicationProfileId m:null="true"/>
+        <d:CloudID m:null="true"/>
+        <d:DynamicMemoryBufferPercentage m:null="true"/>
+        <d:DynamicMemoryEnabled m:type="Edm.Boolean">false</d:DynamicMemoryEnabled>
+        <d:DynamicMemoryMaximumMB m:null="true"/>
+        <d:MemoryWeight m:type="Edm.Int16">5000</d:MemoryWeight>
+        <d:DynamicMemoryPreferredBufferPercentage m:null="true"/>
+        <d:SQLProfileId m:null="true"/>
+        <d:VirtualFloppyDriveId m:null="true"/>
+        <d:BootOrder m:type="Collection(Edm.String)">
+          <d:element>CD</d:element>
+          <d:element>IdeHardDrive</d:element>
+          <d:element>PxeBoot</d:element>
+          <d:element>Floppy</d:element>
+        </d:BootOrder>
+        <d:CustomProperties m:type="Collection(Edm.String)">
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+        </d:CustomProperties>
+        <d:GuiRunOnceCommands m:type="Collection(Edm.String)"/>
+        <d:ServerFeatures m:type="Collection(Edm.String)"/>
+        <d:Status>Normal</d:Status>
+        <d:VirtualizationPlatform>HyperV</d:VirtualizationPlatform>
+        <d:CapabilityProfile>Hyper-V</d:CapabilityProfile>
+        <d:AutoLogonCount m:null="true"/>
+        <d:DomainJoinOrganizationalUnit m:null="true"/>
+        <d:SANStatus m:type="Collection(Edm.String)"/>
+      </m:properties>
+    </content>
+  </entry>
+  <entry>
+    <id>https://srv-spf-98.bs.unsi.no:8090/SC2012/VMM/Microsoft.Management.Odata.svc/VMTemplates(ID=guid'73e0c54d-7ea0-426d-bf35-0ab4ea361038',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')</id>
+    <category term="VMM.VMTemplate" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"/>
+    <link rel="edit" title="VMTemplate" href="VMTemplates(ID=guid'73e0c54d-7ea0-426d-bf35-0ab4ea361038',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/VirtualNetworkAdapters" type="application/atom+xml;type=feed" title="VirtualNetworkAdapters" href="VMTemplates(ID=guid'73e0c54d-7ea0-426d-bf35-0ab4ea361038',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')/VirtualNetworkAdapters"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/VirtualSCSIAdapters" type="application/atom+xml;type=feed" title="VirtualSCSIAdapters" href="VMTemplates(ID=guid'73e0c54d-7ea0-426d-bf35-0ab4ea361038',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')/VirtualSCSIAdapters"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/VirtualHardDisks" type="application/atom+xml;type=feed" title="VirtualHardDisks" href="VMTemplates(ID=guid'73e0c54d-7ea0-426d-bf35-0ab4ea361038',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')/VirtualHardDisks"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/VirtualDVDDrives" type="application/atom+xml;type=feed" title="VirtualDVDDrives" href="VMTemplates(ID=guid'73e0c54d-7ea0-426d-bf35-0ab4ea361038',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')/VirtualDVDDrives"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/VirtualDiskDrives" type="application/atom+xml;type=feed" title="VirtualDiskDrives" href="VMTemplates(ID=guid'73e0c54d-7ea0-426d-bf35-0ab4ea361038',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')/VirtualDiskDrives"/>
+    <title/>
+    <updated>2013-06-19T12:49:08Z</updated>
+    <author>
+      <name/>
+    </author>
+    <content type="application/xml">
+      <m:properties>
+        <d:StampId m:type="Edm.Guid">a68f9b8b-f8af-46b2-8636-255248c9b5ab</d:StampId>
+        <d:ID m:type="Edm.Guid">73e0c54d-7ea0-426d-bf35-0ab4ea361038</d:ID>
+        <d:AccessedTime m:null="true"/>
+        <d:AddedTime m:type="Edm.DateTime">2013-05-08T10:45:14.54+02:00</d:AddedTime>
+        <d:Admin>root</d:Admin>
+        <d:AdminPasswordHasValue m:type="Edm.Boolean">true</d:AdminPasswordHasValue>
+        <d:ComputerName>*</d:ComputerName>
+        <d:CPUCount m:type="Edm.Byte">2</d:CPUCount>
+        <d:CPUMax m:type="Edm.Int32">100</d:CPUMax>
+        <d:CPUReserve m:type="Edm.Int32">0</d:CPUReserve>
+        <d:CPUTypeId m:null="true"/>
+        <d:CreationTime m:type="Edm.DateTime">2013-05-08T10:45:14.54+02:00</d:CreationTime>
+        <d:DiskIO m:type="Edm.Int32">0</d:DiskIO>
+        <d:DomainAdmin m:null="true"/>
+        <d:DomainAdminPasswordHasValue m:type="Edm.Boolean">false</d:DomainAdminPasswordHasValue>
+        <d:ExpectedCPUUtilization m:type="Edm.Int32">20</d:ExpectedCPUUtilization>
+        <d:Enabled m:type="Edm.Boolean">true</d:Enabled>
+        <d:FullName m:null="true"/>
+        <d:HasVMAdditions m:type="Edm.Boolean">false</d:HasVMAdditions>
+        <d:IsHighlyAvailable m:type="Edm.Boolean">true</d:IsHighlyAvailable>
+        <d:JoinDomain m:null="true"/>
+        <d:JoinWorkgroup>WORKGROUP</d:JoinWorkgroup>
+        <d:LibraryGroup/>
+        <d:LimitCPUForMigration m:type="Edm.Boolean">false</d:LimitCPUForMigration>
+        <d:LimitCPUFunctionality m:type="Edm.Boolean">false</d:LimitCPUFunctionality>
+        <d:Location/>
+        <d:Memory m:type="Edm.Int32">3500</d:Memory>
+        <d:MergeAnswerFile m:type="Edm.Boolean">false</d:MergeAnswerFile>
+        <d:ModifiedTime m:type="Edm.DateTime">2013-06-19T13:56:45.33+02:00</d:ModifiedTime>
+        <d:Name>Temporary Template5291c00b-cd96-4608-b5ba-a29dc8d51924</d:Name>
+        <d:NetworkUtilization m:type="Edm.Int32">0</d:NetworkUtilization>
+        <d:OperatingSystem>Other Linux (64 bit)</d:OperatingSystem>
+        <d:OrgName m:null="true"/>
+        <d:Owner m:type="VMM.UserAndRole">
+          <d:UserName>xx-yyy\ffff</d:UserName>
+          <d:RoleName>Administrator</d:RoleName>
+          <d:RoleID m:type="Edm.Guid">75700cd5-893e-4f68-ada7-50ef4668acc6</d:RoleID>
+        </d:Owner>
+        <d:GrantedToList m:type="Collection(VMM.UserAndRole)"/>
+        <d:QuotaPoint m:type="Edm.Int32">1</d:QuotaPoint>
+        <d:ProductKeyHasValue m:type="Edm.Boolean">false</d:ProductKeyHasValue>
+        <d:RelativeWeight m:type="Edm.Int32">100</d:RelativeWeight>
+        <d:ShareSCSIBus m:type="Edm.Boolean">false</d:ShareSCSIBus>
+        <d:Tag>(none)</d:Tag>
+        <d:TimeZone m:type="Edm.Int32">110</d:TimeZone>
+        <d:TotalVHDCapacity m:type="Edm.Int64">42949672960</d:TotalVHDCapacity>
+        <d:UndoDisksEnabled m:type="Edm.Boolean">false</d:UndoDisksEnabled>
+        <d:UseHardwareAssistedVirtualization m:type="Edm.Boolean">false</d:UseHardwareAssistedVirtualization>
+        <d:Accessibility>Public</d:Accessibility>
+        <d:CostCenter m:null="true"/>
+        <d:Description/>
+        <d:IsTagEmpty m:type="Edm.Boolean">false</d:IsTagEmpty>
+        <d:NicCount m:type="Edm.Int32">1</d:NicCount>
+        <d:NumLockEnabled m:type="Edm.Boolean">false</d:NumLockEnabled>
+        <d:VMAddition>Not Detected</d:VMAddition>
+        <d:IsCustomizable m:type="Edm.Boolean">true</d:IsCustomizable>
+        <d:DomainAdminPasswordIsServiceSetting m:type="Edm.Boolean">false</d:DomainAdminPasswordIsServiceSetting>
+        <d:SANCopyCapable m:type="Edm.Boolean">false</d:SANCopyCapable>
+        <d:IsTemporaryTemplate m:type="Edm.Boolean">true</d:IsTemporaryTemplate>
+        <d:VMTemplateId m:null="true"/>
+        <d:VirtualHardDiskId m:null="true"/>
+        <d:VMId m:null="true"/>
+        <d:SharePath m:null="true"/>
+        <d:ApplicationProfileId m:null="true"/>
+        <d:CloudID m:null="true"/>
+        <d:DynamicMemoryBufferPercentage m:null="true"/>
+        <d:DynamicMemoryEnabled m:type="Edm.Boolean">false</d:DynamicMemoryEnabled>
+        <d:DynamicMemoryMaximumMB m:null="true"/>
+        <d:MemoryWeight m:type="Edm.Int16">5000</d:MemoryWeight>
+        <d:DynamicMemoryPreferredBufferPercentage m:null="true"/>
+        <d:SQLProfileId m:null="true"/>
+        <d:VirtualFloppyDriveId m:null="true"/>
+        <d:BootOrder m:type="Collection(Edm.String)">
+          <d:element>CD</d:element>
+          <d:element>IdeHardDrive</d:element>
+          <d:element>PxeBoot</d:element>
+          <d:element>Floppy</d:element>
+        </d:BootOrder>
+        <d:CustomProperties m:type="Collection(Edm.String)">
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+        </d:CustomProperties>
+        <d:GuiRunOnceCommands m:type="Collection(Edm.String)"/>
+        <d:ServerFeatures m:type="Collection(Edm.String)"/>
+        <d:Status>Normal</d:Status>
+        <d:VirtualizationPlatform>HyperV</d:VirtualizationPlatform>
+        <d:CapabilityProfile>Hyper-V</d:CapabilityProfile>
+        <d:AutoLogonCount m:null="true"/>
+        <d:DomainJoinOrganizationalUnit m:null="true"/>
+        <d:SANStatus m:type="Collection(Edm.String)"/>
+      </m:properties>
+    </content>
+  </entry>
+  <entry>
+    <id>https://srv-spf-98.bs.unsi.no:8090/SC2012/VMM/Microsoft.Management.Odata.svc/VMTemplates(ID=guid'9e028e3c-3288-4d41-82de-bbee1f58f5c8',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')</id>
+    <category term="VMM.VMTemplate" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"/>
+    <link rel="edit" title="VMTemplate" href="VMTemplates(ID=guid'9e028e3c-3288-4d41-82de-bbee1f58f5c8',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/VirtualNetworkAdapters" type="application/atom+xml;type=feed" title="VirtualNetworkAdapters" href="VMTemplates(ID=guid'9e028e3c-3288-4d41-82de-bbee1f58f5c8',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')/VirtualNetworkAdapters"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/VirtualSCSIAdapters" type="application/atom+xml;type=feed" title="VirtualSCSIAdapters" href="VMTemplates(ID=guid'9e028e3c-3288-4d41-82de-bbee1f58f5c8',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')/VirtualSCSIAdapters"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/VirtualHardDisks" type="application/atom+xml;type=feed" title="VirtualHardDisks" href="VMTemplates(ID=guid'9e028e3c-3288-4d41-82de-bbee1f58f5c8',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')/VirtualHardDisks"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/VirtualDVDDrives" type="application/atom+xml;type=feed" title="VirtualDVDDrives" href="VMTemplates(ID=guid'9e028e3c-3288-4d41-82de-bbee1f58f5c8',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')/VirtualDVDDrives"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/VirtualDiskDrives" type="application/atom+xml;type=feed" title="VirtualDiskDrives" href="VMTemplates(ID=guid'9e028e3c-3288-4d41-82de-bbee1f58f5c8',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')/VirtualDiskDrives"/>
+    <title/>
+    <updated>2013-06-19T12:49:08Z</updated>
+    <author>
+      <name/>
+    </author>
+    <content type="application/xml">
+      <m:properties>
+        <d:StampId m:type="Edm.Guid">a68f9b8b-f8af-46b2-8636-255248c9b5ab</d:StampId>
+        <d:ID m:type="Edm.Guid">9e028e3c-3288-4d41-82de-bbee1f58f5c8</d:ID>
+        <d:AccessedTime m:null="true"/>
+        <d:AddedTime m:type="Edm.DateTime">2013-06-08T01:27:11.88+02:00</d:AddedTime>
+        <d:Admin>Administrator</d:Admin>
+        <d:AdminPasswordHasValue m:type="Edm.Boolean">true</d:AdminPasswordHasValue>
+        <d:ComputerName>*</d:ComputerName>
+        <d:CPUCount m:type="Edm.Byte">2</d:CPUCount>
+        <d:CPUMax m:type="Edm.Int32">100</d:CPUMax>
+        <d:CPUReserve m:type="Edm.Int32">0</d:CPUReserve>
+        <d:CPUTypeId m:null="true"/>
+        <d:CreationTime m:type="Edm.DateTime">2013-06-08T01:27:11.88+02:00</d:CreationTime>
+        <d:DiskIO m:type="Edm.Int32">0</d:DiskIO>
+        <d:DomainAdmin>bs-unsi\admin</d:DomainAdmin>
+        <d:DomainAdminPasswordHasValue m:type="Edm.Boolean">true</d:DomainAdminPasswordHasValue>
+        <d:ExpectedCPUUtilization m:type="Edm.Int32">20</d:ExpectedCPUUtilization>
+        <d:Enabled m:type="Edm.Boolean">true</d:Enabled>
+        <d:FullName/>
+        <d:HasVMAdditions m:type="Edm.Boolean">false</d:HasVMAdditions>
+        <d:IsHighlyAvailable m:type="Edm.Boolean">true</d:IsHighlyAvailable>
+        <d:JoinDomain>bs.unsi.no</d:JoinDomain>
+        <d:JoinWorkgroup m:null="true"/>
+        <d:LibraryGroup/>
+        <d:LimitCPUForMigration m:type="Edm.Boolean">false</d:LimitCPUForMigration>
+        <d:LimitCPUFunctionality m:type="Edm.Boolean">false</d:LimitCPUFunctionality>
+        <d:Location/>
+        <d:Memory m:type="Edm.Int32">4096</d:Memory>
+        <d:MergeAnswerFile m:type="Edm.Boolean">false</d:MergeAnswerFile>
+        <d:ModifiedTime m:type="Edm.DateTime">2013-06-10T19:52:31.72+02:00</d:ModifiedTime>
+        <d:Name>[VM] - Windows Server 2012 Datacenter - Domain BS.UNSI.NO</d:Name>
+        <d:NetworkUtilization m:type="Edm.Int32">0</d:NetworkUtilization>
+        <d:OperatingSystem>64-bit edition of Windows Server 2012 Datacenter</d:OperatingSystem>
+        <d:OrgName/>
+        <d:Owner m:type="VMM.UserAndRole">
+          <d:UserName>xx-yyy\ffff</d:UserName>
+          <d:RoleName>Administrator</d:RoleName>
+          <d:RoleID m:type="Edm.Guid">75700cd5-893e-4f68-ada7-50ef4668acc6</d:RoleID>
+        </d:Owner>
+        <d:GrantedToList m:type="Collection(VMM.UserAndRole)"/>
+        <d:QuotaPoint m:type="Edm.Int32">1</d:QuotaPoint>
+        <d:ProductKeyHasValue m:type="Edm.Boolean">false</d:ProductKeyHasValue>
+        <d:RelativeWeight m:type="Edm.Int32">100</d:RelativeWeight>
+        <d:ShareSCSIBus m:type="Edm.Boolean">false</d:ShareSCSIBus>
+        <d:Tag>(none)</d:Tag>
+        <d:TimeZone m:type="Edm.Int32">110</d:TimeZone>
+        <d:TotalVHDCapacity m:type="Edm.Int64">64424509440</d:TotalVHDCapacity>
+        <d:UndoDisksEnabled m:type="Edm.Boolean">false</d:UndoDisksEnabled>
+        <d:UseHardwareAssistedVirtualization m:type="Edm.Boolean">false</d:UseHardwareAssistedVirtualization>
+        <d:Accessibility>Public</d:Accessibility>
+        <d:CostCenter m:null="true"/>
+        <d:Description/>
+        <d:IsTagEmpty m:type="Edm.Boolean">true</d:IsTagEmpty>
+        <d:NicCount m:type="Edm.Int32">1</d:NicCount>
+        <d:NumLockEnabled m:type="Edm.Boolean">false</d:NumLockEnabled>
+        <d:VMAddition>Not Detected</d:VMAddition>
+        <d:IsCustomizable m:type="Edm.Boolean">true</d:IsCustomizable>
+        <d:DomainAdminPasswordIsServiceSetting m:type="Edm.Boolean">false</d:DomainAdminPasswordIsServiceSetting>
+        <d:SANCopyCapable m:type="Edm.Boolean">false</d:SANCopyCapable>
+        <d:IsTemporaryTemplate m:type="Edm.Boolean">false</d:IsTemporaryTemplate>
+        <d:VMTemplateId m:null="true"/>
+        <d:VirtualHardDiskId m:null="true"/>
+        <d:VMId m:null="true"/>
+        <d:SharePath m:null="true"/>
+        <d:ApplicationProfileId m:null="true"/>
+        <d:CloudID m:null="true"/>
+        <d:DynamicMemoryBufferPercentage m:type="Edm.Int16">20</d:DynamicMemoryBufferPercentage>
+        <d:DynamicMemoryEnabled m:type="Edm.Boolean">true</d:DynamicMemoryEnabled>
+        <d:DynamicMemoryMaximumMB m:type="Edm.Int32">8192</d:DynamicMemoryMaximumMB>
+        <d:MemoryWeight m:type="Edm.Int16">5000</d:MemoryWeight>
+        <d:DynamicMemoryPreferredBufferPercentage m:null="true"/>
+        <d:SQLProfileId m:null="true"/>
+        <d:VirtualFloppyDriveId m:null="true"/>
+        <d:BootOrder m:type="Collection(Edm.String)">
+          <d:element>CD</d:element>
+          <d:element>IdeHardDrive</d:element>
+          <d:element>PxeBoot</d:element>
+          <d:element>Floppy</d:element>
+        </d:BootOrder>
+        <d:CustomProperties m:type="Collection(Edm.String)">
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+        </d:CustomProperties>
+        <d:GuiRunOnceCommands m:type="Collection(Edm.String)"/>
+        <d:ServerFeatures m:type="Collection(Edm.String)"/>
+        <d:Status>Normal</d:Status>
+        <d:VirtualizationPlatform>Unknown</d:VirtualizationPlatform>
+        <d:CapabilityProfile>Hyper-V</d:CapabilityProfile>
+        <d:AutoLogonCount m:null="true"/>
+        <d:DomainJoinOrganizationalUnit m:null="true"/>
+        <d:SANStatus m:type="Collection(Edm.String)"/>
+      </m:properties>
+    </content>
+  </entry>
+  <entry>
+    <id>https://srv-spf-98.bs.unsi.no:8090/SC2012/VMM/Microsoft.Management.Odata.svc/VMTemplates(ID=guid'b91792cf-13a7-45da-b34f-fb38ec79ae92',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')</id>
+    <category term="VMM.VMTemplate" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"/>
+    <link rel="edit" title="VMTemplate" href="VMTemplates(ID=guid'b91792cf-13a7-45da-b34f-fb38ec79ae92',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/VirtualNetworkAdapters" type="application/atom+xml;type=feed" title="VirtualNetworkAdapters" href="VMTemplates(ID=guid'b91792cf-13a7-45da-b34f-fb38ec79ae92',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')/VirtualNetworkAdapters"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/VirtualSCSIAdapters" type="application/atom+xml;type=feed" title="VirtualSCSIAdapters" href="VMTemplates(ID=guid'b91792cf-13a7-45da-b34f-fb38ec79ae92',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')/VirtualSCSIAdapters"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/VirtualHardDisks" type="application/atom+xml;type=feed" title="VirtualHardDisks" href="VMTemplates(ID=guid'b91792cf-13a7-45da-b34f-fb38ec79ae92',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')/VirtualHardDisks"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/VirtualDVDDrives" type="application/atom+xml;type=feed" title="VirtualDVDDrives" href="VMTemplates(ID=guid'b91792cf-13a7-45da-b34f-fb38ec79ae92',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')/VirtualDVDDrives"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/VirtualDiskDrives" type="application/atom+xml;type=feed" title="VirtualDiskDrives" href="VMTemplates(ID=guid'b91792cf-13a7-45da-b34f-fb38ec79ae92',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')/VirtualDiskDrives"/>
+    <title/>
+    <updated>2013-06-19T12:49:08Z</updated>
+    <author>
+      <name/>
+    </author>
+    <content type="application/xml">
+      <m:properties>
+        <d:StampId m:type="Edm.Guid">a68f9b8b-f8af-46b2-8636-255248c9b5ab</d:StampId>
+        <d:ID m:type="Edm.Guid">b91792cf-13a7-45da-b34f-fb38ec79ae92</d:ID>
+        <d:AccessedTime m:null="true"/>
+        <d:AddedTime m:type="Edm.DateTime">2013-05-08T10:45:14.54+02:00</d:AddedTime>
+        <d:Admin>root</d:Admin>
+        <d:AdminPasswordHasValue m:type="Edm.Boolean">true</d:AdminPasswordHasValue>
+        <d:ComputerName>*</d:ComputerName>
+        <d:CPUCount m:type="Edm.Byte">2</d:CPUCount>
+        <d:CPUMax m:type="Edm.Int32">100</d:CPUMax>
+        <d:CPUReserve m:type="Edm.Int32">0</d:CPUReserve>
+        <d:CPUTypeId m:null="true"/>
+        <d:CreationTime m:type="Edm.DateTime">2013-05-08T10:45:14.54+02:00</d:CreationTime>
+        <d:DiskIO m:type="Edm.Int32">0</d:DiskIO>
+        <d:DomainAdmin m:null="true"/>
+        <d:DomainAdminPasswordHasValue m:type="Edm.Boolean">false</d:DomainAdminPasswordHasValue>
+        <d:ExpectedCPUUtilization m:type="Edm.Int32">20</d:ExpectedCPUUtilization>
+        <d:Enabled m:type="Edm.Boolean">true</d:Enabled>
+        <d:FullName m:null="true"/>
+        <d:HasVMAdditions m:type="Edm.Boolean">false</d:HasVMAdditions>
+        <d:IsHighlyAvailable m:type="Edm.Boolean">true</d:IsHighlyAvailable>
+        <d:JoinDomain m:null="true"/>
+        <d:JoinWorkgroup>WORKGROUP</d:JoinWorkgroup>
+        <d:LibraryGroup/>
+        <d:LimitCPUForMigration m:type="Edm.Boolean">false</d:LimitCPUForMigration>
+        <d:LimitCPUFunctionality m:type="Edm.Boolean">false</d:LimitCPUFunctionality>
+        <d:Location/>
+        <d:Memory m:type="Edm.Int32">3500</d:Memory>
+        <d:MergeAnswerFile m:type="Edm.Boolean">true</d:MergeAnswerFile>
+        <d:ModifiedTime m:type="Edm.DateTime">2013-06-19T14:22:17.8700372+02:00</d:ModifiedTime>
+        <d:Name>Temporary Template00552cc8-2432-4d8f-83e2-307bfdb9d7de</d:Name>
+        <d:NetworkUtilization m:type="Edm.Int32">0</d:NetworkUtilization>
+        <d:OperatingSystem>Other Linux (64 bit)</d:OperatingSystem>
+        <d:OrgName m:null="true"/>
+        <d:Owner m:type="VMM.UserAndRole">
+          <d:UserName>xx-yyy\gggg</d:UserName>
+          <d:RoleName>Administrator</d:RoleName>
+          <d:RoleID m:type="Edm.Guid">75700cd5-893e-4f68-ada7-50ef4668acc6</d:RoleID>
+        </d:Owner>
+        <d:GrantedToList m:type="Collection(VMM.UserAndRole)"/>
+        <d:QuotaPoint m:type="Edm.Int32">1</d:QuotaPoint>
+        <d:ProductKeyHasValue m:type="Edm.Boolean">false</d:ProductKeyHasValue>
+        <d:RelativeWeight m:type="Edm.Int32">100</d:RelativeWeight>
+        <d:ShareSCSIBus m:type="Edm.Boolean">false</d:ShareSCSIBus>
+        <d:Tag>(none)</d:Tag>
+        <d:TimeZone m:type="Edm.Int32">110</d:TimeZone>
+        <d:TotalVHDCapacity m:type="Edm.Int64">42949672960</d:TotalVHDCapacity>
+        <d:UndoDisksEnabled m:type="Edm.Boolean">false</d:UndoDisksEnabled>
+        <d:UseHardwareAssistedVirtualization m:type="Edm.Boolean">false</d:UseHardwareAssistedVirtualization>
+        <d:Accessibility>Public</d:Accessibility>
+        <d:CostCenter m:null="true"/>
+        <d:Description/>
+        <d:IsTagEmpty m:type="Edm.Boolean">false</d:IsTagEmpty>
+        <d:NicCount m:type="Edm.Int32">1</d:NicCount>
+        <d:NumLockEnabled m:type="Edm.Boolean">false</d:NumLockEnabled>
+        <d:VMAddition>Not Detected</d:VMAddition>
+        <d:IsCustomizable m:type="Edm.Boolean">true</d:IsCustomizable>
+        <d:DomainAdminPasswordIsServiceSetting m:type="Edm.Boolean">false</d:DomainAdminPasswordIsServiceSetting>
+        <d:SANCopyCapable m:type="Edm.Boolean">false</d:SANCopyCapable>
+        <d:IsTemporaryTemplate m:type="Edm.Boolean">true</d:IsTemporaryTemplate>
+        <d:VMTemplateId m:null="true"/>
+        <d:VirtualHardDiskId m:null="true"/>
+        <d:VMId m:null="true"/>
+        <d:SharePath m:null="true"/>
+        <d:ApplicationProfileId m:null="true"/>
+        <d:CloudID m:null="true"/>
+        <d:DynamicMemoryBufferPercentage m:null="true"/>
+        <d:DynamicMemoryEnabled m:type="Edm.Boolean">false</d:DynamicMemoryEnabled>
+        <d:DynamicMemoryMaximumMB m:null="true"/>
+        <d:MemoryWeight m:type="Edm.Int16">5000</d:MemoryWeight>
+        <d:DynamicMemoryPreferredBufferPercentage m:null="true"/>
+        <d:SQLProfileId m:null="true"/>
+        <d:VirtualFloppyDriveId m:null="true"/>
+        <d:BootOrder m:type="Collection(Edm.String)">
+          <d:element>CD</d:element>
+          <d:element>IdeHardDrive</d:element>
+          <d:element>PxeBoot</d:element>
+          <d:element>Floppy</d:element>
+        </d:BootOrder>
+        <d:CustomProperties m:type="Collection(Edm.String)">
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+        </d:CustomProperties>
+        <d:GuiRunOnceCommands m:type="Collection(Edm.String)"/>
+        <d:ServerFeatures m:type="Collection(Edm.String)"/>
+        <d:Status>Normal</d:Status>
+        <d:VirtualizationPlatform>HyperV</d:VirtualizationPlatform>
+        <d:CapabilityProfile>Hyper-V</d:CapabilityProfile>
+        <d:AutoLogonCount m:null="true"/>
+        <d:DomainJoinOrganizationalUnit m:null="true"/>
+        <d:SANStatus m:type="Collection(Edm.String)"/>
+      </m:properties>
+    </content>
+  </entry>
+  <entry>
+    <id>https://srv-spf-98.bs.unsi.no:8090/SC2012/VMM/Microsoft.Management.Odata.svc/VMTemplates(ID=guid'bcb712ce-a0b2-4501-85bd-59c8437a3ab9',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')</id>
+    <category term="VMM.VMTemplate" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"/>
+    <link rel="edit" title="VMTemplate" href="VMTemplates(ID=guid'bcb712ce-a0b2-4501-85bd-59c8437a3ab9',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/VirtualNetworkAdapters" type="application/atom+xml;type=feed" title="VirtualNetworkAdapters" href="VMTemplates(ID=guid'bcb712ce-a0b2-4501-85bd-59c8437a3ab9',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')/VirtualNetworkAdapters"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/VirtualSCSIAdapters" type="application/atom+xml;type=feed" title="VirtualSCSIAdapters" href="VMTemplates(ID=guid'bcb712ce-a0b2-4501-85bd-59c8437a3ab9',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')/VirtualSCSIAdapters"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/VirtualHardDisks" type="application/atom+xml;type=feed" title="VirtualHardDisks" href="VMTemplates(ID=guid'bcb712ce-a0b2-4501-85bd-59c8437a3ab9',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')/VirtualHardDisks"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/VirtualDVDDrives" type="application/atom+xml;type=feed" title="VirtualDVDDrives" href="VMTemplates(ID=guid'bcb712ce-a0b2-4501-85bd-59c8437a3ab9',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')/VirtualDVDDrives"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/VirtualDiskDrives" type="application/atom+xml;type=feed" title="VirtualDiskDrives" href="VMTemplates(ID=guid'bcb712ce-a0b2-4501-85bd-59c8437a3ab9',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')/VirtualDiskDrives"/>
+    <title/>
+    <updated>2013-06-19T12:49:08Z</updated>
+    <author>
+      <name/>
+    </author>
+    <content type="application/xml">
+      <m:properties>
+        <d:StampId m:type="Edm.Guid">a68f9b8b-f8af-46b2-8636-255248c9b5ab</d:StampId>
+        <d:ID m:type="Edm.Guid">bcb712ce-a0b2-4501-85bd-59c8437a3ab9</d:ID>
+        <d:AccessedTime m:null="true"/>
+        <d:AddedTime m:type="Edm.DateTime">2013-05-08T10:45:14.54+02:00</d:AddedTime>
+        <d:Admin>root</d:Admin>
+        <d:AdminPasswordHasValue m:type="Edm.Boolean">true</d:AdminPasswordHasValue>
+        <d:ComputerName>gitlab</d:ComputerName>
+        <d:CPUCount m:type="Edm.Byte">2</d:CPUCount>
+        <d:CPUMax m:type="Edm.Int32">100</d:CPUMax>
+        <d:CPUReserve m:type="Edm.Int32">0</d:CPUReserve>
+        <d:CPUTypeId m:null="true"/>
+        <d:CreationTime m:type="Edm.DateTime">2013-05-08T10:45:14.54+02:00</d:CreationTime>
+        <d:DiskIO m:type="Edm.Int32">0</d:DiskIO>
+        <d:DomainAdmin m:null="true"/>
+        <d:DomainAdminPasswordHasValue m:type="Edm.Boolean">false</d:DomainAdminPasswordHasValue>
+        <d:ExpectedCPUUtilization m:type="Edm.Int32">20</d:ExpectedCPUUtilization>
+        <d:Enabled m:type="Edm.Boolean">true</d:Enabled>
+        <d:FullName m:null="true"/>
+        <d:HasVMAdditions m:type="Edm.Boolean">false</d:HasVMAdditions>
+        <d:IsHighlyAvailable m:type="Edm.Boolean">true</d:IsHighlyAvailable>
+        <d:JoinDomain m:null="true"/>
+        <d:JoinWorkgroup>WORKGROUP</d:JoinWorkgroup>
+        <d:LibraryGroup/>
+        <d:LimitCPUForMigration m:type="Edm.Boolean">false</d:LimitCPUForMigration>
+        <d:LimitCPUFunctionality m:type="Edm.Boolean">false</d:LimitCPUFunctionality>
+        <d:Location/>
+        <d:Memory m:type="Edm.Int32">3500</d:Memory>
+        <d:MergeAnswerFile m:type="Edm.Boolean">false</d:MergeAnswerFile>
+        <d:ModifiedTime m:type="Edm.DateTime">2013-06-19T13:49:21.307+02:00</d:ModifiedTime>
+        <d:Name>Temporary Templatef2217481-582b-4974-97f4-198b2746133c</d:Name>
+        <d:NetworkUtilization m:type="Edm.Int32">0</d:NetworkUtilization>
+        <d:OperatingSystem>Other Linux (64 bit)</d:OperatingSystem>
+        <d:OrgName m:null="true"/>
+        <d:Owner m:type="VMM.UserAndRole">
+          <d:UserName>xx-yyy\hhhh</d:UserName>
+          <d:RoleName>Administrator</d:RoleName>
+          <d:RoleID m:type="Edm.Guid">75700cd5-893e-4f68-ada7-50ef4668acc6</d:RoleID>
+        </d:Owner>
+        <d:GrantedToList m:type="Collection(VMM.UserAndRole)"/>
+        <d:QuotaPoint m:type="Edm.Int32">1</d:QuotaPoint>
+        <d:ProductKeyHasValue m:type="Edm.Boolean">false</d:ProductKeyHasValue>
+        <d:RelativeWeight m:type="Edm.Int32">100</d:RelativeWeight>
+        <d:ShareSCSIBus m:type="Edm.Boolean">false</d:ShareSCSIBus>
+        <d:Tag>(none)</d:Tag>
+        <d:TimeZone m:type="Edm.Int32">110</d:TimeZone>
+        <d:TotalVHDCapacity m:type="Edm.Int64">42949672960</d:TotalVHDCapacity>
+        <d:UndoDisksEnabled m:type="Edm.Boolean">false</d:UndoDisksEnabled>
+        <d:UseHardwareAssistedVirtualization m:type="Edm.Boolean">false</d:UseHardwareAssistedVirtualization>
+        <d:Accessibility>Public</d:Accessibility>
+        <d:CostCenter m:null="true"/>
+        <d:Description/>
+        <d:IsTagEmpty m:type="Edm.Boolean">false</d:IsTagEmpty>
+        <d:NicCount m:type="Edm.Int32">1</d:NicCount>
+        <d:NumLockEnabled m:type="Edm.Boolean">false</d:NumLockEnabled>
+        <d:VMAddition>Not Detected</d:VMAddition>
+        <d:IsCustomizable m:type="Edm.Boolean">true</d:IsCustomizable>
+        <d:DomainAdminPasswordIsServiceSetting m:type="Edm.Boolean">false</d:DomainAdminPasswordIsServiceSetting>
+        <d:SANCopyCapable m:type="Edm.Boolean">false</d:SANCopyCapable>
+        <d:IsTemporaryTemplate m:type="Edm.Boolean">true</d:IsTemporaryTemplate>
+        <d:VMTemplateId m:null="true"/>
+        <d:VirtualHardDiskId m:null="true"/>
+        <d:VMId m:null="true"/>
+        <d:SharePath m:null="true"/>
+        <d:ApplicationProfileId m:null="true"/>
+        <d:CloudID m:null="true"/>
+        <d:DynamicMemoryBufferPercentage m:null="true"/>
+        <d:DynamicMemoryEnabled m:type="Edm.Boolean">false</d:DynamicMemoryEnabled>
+        <d:DynamicMemoryMaximumMB m:null="true"/>
+        <d:MemoryWeight m:type="Edm.Int16">5000</d:MemoryWeight>
+        <d:DynamicMemoryPreferredBufferPercentage m:null="true"/>
+        <d:SQLProfileId m:null="true"/>
+        <d:VirtualFloppyDriveId m:null="true"/>
+        <d:BootOrder m:type="Collection(Edm.String)">
+          <d:element>CD</d:element>
+          <d:element>IdeHardDrive</d:element>
+          <d:element>PxeBoot</d:element>
+          <d:element>Floppy</d:element>
+        </d:BootOrder>
+        <d:CustomProperties m:type="Collection(Edm.String)">
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+        </d:CustomProperties>
+        <d:GuiRunOnceCommands m:type="Collection(Edm.String)"/>
+        <d:ServerFeatures m:type="Collection(Edm.String)"/>
+        <d:Status>Normal</d:Status>
+        <d:VirtualizationPlatform>HyperV</d:VirtualizationPlatform>
+        <d:CapabilityProfile>Hyper-V</d:CapabilityProfile>
+        <d:AutoLogonCount m:null="true"/>
+        <d:DomainJoinOrganizationalUnit m:null="true"/>
+        <d:SANStatus m:type="Collection(Edm.String)"/>
+      </m:properties>
+    </content>
+  </entry>
+  <entry>
+    <id>https://srv-spf-98.bs.unsi.no:8090/SC2012/VMM/Microsoft.Management.Odata.svc/VMTemplates(ID=guid'bd884799-ea41-44e6-9a89-cddd140f201f',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')</id>
+    <category term="VMM.VMTemplate" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"/>
+    <link rel="edit" title="VMTemplate" href="VMTemplates(ID=guid'bd884799-ea41-44e6-9a89-cddd140f201f',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/VirtualNetworkAdapters" type="application/atom+xml;type=feed" title="VirtualNetworkAdapters" href="VMTemplates(ID=guid'bd884799-ea41-44e6-9a89-cddd140f201f',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')/VirtualNetworkAdapters"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/VirtualSCSIAdapters" type="application/atom+xml;type=feed" title="VirtualSCSIAdapters" href="VMTemplates(ID=guid'bd884799-ea41-44e6-9a89-cddd140f201f',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')/VirtualSCSIAdapters"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/VirtualHardDisks" type="application/atom+xml;type=feed" title="VirtualHardDisks" href="VMTemplates(ID=guid'bd884799-ea41-44e6-9a89-cddd140f201f',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')/VirtualHardDisks"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/VirtualDVDDrives" type="application/atom+xml;type=feed" title="VirtualDVDDrives" href="VMTemplates(ID=guid'bd884799-ea41-44e6-9a89-cddd140f201f',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')/VirtualDVDDrives"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/VirtualDiskDrives" type="application/atom+xml;type=feed" title="VirtualDiskDrives" href="VMTemplates(ID=guid'bd884799-ea41-44e6-9a89-cddd140f201f',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')/VirtualDiskDrives"/>
+    <title/>
+    <updated>2013-06-19T12:49:08Z</updated>
+    <author>
+      <name/>
+    </author>
+    <content type="application/xml">
+      <m:properties>
+        <d:StampId m:type="Edm.Guid">a68f9b8b-f8af-46b2-8636-255248c9b5ab</d:StampId>
+        <d:ID m:type="Edm.Guid">bd884799-ea41-44e6-9a89-cddd140f201f</d:ID>
+        <d:AccessedTime m:null="true"/>
+        <d:AddedTime m:type="Edm.DateTime">2013-05-08T10:45:14.54+02:00</d:AddedTime>
+        <d:Admin>root</d:Admin>
+        <d:AdminPasswordHasValue m:type="Edm.Boolean">true</d:AdminPasswordHasValue>
+        <d:ComputerName>gitlab</d:ComputerName>
+        <d:CPUCount m:type="Edm.Byte">2</d:CPUCount>
+        <d:CPUMax m:type="Edm.Int32">100</d:CPUMax>
+        <d:CPUReserve m:type="Edm.Int32">0</d:CPUReserve>
+        <d:CPUTypeId m:null="true"/>
+        <d:CreationTime m:type="Edm.DateTime">2013-05-08T10:45:14.54+02:00</d:CreationTime>
+        <d:DiskIO m:type="Edm.Int32">0</d:DiskIO>
+        <d:DomainAdmin m:null="true"/>
+        <d:DomainAdminPasswordHasValue m:type="Edm.Boolean">false</d:DomainAdminPasswordHasValue>
+        <d:ExpectedCPUUtilization m:type="Edm.Int32">20</d:ExpectedCPUUtilization>
+        <d:Enabled m:type="Edm.Boolean">true</d:Enabled>
+        <d:FullName m:null="true"/>
+        <d:HasVMAdditions m:type="Edm.Boolean">false</d:HasVMAdditions>
+        <d:IsHighlyAvailable m:type="Edm.Boolean">true</d:IsHighlyAvailable>
+        <d:JoinDomain m:null="true"/>
+        <d:JoinWorkgroup>WORKGROUP</d:JoinWorkgroup>
+        <d:LibraryGroup/>
+        <d:LimitCPUForMigration m:type="Edm.Boolean">false</d:LimitCPUForMigration>
+        <d:LimitCPUFunctionality m:type="Edm.Boolean">false</d:LimitCPUFunctionality>
+        <d:Location/>
+        <d:Memory m:type="Edm.Int32">3500</d:Memory>
+        <d:MergeAnswerFile m:type="Edm.Boolean">true</d:MergeAnswerFile>
+        <d:ModifiedTime m:type="Edm.DateTime">2013-06-19T14:46:29.4357848+02:00</d:ModifiedTime>
+        <d:Name>Temporary Template8e176bea-b31e-4318-8b93-3c3d207b7c7c</d:Name>
+        <d:NetworkUtilization m:type="Edm.Int32">0</d:NetworkUtilization>
+        <d:OperatingSystem>Other Linux (64 bit)</d:OperatingSystem>
+        <d:OrgName m:null="true"/>
+        <d:Owner m:type="VMM.UserAndRole">
+          <d:UserName>xx-yyy\iiii</d:UserName>
+          <d:RoleName>Administrator</d:RoleName>
+          <d:RoleID m:type="Edm.Guid">75700cd5-893e-4f68-ada7-50ef4668acc6</d:RoleID>
+        </d:Owner>
+        <d:GrantedToList m:type="Collection(VMM.UserAndRole)"/>
+        <d:QuotaPoint m:type="Edm.Int32">1</d:QuotaPoint>
+        <d:ProductKeyHasValue m:type="Edm.Boolean">false</d:ProductKeyHasValue>
+        <d:RelativeWeight m:type="Edm.Int32">100</d:RelativeWeight>
+        <d:ShareSCSIBus m:type="Edm.Boolean">false</d:ShareSCSIBus>
+        <d:Tag>(none)</d:Tag>
+        <d:TimeZone m:type="Edm.Int32">110</d:TimeZone>
+        <d:TotalVHDCapacity m:type="Edm.Int64">42949672960</d:TotalVHDCapacity>
+        <d:UndoDisksEnabled m:type="Edm.Boolean">false</d:UndoDisksEnabled>
+        <d:UseHardwareAssistedVirtualization m:type="Edm.Boolean">false</d:UseHardwareAssistedVirtualization>
+        <d:Accessibility>Public</d:Accessibility>
+        <d:CostCenter m:null="true"/>
+        <d:Description/>
+        <d:IsTagEmpty m:type="Edm.Boolean">false</d:IsTagEmpty>
+        <d:NicCount m:type="Edm.Int32">1</d:NicCount>
+        <d:NumLockEnabled m:type="Edm.Boolean">false</d:NumLockEnabled>
+        <d:VMAddition>Not Detected</d:VMAddition>
+        <d:IsCustomizable m:type="Edm.Boolean">true</d:IsCustomizable>
+        <d:DomainAdminPasswordIsServiceSetting m:type="Edm.Boolean">false</d:DomainAdminPasswordIsServiceSetting>
+        <d:SANCopyCapable m:type="Edm.Boolean">false</d:SANCopyCapable>
+        <d:IsTemporaryTemplate m:type="Edm.Boolean">true</d:IsTemporaryTemplate>
+        <d:VMTemplateId m:null="true"/>
+        <d:VirtualHardDiskId m:null="true"/>
+        <d:VMId m:null="true"/>
+        <d:SharePath m:null="true"/>
+        <d:ApplicationProfileId m:null="true"/>
+        <d:CloudID m:null="true"/>
+        <d:DynamicMemoryBufferPercentage m:null="true"/>
+        <d:DynamicMemoryEnabled m:type="Edm.Boolean">false</d:DynamicMemoryEnabled>
+        <d:DynamicMemoryMaximumMB m:null="true"/>
+        <d:MemoryWeight m:type="Edm.Int16">5000</d:MemoryWeight>
+        <d:DynamicMemoryPreferredBufferPercentage m:null="true"/>
+        <d:SQLProfileId m:null="true"/>
+        <d:VirtualFloppyDriveId m:null="true"/>
+        <d:BootOrder m:type="Collection(Edm.String)">
+          <d:element>CD</d:element>
+          <d:element>IdeHardDrive</d:element>
+          <d:element>PxeBoot</d:element>
+          <d:element>Floppy</d:element>
+        </d:BootOrder>
+        <d:CustomProperties m:type="Collection(Edm.String)">
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+        </d:CustomProperties>
+        <d:GuiRunOnceCommands m:type="Collection(Edm.String)"/>
+        <d:ServerFeatures m:type="Collection(Edm.String)"/>
+        <d:Status>Normal</d:Status>
+        <d:VirtualizationPlatform>Unknown</d:VirtualizationPlatform>
+        <d:CapabilityProfile>Hyper-V</d:CapabilityProfile>
+        <d:AutoLogonCount m:null="true"/>
+        <d:DomainJoinOrganizationalUnit m:null="true"/>
+        <d:SANStatus m:type="Collection(Edm.String)"/>
+      </m:properties>
+    </content>
+  </entry>
+  <entry>
+    <id>https://srv-spf-98.bs.unsi.no:8090/SC2012/VMM/Microsoft.Management.Odata.svc/VMTemplates(ID=guid'be2d74ae-68ea-4127-8ec0-3c75bd1a9e6c',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')</id>
+    <category term="VMM.VMTemplate" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"/>
+    <link rel="edit" title="VMTemplate" href="VMTemplates(ID=guid'be2d74ae-68ea-4127-8ec0-3c75bd1a9e6c',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/VirtualNetworkAdapters" type="application/atom+xml;type=feed" title="VirtualNetworkAdapters" href="VMTemplates(ID=guid'be2d74ae-68ea-4127-8ec0-3c75bd1a9e6c',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')/VirtualNetworkAdapters"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/VirtualSCSIAdapters" type="application/atom+xml;type=feed" title="VirtualSCSIAdapters" href="VMTemplates(ID=guid'be2d74ae-68ea-4127-8ec0-3c75bd1a9e6c',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')/VirtualSCSIAdapters"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/VirtualHardDisks" type="application/atom+xml;type=feed" title="VirtualHardDisks" href="VMTemplates(ID=guid'be2d74ae-68ea-4127-8ec0-3c75bd1a9e6c',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')/VirtualHardDisks"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/VirtualDVDDrives" type="application/atom+xml;type=feed" title="VirtualDVDDrives" href="VMTemplates(ID=guid'be2d74ae-68ea-4127-8ec0-3c75bd1a9e6c',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')/VirtualDVDDrives"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/VirtualDiskDrives" type="application/atom+xml;type=feed" title="VirtualDiskDrives" href="VMTemplates(ID=guid'be2d74ae-68ea-4127-8ec0-3c75bd1a9e6c',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')/VirtualDiskDrives"/>
+    <title/>
+    <updated>2013-06-19T12:49:08Z</updated>
+    <author>
+      <name/>
+    </author>
+    <content type="application/xml">
+      <m:properties>
+        <d:StampId m:type="Edm.Guid">a68f9b8b-f8af-46b2-8636-255248c9b5ab</d:StampId>
+        <d:ID m:type="Edm.Guid">be2d74ae-68ea-4127-8ec0-3c75bd1a9e6c</d:ID>
+        <d:AccessedTime m:null="true"/>
+        <d:AddedTime m:type="Edm.DateTime">2013-05-08T10:45:14.54+02:00</d:AddedTime>
+        <d:Admin>root</d:Admin>
+        <d:AdminPasswordHasValue m:type="Edm.Boolean">true</d:AdminPasswordHasValue>
+        <d:ComputerName>*</d:ComputerName>
+        <d:CPUCount m:type="Edm.Byte">1</d:CPUCount>
+        <d:CPUMax m:type="Edm.Int32">100</d:CPUMax>
+        <d:CPUReserve m:type="Edm.Int32">0</d:CPUReserve>
+        <d:CPUTypeId m:null="true"/>
+        <d:CreationTime m:type="Edm.DateTime">2013-05-08T10:45:14.54+02:00</d:CreationTime>
+        <d:DiskIO m:type="Edm.Int32">0</d:DiskIO>
+        <d:DomainAdmin m:null="true"/>
+        <d:DomainAdminPasswordHasValue m:type="Edm.Boolean">false</d:DomainAdminPasswordHasValue>
+        <d:ExpectedCPUUtilization m:type="Edm.Int32">20</d:ExpectedCPUUtilization>
+        <d:Enabled m:type="Edm.Boolean">true</d:Enabled>
+        <d:FullName m:null="true"/>
+        <d:HasVMAdditions m:type="Edm.Boolean">false</d:HasVMAdditions>
+        <d:IsHighlyAvailable m:type="Edm.Boolean">false</d:IsHighlyAvailable>
+        <d:JoinDomain m:null="true"/>
+        <d:JoinWorkgroup>WORKGROUP</d:JoinWorkgroup>
+        <d:LibraryGroup/>
+        <d:LimitCPUForMigration m:type="Edm.Boolean">false</d:LimitCPUForMigration>
+        <d:LimitCPUFunctionality m:type="Edm.Boolean">false</d:LimitCPUFunctionality>
+        <d:Location/>
+        <d:Memory m:type="Edm.Int32">512</d:Memory>
+        <d:MergeAnswerFile m:type="Edm.Boolean">true</d:MergeAnswerFile>
+        <d:ModifiedTime m:type="Edm.DateTime">2013-06-19T14:45:29.6251096+02:00</d:ModifiedTime>
+        <d:Name>Debian 7.0 Test Template</d:Name>
+        <d:NetworkUtilization m:type="Edm.Int32">0</d:NetworkUtilization>
+        <d:OperatingSystem>Other Linux (64 bit)</d:OperatingSystem>
+        <d:OrgName m:null="true"/>
+        <d:Owner m:type="VMM.UserAndRole">
+          <d:UserName>xx-yyy\jjjj</d:UserName>
+          <d:RoleName>Administrator</d:RoleName>
+          <d:RoleID m:type="Edm.Guid">75700cd5-893e-4f68-ada7-50ef4668acc6</d:RoleID>
+        </d:Owner>
+        <d:GrantedToList m:type="Collection(VMM.UserAndRole)">
+          <d:element>
+            <d:UserName m:null="true"/>
+            <d:RoleName>aaa Users</d:RoleName>
+            <d:RoleID m:type="Edm.Guid">17781df7-d938-4795-974d-3607bc9ee184</d:RoleID>
+          </d:element>
+          <d:element>
+            <d:UserName m:null="true"/>
+            <d:RoleName>bbb Admins</d:RoleName>
+            <d:RoleID m:type="Edm.Guid">f2191c72-7671-4b5c-b022-3a2460a6bd46</d:RoleID>
+          </d:element>
+          <d:element>
+            <d:UserName m:null="true"/>
+            <d:RoleName>wewf</d:RoleName>
+            <d:RoleID m:type="Edm.Guid">58ce4833-1101-4bd8-8bc6-b72fe4c87cb8</d:RoleID>
+          </d:element>
+        </d:GrantedToList>
+        <d:QuotaPoint m:type="Edm.Int32">1</d:QuotaPoint>
+        <d:ProductKeyHasValue m:type="Edm.Boolean">false</d:ProductKeyHasValue>
+        <d:RelativeWeight m:type="Edm.Int32">100</d:RelativeWeight>
+        <d:ShareSCSIBus m:type="Edm.Boolean">false</d:ShareSCSIBus>
+        <d:Tag>(none)</d:Tag>
+        <d:TimeZone m:type="Edm.Int32">110</d:TimeZone>
+        <d:TotalVHDCapacity m:type="Edm.Int64">42949672960</d:TotalVHDCapacity>
+        <d:UndoDisksEnabled m:type="Edm.Boolean">false</d:UndoDisksEnabled>
+        <d:UseHardwareAssistedVirtualization m:type="Edm.Boolean">false</d:UseHardwareAssistedVirtualization>
+        <d:Accessibility>Public</d:Accessibility>
+        <d:CostCenter m:null="true"/>
+        <d:Description/>
+        <d:IsTagEmpty m:type="Edm.Boolean">false</d:IsTagEmpty>
+        <d:NicCount m:type="Edm.Int32">1</d:NicCount>
+        <d:NumLockEnabled m:type="Edm.Boolean">false</d:NumLockEnabled>
+        <d:VMAddition>Not Detected</d:VMAddition>
+        <d:IsCustomizable m:type="Edm.Boolean">true</d:IsCustomizable>
+        <d:DomainAdminPasswordIsServiceSetting m:type="Edm.Boolean">false</d:DomainAdminPasswordIsServiceSetting>
+        <d:SANCopyCapable m:type="Edm.Boolean">false</d:SANCopyCapable>
+        <d:IsTemporaryTemplate m:type="Edm.Boolean">false</d:IsTemporaryTemplate>
+        <d:VMTemplateId m:null="true"/>
+        <d:VirtualHardDiskId m:null="true"/>
+        <d:VMId m:null="true"/>
+        <d:SharePath m:null="true"/>
+        <d:ApplicationProfileId m:null="true"/>
+        <d:CloudID m:null="true"/>
+        <d:DynamicMemoryBufferPercentage m:null="true"/>
+        <d:DynamicMemoryEnabled m:type="Edm.Boolean">false</d:DynamicMemoryEnabled>
+        <d:DynamicMemoryMaximumMB m:null="true"/>
+        <d:MemoryWeight m:type="Edm.Int16">5000</d:MemoryWeight>
+        <d:DynamicMemoryPreferredBufferPercentage m:null="true"/>
+        <d:SQLProfileId m:null="true"/>
+        <d:VirtualFloppyDriveId m:null="true"/>
+        <d:BootOrder m:type="Collection(Edm.String)">
+          <d:element>CD</d:element>
+          <d:element>IdeHardDrive</d:element>
+          <d:element>PxeBoot</d:element>
+          <d:element>Floppy</d:element>
+        </d:BootOrder>
+        <d:CustomProperties m:type="Collection(Edm.String)">
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+        </d:CustomProperties>
+        <d:GuiRunOnceCommands m:type="Collection(Edm.String)"/>
+        <d:ServerFeatures m:type="Collection(Edm.String)"/>
+        <d:Status>Normal</d:Status>
+        <d:VirtualizationPlatform>Unknown</d:VirtualizationPlatform>
+        <d:CapabilityProfile>Hyper-V</d:CapabilityProfile>
+        <d:AutoLogonCount m:null="true"/>
+        <d:DomainJoinOrganizationalUnit m:null="true"/>
+        <d:SANStatus m:type="Collection(Edm.String)"/>
+      </m:properties>
+    </content>
+  </entry>
+  <entry>
+    <id>https://srv-spf-98.bs.unsi.no:8090/SC2012/VMM/Microsoft.Management.Odata.svc/VMTemplates(ID=guid'c0f268bb-db87-4cb8-a6d4-f20c79a8dceb',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')</id>
+    <category term="VMM.VMTemplate" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"/>
+    <link rel="edit" title="VMTemplate" href="VMTemplates(ID=guid'c0f268bb-db87-4cb8-a6d4-f20c79a8dceb',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/VirtualNetworkAdapters" type="application/atom+xml;type=feed" title="VirtualNetworkAdapters" href="VMTemplates(ID=guid'c0f268bb-db87-4cb8-a6d4-f20c79a8dceb',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')/VirtualNetworkAdapters"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/VirtualSCSIAdapters" type="application/atom+xml;type=feed" title="VirtualSCSIAdapters" href="VMTemplates(ID=guid'c0f268bb-db87-4cb8-a6d4-f20c79a8dceb',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')/VirtualSCSIAdapters"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/VirtualHardDisks" type="application/atom+xml;type=feed" title="VirtualHardDisks" href="VMTemplates(ID=guid'c0f268bb-db87-4cb8-a6d4-f20c79a8dceb',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')/VirtualHardDisks"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/VirtualDVDDrives" type="application/atom+xml;type=feed" title="VirtualDVDDrives" href="VMTemplates(ID=guid'c0f268bb-db87-4cb8-a6d4-f20c79a8dceb',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')/VirtualDVDDrives"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/VirtualDiskDrives" type="application/atom+xml;type=feed" title="VirtualDiskDrives" href="VMTemplates(ID=guid'c0f268bb-db87-4cb8-a6d4-f20c79a8dceb',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')/VirtualDiskDrives"/>
+    <title/>
+    <updated>2013-06-19T12:49:08Z</updated>
+    <author>
+      <name/>
+    </author>
+    <content type="application/xml">
+      <m:properties>
+        <d:StampId m:type="Edm.Guid">a68f9b8b-f8af-46b2-8636-255248c9b5ab</d:StampId>
+        <d:ID m:type="Edm.Guid">c0f268bb-db87-4cb8-a6d4-f20c79a8dceb</d:ID>
+        <d:AccessedTime m:null="true"/>
+        <d:AddedTime m:type="Edm.DateTime">2013-05-08T10:45:14.54+02:00</d:AddedTime>
+        <d:Admin>root</d:Admin>
+        <d:AdminPasswordHasValue m:type="Edm.Boolean">true</d:AdminPasswordHasValue>
+        <d:ComputerName>gitlab</d:ComputerName>
+        <d:CPUCount m:type="Edm.Byte">2</d:CPUCount>
+        <d:CPUMax m:type="Edm.Int32">100</d:CPUMax>
+        <d:CPUReserve m:type="Edm.Int32">0</d:CPUReserve>
+        <d:CPUTypeId m:null="true"/>
+        <d:CreationTime m:type="Edm.DateTime">2013-05-08T10:45:14.54+02:00</d:CreationTime>
+        <d:DiskIO m:type="Edm.Int32">0</d:DiskIO>
+        <d:DomainAdmin m:null="true"/>
+        <d:DomainAdminPasswordHasValue m:type="Edm.Boolean">false</d:DomainAdminPasswordHasValue>
+        <d:ExpectedCPUUtilization m:type="Edm.Int32">20</d:ExpectedCPUUtilization>
+        <d:Enabled m:type="Edm.Boolean">true</d:Enabled>
+        <d:FullName m:null="true"/>
+        <d:HasVMAdditions m:type="Edm.Boolean">false</d:HasVMAdditions>
+        <d:IsHighlyAvailable m:type="Edm.Boolean">true</d:IsHighlyAvailable>
+        <d:JoinDomain m:null="true"/>
+        <d:JoinWorkgroup>WORKGROUP</d:JoinWorkgroup>
+        <d:LibraryGroup/>
+        <d:LimitCPUForMigration m:type="Edm.Boolean">false</d:LimitCPUForMigration>
+        <d:LimitCPUFunctionality m:type="Edm.Boolean">false</d:LimitCPUFunctionality>
+        <d:Location/>
+        <d:Memory m:type="Edm.Int32">3500</d:Memory>
+        <d:MergeAnswerFile m:type="Edm.Boolean">true</d:MergeAnswerFile>
+        <d:ModifiedTime m:type="Edm.DateTime">2013-06-19T14:02:46.9771552+02:00</d:ModifiedTime>
+        <d:Name>Temporary Templatec95c6fb3-96f2-4c91-a23a-b9eb16c26e71</d:Name>
+        <d:NetworkUtilization m:type="Edm.Int32">0</d:NetworkUtilization>
+        <d:OperatingSystem>Other Linux (64 bit)</d:OperatingSystem>
+        <d:OrgName m:null="true"/>
+        <d:Owner m:type="VMM.UserAndRole">
+          <d:UserName>xx-yyy\kkkk</d:UserName>
+          <d:RoleName>Administrator</d:RoleName>
+          <d:RoleID m:type="Edm.Guid">75700cd5-893e-4f68-ada7-50ef4668acc6</d:RoleID>
+        </d:Owner>
+        <d:GrantedToList m:type="Collection(VMM.UserAndRole)"/>
+        <d:QuotaPoint m:type="Edm.Int32">1</d:QuotaPoint>
+        <d:ProductKeyHasValue m:type="Edm.Boolean">false</d:ProductKeyHasValue>
+        <d:RelativeWeight m:type="Edm.Int32">100</d:RelativeWeight>
+        <d:ShareSCSIBus m:type="Edm.Boolean">false</d:ShareSCSIBus>
+        <d:Tag>(none)</d:Tag>
+        <d:TimeZone m:type="Edm.Int32">110</d:TimeZone>
+        <d:TotalVHDCapacity m:type="Edm.Int64">42949672960</d:TotalVHDCapacity>
+        <d:UndoDisksEnabled m:type="Edm.Boolean">false</d:UndoDisksEnabled>
+        <d:UseHardwareAssistedVirtualization m:type="Edm.Boolean">false</d:UseHardwareAssistedVirtualization>
+        <d:Accessibility>Public</d:Accessibility>
+        <d:CostCenter m:null="true"/>
+        <d:Description/>
+        <d:IsTagEmpty m:type="Edm.Boolean">false</d:IsTagEmpty>
+        <d:NicCount m:type="Edm.Int32">1</d:NicCount>
+        <d:NumLockEnabled m:type="Edm.Boolean">false</d:NumLockEnabled>
+        <d:VMAddition>Not Detected</d:VMAddition>
+        <d:IsCustomizable m:type="Edm.Boolean">true</d:IsCustomizable>
+        <d:DomainAdminPasswordIsServiceSetting m:type="Edm.Boolean">false</d:DomainAdminPasswordIsServiceSetting>
+        <d:SANCopyCapable m:type="Edm.Boolean">false</d:SANCopyCapable>
+        <d:IsTemporaryTemplate m:type="Edm.Boolean">true</d:IsTemporaryTemplate>
+        <d:VMTemplateId m:null="true"/>
+        <d:VirtualHardDiskId m:null="true"/>
+        <d:VMId m:null="true"/>
+        <d:SharePath m:null="true"/>
+        <d:ApplicationProfileId m:null="true"/>
+        <d:CloudID m:null="true"/>
+        <d:DynamicMemoryBufferPercentage m:null="true"/>
+        <d:DynamicMemoryEnabled m:type="Edm.Boolean">false</d:DynamicMemoryEnabled>
+        <d:DynamicMemoryMaximumMB m:null="true"/>
+        <d:MemoryWeight m:type="Edm.Int16">5000</d:MemoryWeight>
+        <d:DynamicMemoryPreferredBufferPercentage m:null="true"/>
+        <d:SQLProfileId m:null="true"/>
+        <d:VirtualFloppyDriveId m:null="true"/>
+        <d:BootOrder m:type="Collection(Edm.String)">
+          <d:element>CD</d:element>
+          <d:element>IdeHardDrive</d:element>
+          <d:element>PxeBoot</d:element>
+          <d:element>Floppy</d:element>
+        </d:BootOrder>
+        <d:CustomProperties m:type="Collection(Edm.String)">
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+        </d:CustomProperties>
+        <d:GuiRunOnceCommands m:type="Collection(Edm.String)"/>
+        <d:ServerFeatures m:type="Collection(Edm.String)"/>
+        <d:Status>Normal</d:Status>
+        <d:VirtualizationPlatform>HyperV</d:VirtualizationPlatform>
+        <d:CapabilityProfile>Hyper-V</d:CapabilityProfile>
+        <d:AutoLogonCount m:null="true"/>
+        <d:DomainJoinOrganizationalUnit m:null="true"/>
+        <d:SANStatus m:type="Collection(Edm.String)"/>
+      </m:properties>
+    </content>
+  </entry>
+  <entry>
+    <id>https://srv-spf-98.bs.unsi.no:8090/SC2012/VMM/Microsoft.Management.Odata.svc/VMTemplates(ID=guid'f25bf79e-c00b-4da6-af11-871aed0de5e1',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')</id>
+    <category term="VMM.VMTemplate" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"/>
+    <link rel="edit" title="VMTemplate" href="VMTemplates(ID=guid'f25bf79e-c00b-4da6-af11-871aed0de5e1',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/VirtualNetworkAdapters" type="application/atom+xml;type=feed" title="VirtualNetworkAdapters" href="VMTemplates(ID=guid'f25bf79e-c00b-4da6-af11-871aed0de5e1',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')/VirtualNetworkAdapters"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/VirtualSCSIAdapters" type="application/atom+xml;type=feed" title="VirtualSCSIAdapters" href="VMTemplates(ID=guid'f25bf79e-c00b-4da6-af11-871aed0de5e1',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')/VirtualSCSIAdapters"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/VirtualHardDisks" type="application/atom+xml;type=feed" title="VirtualHardDisks" href="VMTemplates(ID=guid'f25bf79e-c00b-4da6-af11-871aed0de5e1',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')/VirtualHardDisks"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/VirtualDVDDrives" type="application/atom+xml;type=feed" title="VirtualDVDDrives" href="VMTemplates(ID=guid'f25bf79e-c00b-4da6-af11-871aed0de5e1',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')/VirtualDVDDrives"/>
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/VirtualDiskDrives" type="application/atom+xml;type=feed" title="VirtualDiskDrives" href="VMTemplates(ID=guid'f25bf79e-c00b-4da6-af11-871aed0de5e1',StampId=guid'a68f9b8b-f8af-46b2-8636-255248c9b5ab')/VirtualDiskDrives"/>
+    <title/>
+    <updated>2013-06-19T12:49:08Z</updated>
+    <author>
+      <name/>
+    </author>
+    <content type="application/xml">
+      <m:properties>
+        <d:StampId m:type="Edm.Guid">a68f9b8b-f8af-46b2-8636-255248c9b5ab</d:StampId>
+        <d:ID m:type="Edm.Guid">f25bf79e-c00b-4da6-af11-871aed0de5e1</d:ID>
+        <d:AccessedTime m:null="true"/>
+        <d:AddedTime m:type="Edm.DateTime">2013-06-14T17:20:18.387+02:00</d:AddedTime>
+        <d:Admin>Administrator</d:Admin>
+        <d:AdminPasswordHasValue m:type="Edm.Boolean">true</d:AdminPasswordHasValue>
+        <d:ComputerName>*</d:ComputerName>
+        <d:CPUCount m:type="Edm.Byte">2</d:CPUCount>
+        <d:CPUMax m:type="Edm.Int32">100</d:CPUMax>
+        <d:CPUReserve m:type="Edm.Int32">0</d:CPUReserve>
+        <d:CPUTypeId m:null="true"/>
+        <d:CreationTime m:type="Edm.DateTime">2013-06-14T17:20:18.387+02:00</d:CreationTime>
+        <d:DiskIO m:type="Edm.Int32">0</d:DiskIO>
+        <d:DomainAdmin m:null="true"/>
+        <d:DomainAdminPasswordHasValue m:type="Edm.Boolean">false</d:DomainAdminPasswordHasValue>
+        <d:ExpectedCPUUtilization m:type="Edm.Int32">20</d:ExpectedCPUUtilization>
+        <d:Enabled m:type="Edm.Boolean">true</d:Enabled>
+        <d:FullName/>
+        <d:HasVMAdditions m:type="Edm.Boolean">false</d:HasVMAdditions>
+        <d:IsHighlyAvailable m:type="Edm.Boolean">true</d:IsHighlyAvailable>
+        <d:JoinDomain m:null="true"/>
+        <d:JoinWorkgroup>WORKGROUP</d:JoinWorkgroup>
+        <d:LibraryGroup/>
+        <d:LimitCPUForMigration m:type="Edm.Boolean">false</d:LimitCPUForMigration>
+        <d:LimitCPUFunctionality m:type="Edm.Boolean">false</d:LimitCPUFunctionality>
+        <d:Location/>
+        <d:Memory m:type="Edm.Int32">4096</d:Memory>
+        <d:MergeAnswerFile m:type="Edm.Boolean">false</d:MergeAnswerFile>
+        <d:ModifiedTime m:type="Edm.DateTime">2013-06-14T17:20:19.22+02:00</d:ModifiedTime>
+        <d:Name>[VM] - Windows Server 2012 - Intern IKT</d:Name>
+        <d:NetworkUtilization m:type="Edm.Int32">0</d:NetworkUtilization>
+        <d:OperatingSystem>64-bit edition of Windows Server 2012 Datacenter</d:OperatingSystem>
+        <d:OrgName/>
+        <d:Owner m:type="VMM.UserAndRole">
+          <d:UserName>xx-yyy\llll</d:UserName>
+          <d:RoleName>Administrator</d:RoleName>
+          <d:RoleID m:type="Edm.Guid">75700cd5-893e-4f68-ada7-50ef4668acc6</d:RoleID>
+        </d:Owner>
+        <d:GrantedToList m:type="Collection(VMM.UserAndRole)"/>
+        <d:QuotaPoint m:type="Edm.Int32">1</d:QuotaPoint>
+        <d:ProductKeyHasValue m:type="Edm.Boolean">false</d:ProductKeyHasValue>
+        <d:RelativeWeight m:type="Edm.Int32">100</d:RelativeWeight>
+        <d:ShareSCSIBus m:type="Edm.Boolean">false</d:ShareSCSIBus>
+        <d:Tag>(none)</d:Tag>
+        <d:TimeZone m:type="Edm.Int32">110</d:TimeZone>
+        <d:TotalVHDCapacity m:type="Edm.Int64">64424509440</d:TotalVHDCapacity>
+        <d:UndoDisksEnabled m:type="Edm.Boolean">false</d:UndoDisksEnabled>
+        <d:UseHardwareAssistedVirtualization m:type="Edm.Boolean">false</d:UseHardwareAssistedVirtualization>
+        <d:Accessibility>Public</d:Accessibility>
+        <d:CostCenter m:null="true"/>
+        <d:Description/>
+        <d:IsTagEmpty m:type="Edm.Boolean">true</d:IsTagEmpty>
+        <d:NicCount m:type="Edm.Int32">1</d:NicCount>
+        <d:NumLockEnabled m:type="Edm.Boolean">false</d:NumLockEnabled>
+        <d:VMAddition>Not Detected</d:VMAddition>
+        <d:IsCustomizable m:type="Edm.Boolean">true</d:IsCustomizable>
+        <d:DomainAdminPasswordIsServiceSetting m:type="Edm.Boolean">false</d:DomainAdminPasswordIsServiceSetting>
+        <d:SANCopyCapable m:type="Edm.Boolean">false</d:SANCopyCapable>
+        <d:IsTemporaryTemplate m:type="Edm.Boolean">false</d:IsTemporaryTemplate>
+        <d:VMTemplateId m:null="true"/>
+        <d:VirtualHardDiskId m:null="true"/>
+        <d:VMId m:null="true"/>
+        <d:SharePath m:null="true"/>
+        <d:ApplicationProfileId m:null="true"/>
+        <d:CloudID m:null="true"/>
+        <d:DynamicMemoryBufferPercentage m:type="Edm.Int16">20</d:DynamicMemoryBufferPercentage>
+        <d:DynamicMemoryEnabled m:type="Edm.Boolean">true</d:DynamicMemoryEnabled>
+        <d:DynamicMemoryMaximumMB m:type="Edm.Int32">8192</d:DynamicMemoryMaximumMB>
+        <d:MemoryWeight m:type="Edm.Int16">5000</d:MemoryWeight>
+        <d:DynamicMemoryPreferredBufferPercentage m:null="true"/>
+        <d:SQLProfileId m:null="true"/>
+        <d:VirtualFloppyDriveId m:null="true"/>
+        <d:BootOrder m:type="Collection(Edm.String)">
+          <d:element>CD</d:element>
+          <d:element>IdeHardDrive</d:element>
+          <d:element>PxeBoot</d:element>
+          <d:element>Floppy</d:element>
+        </d:BootOrder>
+        <d:CustomProperties m:type="Collection(Edm.String)">
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+          <d:element/>
+        </d:CustomProperties>
+        <d:GuiRunOnceCommands m:type="Collection(Edm.String)"/>
+        <d:ServerFeatures m:type="Collection(Edm.String)"/>
+        <d:Status>Normal</d:Status>
+        <d:VirtualizationPlatform>Unknown</d:VirtualizationPlatform>
+        <d:CapabilityProfile>Hyper-V</d:CapabilityProfile>
+        <d:AutoLogonCount m:null="true"/>
+        <d:DomainJoinOrganizationalUnit m:null="true"/>
+        <d:SANStatus m:type="Collection(Edm.String)"/>
+      </m:properties>
+    </content>
+  </entry>
+</feed>

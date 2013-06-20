@@ -776,6 +776,11 @@ module OData
         stub_request(:get, "http://blabla:@test.com/test.svc/HardwareProfiles?$filter=Memory%20eq%203500").
         with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
         to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/ms_system_center/hardware_profiles.xml", __FILE__)), :headers => {})
+
+        stub_request(:get, "http://blabla:@test.com/test.svc/VMTemplates").
+        with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
+        to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/ms_system_center/vm_templates.xml", __FILE__)), :headers => {})
+
       end
 
       it "should successfully return a virtual machine" do
@@ -791,6 +796,7 @@ module OData
         results = svc.execute
         results.first.should be_a_kind_of(VMM::HardwareProfile)
       end
+
       it "should successfully return a collection of complex types" do
         svc = OData::Service.new "http://test.com/test.svc/", { :username => "blabla", :password=> "", :verify_ssl => false, :namespace => "VMM" }
         svc.HardwareProfiles.filter("Memory eq 3500")
@@ -799,7 +805,24 @@ module OData
         granted_list.should be_a_kind_of(Array)
         granted_list.first.should be_a_kind_of(VMM::UserAndRole)
         granted_list.first.RoleName.should == "Important Tenant"
+      end
 
+
+      it "should successfully return results that include a collection of Edm types" do
+        svc = OData::Service.new "http://test.com/test.svc/", { :username => "blabla", :password=> "", :verify_ssl => false, :namespace => "VMM" }
+        svc.VMTemplates
+        results = svc.execute
+        results.first.should be_a_kind_of(VMM::VMTemplate)
+      end
+
+      it "should successfully return a collection of Edm types" do
+        svc = OData::Service.new "http://test.com/test.svc/", { :username => "blabla", :password=> "", :verify_ssl => false, :namespace => "VMM" }
+        svc.VMTemplates
+        results = svc.execute
+        boot_order = results.first.BootOrder
+        boot_order.should be_a_kind_of(Array)
+        boot_order.first.should be_a_kind_of(String)
+        boot_order.should eq ['CD', 'IdeHardDrive', 'PxeBoot', 'Floppy']
       end
     end
   end
@@ -817,7 +840,7 @@ module OData
         # This date was returned in the Netflix OData service and failed with an ArgumentError: out of range using 1.8.7 (2010-12-23 patchlevel 330) [i386-mingw32]
         svc = OData::Service.new "http://test.com/test.svc/"
         element_to_parse = Nokogiri::XML.parse('<d:AvailableFrom m:type="Edm.DateTime">2100-01-01T00:00:00</d:AvailableFrom>').elements[0]
-        lambda { svc.parse_value(element_to_parse) }.should_not raise_exception
+        lambda { svc.parse_value_xml(element_to_parse) }.should_not raise_exception
       end
     end
   end
