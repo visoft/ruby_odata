@@ -1,6 +1,7 @@
 require 'bundler'
 require 'rspec/core/rake_task'
 require 'cucumber/rake/task'
+require 'coveralls/rake/task'
 
 desc "Run specs"
 RSpec::Core::RakeTask.new do |t|
@@ -16,3 +17,6 @@ end
 
 Bundler::GemHelper.install_tasks
 task :default => [:spec, :features]
+
+Coveralls::RakeTask.new
+task :test_with_coveralls => [:spec, :features, 'coveralls:push']
