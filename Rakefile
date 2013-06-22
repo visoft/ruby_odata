@@ -1,7 +1,6 @@
 require 'bundler'
 require 'rspec/core/rake_task'
 require 'cucumber/rake/task'
-require 'coveralls/rake/task'
 
 desc "Run specs"
 RSpec::Core::RakeTask.new do |t|
@@ -18,5 +17,11 @@ end
 Bundler::GemHelper.install_tasks
 task :default => [:spec, :features]
 
-Coveralls::RakeTask.new
-task :test_with_coveralls => [:spec, :features, 'coveralls:push']
+task :test_with_coveralls => [:spec, :features, 'coveralls_push_workaround']
+task :coveralls_push_workaround do
+  if Gem::Version.new(RUBY_VERSION) > Gem::Version.new('1.9')
+    require 'coveralls/rake/task'
+    Coveralls::RakeTask.new
+    Rake::Task["coveralls:push"].invoke
+  end
+end
