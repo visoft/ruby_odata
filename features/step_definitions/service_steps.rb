@@ -20,28 +20,12 @@ Given /^a HTTP ODataService exists$/ do
   end
 end
 
-Given /^a HTTP BasicAuth ODataService exists$/ do
-  @service = OData::Service.new(BASICAUTH_URL)
-end
-
-Given /^a HTTPS BasicAuth ODataService exists$/ do
-  @service = OData::Service.new(HTTPS_BASICAUTH_URL)
-end
-
 Given /^a HTTP BasicAuth ODataService exists using username "([^\"]*)" and password "([^\"]*)"$/ do |username, password|
   @service = OData::Service.new(BASICAUTH_URL, { :username => username, :password => password })
 end
 
 Given /^a HTTP BasicAuth ODataService exists using username "([^\"]*)" and password "([^\"]*)" it should throw an exception with message "([^\"]*)"$/ do |username, password, msg|
   lambda { @service = OData::Service.new(BASICAUTH_URL, { :username => username, :password => password }) }.should raise_error(msg)
-end
-
-Given /^a HTTP BasicAuth ODataService exists it should throw an exception with message containing "([^\"]*)"$/ do |msg|
-  lambda { @service = OData::Service.new(BASICAUTH_URL) }.should raise_error(/#{msg}.*/)
-end
-
-Given /^a HTTPS BasicAuth ODataService exists it should throw an exception with message containing "([^"]*)"$/ do |msg|
-  lambda { @service = OData::Service.new(HTTPS_BASICAUTH_URL) }.should raise_error(/#{msg}.*/)
 end
 
 Given /^a HTTP BasicAuth ODataService exists it should throw an exception with message "([^\"]*)"$/ do |msg|
@@ -54,10 +38,6 @@ end
 
 When /^I call "([^\"]*)" on the service$/ do |method|
   @service_query = @service.send(method)
-end
-
-Then /^the result should be "([^\"]*)"$/ do |result|
-  @service_result.should eq result
 end
 
 Then /^the integer result should be ([^\"]*)$/ do |result|
@@ -216,27 +196,6 @@ Then /^the result should be:$/ do |table|
   table.diff!(result_table)
 end
 
-Then /^the save result should be:$/ do |table|
-  # table is a Cucumber::Ast::Table
-
-  fields = table.hashes[0].keys
-
-  # Build an array of hashes so that we can compare tables
-  results = []
-
-  @saved_result.each do |result|
-    obj_hash = Hash.new
-    fields.each do |field|
-      obj_hash[field] = result.send(field)
-    end
-    results << obj_hash
-  end
-
-  result_table = Cucumber::Ast::Table.new(results)
-
-  table.diff!(result_table)
-end
-
 Then /^a class named "([^\"]*)" should exist$/ do |klass_name|
   (Object.const_defined? klass_name).should eq true
 end
@@ -261,14 +220,6 @@ When /^I set "([^\"]*)" on the result's method "([^\"]*)" to "([^\"]*)"$/ do |pr
 end
 
 # Type tests
-Then /^the "([^\"]*)" method should return a (.*)/ do |method_name, type|
-  methods = method_name.split '.'
-  if methods.length == 1
-    @service_result.send(method_name).class.to_s.should eq type
-  else
-    @service_result.send(methods[0]).send(methods[1]).class.to_s.should eq type
-  end
-end
 Then /^the "([^\"]*)" method on the object should return a (.*)/ do |method_name, type|
   methods = method_name.split '.'
   if methods.length == 1
@@ -284,16 +235,9 @@ end
 
 Then /^the new query result's time "([^\"]*)" should equal the saved query result$/ do |method_name|
   methods = method_name.split '.'
-  if methods.length == 1
-    @service_result.send(method_name).xmlschema(3).should eq @stored_query_result.send(method_name).xmlschema(3)
-  else
-    @service_result.send(methods[0]).send(methods[1]).xmlschema(3).should eq @stored_query_result.send(methods[0]).send(methods[1]).xmlschema(3)
-  end
+  @service_result.send(methods[0]).send(methods[1]).xmlschema(3).should eq @stored_query_result.send(methods[0]).send(methods[1]).xmlschema(3)
 end
 
-Then /^show me the results$/ do
-  puts @service_result
-end
 
 Then /^the result count should be (\d+)$/ do |expected_count|
   @service_result.count.should eq expected_count.to_i

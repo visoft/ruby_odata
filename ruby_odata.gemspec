@@ -31,6 +31,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency("guard-rspec", "~> 1.2.1")
   s.add_development_dependency("guard-cucumber", "~> 1.2.0")
   s.add_development_dependency("vcr", "~> 2.2.4")
+  s.add_development_dependency("simplecov", "~> 0.7.1")
   s.add_development_dependency("coveralls", "~> 0.6.7")
 
   s.files         = `git ls-files`.split("\n")
