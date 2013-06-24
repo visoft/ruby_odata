@@ -1,7 +1,7 @@
 module OData
 # The main service class, also known as a *Context*
 class Service
-  attr_reader :classes, :class_metadata, :options, :collections, :edmx, :function_imports
+  attr_reader :classes, :class_metadata, :options, :collections, :edmx, :function_imports, :response
   # Creates a new instance of the Service class
   #
   # @param [String] service_uri the root URI of the OData service
@@ -97,9 +97,9 @@ class Service
   # Performs query operations (Read) against the server.
   # Typically this returns an array of record instances, except in the case of count queries
   def execute
-    result = RestClient::Resource.new(build_query_uri, @rest_options).get
-    return Integer(result) if result =~ /^\d+$/
-    handle_collection_result(result)
+    @response = RestClient::Resource.new(build_query_uri, @rest_options).get
+    return Integer(@response) if @response =~ /^\d+$/
+    handle_collection_result(@response)
   end
 
   # Overridden to identify methods handled by method_missing
