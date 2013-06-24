@@ -756,12 +756,6 @@ module OData
       end
     end
 
-    describe "restful options" do
-      it "should allow " do
-
-      end
-    end
-
     describe "handling of Microsoft System Center 2012" do
       before(:each) do
         # Required for the build_classes method
@@ -823,6 +817,52 @@ module OData
         boot_order.should be_a_kind_of(Array)
         boot_order.first.should be_a_kind_of(String)
         boot_order.should eq ['CD', 'IdeHardDrive', 'PxeBoot', 'Floppy']
+      end
+    end
+
+    describe "handling of nested expands" do
+      before(:each) do
+        stub_request(:get, "http://test.com/test.svc/$metadata").
+        with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate', 'User-Agent'=>'Ruby'}).
+        to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/nested_expands/edmx_northwind.xml", __FILE__)), :headers => {})
+
+        stub_request(:get, "http://test.com/test.svc/Products?$expand=Category,Category/Products&$top=2").
+        with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate', 'User-Agent'=>'Ruby'}).
+        to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/nested_expands/northwind_products_category_expands.xml", __FILE__)), :headers => {})
+      end
+
+      it "should successfully parse the results" do
+        svc = OData::Service.new "http://test.com/test.svc", { :namespace => "NW" }
+        svc.Products.expand('Category').expand('Category/Products').top(2)
+        lambda { svc.execute }.should_not raise_exception
+      end
+
+      it "should successfully parse a Category as a Category" do
+        svc = OData::Service.new "http://test.com/test.svc", { :namespace => "NW" }
+        svc.Products.expand('Category').expand('Category/Products').top(2)
+        products = svc.execute
+        products.first.Category.should be_a_kind_of(NW::Category)
+      end
+
+      it "should successfully parse the Category properties" do
+        svc = OData::Service.new "http://test.com/test.svc", { :namespace => "NW" }
+        svc.Products.expand('Category').expand('Category/Products').top(2)
+        products = svc.execute
+        products.first.Category.CategoryID.should eq 1
+      end
+
+      it "should successfully parse the Category children Products" do
+        svc = OData::Service.new "http://test.com/test.svc", { :namespace => "NW" }
+        svc.Products.expand('Category').expand('Category/Products').top(2)
+        products = svc.execute
+        products.first.Category.Products.length.should eq 12
+      end
+
+      it "should successfully parse the Category's child Product properties" do
+        svc = OData::Service.new "http://test.com/test.svc", { :namespace => "NW" }
+        svc.Products.expand('Category').expand('Category/Products').top(2)
+        products = svc.execute
+        products.first.Category.Products.first.ProductName.should eq "Chai"
       end
     end
   end
