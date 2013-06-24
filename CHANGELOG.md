@@ -122,4 +122,8 @@
     * Fixed issue with building a collection of complex types ([issue 26](https://github.com/visoft/ruby_odata/issues/26))
     * A collection of complex types is now returned as an array ([issue 26](https://github.com/visoft/ruby_odata/issues/26))
     * Fixed issue with building a child collection of native types ([issue 27](https://github.com/visoft/ruby_odata/issues/27))
+    * Corrected problem with addressable not being referenced
+    * Fixed issue with building nested expands ([issue 24](https://github.com/visoft/ruby_odata/pull/24), thanks [@joshuap](https://github.com/joshuap))
 
+* Other
+    * Updated the [VCR](https://github.com/myronmarston/vcr) and [WebMock](https://github.com/bblimke/webmock) gems to the latest versions (used for testing)
