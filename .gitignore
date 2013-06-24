@@ -10,6 +10,7 @@ doc/*
 *.gem
 .bundle
 Gemfile.lock
+Gemfile.*.lock
 pkg/*
 test/applicationhost.config
 .rvmrc

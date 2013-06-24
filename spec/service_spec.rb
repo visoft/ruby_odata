@@ -823,11 +823,11 @@ module OData
     describe "handling of nested expands" do
       before(:each) do
         stub_request(:get, "http://test.com/test.svc/$metadata").
-        with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate', 'User-Agent'=>'Ruby'}).
+        with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
         to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/nested_expands/edmx_northwind.xml", __FILE__)), :headers => {})
 
         stub_request(:get, "http://test.com/test.svc/Products?$expand=Category,Category/Products&$top=2").
-        with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate', 'User-Agent'=>'Ruby'}).
+        with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
         to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/nested_expands/northwind_products_category_expands.xml", __FILE__)), :headers => {})
       end
 
