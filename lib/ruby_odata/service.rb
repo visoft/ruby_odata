@@ -176,6 +176,7 @@ class Service
     @rest_options.merge!(options[:rest_options] || {})
     @additional_params = options[:additional_params] || {}
     @namespace = options[:namespace]
+    @json_type = options[:json_type] || :json
   end
 
   def default_instance_vars!
@@ -532,12 +533,12 @@ class Service
     if operation.kind == "Add"
       save_uri = build_save_uri(operation)
       json_klass = operation.klass.to_json(:type => :add)
-      post_result = RestClient::Resource.new(save_uri, @rest_options).post json_klass, {:content_type => :json}
+      post_result = RestClient::Resource.new(save_uri, @rest_options).post json_klass, {:content_type => @json_type}
       return build_classes_from_result(post_result)
     elsif operation.kind == "Update"
       update_uri = build_resource_uri(operation)
       json_klass = operation.klass.to_json
-      update_result = RestClient::Resource.new(update_uri, @rest_options).put json_klass, {:content_type => :json}
+      update_result = RestClient::Resource.new(update_uri, @rest_options).put json_klass, {:content_type => @json_type}
       return (update_result.code == 204)
     elsif operation.kind == "Delete"
       delete_uri = build_resource_uri(operation)
@@ -546,7 +547,7 @@ class Service
     elsif operation.kind == "AddLink"
       save_uri = build_add_link_uri(operation)
       json_klass = operation.child_klass.to_json(:type => :link)
-      post_result = RestClient::Resource.new(save_uri, @rest_options).post json_klass, {:content_type => :json}
+      post_result = RestClient::Resource.new(save_uri, @rest_options).post json_klass, {:content_type => @json_type}
 
       # Attach the child to the parent
       link_child_to_parent(operation) if (post_result.code == 204)
