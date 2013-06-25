@@ -118,6 +118,12 @@ module OData
           vars[i[0]] = i[1].to_s
         end
 
+        # Convert Arrays into proper Collections
+        collections = vars.find_all { |o| o[1].class == Array } || []
+        collections.each do |c|
+          vars[c[0]] = { '__metadata' => { 'type' => props[c[0]].type }, 'results' => c[1] }
+        end
+
         # Convert a BigDecimal to a string for serialization (to match Edm.Decimal)
         decimals = vars.find_all { |o| o[1].class == BigDecimal } || []
         decimals.each do |d|
