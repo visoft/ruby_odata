@@ -705,11 +705,11 @@ class Service
   end
 
   def parse_value(content, property_type = nil, property_null = nil)
-    # Handle a nil property type, this is a string
-    return content if property_type.nil?
-
     # Handle anything marked as null
     return nil if !property_null.nil? && property_null == "true"
+
+    # Handle a nil property type, this is a string
+    return content if property_type.nil?
 
     # Handle integers
     return content.to_i if property_type.match(/^Edm.Int/)

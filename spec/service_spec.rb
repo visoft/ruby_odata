@@ -776,6 +776,14 @@ module OData
         to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/ms_system_center/vm_templates.xml", __FILE__)), :headers => {})
 
       end
+      
+      it "should successfully parse null valued string properties" do
+        svc = OData::Service.new "http://test.com/test.svc/", { :username => "blabla", :password=> "", :verify_ssl => false, :namespace => "VMM" }
+        svc.VirtualMachines
+        results = svc.execute
+        results.first.should be_a_kind_of(VMM::VirtualMachine)
+        results.first.CostCenter.should be_nil
+      end
 
       it "should successfully return a virtual machine" do
         svc = OData::Service.new "http://test.com/test.svc/", { :username => "blabla", :password=> "", :verify_ssl => false, :namespace => "VMM" }
