@@ -313,7 +313,7 @@ class Service
 
   # Handles errors from the OData service
   def handle_exception(e)
-    raise e unless e.response
+    raise e unless defined? e.response
 
     code = e.http_code
     error = Nokogiri::XML(e.response)
