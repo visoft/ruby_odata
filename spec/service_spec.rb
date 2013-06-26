@@ -756,6 +756,38 @@ module OData
       end
     end
 
+    describe "JSON serialization of objects" do
+      before(:each) do
+        # Required for the build_classes method
+        stub_request(:get, "http://blabla:@test.com/test.svc/$metadata").
+        with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
+        to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/ms_system_center/edmx_ms_system_center.xml", __FILE__)), :headers => {})
+
+        stub_request(:get, "http://blabla:@test.com/test.svc/VirtualMachines").
+        with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
+        to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/ms_system_center/virtual_machines.xml", __FILE__)), :headers => {})
+        svc = OData::Service.new "http://test.com/test.svc/", { :username => "blabla", :password=> "", :verify_ssl => false, :namespace => "VMM" }
+        svc.VirtualMachines
+        results = svc.execute
+        @json = results.first.as_json
+      end      
+
+      it "Should quote Edm.Int64 properties" do
+        @json["PerfDiskBytesWrite"].should be_a(String)
+      end
+
+      it "Should output collections with metadata" do
+        @json["VMNetworkAssignments"].should be_a(Hash)
+        @json["VMNetworkAssignments"].should have_key("__metadata")
+        @json["VMNetworkAssignments"]["__metadata"].should be_a(Hash)
+        @json["VMNetworkAssignments"]["__metadata"].should have_key("type")
+        @json["VMNetworkAssignments"]["__metadata"]["type"].should eq("Collection(VMM.VMNetworkAssignment)")
+        @json["VMNetworkAssignments"].should have_key("results")
+        @json["VMNetworkAssignments"]["results"].should be_a(Array)
+        @json["VMNetworkAssignments"]["results"].should eq([])
+      end
+    end
+
     describe "handling of Microsoft System Center 2012" do
       before(:each) do
         # Required for the build_classes method
