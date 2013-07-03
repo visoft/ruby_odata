@@ -13,6 +13,23 @@ Cucumber::Rake::Task.new(:features) do |t|
   t.cucumber_opts = "features --format progress"
 end
 
-
 Bundler::GemHelper.install_tasks
 task :default => [:spec, :features]
+
+desc "Run with code coverage"
+task :coverage do
+  ENV['COVERAGE'] = 'true' if Gem::Version.new(RUBY_VERSION) > Gem::Version.new('1.9')
+
+  Rake::Task["spec"].execute
+  Rake::Task["features"].execute
+end
+
+desc "Run test with coveralls"
+task :test_with_coveralls =>   [:coverage, 'coveralls_push_workaround']
+task :coveralls_push_workaround do
+  if Gem::Version.new(RUBY_VERSION) > Gem::Version.new('1.9')
+    require 'coveralls/rake/task'
+    Coveralls::RakeTask.new
+    Rake::Task["coveralls:push"].invoke
+  end
+end

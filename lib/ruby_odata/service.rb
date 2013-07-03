@@ -1,7 +1,7 @@
 module OData
 # The main service class, also known as a *Context*
 class Service
-  attr_reader :classes, :class_metadata, :options, :collections, :edmx, :function_imports
+  attr_reader :classes, :class_metadata, :options, :collections, :edmx, :function_imports, :response
   # Creates a new instance of the Service class
   #
   # @param [String] service_uri the root URI of the OData service
@@ -97,9 +97,9 @@ class Service
   # Performs query operations (Read) against the server.
   # Typically this returns an array of record instances, except in the case of count queries
   def execute
-    result = RestClient::Resource.new(build_query_uri, @rest_options).get
-    return Integer(result) if result =~ /^\d+$/
-    handle_collection_result(result)
+    @response = RestClient::Resource.new(build_query_uri, @rest_options).get
+    return Integer(@response) if @response =~ /^\d+$/
+    handle_collection_result(@response)
   end
 
   # Overridden to identify methods handled by method_missing
@@ -176,6 +176,7 @@ class Service
     @rest_options.merge!(options[:rest_options] || {})
     @additional_params = options[:additional_params] || {}
     @namespace = options[:namespace]
+    @json_type = options[:json_type] || :json
   end
 
   def default_instance_vars!
@@ -312,7 +313,7 @@ class Service
 
   # Handles errors from the OData service
   def handle_exception(e)
-    raise e unless e.response
+    raise e unless defined? e.response
 
     code = e.http_code
     error = Nokogiri::XML(e.response)
@@ -375,11 +376,7 @@ class Service
 
     return nil if klass_name.nil?
 
-    # If we are working against a child (inline) entry, we need to use the more generic xpath because a child entry WILL
-    # have properties that are ancestors of m:inline. Check if there is an m:inline child to determine the xpath query to use
-    has_inline = entry.xpath(".//m:inline", @ds_namespaces).any?
-    properties_xpath = has_inline ? ".//m:properties[not(ancestor::m:inline)]/*" : ".//m:properties/*"
-    properties = entry.xpath(properties_xpath, @ds_namespaces)
+    properties = entry.xpath("./atom:content/m:properties/*", @ds_namespaces)
 
     klass = @classes[qualify_class_name(klass_name)].new
 
@@ -390,7 +387,7 @@ class Service
     # Fill properties
     for prop in properties
       prop_name = prop.name
-      klass.send "#{prop_name}=", parse_value(prop)
+      klass.send "#{prop_name}=", parse_value_xml(prop)
     end
 
     # Fill properties represented outside of the properties collection
@@ -407,15 +404,14 @@ class Service
     inline_links = entry.xpath("./atom:link[m:inline]", @ds_namespaces)
 
     for link in inline_links
-      inline_entries = link.xpath(".//atom:entry", @ds_namespaces)
-
       # TODO: Use the metadata's associations to determine the multiplicity instead of this "hack"
       property_name = link.attributes['title'].to_s
-      if inline_entries.length == 1 && singular?(property_name)
-        inline_klass = build_inline_class(klass, inline_entries[0], property_name)
+      if singular?(property_name)
+        inline_entry = link.xpath("./m:inline/atom:entry", @ds_namespaces).first
+        inline_klass = build_inline_class(klass, inline_entry, property_name)
         klass.send "#{property_name}=", inline_klass
       else
-        inline_classes = []
+        inline_classes, inline_entries = [], link.xpath("./m:inline/atom:feed/atom:entry", @ds_namespaces)
         for inline_entry in inline_entries
           # Build the class
           inline_klass = entry_to_class(inline_entry)
@@ -438,7 +434,7 @@ class Service
     next_links = doc.xpath('//atom:link[@rel="next"]', @ds_namespaces)
     @has_partial = next_links.any?
     if @has_partial
-      uri = Addressable::URI.parse(next_links[0]['href']) 
+      uri = Addressable::URI.parse(next_links[0]['href'])
       uri.query_values = uri.query_values.merge @additional_params unless @additional_params.empty?
       @next_uri = uri.to_s
     end
@@ -537,12 +533,12 @@ class Service
     if operation.kind == "Add"
       save_uri = build_save_uri(operation)
       json_klass = operation.klass.to_json(:type => :add)
-      post_result = RestClient::Resource.new(save_uri, @rest_options).post json_klass, {:content_type => :json}
+      post_result = RestClient::Resource.new(save_uri, @rest_options).post json_klass, {:content_type => @json_type}
       return build_classes_from_result(post_result)
     elsif operation.kind == "Update"
       update_uri = build_resource_uri(operation)
       json_klass = operation.klass.to_json
-      update_result = RestClient::Resource.new(update_uri, @rest_options).put json_klass, {:content_type => :json}
+      update_result = RestClient::Resource.new(update_uri, @rest_options).put json_klass, {:content_type => @json_type}
       return (update_result.code == 204)
     elsif operation.kind == "Delete"
       delete_uri = build_resource_uri(operation)
@@ -551,7 +547,7 @@ class Service
     elsif operation.kind == "AddLink"
       save_uri = build_add_link_uri(operation)
       json_klass = operation.child_klass.to_json(:type => :link)
-      post_result = RestClient::Resource.new(save_uri, @rest_options).post json_klass, {:content_type => :json}
+      post_result = RestClient::Resource.new(save_uri, @rest_options).post json_klass, {:content_type => @json_type}
 
       # Attach the child to the parent
       link_child_to_parent(operation) if (post_result.code == 204)
@@ -636,16 +632,45 @@ class Service
 
   # Complex Types
   def complex_type_to_class(complex_type_xml)
-    klass_name = qualify_class_name(Helpers.get_namespaced_attribute(complex_type_xml, 'type', 'm').split('.')[-1])
-    klass = @classes[klass_name].new
+    type = Helpers.get_namespaced_attribute(complex_type_xml, 'type', 'm')
 
-    # Fill in the properties
-    properties = complex_type_xml.xpath(".//*")
-    properties.each do |prop|
-      klass.send "#{prop.name}=", parse_value(prop)
+    is_collection = false
+    # Extract the class name in case this is a Collection
+    if type =~ /\(([^)]*)\)/m
+    	type = $~[1]
+      is_collection = true
+      collection = []
     end
 
-    return klass
+    klass_name = qualify_class_name(type.split('.')[-1])
+
+    if is_collection
+      # extract the elements from the collection
+      elements = complex_type_xml.xpath(".//d:element", @namespaces)
+      elements.each do |e|
+        if type.match(/^Edm/)
+          collection << parse_value(e.content, type)
+        else
+          element = @classes[klass_name].new
+          fill_complex_type_properties(e, element)
+          collection << element
+        end
+      end
+      return collection
+    else
+      klass = @classes[klass_name].new
+      # Fill in the properties
+      fill_complex_type_properties(complex_type_xml, klass)
+      return klass
+    end
+  end
+
+  # Helper method for complex_type_to_class
+  def fill_complex_type_properties(complex_type_xml, klass)
+    properties = complex_type_xml.xpath(".//*")
+    properties.each do |prop|
+      klass.send "#{prop.name}=", parse_value_xml(prop)
+    end
   end
 
   # Field Converters
@@ -668,31 +693,36 @@ class Service
   end
 
   # Parses a value into the proper type based on an xml property element
-  def parse_value(property_xml)
+  def parse_value_xml(property_xml)
     property_type = Helpers.get_namespaced_attribute(property_xml, 'type', 'm')
     property_null = Helpers.get_namespaced_attribute(property_xml, 'null', 'm')
 
-    # Handle a nil property type, this is a string
-    return property_xml.content if property_type.nil?
+    if property_type.nil? || (property_type && property_type.match(/^Edm/))
+      return parse_value(property_xml.content, property_type, property_null)
+    end
 
+    complex_type_to_class(property_xml)
+  end
+
+  def parse_value(content, property_type = nil, property_null = nil)
     # Handle anything marked as null
     return nil if !property_null.nil? && property_null == "true"
 
-    # Handle complex types
-    return complex_type_to_class(property_xml) if !property_type.match(/^Edm/)
+    # Handle a nil property type, this is a string
+    return content if property_type.nil?
 
     # Handle integers
-    return property_xml.content.to_i if property_type.match(/^Edm.Int/)
+    return content.to_i if property_type.match(/^Edm.Int/)
 
     # Handle decimals
-    return property_xml.content.to_d if property_type.match(/Edm.Decimal/)
+    return content.to_d if property_type.match(/Edm.Decimal/)
 
     # Handle DateTimes
     # return Time.parse(property_xml.content) if property_type.match(/Edm.DateTime/)
-    return parse_date(property_xml.content) if property_type.match(/Edm.DateTime/)
+    return parse_date(content) if property_type.match(/Edm.DateTime/)
 
     # If we can't parse the value, just return the element's content
-    property_xml.content
+    content
   end
 
   # Parses a value into the proper type based on a specified return type

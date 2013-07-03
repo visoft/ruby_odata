@@ -10,9 +10,12 @@ doc/*
 *.gem
 .bundle
 Gemfile.lock
+Gemfile.*.lock
 pkg/*
 test/applicationhost.config
 .rvmrc
+.ruby-version
+.ruby-gemset
 .DS_Store
 *ReSharper*
 *.suo
@@ -20,3 +23,4 @@ obj
 *.pdb
 test/RubyODataService/RubyODataService/bin/*.xml
 test/RubyODataService/RubyODataService/App_Data/*.sdf
+coverage/*

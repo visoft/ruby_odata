@@ -116,3 +116,23 @@
 
 * Other
     * Specified v2.3.4 of the addressable gem since there was a bug when testing ruby_odata against Ruby 1.8.7
+
+### 0.1.4
+* New Features
+    * Added option to override content type used for json updates ([issue 29](https://github.com/visoft/ruby_odata/pull/29), thanks [@sigmunau](https://github.com/sigmunau))
+
+* Bug Fixes
+    * Fixed issue with building a collection of complex types ([issue 26](https://github.com/visoft/ruby_odata/issues/26))
+    * A collection of complex types is now returned as an array ([issue 26](https://github.com/visoft/ruby_odata/issues/26))
+    * Fixed issue with building a child collection of native types ([issue 27](https://github.com/visoft/ruby_odata/issues/27))
+    * Corrected problem with addressable not being referenced
+    * Fixed issue with building nested expands ([issue 24](https://github.com/visoft/ruby_odata/pull/24), thanks [@joshuap](https://github.com/joshuap))
+    * Edm.Int64 is now formatted as a string, according to odata json spec ([issue 29](https://github.com/visoft/ruby_odata/pull/29), thanks [@sigmunau](https://github.com/sigmunau))
+    * Fixed formatting of collections for json output ([issue 29](https://github.com/visoft/ruby_odata/pull/29), thanks [@sigmunau](https://github.com/sigmunau))
+    * Fixed handling exceptions that are not http exceptions ([issue 29](https://github.com/visoft/ruby_odata/pull/29), thanks [@sigmunau](https://github.com/sigmunau))
+    * Fixed parsing of null strings ([issue 29](https://github.com/visoft/ruby_odata/pull/29), thanks [@sigmunau](https://github.com/sigmunau))
+
+* Other
+    * Updated the [VCR](https://github.com/myronmarston/vcr) and [WebMock](https://github.com/bblimke/webmock) gems to the latest versions (used for testing)
+    * Specified activesupport ~> 3.0 (in gemfiles/ruby187) for Ruby 1.8.7 as activesupport 4 doesn't support Ruby < 1.9.3
+
