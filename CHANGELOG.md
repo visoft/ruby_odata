@@ -132,7 +132,6 @@
     * Fixed handling exceptions that are not http exceptions ([issue 29](https://github.com/visoft/ruby_odata/pull/29), thanks [@sigmunau](https://github.com/sigmunau))
     * Fixed parsing of null strings ([issue 29](https://github.com/visoft/ruby_odata/pull/29), thanks [@sigmunau](https://github.com/sigmunau))
 
-
 * Other
     * Updated the [VCR](https://github.com/myronmarston/vcr) and [WebMock](https://github.com/bblimke/webmock) gems to the latest versions (used for testing)
     * Specified activesupport ~> 3.0 (in gemfiles/ruby187) for Ruby 1.8.7 as activesupport 4 doesn't support Ruby < 1.9.3
