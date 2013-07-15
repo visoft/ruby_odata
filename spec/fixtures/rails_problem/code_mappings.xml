@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <feed xml:base="http://reporting.vetdata.com/Mapping.svc/" xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata">
+  <id>http://reporting.vetdata.com/Mapping.svc/CodeMapping</id>
+  <title type="text">CodeMapping</title>
+  <updated>2013-07-10T18:05:22Z</updated>
+  <link rel="self" title="CodeMapping" href="CodeMapping" />
+  <entry>
+    <id>http://reporting.vetdata.com/Mapping.svc/CodeMapping(894L)</id>
+    <category term="Vetdata.Reporting.Mapping.Database.Model.CodeMapping" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" />
+    <link rel="edit" title="CodeMapping" href="CodeMapping(894L)" />
+    <title />
+    <updated>2013-07-10T18:05:22Z</updated>
+    <author>
+      <name />
+    </author>
+    <content type="application/xml">
+      <m:properties>
+        <d:Id m:type="Edm.Int64">894</d:Id>
+        <d:PartnerId m:type="Edm.Guid">173e43f5-145e-40f5-85f4</d:PartnerId>
+        <d:InstallationId m:type="Edm.Guid">496a520d-18b9-4cbe-943f</d:InstallationId>
+        <d:PmsCode>PPDHPG3</d:PmsCode>
+        <d:PartnerCode m:null="true" />
+        <d:PartnerCategory>Revenue Profit Centers</d:PartnerCategory>
+        <d:PartnerSubCategory>Vaccines</d:PartnerSubCategory>
+        <d:DateAdded m:type="Edm.DateTime">2013-05-16T17:18:22.45</d:DateAdded>
+        <d:DateChanged m:type="Edm.DateTime">2013-05-16T17:18:22.45</d:DateChanged>
+      </m:properties>
+    </content>
+  </entry>
+  <entry>
+    <id>http://reporting.vetdata.com/Mapping.svc/CodeMapping(895L)</id>
+    <category term="Vetdata.Reporting.Mapping.Database.Model.CodeMapping" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" />
+    <link rel="edit" title="CodeMapping" href="CodeMapping(895L)" />
+    <title />
+    <updated>2013-07-10T18:05:22Z</updated>
+    <author>
+      <name />
+    </author>
+    <content type="application/xml">
+      <m:properties>
+        <d:Id m:type="Edm.Int64">895</d:Id>
+        <d:PartnerId m:type="Edm.Guid">173e43f5-145e-40f5-85f4</d:PartnerId>
+        <d:InstallationId m:type="Edm.Guid">496a520d-18b9-4cbe-943f</d:InstallationId>
+        <d:PmsCode>PPDHPG1</d:PmsCode>
+        <d:PartnerCode m:null="true" />
+        <d:PartnerCategory>Revenue Profit Centers</d:PartnerCategory>
+        <d:PartnerSubCategory>Vaccines</d:PartnerSubCategory>
+        <d:DateAdded m:type="Edm.DateTime">2013-05-16T17:18:22.867</d:DateAdded>
+        <d:DateChanged m:type="Edm.DateTime">2013-05-16T17:18:22.867</d:DateChanged>
+      </m:properties>
+    </content>
+  </entry>
+</feed>

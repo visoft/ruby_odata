@@ -1,0 +1,40 @@
+<edmx:Edmx xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" Version="1.0">
+  <edmx:DataServices xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" m:DataServiceVersion="1.0" m:MaxDataServiceVersion="3.0">
+    <Schema xmlns="http://schemas.microsoft.com/ado/2007/05/edm" Namespace="Vetdata.Reporting.Mapping.Database.Model">
+      <EntityType Name="CodeMapping">
+        <Key>
+          <PropertyRef Name="Id" />
+        </Key>
+        <Property Name="Id" Type="Edm.Int64" Nullable="false" />
+        <Property Name="PartnerId" Type="Edm.Guid" Nullable="false" />
+        <Property Name="InstallationId" Type="Edm.Guid" Nullable="false" />
+        <Property Name="PmsCode" Type="Edm.String" />
+        <Property Name="PartnerCode" Type="Edm.String" />
+        <Property Name="PartnerCategory" Type="Edm.String" />
+        <Property Name="PartnerSubCategory" Type="Edm.String" />
+        <Property Name="DateAdded" Type="Edm.DateTime" Nullable="false" />
+        <Property Name="DateChanged" Type="Edm.DateTime" Nullable="false" />
+      </EntityType>
+      <EntityType Name="Code">
+        <Key>
+          <PropertyRef Name="InstallationId" />
+          <PropertyRef Name="PmsCode" />
+          <PropertyRef Name="PmsCodeCategory" />
+        </Key>
+        <Property Name="InstallationId" Type="Edm.Guid" Nullable="false" />
+        <Property Name="PmsCode" Type="Edm.String" Nullable="false" />
+        <Property Name="PmsCodeDescription" Type="Edm.String" />
+        <Property Name="PmsCodeCategory" Type="Edm.String" Nullable="false" />
+        <Property Name="PmsCodeCategoryDescription" Type="Edm.String" />
+      </EntityType>
+      <EntityContainer Name="MappingServiceDataContext" m:IsDefaultEntityContainer="true">
+        <EntitySet Name="CodeMapping" EntityType="Vetdata.Reporting.Mapping.Database.Model.CodeMapping" />
+        <EntitySet Name="Code" EntityType="Vetdata.Reporting.Mapping.Database.Model.Code" />
+        <FunctionImport Name="GetLastMappingUpdateTime" ReturnType="Edm.DateTime" m:HttpMethod="GET">
+          <Parameter Name="partnerId" Type="Edm.Guid" />
+          <Parameter Name="installationId" Type="Edm.Guid" />
+        </FunctionImport>
+      </EntityContainer>
+    </Schema>
+  </edmx:DataServices>
+</edmx:Edmx>

@@ -770,7 +770,7 @@ module OData
         svc.VirtualMachines
         results = svc.execute
         @json = results.first.as_json
-      end      
+      end
 
       it "Should quote Edm.Int64 properties" do
         @json["PerfDiskBytesWrite"].should be_a(String)
@@ -808,7 +808,7 @@ module OData
         to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/ms_system_center/vm_templates.xml", __FILE__)), :headers => {})
 
       end
-      
+
       it "should successfully parse null valued string properties" do
         svc = OData::Service.new "http://test.com/test.svc/", { :username => "blabla", :password=> "", :verify_ssl => false, :namespace => "VMM" }
         svc.VirtualMachines
@@ -857,6 +857,24 @@ module OData
         boot_order.should be_a_kind_of(Array)
         boot_order.first.should be_a_kind_of(String)
         boot_order.should eq ['CD', 'IdeHardDrive', 'PxeBoot', 'Floppy']
+      end
+    end
+
+    describe "Rails problem" do
+      before(:each) do
+        stub_request(:get, "http://test.com/test.svc/$metadata?partnerid=123").
+        with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
+        to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/rails_problem/metadata.xml", __FILE__)), :headers => {})
+
+        stub_request(:get, "http://test.com/test.svc/CodeMapping?$filter=InstallationId%20eq%20guid'496a520d-18b9-4cbe-943f'&partnerid=123").
+        with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
+        to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/rails_problem/code_mappings.xml", __FILE__)), :headers => {})
+      end
+      it "should successfully query codemappings" do
+        clinic_id = '496a520d-18b9-4cbe-943f'
+        svc = OData::Service.new("http://test.com/test.svc", {additional_params: {partnerid: 123}})
+        svc.CodeMapping.filter("InstallationId eq guid'#{clinic_id}'")
+        lambda { svc.execute }.should_not raise_exception
       end
     end
 
