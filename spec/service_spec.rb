@@ -872,7 +872,7 @@ module OData
       end
       it "should successfully query codemappings" do
         clinic_id = '496a520d-18b9-4cbe-943f'
-        svc = OData::Service.new("http://test.com/test.svc", {:additional_params => {partnerid: 123}})
+        svc = OData::Service.new("http://test.com/test.svc", {:additional_params => {:partnerid => 123}})
         svc.CodeMapping.filter("InstallationId eq guid'#{clinic_id}'")
         lambda { svc.execute }.should_not raise_exception
       end
