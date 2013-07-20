@@ -97,7 +97,11 @@ class Service
   # Performs query operations (Read) against the server.
   # Typically this returns an array of record instances, except in the case of count queries
   def execute
-    @response = RestClient::Resource.new(build_query_uri, @rest_options).get
+    begin
+      @response = RestClient::Resource.new(build_query_uri, @rest_options).get
+    rescue Exception => e
+      handle_exception(e)
+    end
     return Integer(@response) if @response =~ /^\d+$/
     handle_collection_result(@response)
   end
@@ -347,8 +351,7 @@ class Service
   # Helper to loop through a result and create an instance for each entity in the results
   def build_classes_from_result(result)
     doc = Nokogiri::XML(result)
-    is_error = doc.at_xpath("/m:error", @ds_namespaces)
-    raise ServiceError, is_error.at_xpath("m:message", @ds_namespaces).text if is_error
+
     is_links = doc.at_xpath("/ds:links", @ds_namespaces)
     return parse_link_results(doc) if is_links
 

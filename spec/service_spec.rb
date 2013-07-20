@@ -938,13 +938,13 @@ module OData
 
           stub_request(:get, "http://test.com/test.svc/Categories?$select=Price").
           with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
-          to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/sample_service/result_select_categories_no_property.xml", __FILE__)), :headers => {})
+          to_return(:status => 400, :body => File.new(File.expand_path("../fixtures/sample_service/result_select_categories_no_property.xml", __FILE__)), :headers => {})
         end
 
         it "raises an exception" do
           svc = OData::Service.new "http://test.com/test.svc/"
           svc.Categories.select "Price"
-          lambda { svc.execute }.should raise_error(OData::ServiceError, "Type 'RubyODataService.Category' does not have a property named 'Price' or there is no type with 'Price' name.")
+          lambda { svc.execute }.should raise_error(OData::ServiceError, "HTTP Error 400: Type 'RubyODataService.Category' does not have a property named 'Price' or there is no type with 'Price' name.")
         end
       end
 
@@ -956,13 +956,13 @@ module OData
 
           stub_request(:get, "http://test.com/test.svc/Categories?$select=Name,Products/Name").
           with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
-          to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/sample_service/result_select_categories_travsing_no_expand.xml", __FILE__)), :headers => {})
+          to_return(:status => 400, :body => File.new(File.expand_path("../fixtures/sample_service/result_select_categories_travsing_no_expand.xml", __FILE__)), :headers => {})
         end
 
         it "raises an exception" do
           svc = OData::Service.new "http://test.com/test.svc/"
           svc.Categories.select "Name,Products/Name"
-          lambda { svc.execute }.should raise_error(OData::ServiceError, "Only properties specified in $expand can be traversed in $select query options. Property .")
+          lambda { svc.execute }.should raise_error(OData::ServiceError, "HTTP Error 400: Only properties specified in $expand can be traversed in $select query options. Property .")
         end
       end
     end
