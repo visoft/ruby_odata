@@ -18,6 +18,7 @@ class QueryBuilder
     @filters = []
     @order_bys = []
     @navigation_paths = []
+    @select = []
     @skip = nil
     @top = nil
     @count = nil
@@ -102,6 +103,7 @@ class QueryBuilder
   #   product_links = svc.execute # => returns URIs for the products under the Category with an ID of 1
   def links(navigation_property)
     raise OData::NotSupportedError.new("You cannot call both the `links` method and the `count` method in the same query.") if @count
+    raise OData::NotSupportedError.new("You cannot call both the `links` method and the `select` method in the same query.") unless @select.empty?
     @links_navigation_property = navigation_property
     self
   end
@@ -116,6 +118,8 @@ class QueryBuilder
   #   product_count = svc.execute
   def count
     raise OData::NotSupportedError.new("You cannot call both the `links` method and the `count` method in the same query.") if @links_navigation_property
+    raise OData::NotSupportedError.new("You cannot call both the `select` method and the `count` method in the same query.") unless @select.empty?
+
     @count = true
     self
   end
@@ -129,6 +133,19 @@ class QueryBuilder
   def navigate(navigation_property)
     @navigation_paths << Helpers.uri_escape(navigation_property)
     self
+  end
+
+  # Used to customize the properties that are returned for "ad-hoc" queries
+  #
+  # @param [Array<String>] properties to return
+  #
+  # @example
+  #   svc.Products.select('Price', 'Rating')
+  def select(*fields)
+    raise OData::NotSupportedError.new("You cannot call both the `links` method and the `select` method in the same query.") if @links_navigation_property
+    raise OData::NotSupportedError.new("You cannot call both the `count` method and the `select` method in the same query.") if @count
+
+    @select |= fields
   end
 
   # Builds the query URI (path, not including root) incorporating expands, filters, etc.
@@ -150,6 +167,7 @@ class QueryBuilder
     end
 
     query_options = []
+    query_options << "$select=#{@select.join(',')}" unless @select.empty?
     query_options << "$expand=#{@expands.join(',')}" unless @expands.empty?
     query_options << "$filter=#{@filters.join('+and+')}" unless @filters.empty?
     query_options << "$orderby=#{@order_bys.join(',')}" unless @order_bys.empty?

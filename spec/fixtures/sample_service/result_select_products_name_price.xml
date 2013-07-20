@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xml:base="http://win7dev:8989/SampleService/RubyOData.svc/"
+    xmlns="http://www.w3.org/2005/Atom"
+    xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices"
+    xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"
+    xmlns:georss="http://www.georss.org/georss"
+    xmlns:gml="http://www.opengis.net/gml">
+    <id>http://win7dev:8989/SampleService/RubyOdata.svc/Products</id>
+    <title type="text">Products</title>
+    <updated>2013-07-19T12:29:11Z</updated>
+    <link rel="self" title="Products" href="Products" />
+    <entry>
+        <id>http://win7dev:8989/SampleService/RubyOData.svc/Products(1)</id>
+        <category term="RubyODataService.Product" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" />
+        <link rel="edit" title="Product" href="Products(1)" />
+        <title />
+        <updated>2013-07-19T12:29:11Z</updated>
+        <author>
+            <name />
+        </author>
+        <content type="application/xml">
+            <m:properties>
+                <d:Name>Widget 0001</d:Name>
+                <d:Price m:type="Edm.Decimal">75.50</d:Price>
+            </m:properties>
+        </content>
+    </entry>
+    <entry>
+        <id>http://win7dev:8989/SampleService/RubyOData.svc/Products(2)</id>
+        <category term="RubyODataService.Product" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" />
+        <link rel="edit" title="Product" href="Products(2)" />
+        <title />
+        <updated>2013-07-19T12:29:11Z</updated>
+        <author>
+            <name />
+        </author>
+        <content type="application/xml">
+            <m:properties>
+                <d:Name>Widget 0002</d:Name>
+                <d:Price m:type="Edm.Decimal">100.00</d:Price>
+            </m:properties>
+        </content>
+    </entry>
+    <entry>
+        <id>http://win7dev:8989/SampleService/RubyOData.svc/Products(3)</id>
+        <category term="RubyODataService.Product" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" />
+        <link rel="edit" title="Product" href="Products(3)" />
+        <title />
+        <updated>2013-07-19T12:29:11Z</updated>
+        <author>
+            <name />
+        </author>
+        <content type="application/xml">
+            <m:properties>
+                <d:Name>Widget 0003</d:Name>
+                <d:Price m:type="Edm.Decimal">10.25</d:Price>
+            </m:properties>
+        </content>
+    </entry>
+    <entry>
+        <id>http://win7dev:8989/SampleService/RubyOData.svc/Products(4)</id>
+        <category term="RubyODataService.Product" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" />
+        <link rel="edit" title="Product" href="Products(4)" />
+        <title />
+        <updated>2013-07-19T12:29:11Z</updated>
+        <author>
+            <name />
+        </author>
+        <content type="application/xml">
+            <m:properties>
+                <d:Name>Widget 0004</d:Name>
+                <d:Price m:type="Edm.Decimal">100.00</d:Price>
+            </m:properties>
+        </content>
+    </entry>
+    <entry>
+        <id>http://win7dev:8989/SampleService/RubyOData.svc/Products(5)</id>
+        <category term="RubyODataService.Product" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" />
+        <link rel="edit" title="Product" href="Products(5)" />
+        <title />
+        <updated>2013-07-19T12:29:11Z</updated>
+        <author>
+            <name />
+        </author>
+        <content type="application/xml">
+            <m:properties>
+                <d:Name>Widget 0005</d:Name>
+                <d:Price m:type="Edm.Decimal">75.50</d:Price>
+            </m:properties>
+        </content>
+    </entry>
+</feed>

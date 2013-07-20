@@ -319,7 +319,7 @@ class Service
     error = Nokogiri::XML(e.response)
 
     message = error.xpath("m:error/m:message", @ds_namespaces).first.content
-    raise "HTTP Error #{code}: #{message}"
+    raise ServiceError, "HTTP Error #{code}: #{message}"
   end
 
   # Loops through the standard properties (non-navigation) for a given class and returns the appropriate list of methods
@@ -347,7 +347,8 @@ class Service
   # Helper to loop through a result and create an instance for each entity in the results
   def build_classes_from_result(result)
     doc = Nokogiri::XML(result)
-
+    is_error = doc.at_xpath("/m:error", @ds_namespaces)
+    raise ServiceError, is_error.at_xpath("m:message", @ds_namespaces).text if is_error
     is_links = doc.at_xpath("/ds:links", @ds_namespaces)
     return parse_link_results(doc) if is_links
 
