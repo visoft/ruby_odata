@@ -96,6 +96,7 @@ class Service
 
   # Performs query operations (Read) against the server.
   # Typically this returns an array of record instances, except in the case of count queries
+  # @raise [ServiceError] if there is an error when talking to the service
   def execute
     begin
       @response = RestClient::Resource.new(build_query_uri, @rest_options).get
