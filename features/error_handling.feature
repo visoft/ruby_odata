@@ -10,5 +10,4 @@ Background:
 
 Scenario: Violate a data type conversion (empty string to decimal)
   Given I call "AddToProducts" on the service with a new "Product" object with Price: ""
-  When I save changes it should throw an exception with message containing "HTTP Error 400"
-
+  When I save changes it should throw an exception with message containing "Error encountered in converting the value"

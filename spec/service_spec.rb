@@ -944,7 +944,10 @@ module OData
         it "raises an exception" do
           svc = OData::Service.new "http://test.com/test.svc/"
           svc.Categories.select "Price"
-          lambda { svc.execute }.should raise_error(OData::ServiceError, "HTTP Error 400: Type 'RubyODataService.Category' does not have a property named 'Price' or there is no type with 'Price' name.")
+          expect { svc.execute }.to raise_error(OData::ServiceError) { |error|
+            error.http_code.should eq 400
+            error.message.should eq "Type 'RubyODataService.Category' does not have a property named 'Price' or there is no type with 'Price' name."
+          }
         end
       end
 
@@ -962,7 +965,10 @@ module OData
         it "raises an exception" do
           svc = OData::Service.new "http://test.com/test.svc/"
           svc.Categories.select "Name,Products/Name"
-          lambda { svc.execute }.should raise_error(OData::ServiceError, "HTTP Error 400: Only properties specified in $expand can be traversed in $select query options. Property .")
+          expect { svc.execute }.to raise_error(OData::ServiceError) { |error|
+            error.http_code.should eq 400
+            error.message.should eq "Only properties specified in $expand can be traversed in $select query options. Property ."
+          }
         end
       end
     end

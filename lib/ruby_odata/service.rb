@@ -323,7 +323,7 @@ class Service
     error = Nokogiri::XML(e.response)
 
     message = error.xpath("m:error/m:message", @ds_namespaces).first.content
-    raise ServiceError, "HTTP Error #{code}: #{message}"
+    raise ServiceError.new(code), message
   end
 
   # Loops through the standard properties (non-navigation) for a given class and returns the appropriate list of methods
