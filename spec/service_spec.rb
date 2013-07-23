@@ -960,15 +960,26 @@ module OData
           stub_request(:get, "http://test.com/test.svc/Categories?$select=Name,Products/Name").
           with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
           to_return(:status => 400, :body => File.new(File.expand_path("../fixtures/sample_service/result_select_categories_travsing_no_expand.xml", __FILE__)), :headers => {})
+
+          stub_request(:get, "http://test.com/test.svc/Categories?$select=Name,Products/Name&$expand=Products").
+          with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
+          to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/sample_service/result_select_categories_expand.xml", __FILE__)), :headers => {})
         end
 
-        it "raises an exception" do
+        it "doesn't error" do
           svc = OData::Service.new "http://test.com/test.svc/"
-          svc.Categories.select "Name,Products/Name"
-          expect { svc.execute }.to raise_error(OData::ServiceError) { |error|
-            error.http_code.should eq 400
-            error.message.should eq "Only properties specified in $expand can be traversed in $select query options. Property ."
-          }
+          svc.Categories.select "Name", "Products/Name"
+          expect { svc.execute }.to_not raise_error(OData::ServiceError)
+        end
+
+        it "returns the classes with the properties filled in" do
+          svc = OData::Service.new "http://test.com/test.svc/"
+          svc.Categories.select "Name", "Products/Name"
+          results = svc.execute
+          category = results.first
+          category.Name.should eq "Category 0001"
+          product = category.Products.first
+          product.Name.should eq "Widget 0001"
         end
       end
     end

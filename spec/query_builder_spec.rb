@@ -101,6 +101,21 @@ module OData
         builder.count
         lambda { builder.select("Price") }.should raise_error(OData::NotSupportedError, "You cannot call both the `count` method and the `select` method in the same query.")
       end
+      it "should return itself" do
+        builder = QueryBuilder.new "Products"
+        result = builder.select("Price", "Rating")
+        result.should be_a(QueryBuilder)
+      end
+      it "should automatically add $expand for nested selects" do
+        builder = QueryBuilder.new "Categories"
+        result = builder.select "Name", "Products/Name"
+        result.query.should eq "Categories?$select=Name,Products/Name&$expand=Products"
+      end
+      it "should automatically add $expand for deeply nested selects" do
+        builder = QueryBuilder.new "Products"
+        result = builder.select "ProductName", "Order_Details/OrderID", "Order_Details/Order/Customer/CompanyName"
+        result.query.should eq "Products?$select=ProductName,Order_Details/OrderID,Order_Details/Order/Customer/CompanyName&$expand=Order_Details,Order_Details/Order/Customer"
+      end
     end
 
     describe "#navigate" do

@@ -146,6 +146,15 @@ class QueryBuilder
     raise OData::NotSupportedError.new("You cannot call both the `count` method and the `select` method in the same query.") if @count
 
     @select |= fields
+
+    expands =  fields.find_all { |f| /\// =~ f }
+    expands.each do |e|
+      parts = e.split '/'
+      @expands |= [parts[0...-1].join('/')]
+    end
+
+
+    self
   end
 
   # Builds the query URI (path, not including root) incorporating expands, filters, etc.
