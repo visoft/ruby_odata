@@ -163,7 +163,7 @@ module OData
       klass.send :define_method, :id do
         metadata = self.__metadata
         id = nil
-        if metadata && metadata[:uri]  =~ /\((\d+)\)$/
+        if metadata && metadata[:uri]  =~ /\((\d+)L?\)$/
           id = $~[1]
         end
         return (true if Integer(id) rescue false) ? id.to_i : id

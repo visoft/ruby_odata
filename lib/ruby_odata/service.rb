@@ -24,9 +24,7 @@ class Service
   def method_missing(name, *args)
     # Queries
     if @collections.include?(name.to_s)
-      root = "/#{name.to_s}"
-      root << "(#{args.join(',')})" unless args.empty?
-      @query = QueryBuilder.new(root, @additional_params)
+      @query = build_collection_query_object(name,@additional_params, *args)
       return @query
     # Adds
     elsif name.to_s =~ /^AddTo(.*)/
@@ -42,7 +40,7 @@ class Service
       super
     end
   end
-
+  
   # Queues an object for deletion.  To actually remove it from the server, you must call save_changes as well.
   #
   # @param [Object] obj the object to mark for deletion
@@ -166,7 +164,53 @@ class Service
   end
 
   private
-
+  
+  # Constructs a QueryBuilder instance for a collection using the arguments provided.
+  #
+  # @param [String] name the name of the collection
+  # @param [Hash] additional_parameters the additional parameters
+  # @param [Array] args the arguments to use for query
+  def build_collection_query_object(name, additional_parameters, *args)
+    root = "/#{name.to_s}"
+    if args.empty?
+      #nothing to add
+    elsif args.size == 1
+      if args.first.to_s =~ /\d+/
+        id_metadata = find_id_metadata(name.to_s)
+        root << build_id_path(args.first, id_metadata)
+      else
+        root << "(#{single_arg})"
+      end
+    else
+      root << "(#{args.join(',')})"
+    end
+    QueryBuilder.new(root, additional_parameters)
+  end
+  
+  # Finds the metadata associated with the given collection's id property
+  #
+  # @param [String] collection_name the name of the collection
+  def find_id_metadata(collection_name)
+    collection_data = @collections.fetch(collection_name)
+    class_metadata = @class_metadata.fetch(collection_data[:type].to_s)
+    [ 'id', 'Id', 'ID', 'iD' ].each do |k|
+      return class_metadata[k] if class_metadata[k]
+    end
+    return nil
+  end
+  
+  # Builds the ID expression of a given id for query
+  #
+  # @param [Object] id_value the actual value to be used
+  # @param [PropertyMetadata] id_metadata the property metadata object for the id
+  def build_id_path(id_value, id_metadata)
+    if id_metadata.type == "Edm.Int64"
+      "(#{id_value}L)"
+    else
+      "(#{id_value})"
+    end
+  end
+  
   def set_options!(options)
     @options = options
     if @options[:eager_partial].nil?
