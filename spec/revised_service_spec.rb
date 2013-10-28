@@ -194,4 +194,47 @@ module OData
       end
     end
   end
+  describe Service do
+    it "should handle long keys properly" do
+      stub_request(:get, "http://test.com/test.svc/$metadata").
+      with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
+      to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/edmx_service.xml", __FILE__)), :headers => {})
+      
+      svc = OData::Service.new "http://test.com/test.svc/"
+      meta = svc.class_metadata['Car']['id']
+      meta.name.should eq 'id'
+      meta.type.should eq 'Edm.Int64'
+      meta.nullable.should eq false
+      meta.fc_target_path.should be_nil
+      meta.fc_keep_in_content.should be_nil
+    end
+    
+    it "should find record with proper id conversion and update it" do
+      stub_request(:get, "http://test.com/test.svc/$metadata").
+      with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
+      to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/edmx_service.xml", __FILE__)), :headers => {})
+      
+      stub_request(:get, "http://test.com/test.svc/Cars(213L)").
+      with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate', 'User-Agent'=>'Ruby'}).
+      to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/edmx_service_cars.xml", __FILE__)), :headers => {})
+      svc = OData::Service.new "http://test.com/test.svc/"
+      
+      svc.Cars(213)
+      results = svc.execute
+      results.size.should == 1
+      car = results.first
+      car.id.should eq 213
+      car.color.should eq "peach"
+      
+      stub_request(:put, "http://test.com/test.svc/Cars(213L)").
+      with(:body => "{\"__metadata\":{\"uri\":\"http://test.com/test.svc/Cars(213L)\"},\"id\":\"213\",\"color\":\"red\",\"num_spots\":null,\"striped\":null}",
+          :headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate', 'Content-Length'=>'117', 'Content-Type'=>'application/json', 'User-Agent'=>'Ruby'}).
+      to_return(:status => 204, :body => "", :headers => {})
+               
+      car.color = "red"
+      svc.update_object(car)
+      result = svc.save_changes
+      result.should be_true
+    end
+  end
 end
