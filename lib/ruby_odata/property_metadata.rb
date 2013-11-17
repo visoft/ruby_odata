@@ -15,6 +15,8 @@ module OData
     attr_reader :nav_prop
     # Applies only to navigation properties; the association corresponding to the property
     attr_accessor :association
+    # Applies to the primary key(s)
+    attr_accessor :is_key
 
     # Creates a new instance of the Class Property class
     #

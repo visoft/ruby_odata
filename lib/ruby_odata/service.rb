@@ -40,7 +40,7 @@ class Service
       super
     end
   end
-  
+
   # Queues an object for deletion.  To actually remove it from the server, you must call save_changes as well.
   #
   # @param [Object] obj the object to mark for deletion
@@ -164,7 +164,7 @@ class Service
   end
 
   private
-  
+
   # Constructs a QueryBuilder instance for a collection using the arguments provided.
   #
   # @param [String] name the name of the collection
@@ -179,26 +179,25 @@ class Service
         id_metadata = find_id_metadata(name.to_s)
         root << build_id_path(args.first, id_metadata)
       else
-        root << "(#{single_arg})"
+        root << "(#{args.first})"
       end
     else
       root << "(#{args.join(',')})"
     end
     QueryBuilder.new(root, additional_parameters)
   end
-  
-  # Finds the metadata associated with the given collection's id property
+
+  # Finds the metadata associated with the given collection's first id property
+  # Remarks: This is used for single item lookup queries using the ID, e.g. Products(1), not complex primary keys
   #
   # @param [String] collection_name the name of the collection
   def find_id_metadata(collection_name)
     collection_data = @collections.fetch(collection_name)
     class_metadata = @class_metadata.fetch(collection_data[:type].to_s)
-    [ 'id', 'Id', 'ID', 'iD' ].each do |k|
-      return class_metadata[k] if class_metadata[k]
-    end
-    return nil
+    key = class_metadata.select{|k,h| h.is_key }.collect{|k,h| h.name }[0]
+    class_metadata[key]
   end
-  
+
   # Builds the ID expression of a given id for query
   #
   # @param [Object] id_value the actual value to be used
@@ -210,7 +209,7 @@ class Service
       "(#{id_value})"
     end
   end
-  
+
   def set_options!(options)
     @options = options
     if @options[:eager_partial].nil?
@@ -335,10 +334,12 @@ class Service
   end
 
   # Builds the metadata need for each property for things like feed customizations and navigation properties
-  def build_property_metadata(props)
+  def build_property_metadata(props, keys=[])
     metadata = {}
     props.each do |property_element|
       prop_meta = PropertyMetadata.new(property_element)
+      prop_meta.is_key = keys.include?(prop_meta.name)
+
       # If this is a navigation property, we need to add the association to the property metadata
       prop_meta.association = Association.new(property_element, @edmx) if prop_meta.nav_prop
       metadata[prop_meta.name] = prop_meta
@@ -369,7 +370,9 @@ class Service
   # Loops through the standard properties (non-navigation) for a given class and returns the appropriate list of methods
   def collect_properties(klass_name, element, doc)
     props = element.xpath(".//edm:Property", @ds_namespaces)
-    @class_metadata[klass_name] = build_property_metadata(props)
+    key_elemnts = element.xpath(".//edm:Key//edm:PropertyRef", @ds_namespaces)
+    keys = key_elemnts.collect { |k| k['Name'] }
+    @class_metadata[klass_name] = build_property_metadata(props, keys)
     methods = props.collect { |p| p['Name'] }
     unless element["BaseType"].nil?
       base = element["BaseType"].split(".").last()
