@@ -140,4 +140,7 @@
 * **BREAKING CHANGES**
     * Previously if the OData service threw an exception, ruby_odata threw a generic error with the message that would start with "HTTP Error XXX: ". Instead of the message, the Error that is thrown is an `OData::ServiceError`. It has an `http_code` property on it, thus, the message is now just the text from the OData error without the "HTTP Error XXX: " prefix. This could potentially cause you problems if you were sniffing error messages for the HTTP error code.
 
-* Added the ability to query the OData service using the [$select system query option](http://www.odata.org/documentation/odata-v2-documentation/uri-conventions/#48_Select_System_Query_Option_select)
+* New Features
+    * Added the ability to query the OData service using the [$select system query option](http://www.odata.org/documentation/odata-v2-documentation/uri-conventions/#48_Select_System_Query_Option_select)
+    * Support for Int64 keys ([issue 39](https://github.com/visoft/ruby_odata/issues/39) and [issue 40](https://github.com/visoft/ruby_odata/pull/40), thanks [@nasali](https://github.com/nasali))
+    * New property `is_key` added to `PropertyMetadata` in order to determine the key properties for the class (found in the service's `class_metadata` collection)
