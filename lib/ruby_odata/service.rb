@@ -94,8 +94,13 @@ class Service
 
   # Performs query operations (Read) against the server.
   # Typically this returns an array of record instances, except in the case of count queries
+  # @raise [ServiceError] if there is an error when talking to the service
   def execute
-    @response = RestClient::Resource.new(build_query_uri, @rest_options).get
+    begin
+      @response = RestClient::Resource.new(build_query_uri, @rest_options).get
+    rescue Exception => e
+      handle_exception(e)
+    end
     return Integer(@response) if @response =~ /^\d+$/
     handle_collection_result(@response)
   end
@@ -364,7 +369,7 @@ class Service
     error = Nokogiri::XML(e.response)
 
     message = error.xpath("m:error/m:message", @ds_namespaces).first.content
-    raise "HTTP Error #{code}: #{message}"
+    raise ServiceError.new(code), message
   end
 
   # Loops through the standard properties (non-navigation) for a given class and returns the appropriate list of methods

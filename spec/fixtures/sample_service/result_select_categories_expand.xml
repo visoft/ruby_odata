@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xml:base="http://win7dev:8989/SampleService/RubyOData.svc/"
+    xmlns="http://www.w3.org/2005/Atom"
+    xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices"
+    xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"
+    xmlns:georss="http://www.georss.org/georss"
+    xmlns:gml="http://www.opengis.net/gml">
+    <id>http://win7dev:8989/SampleService/RubyOdata.svc/Categories</id>
+    <title type="text">Categories</title>
+    <updated>2013-07-22T14:54:47Z</updated>
+    <link rel="self" title="Categories" href="Categories" />
+    <entry>
+        <id>http://win7dev:8989/SampleService/RubyOData.svc/Categories(1)</id>
+        <category term="RubyODataService.Category" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" />
+        <link rel="edit" title="Category" href="Categories(1)" />
+        <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Products" type="application/atom+xml;type=feed" title="Products" href="Categories(1)/Products">
+            <m:inline>
+                <feed>
+                    <id>http://win7dev:8989/SampleService/RubyOData.svc/Categories(1)/Products</id>
+                    <title type="text">Products</title>
+                    <updated>2013-07-22T14:54:47Z</updated>
+                    <link rel="self" title="Products" href="Categories(1)/Products" />
+                    <entry>
+                        <id>http://win7dev:8989/SampleService/RubyOData.svc/Products(1)</id>
+                        <category term="RubyODataService.Product" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" />
+                        <link rel="edit" title="Product" href="Products(1)" />
+                        <title />
+                        <updated>2013-07-22T14:54:47Z</updated>
+                        <author>
+                            <name />
+                        </author>
+                        <content type="application/xml">
+                            <m:properties>
+                                <d:Name>Widget 0001</d:Name>
+                            </m:properties>
+                        </content>
+                    </entry>
+                </feed>
+            </m:inline>
+        </link>
+        <title />
+        <updated>2013-07-22T14:54:47Z</updated>
+        <author>
+            <name />
+        </author>
+        <content type="application/xml">
+            <m:properties>
+                <d:Name>Category 0001</d:Name>
+            </m:properties>
+        </content>
+    </entry>
+    <entry>
+        <id>http://win7dev:8989/SampleService/RubyOData.svc/Categories(2)</id>
+        <category term="RubyODataService.Category" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" />
+        <link rel="edit" title="Category" href="Categories(2)" />
+        <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Products" type="application/atom+xml;type=feed" title="Products" href="Categories(2)/Products">
+            <m:inline>
+                <feed>
+                    <id>http://win7dev:8989/SampleService/RubyOData.svc/Categories(2)/Products</id>
+                    <title type="text">Products</title>
+                    <updated>2013-07-22T14:54:47Z</updated>
+                    <link rel="self" title="Products" href="Categories(2)/Products" />
+                    <entry>
+                        <id>http://win7dev:8989/SampleService/RubyOData.svc/Products(2)</id>
+                        <category term="RubyODataService.Product" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" />
+                        <link rel="edit" title="Product" href="Products(2)" />
+                        <title />
+                        <updated>2013-07-22T14:54:47Z</updated>
+                        <author>
+                            <name />
+                        </author>
+                        <content type="application/xml">
+                            <m:properties>
+                                <d:Name>Widget 0002</d:Name>
+                            </m:properties>
+                        </content>
+                    </entry>
+                </feed>
+            </m:inline>
+        </link>
+        <title />
+        <updated>2013-07-22T14:54:47Z</updated>
+        <author>
+            <name />
+        </author>
+        <content type="application/xml">
+            <m:properties>
+                <d:Name>Category 0001</d:Name>
+            </m:properties>
+        </content>
+    </entry>
+    <entry>
+        <id>http://win7dev:8989/SampleService/RubyOData.svc/Categories(3)</id>
+        <category term="RubyODataService.Category" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" />
+        <link rel="edit" title="Category" href="Categories(3)" />
+        <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Products" type="application/atom+xml;type=feed" title="Products" href="Categories(3)/Products">
+            <m:inline>
+                <feed>
+                    <id>http://win7dev:8989/SampleService/RubyOData.svc/Categories(3)/Products</id>
+                    <title type="text">Products</title>
+                    <updated>2013-07-22T14:54:47Z</updated>
+                    <link rel="self" title="Products" href="Categories(3)/Products" />
+                    <entry>
+                        <id>http://win7dev:8989/SampleService/RubyOData.svc/Products(3)</id>
+                        <category term="RubyODataService.Product" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" />
+                        <link rel="edit" title="Product" href="Products(3)" />
+                        <title />
+                        <updated>2013-07-22T14:54:47Z</updated>
+                        <author>
+                            <name />
+                        </author>
+                        <content type="application/xml">
+                            <m:properties>
+                                <d:Name>Widget 0003</d:Name>
+                            </m:properties>
+                        </content>
+                    </entry>
+                </feed>
+            </m:inline>
+        </link>
+        <title />
+        <updated>2013-07-22T14:54:47Z</updated>
+        <author>
+            <name />
+        </author>
+        <content type="application/xml">
+            <m:properties>
+                <d:Name>Category 0002</d:Name>
+            </m:properties>
+        </content>
+    </entry>
+    <entry>
+        <id>http://win7dev:8989/SampleService/RubyOData.svc/Categories(4)</id>
+        <category term="RubyODataService.Category" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" />
+        <link rel="edit" title="Category" href="Categories(4)" />
+        <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Products" type="application/atom+xml;type=feed" title="Products" href="Categories(4)/Products">
+            <m:inline>
+                <feed>
+                    <id>http://win7dev:8989/SampleService/RubyOData.svc/Categories(4)/Products</id>
+                    <title type="text">Products</title>
+                    <updated>2013-07-22T14:54:47Z</updated>
+                    <link rel="self" title="Products" href="Categories(4)/Products" />
+                    <entry>
+                        <id>http://win7dev:8989/SampleService/RubyOData.svc/Products(4)</id>
+                        <category term="RubyODataService.Product" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" />
+                        <link rel="edit" title="Product" href="Products(4)" />
+                        <title />
+                        <updated>2013-07-22T14:54:47Z</updated>
+                        <author>
+                            <name />
+                        </author>
+                        <content type="application/xml">
+                            <m:properties>
+                                <d:Name>Widget 0004</d:Name>
+                            </m:properties>
+                        </content>
+                    </entry>
+                </feed>
+            </m:inline>
+        </link>
+        <title />
+        <updated>2013-07-22T14:54:47Z</updated>
+        <author>
+            <name />
+        </author>
+        <content type="application/xml">
+            <m:properties>
+                <d:Name>Category 0002</d:Name>
+            </m:properties>
+        </content>
+    </entry>
+    <entry>
+        <id>http://win7dev:8989/SampleService/RubyOData.svc/Categories(5)</id>
+        <category term="RubyODataService.Category" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" />
+        <link rel="edit" title="Category" href="Categories(5)" />
+        <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Products" type="application/atom+xml;type=feed" title="Products" href="Categories(5)/Products">
+            <m:inline>
+                <feed>
+                    <id>http://win7dev:8989/SampleService/RubyOData.svc/Categories(5)/Products</id>
+                    <title type="text">Products</title>
+                    <updated>2013-07-22T14:54:47Z</updated>
+                    <link rel="self" title="Products" href="Categories(5)/Products" />
+                    <entry>
+                        <id>http://win7dev:8989/SampleService/RubyOData.svc/Products(5)</id>
+                        <category term="RubyODataService.Product" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" />
+                        <link rel="edit" title="Product" href="Products(5)" />
+                        <title />
+                        <updated>2013-07-22T14:54:47Z</updated>
+                        <author>
+                            <name />
+                        </author>
+                        <content type="application/xml">
+                            <m:properties>
+                                <d:Name>Widget 0005</d:Name>
+                            </m:properties>
+                        </content>
+                    </entry>
+                </feed>
+            </m:inline>
+        </link>
+        <title />
+        <updated>2013-07-22T14:54:47Z</updated>
+        <author>
+            <name />
+        </author>
+        <content type="application/xml">
+            <m:properties>
+                <d:Name>Category 0002</d:Name>
+            </m:properties>
+        </content>
+    </entry>
+    <entry>
+        <id>http://win7dev:8989/SampleService/RubyOData.svc/Categories(6)</id>
+        <category term="RubyODataService.Category" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" />
+        <link rel="edit" title="Category" href="Categories(6)" />
+        <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Products" type="application/atom+xml;type=feed" title="Products" href="Categories(6)/Products">
+            <m:inline>
+                <feed>
+                    <id>http://win7dev:8989/SampleService/RubyOData.svc/Categories(6)/Products</id>
+                    <title type="text">Products</title>
+                    <updated>2013-07-22T14:54:47Z</updated>
+                    <link rel="self" title="Products" href="Categories(6)/Products" />
+                    <author>
+                        <name />
+                    </author>
+                </feed>
+            </m:inline>
+        </link>
+        <title />
+        <updated>2013-07-22T14:54:47Z</updated>
+        <author>
+            <name />
+        </author>
+        <content type="application/xml">
+            <m:properties>
+                <d:Name>Category 0001</d:Name>
+            </m:properties>
+        </content>
+    </entry>
+    <entry>
+        <id>http://win7dev:8989/SampleService/RubyOData.svc/Categories(7)</id>
+        <category term="RubyODataService.Category" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" />
+        <link rel="edit" title="Category" href="Categories(7)" />
+        <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Products" type="application/atom+xml;type=feed" title="Products" href="Categories(7)/Products">
+            <m:inline>
+                <feed>
+                    <id>http://win7dev:8989/SampleService/RubyOData.svc/Categories(7)/Products</id>
+                    <title type="text">Products</title>
+                    <updated>2013-07-22T14:54:47Z</updated>
+                    <link rel="self" title="Products" href="Categories(7)/Products" />
+                    <author>
+                        <name />
+                    </author>
+                </feed>
+            </m:inline>
+        </link>
+        <title />
+        <updated>2013-07-22T14:54:47Z</updated>
+        <author>
+            <name />
+        </author>
+        <content type="application/xml">
+            <m:properties>
+                <d:Name>Category 0002</d:Name>
+            </m:properties>
+        </content>
+    </entry>
+</feed>

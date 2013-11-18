@@ -770,7 +770,7 @@ module OData
         svc.VirtualMachines
         results = svc.execute
         @json = results.first.as_json
-      end      
+      end
 
       it "Should quote Edm.Int64 properties" do
         @json["PerfDiskBytesWrite"].should be_a(String)
@@ -808,7 +808,7 @@ module OData
         to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/ms_system_center/vm_templates.xml", __FILE__)), :headers => {})
 
       end
-      
+
       it "should successfully parse null valued string properties" do
         svc = OData::Service.new "http://test.com/test.svc/", { :username => "blabla", :password=> "", :verify_ssl => false, :namespace => "VMM" }
         svc.VirtualMachines
@@ -905,8 +905,85 @@ module OData
         products.first.Category.Products.first.ProductName.should eq "Chai"
       end
     end
-  end
 
+    describe "handling of custom select queries" do
+
+      context "when results are found" do
+        before(:each) do
+          stub_request(:get, "http://test.com/test.svc/$metadata").
+          with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
+          to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/sample_service/edmx_categories_products.xml", __FILE__)), :headers => {})
+
+          stub_request(:get, "http://test.com/test.svc/Products?$select=Name,Price").
+          with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
+          to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/sample_service/result_select_products_name_price.xml", __FILE__)), :headers => {})
+        end
+
+        subject do
+          svc = OData::Service.new "http://test.com/test.svc/"
+          svc.Products.select "Name", "Price"
+          svc.execute
+        end
+
+        it { should be_an Array }
+        it { should_not be_empty }
+        its(:first) { should be_a Product }
+      end
+
+      context "when there isn't a property by the name specified" do
+        before(:each) do
+          stub_request(:get, "http://test.com/test.svc/$metadata").
+          with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
+          to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/sample_service/edmx_categories_products.xml", __FILE__)), :headers => {})
+
+          stub_request(:get, "http://test.com/test.svc/Categories?$select=Price").
+          with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
+          to_return(:status => 400, :body => File.new(File.expand_path("../fixtures/sample_service/result_select_categories_no_property.xml", __FILE__)), :headers => {})
+        end
+
+        it "raises an exception" do
+          svc = OData::Service.new "http://test.com/test.svc/"
+          svc.Categories.select "Price"
+          expect { svc.execute }.to raise_error(OData::ServiceError) { |error|
+            error.http_code.should eq 400
+            error.message.should eq "Type 'RubyODataService.Category' does not have a property named 'Price' or there is no type with 'Price' name."
+          }
+        end
+      end
+
+      context "when a property requires $expand to traverse" do
+        before(:each) do
+          stub_request(:get, "http://test.com/test.svc/$metadata").
+          with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
+          to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/sample_service/edmx_categories_products.xml", __FILE__)), :headers => {})
+
+          stub_request(:get, "http://test.com/test.svc/Categories?$select=Name,Products/Name").
+          with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
+          to_return(:status => 400, :body => File.new(File.expand_path("../fixtures/sample_service/result_select_categories_travsing_no_expand.xml", __FILE__)), :headers => {})
+
+          stub_request(:get, "http://test.com/test.svc/Categories?$select=Name,Products/Name&$expand=Products").
+          with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
+          to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/sample_service/result_select_categories_expand.xml", __FILE__)), :headers => {})
+        end
+
+        it "doesn't error" do
+          svc = OData::Service.new "http://test.com/test.svc/"
+          svc.Categories.select "Name", "Products/Name"
+          expect { svc.execute }.to_not raise_error(OData::ServiceError)
+        end
+
+        it "returns the classes with the properties filled in" do
+          svc = OData::Service.new "http://test.com/test.svc/"
+          svc.Categories.select "Name", "Products/Name"
+          results = svc.execute
+          category = results.first
+          category.Name.should eq "Category 0001"
+          product = category.Products.first
+          product.Name.should eq "Widget 0001"
+        end
+      end
+    end
+  end
   describe_private OData::Service do
     describe "parse value" do
       before(:each) do
