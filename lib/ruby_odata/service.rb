@@ -24,9 +24,7 @@ class Service
   def method_missing(name, *args)
     # Queries
     if @collections.include?(name.to_s)
-      root = "/#{name.to_s}"
-      root << "(#{args.join(',')})" unless args.empty?
-      @query = QueryBuilder.new(root, @additional_params)
+      @query = build_collection_query_object(name,@additional_params, *args)
       return @query
     # Adds
     elsif name.to_s =~ /^AddTo(.*)/
@@ -96,8 +94,13 @@ class Service
 
   # Performs query operations (Read) against the server.
   # Typically this returns an array of record instances, except in the case of count queries
+  # @raise [ServiceError] if there is an error when talking to the service
   def execute
-    @response = RestClient::Resource.new(build_query_uri, @rest_options).get
+    begin
+      @response = RestClient::Resource.new(build_query_uri, @rest_options).get
+    rescue Exception => e
+      handle_exception(e)
+    end
     return Integer(@response) if @response =~ /^\d+$/
     handle_collection_result(@response)
   end
@@ -166,6 +169,51 @@ class Service
   end
 
   private
+
+  # Constructs a QueryBuilder instance for a collection using the arguments provided.
+  #
+  # @param [String] name the name of the collection
+  # @param [Hash] additional_parameters the additional parameters
+  # @param [Array] args the arguments to use for query
+  def build_collection_query_object(name, additional_parameters, *args)
+    root = "/#{name.to_s}"
+    if args.empty?
+      #nothing to add
+    elsif args.size == 1
+      if args.first.to_s =~ /\d+/
+        id_metadata = find_id_metadata(name.to_s)
+        root << build_id_path(args.first, id_metadata)
+      else
+        root << "(#{args.first})"
+      end
+    else
+      root << "(#{args.join(',')})"
+    end
+    QueryBuilder.new(root, additional_parameters)
+  end
+
+  # Finds the metadata associated with the given collection's first id property
+  # Remarks: This is used for single item lookup queries using the ID, e.g. Products(1), not complex primary keys
+  #
+  # @param [String] collection_name the name of the collection
+  def find_id_metadata(collection_name)
+    collection_data = @collections.fetch(collection_name)
+    class_metadata = @class_metadata.fetch(collection_data[:type].to_s)
+    key = class_metadata.select{|k,h| h.is_key }.collect{|k,h| h.name }[0]
+    class_metadata[key]
+  end
+
+  # Builds the ID expression of a given id for query
+  #
+  # @param [Object] id_value the actual value to be used
+  # @param [PropertyMetadata] id_metadata the property metadata object for the id
+  def build_id_path(id_value, id_metadata)
+    if id_metadata.type == "Edm.Int64"
+      "(#{id_value}L)"
+    else
+      "(#{id_value})"
+    end
+  end
 
   def set_options!(options)
     @options = options
@@ -291,10 +339,12 @@ class Service
   end
 
   # Builds the metadata need for each property for things like feed customizations and navigation properties
-  def build_property_metadata(props)
+  def build_property_metadata(props, keys=[])
     metadata = {}
     props.each do |property_element|
       prop_meta = PropertyMetadata.new(property_element)
+      prop_meta.is_key = keys.include?(prop_meta.name)
+
       # If this is a navigation property, we need to add the association to the property metadata
       prop_meta.association = Association.new(property_element, @edmx) if prop_meta.nav_prop
       metadata[prop_meta.name] = prop_meta
@@ -319,13 +369,15 @@ class Service
     error = Nokogiri::XML(e.response)
 
     message = error.xpath("m:error/m:message", @ds_namespaces).first.content
-    raise "HTTP Error #{code}: #{message}"
+    raise ServiceError.new(code), message
   end
 
   # Loops through the standard properties (non-navigation) for a given class and returns the appropriate list of methods
   def collect_properties(klass_name, element, doc)
     props = element.xpath(".//edm:Property", @ds_namespaces)
-    @class_metadata[klass_name] = build_property_metadata(props)
+    key_elemnts = element.xpath(".//edm:Key//edm:PropertyRef", @ds_namespaces)
+    keys = key_elemnts.collect { |k| k['Name'] }
+    @class_metadata[klass_name] = build_property_metadata(props, keys)
     methods = props.collect { |p| p['Name'] }
     unless element["BaseType"].nil?
       base = element["BaseType"].split(".").last()

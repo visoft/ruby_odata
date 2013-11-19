@@ -76,7 +76,7 @@ module OData
         end
       end
     end
-    
+
     def add_methods(klass)
       # Add metadata methods
       klass.send :define_method, :__metadata do
@@ -158,20 +158,20 @@ module OData
           instance_variable_set("@#{method_name}", value)
         end
       end
-      
+
       # Add an id method pulling out the id from the uri (mainly for Pickle support)
       klass.send :define_method, :id do
         metadata = self.__metadata
         id = nil
-        if metadata && metadata[:uri]  =~ /\((\d+)\)$/
+        if metadata && metadata[:uri]  =~ /\((\d+)L?\)$/
           id = $~[1]
         end
         return (true if Integer(id) rescue false) ? id.to_i : id
       end
-      
+
       # Override equals
       klass.send :define_method, :== do |other|
-        self.class == other.class && 
+        self.class == other.class &&
         self.id == other.id &&
         self.__metadata == other.__metadata
       end
@@ -195,14 +195,18 @@ module OData
       klass.send :define_singleton_method, 'properties' do
         context.class_metadata[klass.to_s] || {}
       end
-      
+
       # Finds a single model by ID
       klass.send :define_singleton_method, 'first' do |id|
         return nil if id.nil?
         # TODO: Instead of just pluralizing the klass name, use the actual collection name
         collection = klass.to_s.pluralize
         context.send "#{collection}", id
-        results = context.execute
+        begin
+          results = context.execute
+        rescue OData::ServiceError => e
+          return nil
+        end
         results.count == 0 ? nil : results.first
       end
     end

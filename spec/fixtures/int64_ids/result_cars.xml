@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xml:base="http://test.com/test.svc/" 
+    xmlns="http://www.w3.org/2005/Atom" 
+    xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" 
+    xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata">
+    <id>http://test.com/test.svc/Cars</id>
+    <title type="text">Cars</title>
+    <updated>2013-10-28T19:59:15Z</updated>
+    <link rel="self" title="Cars" href="Cars" />
+    <entry>
+        <id>http://test.com/test.svc/Cars(213L)</id>
+        <category term="Model.Car" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" />
+        <link rel="edit" title="Car" href="Cars(213L)" />
+        <title />
+        <updated>2013-10-28T19:59:15Z</updated>
+        <author>
+            <name />
+        </author>
+        <content type="application/xml">
+            <m:properties>
+                <d:id m:type="Edm.Int64">213</d:id>
+                <d:color>peach</d:color>
+                <d:num_spots m:type="Edm.Int32" m:null="true" />
+                <d:striped m:type="Edm.Byte" m:null="true" />
+            </m:properties>
+        </content>
+    </entry>
+</feed>

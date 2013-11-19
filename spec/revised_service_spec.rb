@@ -10,7 +10,7 @@ module OData
       @cat_prod_service = OData::Service.new "http://test.com/test.svc"
     end
     subject { @cat_prod_service }
-    
+
     context "methods" do
       it { should respond_to :update_object }
       it { should respond_to :delete_object }
@@ -25,7 +25,7 @@ module OData
       it { should respond_to :collections }
       it { should respond_to :options }
       it { should respond_to :function_imports }
-    
+
       context "after parsing metadata" do
         it { should respond_to :Products }
         it { should respond_to :Categories }
@@ -43,7 +43,7 @@ module OData
       end
       it "should expose the local model type" do
         subject['Products'][:type].should eq Product
-        subject['Categories'][:type].should eq Category                
+        subject['Categories'][:type].should eq Category
       end
     end
     context "class metadata" do
@@ -51,6 +51,7 @@ module OData
       it { should_not be_empty}
       it { should have_key 'Product' }
       it { should have_key 'Category' }
+
       context "should have keys for each property" do
         subject { @cat_prod_service.class_metadata['Category'] }
         it { should have_key 'Id' }
@@ -69,6 +70,7 @@ module OData
           meta.fc_target_path.should be_nil
           meta.fc_keep_in_content.should be_nil
           meta.nav_prop.should eq false
+          meta.is_key.should eq true
         end
         it "should have correct PropertyMetadata for Category.Name" do
           meta = subject['Name']
@@ -78,6 +80,7 @@ module OData
           meta.fc_target_path.should be_nil
           meta.fc_keep_in_content.should be_nil
           meta.nav_prop.should eq false
+          meta.is_key.should eq false
         end
         it "should have correct PropertyMetadata for Category.Products" do
           meta = subject['Products']
@@ -88,6 +91,7 @@ module OData
           meta.fc_keep_in_content.should be_nil
           meta.nav_prop.should eq true
           meta.association.should_not be_nil
+          meta.is_key.should eq false
         end
       end
     end
@@ -115,7 +119,7 @@ module OData
         subject['EntityCategoryWebGet'][:parameters].should be_nil
         subject['EntitySingleCategoryWebGet'][:parameters].should be_a Hash
         subject['EntitySingleCategoryWebGet'][:parameters]['id'].should eq 'Edm.Int32'
-      end     
+      end
       context "after parsing function imports" do
         subject { @cat_prod_service }
         it { should respond_to :CleanDatabaseForTesting }
@@ -152,10 +156,10 @@ module OData
         subject { @cat_prod_service }
         before(:each) do
           stub_request(:post, "http://test.com/test.svc/CleanDatabaseForTesting").to_return(:status => 204)
-          
+
           stub_request(:get, "http://test.com/test.svc/EntityCategoryWebGet").
           to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/sample_service/result_entity_category_web_get.xml", __FILE__)), :headers => {})
-          
+
           stub_request(:get, "http://test.com/test.svc/EntitySingleCategoryWebGet?id=1").
           to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/sample_service/result_entity_single_category_web_get.xml", __FILE__)), :headers => {})
 
@@ -193,5 +197,90 @@ module OData
         end
       end
     end
+  end
+
+  describe Service do
+    describe "Collection with an int64 key Named 'id'" do
+
+      before(:all) do
+        stub_request(:get, "http://test.com/test.svc/$metadata").
+          with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
+          to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/int64_ids/edmx_car_service.xml", __FILE__)), :headers => {})
+        @svc = OData::Service.new "http://test.com/test.svc/"
+      end
+
+      context "has the correct metadata" do
+        before(:all) do
+          @id_meta = @svc.class_metadata['Car']['id']
+        end
+
+        subject { @id_meta }
+
+        its(:name)                { should eq('id') }
+        its(:type)                { should eq('Edm.Int64') }
+        its(:nullable)            { should be_false }
+        its(:fc_target_path)      { should be_nil }
+        its(:fc_keep_in_content)  { should be_nil }
+      end
+
+      context "can parse Id correctly" do
+        before(:each) do
+          stub_request(:get, "http://test.com/test.svc/Cars(213L)").
+            with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
+            to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/int64_ids/result_cars.xml", __FILE__)), :headers => {})
+
+          @svc.Cars(213)
+          results = @svc.execute
+          @car = results.first
+        end
+
+        subject { @car }
+
+        its(:id)      { should eq(213) }
+        its(:color)   { should eq('peach') }
+      end
+    end
+
+    describe "Collection with an int64 key named 'KeyId'" do
+
+      before(:all) do
+        stub_request(:get, "http://test.com/test.svc/$metadata").
+          with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
+          to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/int64_ids/edmx_boat_service.xml", __FILE__)), :headers => {})
+        @svc = OData::Service.new "http://test.com/test.svc/"
+      end
+
+      context "has the correct metadata" do
+        before(:all) do
+          @id_meta = @svc.class_metadata['Boat']['KeyId']
+        end
+
+        subject { @id_meta }
+
+        its(:name)                { should eq('KeyId') }
+        its(:type)                { should eq('Edm.Int64') }
+        its(:nullable)            { should be_false }
+        its(:fc_target_path)      { should be_nil }
+        its(:fc_keep_in_content)  { should be_nil }
+      end
+
+      context "can parse Id correctly" do
+        before(:each) do
+          stub_request(:get, "http://test.com/test.svc/Boats(213L)").
+            with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
+            to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/int64_ids/result_boats.xml", __FILE__)), :headers => {})
+
+          @svc.Boats(213)
+          results = @svc.execute
+          @boat = results.first
+        end
+
+        subject { @boat }
+
+        its(:id)      { should eq(213) }
+        its(:color)   { should eq('blue') }
+      end
+    end
+
   end
 end
