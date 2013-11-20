@@ -296,7 +296,18 @@ class Service
     # Fill in the function imports
     functions = @edmx.xpath("//edm:EntityContainer/edm:FunctionImport", @ds_namespaces)
     functions.each do |f|
-      http_method = f.xpath("@m:HttpMethod", @ds_namespaces).first.content
+      http_method_attribute = f.xpath("@m:HttpMethod", @ds_namespaces).first # HttpMethod is no longer required http://www.odata.org/2011/10/actions-in-odata/
+      is_side_effecting_attribute = f.xpath("@edm:IsSideEffecting", @ds_namespaces).first
+
+      http_method = 'POST' # default to POST
+
+      if http_method_attribute
+        http_method = http_method_attribute.content
+      elsif is_side_effecting_attribute
+        is_side_effecting = is_side_effecting_attribute.content
+        http_method = is_side_effecting ? 'POST' : 'GET'
+      end
+
       return_type = f["ReturnType"]
       inner_return_type = nil
       unless return_type.nil?

@@ -806,7 +806,12 @@ module OData
         stub_request(:get, "http://blabla:@test.com/test.svc/VMTemplates").
         with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
         to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/ms_system_center/vm_templates.xml", __FILE__)), :headers => {})
+      end
 
+      after(:all) do
+        VMM.constants.each do |constant|
+          VMM.send :remove_const, constant
+        end
       end
 
       it "should successfully parse null valued string properties" do
@@ -969,7 +974,7 @@ module OData
         it "doesn't error" do
           svc = OData::Service.new "http://test.com/test.svc/"
           svc.Categories.select "Name", "Products/Name"
-          expect { svc.execute }.to_not raise_error(OData::ServiceError)
+          expect { svc.execute }.to_not raise_error
         end
 
         it "returns the classes with the properties filled in" do
