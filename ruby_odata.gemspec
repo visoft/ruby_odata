@@ -11,6 +11,7 @@ Gem::Specification.new do |s|
   s.homepage    = %q{http://github.com/visoft/ruby_odata}
   s.summary     = %q{Ruby consumer of OData services.}
   s.description = %q{An OData Client Library for Ruby.  Use this to interact with OData services}
+  s.license     = "MIT"
 
   s.rubyforge_project = "ruby-odata"
 
