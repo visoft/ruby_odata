@@ -14,12 +14,13 @@ Gem::Specification.new do |s|
 
   s.rubyforge_project = "ruby-odata"
 
+  s.required_ruby_version = '>= 1.9.3'
+
   s.add_dependency("addressable", ">= 2.3.4")
   s.add_dependency("i18n", "~> 0.6.0")
   s.add_dependency("activesupport", ">= 3.0.0")
   s.add_dependency("rest-client", ">= 1.5.1")
   s.add_dependency("nokogiri", ">= 1.4.2")
-  s.add_dependency("backports", ">= 2.3.0")
 
   s.add_development_dependency("rake", "0.9.2")
   s.add_development_dependency("rspec", "~> 2.11.0")
