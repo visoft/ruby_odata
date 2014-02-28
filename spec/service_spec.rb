@@ -121,6 +121,27 @@ module OData
       end
     end
 
+    describe "exception handling" do
+      before(:each) do
+        stub_request(:get, "http://test.com/test.svc/$metadata").
+        with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
+        to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/sample_service/edmx_categories_products.xml", __FILE__)), :headers => {})
+
+        stub_request(:get, "http://test.com/test.svc/Categories?$select=Price").
+        with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
+        to_return(:status => 400, :body => File.new(File.expand_path("../fixtures/error_without_message.xml", __FILE__)), :headers => {})
+      end
+
+      it "includes a generic message if the error is not in the response" do
+        svc = OData::Service.new "http://test.com/test.svc/"
+        svc.Categories.select "Price"
+        expect { svc.execute }.to raise_error(OData::ServiceError) { |error|
+          error.http_code.should eq 400
+          error.message.should eq "Server returned error but no message."
+        }
+      end
+    end
+
     describe "lowercase collections" do
       before(:each) do
         # Required for the build_classes method

@@ -368,7 +368,11 @@ class Service
     code = e.http_code
     error = Nokogiri::XML(e.response)
 
-    message = error.xpath("m:error/m:message", @ds_namespaces).first.content
+    message = if error.xpath("m:error/m:message", @ds_namespaces).first
+                error.xpath("m:error/m:message", @ds_namespaces).first.content
+              else
+                "Server returned error but no message."
+              end
     raise ServiceError.new(code), message
   end
 
