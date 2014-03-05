@@ -11,7 +11,6 @@ require "rest_client"
 require "nokogiri"
 require "bigdecimal"
 require "bigdecimal/util"
-require "backports"
 require "addressable/uri"
 
 require lib + "/ruby_odata/exceptions"
