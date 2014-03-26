@@ -1,0 +1,2120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" Version="1.0">
+  <edmx:DataServices xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" m:DataServiceVersion="3.0" m:MaxDataServiceVersion="3.0">
+    <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" Namespace="VMM">
+      <EntityType Name="VirtualDiskDrive">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="StampId"/>
+        </Key>
+        <Property Name="StampId" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="Bus" Type="Edm.Byte"/>
+        <Property Name="BusType" Type="Edm.String"/>
+        <Property Name="IsVHD" Type="Edm.Boolean"/>
+        <Property Name="LUN" Type="Edm.Byte"/>
+        <Property Name="Name" Type="Edm.String"/>
+        <Property Name="VMId" Type="Edm.Guid"/>
+        <Property Name="TemplateId" Type="Edm.Guid"/>
+        <Property Name="ISOId" Type="Edm.Guid"/>
+        <Property Name="HostDrive" Type="Edm.String"/>
+        <Property Name="ISOLinked" Type="Edm.Boolean"/>
+        <Property Name="Accessibility" Type="Edm.String"/>
+        <Property Name="Description" Type="Edm.String"/>
+        <Property Name="AddedTime" Type="Edm.DateTime"/>
+        <Property Name="ModifiedTime" Type="Edm.DateTime"/>
+        <Property Name="Enabled" Type="Edm.Boolean"/>
+        <Property Name="VirtualHardDiskId" Type="Edm.Guid"/>
+        <Property Name="VolumeType" Type="Edm.String"/>
+        <Property Name="IDE" Type="Edm.Boolean"/>
+        <Property Name="SCSI" Type="Edm.Boolean"/>
+        <Property Name="FileName" Type="Edm.String"/>
+        <Property Name="Path" Type="Edm.String"/>
+        <Property Name="Size" Type="Edm.Int64"/>
+        <NavigationProperty Name="VirtualHardDisk" Relationship="VMM.VirtualDiskDrive_VirtualHardDisk" ToRole="VirtualHardDisk" FromRole="VirtualDiskDrive"/>
+      </EntityType>
+      <EntityType Name="VPNConnection">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="StampId"/>
+        </Key>
+        <Property Name="StampId" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="VMNetworkGatewayId" Type="Edm.Guid"/>
+        <Property Name="Name" Type="Edm.String"/>
+        <Property Name="Description" Type="Edm.String"/>
+        <Property Name="TargetVPNIPv4Address" Type="Edm.String"/>
+        <Property Name="TargetVPNIPv6Address" Type="Edm.String"/>
+        <Property Name="CloudVPNIPAddresses" Type="Collection(Edm.String)" Nullable="false"/>
+        <Property Name="AuthenticationMethod" Type="Edm.String"/>
+        <Property Name="RunAsAccountId" Type="Edm.Guid"/>
+        <Property Name="Status" Type="Edm.String"/>
+        <Property Name="LastConnectionError" Type="Edm.String"/>
+        <Property Name="LastConnectionErrorCode" Type="Edm.Int64"/>
+        <Property Name="MaximumBandwidthInboundKbps" Type="Edm.Decimal"/>
+        <Property Name="MaximumBandwidthOutboundKbps" Type="Edm.Decimal"/>
+        <Property Name="LastRead" Type="Edm.DateTime"/>
+        <NavigationProperty Name="NetworkRoutes" Relationship="VMM.VPNConnection_NetworkRoutes" ToRole="NetworkRoutes" FromRole="VPNConnection"/>
+      </EntityType>
+      <EntityType Name="PerformanceData">
+        <Key>
+          <PropertyRef Name="PerformanceCounter"/>
+          <PropertyRef Name="StampId"/>
+          <PropertyRef Name="TimeFrame"/>
+          <PropertyRef Name="VMId"/>
+        </Key>
+        <Property Name="PerformanceHistory" Type="Collection(Edm.Int32)" Nullable="false"/>
+        <Property Name="TimeSamples" Type="Collection(Edm.DateTime)" Nullable="false"/>
+        <Property Name="TimeFrame" Type="Edm.String" Nullable="false"/>
+        <Property Name="PerformanceCounter" Type="Edm.String" Nullable="false"/>
+        <Property Name="VMId" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="StampId" Type="Edm.Guid" Nullable="false"/>
+      </EntityType>
+      <EntityType Name="GuestInfo">
+        <Key>
+          <PropertyRef Name="StampId"/>
+          <PropertyRef Name="VMId"/>
+        </Key>
+        <Property Name="IPv4Addresses" Type="Edm.String"/>
+        <Property Name="IPv6Addresses" Type="Edm.String"/>
+        <Property Name="VMId" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="StampId" Type="Edm.Guid" Nullable="false"/>
+      </EntityType>
+      <EntityType Name="UserRole">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="AddMember" Type="Collection(Edm.String)" Nullable="false"/>
+        <Property Name="AddResource" Type="Collection(VMM.UserRoleResource)" Nullable="false"/>
+        <Property Name="AddScope" Type="Collection(VMM.UserRoleScope)" Nullable="false"/>
+        <Property Name="AddCloudResourceExtension" Type="Collection(VMM.UserRoleCloudResourceExtension)" Nullable="false"/>
+        <Property Name="Description" Type="Edm.String"/>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="Members" Type="Collection(Edm.String)" Nullable="false"/>
+        <Property Name="Name" Type="Edm.String"/>
+        <Property Name="ParentUserRoleId" Type="Edm.Guid"/>
+        <Property Name="Permission" Type="Collection(Edm.String)" Nullable="false"/>
+        <Property Name="CloudPermission" Type="Collection(VMM.UserRoleCloudPermission)" Nullable="false"/>
+        <Property Name="Profile" Type="Edm.String"/>
+        <Property Name="Quotas" Type="Collection(VMM.UserRoleScope)" Nullable="false"/>
+        <Property Name="RemoveMember" Type="Collection(Edm.String)" Nullable="false"/>
+        <Property Name="UserRoleProfile" Type="Edm.String"/>
+        <Property Name="PermissionInput" Type="Collection(VMM.UserRolePermission)" Nullable="false"/>
+        <Property Name="CloudPermissionInput" Type="Collection(VMM.UserRoleCloudPermissionInput)" Nullable="false"/>
+        <Property Name="RemoveResource" Type="Collection(VMM.UserRoleResource)" Nullable="false"/>
+        <Property Name="RemoveScope" Type="Collection(VMM.UserRoleScope)" Nullable="false"/>
+        <Property Name="RemoveCloudResourceExtension" Type="Collection(VMM.UserRoleCloudResourceExtension)" Nullable="false"/>
+        <Property Name="VMId" Type="Edm.Guid"/>
+        <Property Name="VMTemplateId" Type="Edm.Guid"/>
+        <Property Name="UserRoleDataPath" Type="Collection(VMM.UserRoleDataPath)" Nullable="false"/>
+        <Property Name="VMNetworkQuota" Type="Collection(VMM.VMNetworkQuota)" Nullable="false"/>
+        <NavigationProperty Name="Clouds" Relationship="VMM.UserRole_Clouds" ToRole="Clouds" FromRole="UserRole"/>
+      </EntityType>
+      <ComplexType Name="UserRoleResource">
+        <Property Name="Resource" Type="Edm.Guid"/>
+        <Property Name="StampId" Type="Edm.Guid"/>
+        <Property Name="ResourceType" Type="Edm.String"/>
+      </ComplexType>
+      <ComplexType Name="UserRoleScope">
+        <Property Name="Scope" Type="Edm.Guid"/>
+        <Property Name="StampId" Type="Edm.Guid"/>
+        <Property Name="ScopeType" Type="Edm.String"/>
+        <Property Name="RoleCPUCount" Type="Edm.Int32"/>
+        <Property Name="RoleMemoryMB" Type="Edm.Int32"/>
+        <Property Name="RoleStorageGB" Type="Edm.Int32"/>
+        <Property Name="RoleCustomQuotaCount" Type="Edm.Int32"/>
+        <Property Name="RoleVMCount" Type="Edm.Int32"/>
+        <Property Name="MemberCPUCount" Type="Edm.Int32"/>
+        <Property Name="MemberMemoryMB" Type="Edm.Int32"/>
+        <Property Name="MemberStorageGB" Type="Edm.Int32"/>
+        <Property Name="MemberCustomQuotaCount" Type="Edm.Int32"/>
+        <Property Name="MemberVMCount" Type="Edm.Int32"/>
+      </ComplexType>
+      <ComplexType Name="UserRoleCloudResourceExtension">
+        <Property Name="Name" Type="Edm.String"/>
+        <Property Name="Version" Type="Edm.String"/>
+        <Property Name="Publisher" Type="Edm.String"/>
+        <Property Name="StampId" Type="Edm.Guid"/>
+        <Property Name="ResourceType" Type="Edm.String"/>
+      </ComplexType>
+      <ComplexType Name="UserRoleCloudPermission">
+        <Property Name="StampId" Type="Edm.Guid"/>
+        <Property Name="CloudId" Type="Edm.Guid"/>
+        <Property Name="ExplicitPermission" Type="Collection(Edm.String)" Nullable="false"/>
+        <Property Name="EffectivePermission" Type="Collection(Edm.String)" Nullable="false"/>
+      </ComplexType>
+      <ComplexType Name="UserRolePermission">
+        <Property Name="StampId" Type="Edm.Guid"/>
+        <Property Name="Permission" Type="Collection(Edm.String)" Nullable="false"/>
+      </ComplexType>
+      <ComplexType Name="UserRoleCloudPermissionInput">
+        <Property Name="StampId" Type="Edm.Guid"/>
+        <Property Name="CloudId" Type="Edm.Guid"/>
+        <Property Name="ExplicitPermission" Type="Collection(Edm.String)" Nullable="false"/>
+      </ComplexType>
+      <ComplexType Name="UserRoleDataPath">
+        <Property Name="StampId" Type="Edm.Guid"/>
+        <Property Name="DataPath" Type="Edm.String"/>
+      </ComplexType>
+      <ComplexType Name="VMNetworkQuota">
+        <Property Name="StampId" Type="Edm.Guid"/>
+        <Property Name="VMNetworkMaximum" Type="Edm.Int32"/>
+        <Property Name="VMNetworkMaximumPerUser" Type="Edm.Int32"/>
+        <Property Name="VPNConnectionMaximum" Type="Edm.Int32"/>
+        <Property Name="VPNConnectionMaximumPerUser" Type="Edm.Int32"/>
+        <Property Name="VMNetworkVPNMaximumBandwidthInKbps" Type="Edm.Decimal"/>
+        <Property Name="VMNetworkVPNMaximumBandwidthOutKbps" Type="Edm.Decimal"/>
+        <Property Name="RemoveVMNetworkMaximum" Type="Edm.Boolean"/>
+        <Property Name="RemoveVMNetworkMaximumPerUser" Type="Edm.Boolean"/>
+        <Property Name="RemoveVPNConnectionMaximum" Type="Edm.Boolean"/>
+        <Property Name="RemoveVPNConnectionMaximumPerUser" Type="Edm.Boolean"/>
+        <Property Name="RemoveVMNetworkVPNMaximumBandwidthIn" Type="Edm.Boolean"/>
+        <Property Name="RemoveVMNetworkVPNMaximumBandwidthOut" Type="Edm.Boolean"/>
+      </ComplexType>
+      <EntityType Name="VirtualMachine">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="StampId"/>
+        </Key>
+        <Property Name="AddedTime" Type="Edm.DateTime"/>
+        <Property Name="Agent" Type="Edm.Boolean"/>
+        <Property Name="AllocatedGPU" Type="Edm.String"/>
+        <Property Name="BackupEnabled" Type="Edm.Boolean"/>
+        <Property Name="BlockLiveMigrationIfHostBusy" Type="Edm.Boolean"/>
+        <Property Name="CanVMConnect" Type="Edm.Boolean"/>
+        <Property Name="CheckpointLocation" Type="Edm.String"/>
+        <Property Name="CloudId" Type="Edm.Guid"/>
+        <Property Name="ComputerName" Type="Edm.String"/>
+        <Property Name="ComputerTierId" Type="Edm.Guid"/>
+        <Property Name="CostCenter" Type="Edm.String"/>
+        <Property Name="CPUCount" Type="Edm.Byte"/>
+        <Property Name="CPUMax" Type="Edm.Int32"/>
+        <Property Name="CPUReserve" Type="Edm.Int32"/>
+        <Property Name="CPUType" Type="Edm.String"/>
+        <Property Name="CPUUtilization" Type="Edm.Int32"/>
+        <Property Name="CreationSource" Type="Edm.String"/>
+        <Property Name="CreationTime" Type="Edm.DateTime"/>
+        <Property Name="DataExchangeEnabled" Type="Edm.Boolean"/>
+        <Property Name="DelayStart" Type="Edm.Int32"/>
+        <Property Name="DeployPath" Type="Edm.String"/>
+        <Property Name="Description" Type="Edm.String"/>
+        <Property Name="DiskIO" Type="Edm.Int32"/>
+        <Property Name="Dismiss" Type="Edm.Boolean"/>
+        <Property Name="DynamicMemoryDemandMB" Type="Edm.Int32"/>
+        <Property Name="Enabled" Type="Edm.Boolean"/>
+        <Property Name="ExcludeFromPRO" Type="Edm.Boolean"/>
+        <Property Name="ExpectedCPUUtilization" Type="Edm.Int32"/>
+        <Property Name="FailedJobID" Type="Edm.Guid"/>
+        <Property Name="HasPassthroughDisk" Type="Edm.Boolean"/>
+        <Property Name="HasSavedState" Type="Edm.Boolean"/>
+        <Property Name="HasVMAdditions" Type="Edm.Boolean"/>
+        <Property Name="HeartbeatEnabled" Type="Edm.Boolean"/>
+        <Property Name="HighlyAvailable" Type="Edm.Boolean"/>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="IsFaultTolerant" Type="Edm.Boolean"/>
+        <Property Name="IsHighlyAvailable" Type="Edm.Boolean"/>
+        <Property Name="IsUndergoingLiveMigration" Type="Edm.Boolean"/>
+        <Property Name="LastRestoredCheckpointId" Type="Edm.Guid"/>
+        <Property Name="LibraryGroup" Type="Edm.String"/>
+        <Property Name="LimitCPUForMigration" Type="Edm.Boolean"/>
+        <Property Name="LimitCPUFunctionality" Type="Edm.Boolean"/>
+        <Property Name="VMNetworkAssignments" Type="Collection(VMM.VMNetworkAssignment)" Nullable="false"/>
+        <Property Name="Location" Type="Edm.String"/>
+        <Property Name="MarkedAsTemplate" Type="Edm.Boolean"/>
+        <Property Name="Memory" Type="Edm.Int32"/>
+        <Property Name="MemoryAssignedMB" Type="Edm.Int32"/>
+        <Property Name="MemoryAvailablePercentage" Type="Edm.Int16"/>
+        <Property Name="ModifiedTime" Type="Edm.DateTime"/>
+        <Property Name="MostRecentTaskId" Type="Edm.Guid"/>
+        <Property Name="Name" Type="Edm.String"/>
+        <Property Name="NetworkUtilization" Type="Edm.Int32"/>
+        <Property Name="NumLock" Type="Edm.Boolean"/>
+        <Property Name="OperatingSystem" Type="Edm.String"/>
+        <Property Name="OperatingSystemInstance" Type="VMM.OperatingSystem"/>
+        <Property Name="OperatingSystemShutdownEnabled" Type="Edm.Boolean"/>
+        <Property Name="Operation" Type="Edm.String"/>
+        <Property Name="Owner" Type="VMM.UserAndRole"/>
+        <Property Name="GrantedToList" Type="Collection(VMM.UserAndRole)" Nullable="false"/>
+        <Property Name="Path" Type="Edm.String"/>
+        <Property Name="PerfCPUUtilization" Type="Edm.Int32"/>
+        <Property Name="PerfDiskBytesRead" Type="Edm.Int64"/>
+        <Property Name="PerfDiskBytesWrite" Type="Edm.Int64"/>
+        <Property Name="PerfNetworkBytesRead" Type="Edm.Int64"/>
+        <Property Name="PerfNetworkBytesWrite" Type="Edm.Int64"/>
+        <Property Name="CPURelativeWeight" Type="Edm.Int32"/>
+        <Property Name="Retry" Type="Edm.Boolean"/>
+        <Property Name="RunGuestAccount" Type="Edm.String"/>
+        <Property Name="ServiceDeploymentErrorMessage" Type="Edm.String"/>
+        <Property Name="ServiceId" Type="Edm.Guid"/>
+        <Property Name="SharePath" Type="Edm.String"/>
+        <Property Name="SourceObjectType" Type="Edm.String"/>
+        <Property Name="StartAction" Type="Edm.String"/>
+        <Property Name="StartVM" Type="Edm.Boolean"/>
+        <Property Name="Status" Type="Edm.String"/>
+        <Property Name="StatusString" Type="Edm.String"/>
+        <Property Name="StopAction" Type="Edm.String"/>
+        <Property Name="Tag" Type="Edm.String"/>
+        <Property Name="TimeSynchronizationEnabled" Type="Edm.Boolean"/>
+        <Property Name="TotalSize" Type="Edm.Int64"/>
+        <Property Name="Undo" Type="Edm.Boolean"/>
+        <Property Name="UndoDisksEnabled" Type="Edm.Boolean"/>
+        <Property Name="UpgradeDomain" Type="Edm.Int32"/>
+        <Property Name="UseCluster" Type="Edm.Boolean"/>
+        <Property Name="UseLAN" Type="Edm.Boolean"/>
+        <Property Name="VirtualHardDiskId" Type="Edm.Guid"/>
+        <Property Name="VirtualizationPlatform" Type="Edm.String"/>
+        <Property Name="CapabilityProfile" Type="Edm.String"/>
+        <Property Name="VMBaseConfigurationId" Type="Edm.Guid"/>
+        <Property Name="VMConnection" Type="Edm.Stream" Nullable="false"/>
+        <Property Name="VMConfigResource" Type="Edm.String"/>
+        <Property Name="VMCPath" Type="Edm.String"/>
+        <Property Name="VMHostName" Type="Edm.String"/>
+        <Property Name="VMId" Type="Edm.Guid"/>
+        <Property Name="StampId" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="VMResource" Type="Edm.String"/>
+        <Property Name="VMResourceGroup" Type="Edm.String"/>
+        <Property Name="VirtualMachineState" Type="Edm.String"/>
+        <Property Name="VMTemplateId" Type="Edm.Guid"/>
+        <Property Name="HardwareProfileId" Type="Edm.Guid"/>
+        <Property Name="BlockDynamicOptimization" Type="Edm.Boolean"/>
+        <Property Name="CPULimitForMigration" Type="Edm.Boolean"/>
+        <Property Name="CPULimitFunctionality" Type="Edm.Boolean"/>
+        <Property Name="Domain" Type="Edm.String"/>
+        <Property Name="DynamicMemoryBufferPercentage" Type="Edm.Int32"/>
+        <Property Name="DynamicMemoryEnabled" Type="Edm.Boolean"/>
+        <Property Name="DynamicMemoryMaximumMB" Type="Edm.Int32"/>
+        <Property Name="FullName" Type="Edm.String"/>
+        <Property Name="MemoryWeight" Type="Edm.Int32"/>
+        <Property Name="OrganizationName" Type="Edm.String"/>
+        <Property Name="DelayStartSeconds" Type="Edm.Int32"/>
+        <Property Name="ProductKey" Type="Edm.String"/>
+        <Property Name="WorkGroup" Type="Edm.String"/>
+        <Property Name="TimeZone" Type="Edm.Int32"/>
+        <Property Name="RunAsAccountUserName" Type="Edm.String"/>
+        <Property Name="UserName" Type="Edm.String"/>
+        <Property Name="Password" Type="Edm.String"/>
+        <Property Name="LocalAdminRunAsAccountName" Type="Edm.String"/>
+        <Property Name="LocalAdminUserName" Type="Edm.String"/>
+        <Property Name="LocalAdminPassword" Type="Edm.String"/>
+        <Property Name="LinuxDomainName" Type="Edm.String"/>
+        <Property Name="LinuxAdministratorSSHKey" Type="Edm.String"/>
+        <Property Name="LinuxAdministratorSSHKeyString" Type="Edm.String"/>
+        <Property Name="CloudVMRoleName" Type="Edm.String"/>
+        <Property Name="Generation" Type="Edm.Int32"/>
+        <Property Name="DeploymentErrorInfo" Type="VMM.ErrorInfo"/>
+        <Property Name="NewVirtualNetworkAdapterInput" Type="Collection(VMM.NewVMVirtualNetworkAdapterInput)" Nullable="false"/>
+        <Property Name="IsRecoveryVM" Type="Edm.Boolean"/>
+        <NavigationProperty Name="Cloud" Relationship="VMM.VirtualMachine_Cloud" ToRole="Cloud" FromRole="VirtualMachine"/>
+        <NavigationProperty Name="MostRecentTask" Relationship="VMM.VirtualMachine_MostRecentTask" ToRole="MostRecentTask" FromRole="VirtualMachine"/>
+        <NavigationProperty Name="FailedJob" Relationship="VMM.VirtualMachine_FailedJob" ToRole="FailedJob" FromRole="VirtualMachine"/>
+        <NavigationProperty Name="VirtualNetworkAdapters" Relationship="VMM.VirtualMachine_VirtualNetworkAdapters" ToRole="VirtualNetworkAdapters" FromRole="VirtualMachine"/>
+        <NavigationProperty Name="VMCheckpoints" Relationship="VMM.VirtualMachine_VMCheckpoints" ToRole="VMCheckpoints" FromRole="VirtualMachine"/>
+        <NavigationProperty Name="VirtualSCSIAdapters" Relationship="VMM.VirtualMachine_VirtualSCSIAdapters" ToRole="VirtualSCSIAdapters" FromRole="VirtualMachine"/>
+        <NavigationProperty Name="VirtualHardDisks" Relationship="VMM.VirtualMachine_VirtualHardDisks" ToRole="VirtualHardDisks" FromRole="VirtualMachine"/>
+        <NavigationProperty Name="VirtualDVDDrives" Relationship="VMM.VirtualMachine_VirtualDVDDrives" ToRole="VirtualDVDDrives" FromRole="VirtualMachine"/>
+        <NavigationProperty Name="VirtualDiskDrives" Relationship="VMM.VirtualMachine_VirtualDiskDrives" ToRole="VirtualDiskDrives" FromRole="VirtualMachine"/>
+      </EntityType>
+      <ComplexType Name="VMNetworkAssignment">
+        <Property Name="VirtualNetworkAdapterID" Type="Edm.Guid"/>
+        <Property Name="VMNetworkName" Type="Edm.String"/>
+      </ComplexType>
+      <ComplexType Name="OperatingSystem">
+        <Property Name="Name" Type="Edm.String"/>
+        <Property Name="Description" Type="Edm.String"/>
+        <Property Name="Version" Type="Edm.String"/>
+        <Property Name="Architecture" Type="Edm.String"/>
+        <Property Name="Edition" Type="Edm.String"/>
+        <Property Name="OSType" Type="Edm.String"/>
+        <Property Name="ProductType" Type="Edm.String"/>
+      </ComplexType>
+      <ComplexType Name="UserAndRole">
+        <Property Name="UserName" Type="Edm.String"/>
+        <Property Name="RoleName" Type="Edm.String"/>
+        <Property Name="RoleID" Type="Edm.Guid"/>
+      </ComplexType>
+      <ComplexType Name="ErrorInfo">
+        <Property Name="CloudProblem" Type="Edm.String"/>
+        <Property Name="Code" Type="Edm.String"/>
+        <Property Name="DetailedCode" Type="Edm.Int32"/>
+        <Property Name="DetailedErrorCode" Type="Edm.String"/>
+        <Property Name="DetailedSource" Type="Edm.String"/>
+        <Property Name="DisplayableErrorCode" Type="Edm.Int64"/>
+        <Property Name="ErrorCodeString" Type="Edm.String"/>
+        <Property Name="ErrorType" Type="Edm.String"/>
+        <Property Name="ExceptionDetails" Type="Edm.String"/>
+        <Property Name="IsConditionallyTerminating" Type="Edm.Boolean"/>
+        <Property Name="IsDeploymentBlocker" Type="Edm.Boolean"/>
+        <Property Name="IsMomAlert" Type="Edm.Boolean"/>
+        <Property Name="IsSuccess" Type="Edm.Boolean"/>
+        <Property Name="IsTerminating" Type="Edm.Boolean"/>
+        <Property Name="MessageParameters" Type="Edm.String"/>
+        <Property Name="MomAlertSeverity" Type="Edm.String"/>
+        <Property Name="Problem" Type="Edm.String"/>
+        <Property Name="RecommendedAction" Type="Edm.String"/>
+        <Property Name="RecommendedActionCLI" Type="Edm.String"/>
+        <Property Name="ShowDetailedError" Type="Edm.Boolean"/>
+      </ComplexType>
+      <ComplexType Name="NewVMVirtualNetworkAdapterInput">
+        <Property Name="VMNetworkName" Type="Edm.String"/>
+        <Property Name="MACAddressType" Type="Edm.String"/>
+        <Property Name="MACAddress" Type="Edm.String"/>
+        <Property Name="IPv4AddressType" Type="Edm.String"/>
+        <Property Name="IPv6AddressType" Type="Edm.String"/>
+        <Property Name="VLanEnabled" Type="Edm.Boolean"/>
+        <Property Name="VLanId" Type="Edm.Int16"/>
+      </ComplexType>
+      <EntityType Name="VirtualDVDDrive">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="StampId"/>
+        </Key>
+        <Property Name="Accessibility" Type="Edm.String"/>
+        <Property Name="AddedTime" Type="Edm.DateTime"/>
+        <Property Name="Bus" Type="Edm.Byte"/>
+        <Property Name="BusType" Type="Edm.String"/>
+        <Property Name="Enabled" Type="Edm.Boolean"/>
+        <Property Name="HostDrive" Type="Edm.String"/>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="ISOId" Type="Edm.Guid"/>
+        <Property Name="ISOLinked" Type="Edm.Boolean"/>
+        <Property Name="JobGroupId" Type="Edm.Guid"/>
+        <Property Name="LUN" Type="Edm.Byte"/>
+        <Property Name="ModifiedTime" Type="Edm.DateTime"/>
+        <Property Name="Name" Type="Edm.String"/>
+        <Property Name="Size" Type="Edm.Int64"/>
+        <Property Name="TemplateId" Type="Edm.Guid"/>
+        <Property Name="VMId" Type="Edm.Guid"/>
+        <Property Name="StampId" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="ChildObjectIDs" Type="Collection(Edm.Guid)" Nullable="false"/>
+        <Property Name="Connection" Type="Edm.String"/>
+        <Property Name="Description" Type="Edm.String"/>
+        <NavigationProperty Name="ISO" Relationship="VMM.VirtualDVDDrive_ISO" ToRole="ISO" FromRole="VirtualDVDDrive"/>
+      </EntityType>
+      <EntityType Name="VirtualHardDisk">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="StampId"/>
+        </Key>
+        <Property Name="Accessibility" Type="Edm.String"/>
+        <Property Name="AddedTime" Type="Edm.DateTime"/>
+        <Property Name="Description" Type="Edm.String"/>
+        <Property Name="Directory" Type="Edm.String"/>
+        <Property Name="Enabled" Type="Edm.Boolean"/>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="JobGroupId" Type="Edm.Guid"/>
+        <Property Name="MaximumSize" Type="Edm.Int64"/>
+        <Property Name="ModifiedTime" Type="Edm.DateTime"/>
+        <Property Name="Name" Type="Edm.String"/>
+        <Property Name="Owner" Type="VMM.UserAndRole"/>
+        <Property Name="OwnerSid" Type="Edm.String"/>
+        <Property Name="ParentDiskId" Type="Edm.Guid"/>
+        <Property Name="SharePath" Type="Edm.String"/>
+        <Property Name="Size" Type="Edm.Int64"/>
+        <Property Name="State" Type="Edm.String"/>
+        <Property Name="VHDType" Type="Edm.String"/>
+        <Property Name="VMId" Type="Edm.Guid"/>
+        <Property Name="TemplateId" Type="Edm.Guid"/>
+        <Property Name="StampId" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="FamilyName" Type="Edm.String"/>
+        <Property Name="Release" Type="Edm.String"/>
+        <Property Name="CloudId" Type="Edm.Guid"/>
+        <Property Name="HostVolumeId" Type="Edm.Guid"/>
+        <Property Name="IsOrphaned" Type="Edm.Boolean"/>
+        <Property Name="IsResourceGroup" Type="Edm.Boolean"/>
+        <Property Name="LibraryGroup" Type="Edm.String"/>
+        <Property Name="LibraryShareId" Type="Edm.Guid"/>
+        <Property Name="Location" Type="Edm.String"/>
+        <Property Name="Namespace" Type="Edm.String"/>
+        <Property Name="ReleaseTime" Type="Edm.DateTime"/>
+        <Property Name="SANCopyCapable" Type="Edm.Boolean"/>
+        <Property Name="Type" Type="Edm.String"/>
+        <Property Name="VirtualizationPlatform" Type="Edm.String"/>
+        <Property Name="OperatingSystem" Type="Edm.String"/>
+        <Property Name="OperatingSystemInstance" Type="VMM.OperatingSystem"/>
+        <Property Name="OperatingSystemId" Type="Edm.Guid"/>
+        <Property Name="Tag" Type="Collection(Edm.String)" Nullable="false"/>
+      </EntityType>
+      <EntityType Name="VMTemplate">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="StampId"/>
+        </Key>
+        <Property Name="StampId" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="AccessedTime" Type="Edm.DateTime"/>
+        <Property Name="AddedTime" Type="Edm.DateTime"/>
+        <Property Name="Admin" Type="Edm.String"/>
+        <Property Name="AdminPasswordHasValue" Type="Edm.Boolean"/>
+        <Property Name="ComputerName" Type="Edm.String"/>
+        <Property Name="CPUCount" Type="Edm.Byte"/>
+        <Property Name="CPUMax" Type="Edm.Int32"/>
+        <Property Name="CPUReserve" Type="Edm.Int32"/>
+        <Property Name="CPUType" Type="Edm.String"/>
+        <Property Name="CreationTime" Type="Edm.DateTime"/>
+        <Property Name="DiskIO" Type="Edm.Int32"/>
+        <Property Name="DomainAdmin" Type="Edm.String"/>
+        <Property Name="DomainAdminPasswordHasValue" Type="Edm.Boolean"/>
+        <Property Name="ExpectedCPUUtilization" Type="Edm.Int32"/>
+        <Property Name="Enabled" Type="Edm.Boolean"/>
+        <Property Name="FullName" Type="Edm.String"/>
+        <Property Name="HasVMAdditions" Type="Edm.Boolean"/>
+        <Property Name="IsHighlyAvailable" Type="Edm.Boolean"/>
+        <Property Name="JoinDomain" Type="Edm.String"/>
+        <Property Name="JoinWorkgroup" Type="Edm.String"/>
+        <Property Name="LibraryGroup" Type="Edm.String"/>
+        <Property Name="LimitCPUForMigration" Type="Edm.Boolean"/>
+        <Property Name="LimitCPUFunctionality" Type="Edm.Boolean"/>
+        <Property Name="Location" Type="Edm.String"/>
+        <Property Name="Memory" Type="Edm.Int32"/>
+        <Property Name="MergeAnswerFile" Type="Edm.Boolean"/>
+        <Property Name="ModifiedTime" Type="Edm.DateTime"/>
+        <Property Name="Name" Type="Edm.String"/>
+        <Property Name="NetworkUtilization" Type="Edm.Int32"/>
+        <Property Name="OperatingSystem" Type="Edm.String"/>
+        <Property Name="OperatingSystemInstance" Type="VMM.OperatingSystem"/>
+        <Property Name="OSType" Type="Edm.String"/>
+        <Property Name="OrgName" Type="Edm.String"/>
+        <Property Name="Owner" Type="VMM.UserAndRole"/>
+        <Property Name="GrantedToList" Type="Collection(VMM.UserAndRole)" Nullable="false"/>
+        <Property Name="QuotaPoint" Type="Edm.Int32"/>
+        <Property Name="ProductKeyHasValue" Type="Edm.Boolean"/>
+        <Property Name="RelativeWeight" Type="Edm.Int32"/>
+        <Property Name="ShareSCSIBus" Type="Edm.Boolean"/>
+        <Property Name="Tag" Type="Edm.String"/>
+        <Property Name="TimeZone" Type="Edm.Int32"/>
+        <Property Name="TotalVHDCapacity" Type="Edm.Int64"/>
+        <Property Name="UndoDisksEnabled" Type="Edm.Boolean"/>
+        <Property Name="UseHardwareAssistedVirtualization" Type="Edm.Boolean"/>
+        <Property Name="Accessibility" Type="Edm.String"/>
+        <Property Name="CostCenter" Type="Edm.String"/>
+        <Property Name="Description" Type="Edm.String"/>
+        <Property Name="IsTagEmpty" Type="Edm.Boolean"/>
+        <Property Name="NicCount" Type="Edm.Int32"/>
+        <Property Name="NumLockEnabled" Type="Edm.Boolean"/>
+        <Property Name="VMAddition" Type="Edm.String"/>
+        <Property Name="IsCustomizable" Type="Edm.Boolean"/>
+        <Property Name="DomainAdminPasswordIsServiceSetting" Type="Edm.Boolean"/>
+        <Property Name="SANCopyCapable" Type="Edm.Boolean"/>
+        <Property Name="IsTemporaryTemplate" Type="Edm.Boolean"/>
+        <Property Name="VMTemplateId" Type="Edm.Guid"/>
+        <Property Name="VirtualHardDiskId" Type="Edm.Guid"/>
+        <Property Name="VMId" Type="Edm.Guid"/>
+        <Property Name="SharePath" Type="Edm.String"/>
+        <Property Name="ApplicationProfileId" Type="Edm.Guid"/>
+        <Property Name="CloudID" Type="Edm.Guid"/>
+        <Property Name="DynamicMemoryBufferPercentage" Type="Edm.Int16"/>
+        <Property Name="DynamicMemoryEnabled" Type="Edm.Boolean"/>
+        <Property Name="DynamicMemoryMaximumMB" Type="Edm.Int32"/>
+        <Property Name="MemoryWeight" Type="Edm.Int16"/>
+        <Property Name="DynamicMemoryPreferredBufferPercentage" Type="Edm.Int16"/>
+        <Property Name="SQLProfileId" Type="Edm.Guid"/>
+        <Property Name="VirtualFloppyDriveId" Type="Edm.Guid"/>
+        <Property Name="BootOrder" Type="Collection(Edm.String)" Nullable="false"/>
+        <Property Name="CustomProperties" Type="Collection(Edm.String)" Nullable="false"/>
+        <Property Name="GuiRunOnceCommands" Type="Collection(Edm.String)" Nullable="false"/>
+        <Property Name="ServerFeatures" Type="Collection(Edm.String)" Nullable="false"/>
+        <Property Name="Status" Type="Edm.String"/>
+        <Property Name="VirtualizationPlatform" Type="Edm.String"/>
+        <Property Name="CapabilityProfile" Type="Edm.String"/>
+        <Property Name="AutoLogonCount" Type="Edm.Int32"/>
+        <Property Name="DomainJoinOrganizationalUnit" Type="Edm.String"/>
+        <Property Name="SANStatus" Type="Collection(Edm.String)" Nullable="false"/>
+        <Property Name="Generation" Type="Edm.Int32"/>
+        <NavigationProperty Name="VirtualNetworkAdapters" Relationship="VMM.VMTemplate_VirtualNetworkAdapters" ToRole="VirtualNetworkAdapters" FromRole="VMTemplate"/>
+        <NavigationProperty Name="VirtualSCSIAdapters" Relationship="VMM.VMTemplate_VirtualSCSIAdapters" ToRole="VirtualSCSIAdapters" FromRole="VMTemplate"/>
+        <NavigationProperty Name="VirtualHardDisks" Relationship="VMM.VMTemplate_VirtualHardDisks" ToRole="VirtualHardDisks" FromRole="VMTemplate"/>
+        <NavigationProperty Name="VirtualDVDDrives" Relationship="VMM.VMTemplate_VirtualDVDDrives" ToRole="VirtualDVDDrives" FromRole="VMTemplate"/>
+        <NavigationProperty Name="VirtualDiskDrives" Relationship="VMM.VMTemplate_VirtualDiskDrives" ToRole="VirtualDiskDrives" FromRole="VMTemplate"/>
+      </EntityType>
+      <EntityType Name="VirtualNetworkAdapter">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="StampId"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="Name" Type="Edm.String"/>
+        <Property Name="VMwarePortGroup" Type="Edm.String"/>
+        <Property Name="EthernetAddressType" Type="Edm.String"/>
+        <Property Name="PhysicalAddressType" Type="Edm.String"/>
+        <Property Name="EthernetAddress" Type="Edm.String"/>
+        <Property Name="PhysicalAddress" Type="Edm.String"/>
+        <Property Name="VirtualNetworkAdapterType" Type="Edm.String"/>
+        <Property Name="Location" Type="Edm.String"/>
+        <Property Name="Tag" Type="Edm.String"/>
+        <Property Name="Description" Type="Edm.String"/>
+        <Property Name="VMNetworkId" Type="Edm.Guid"/>
+        <Property Name="VMNetworkName" Type="Edm.String"/>
+        <Property Name="VMSubnetId" Type="Edm.Guid"/>
+        <Property Name="TemplateId" Type="Edm.Guid"/>
+        <Property Name="VMId" Type="Edm.Guid"/>
+        <Property Name="StampId" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="MACAddressesSpoofingEnabled" Type="Edm.Boolean"/>
+        <Property Name="SlotId" Type="Edm.Int32"/>
+        <Property Name="VLanEnabled" Type="Edm.Boolean"/>
+        <Property Name="VLanId" Type="Edm.Int16"/>
+        <Property Name="VMNetworkOptimizationEnabled" Type="Edm.Boolean"/>
+        <Property Name="VmwAdapterIndex" Type="Edm.Int32"/>
+        <Property Name="Accessibility" Type="Edm.String"/>
+        <Property Name="AddedTime" Type="Edm.DateTime"/>
+        <Property Name="ChildObjectIDs" Type="Collection(Edm.Guid)" Nullable="false"/>
+        <Property Name="Enabled" Type="Edm.Boolean"/>
+        <Property Name="IPv4AddressType" Type="Edm.String"/>
+        <Property Name="IPv6AddressType" Type="Edm.String"/>
+        <Property Name="IPv4Addresses" Type="Collection(Edm.String)" Nullable="false"/>
+        <Property Name="IPv6Addresses" Type="Collection(Edm.String)" Nullable="false"/>
+        <Property Name="MACAddress" Type="Edm.String"/>
+        <Property Name="MACAddressesSpoolingEnabled" Type="Edm.Boolean"/>
+        <Property Name="MACAddressSpoofingEnabled" Type="Edm.Boolean"/>
+        <Property Name="EnableMACAddressSpoofing" Type="Edm.Boolean"/>
+        <Property Name="MACAddressType" Type="Edm.String"/>
+        <Property Name="ModifiedTime" Type="Edm.DateTime"/>
+        <Property Name="ParentId" Type="Edm.Guid"/>
+        <Property Name="RequiredBandwidth" Type="Edm.String"/>
+        <Property Name="IsSynthetic" Type="Edm.Boolean"/>
+      </EntityType>
+      <EntityType Name="VirtualSCSIAdapter">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="StampId"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="Name" Type="Edm.String"/>
+        <Property Name="AdapterID" Type="Edm.Byte"/>
+        <Property Name="Bus" Type="Edm.Byte"/>
+        <Property Name="Shared" Type="Edm.Boolean"/>
+        <Property Name="TemplateId" Type="Edm.Guid"/>
+        <Property Name="VMId" Type="Edm.Guid"/>
+        <Property Name="StampId" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="SCSIControllerType" Type="Edm.String"/>
+        <Property Name="Accessibility" Type="Edm.String"/>
+        <Property Name="AddedTime" Type="Edm.DateTime"/>
+        <Property Name="Description" Type="Edm.String"/>
+        <Property Name="Enabled" Type="Edm.Boolean"/>
+        <Property Name="ModifiedTime" Type="Edm.DateTime"/>
+      </EntityType>
+      <EntityType Name="ISO">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="StampId"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="State" Type="Edm.String"/>
+        <Property Name="SharePath" Type="Edm.String"/>
+        <Property Name="Directory" Type="Edm.String"/>
+        <Property Name="Size" Type="Edm.Int64"/>
+        <Property Name="LibraryGroup" Type="Edm.String"/>
+        <Property Name="Owner" Type="VMM.UserAndRole"/>
+        <Property Name="OwnerSid" Type="Edm.String"/>
+        <Property Name="Accessibility" Type="Edm.String"/>
+        <Property Name="Name" Type="Edm.String"/>
+        <Property Name="Description" Type="Edm.String"/>
+        <Property Name="AddedTime" Type="Edm.DateTime"/>
+        <Property Name="ModifiedTime" Type="Edm.DateTime"/>
+        <Property Name="Enabled" Type="Edm.Boolean"/>
+        <Property Name="StampId" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="FamilyName" Type="Edm.String"/>
+        <Property Name="HostVolumeId" Type="Edm.Guid"/>
+        <Property Name="IsOrphaned" Type="Edm.Boolean"/>
+        <Property Name="LibraryShareId" Type="Edm.Guid"/>
+        <Property Name="Namespace" Type="Edm.String"/>
+        <Property Name="CloudId" Type="Edm.Guid"/>
+        <Property Name="Release" Type="Edm.String"/>
+        <NavigationProperty Name="LibraryShare" Relationship="VMM.ISO_LibraryShare" ToRole="LibraryShare" FromRole="ISO"/>
+      </EntityType>
+      <EntityType Name="LogicalNetwork">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="StampId"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="Description" Type="Edm.String"/>
+        <Property Name="Name" Type="Edm.String"/>
+        <Property Name="NetworkVirtualizationEnabled" Type="Edm.Boolean"/>
+        <Property Name="StampId" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="CloudId" Type="Edm.Guid"/>
+      </EntityType>
+      <EntityType Name="Job">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="StampId"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="Name" Type="Edm.String"/>
+        <Property Name="CurrentStepId" Type="Edm.Guid"/>
+        <Property Name="RootStepId" Type="Edm.Guid"/>
+        <Property Name="CmdletName" Type="Edm.String"/>
+        <Property Name="EndTime" Type="Edm.DateTime"/>
+        <Property Name="IsCompleted" Type="Edm.Boolean"/>
+        <Property Name="IsRestartable" Type="Edm.Boolean"/>
+        <Property Name="IsStoppable" Type="Edm.Boolean"/>
+        <Property Name="IsVisible" Type="Edm.Boolean"/>
+        <Property Name="Owner" Type="Edm.String"/>
+        <Property Name="OwnerSID" Type="Edm.String"/>
+        <Property Name="ProgressValue" Type="Edm.Int32"/>
+        <Property Name="Progress" Type="Edm.String"/>
+        <Property Name="ResultObjectTypeName" Type="Edm.String"/>
+        <Property Name="ResultName" Type="Edm.String"/>
+        <Property Name="Source" Type="Edm.String"/>
+        <Property Name="StartTime" Type="Edm.DateTime"/>
+        <Property Name="Status" Type="Edm.String"/>
+        <Property Name="StatusString" Type="Edm.String"/>
+        <Property Name="Target" Type="Edm.String"/>
+        <Property Name="TargetObjectID" Type="Edm.Guid"/>
+        <Property Name="Description" Type="VMM.JobDescription"/>
+        <Property Name="WasNotifiedOfCancel" Type="Edm.Boolean"/>
+        <Property Name="PROTipID" Type="Edm.Guid"/>
+        <Property Name="ResultObjectID" Type="Edm.Guid"/>
+        <Property Name="TargetObjectType" Type="Edm.String"/>
+        <Property Name="AreAuditRecordsAvailable" Type="Edm.Boolean"/>
+        <Property Name="ResultObjectType" Type="Edm.String"/>
+        <Property Name="StampId" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="StepsLoaded" Type="Edm.Boolean"/>
+        <Property Name="UserName" Type="Edm.String"/>
+        <Property Name="Password" Type="Edm.String"/>
+        <Property Name="SkipLastFailedStep" Type="Edm.Boolean"/>
+        <Property Name="ErrorInfo" Type="VMM.ErrorInfo"/>
+        <Property Name="AdditionalMessages" Type="Collection(VMM.ErrorInfo)" Nullable="false"/>
+      </EntityType>
+      <ComplexType Name="JobDescription">
+        <Property Name="CanSkipLastFailedStep" Type="Edm.Boolean"/>
+        <Property Name="Code" Type="Edm.String"/>
+        <Property Name="DescriptionCodeString" Type="Edm.String"/>
+        <Property Name="IsRestartable" Type="Edm.Boolean"/>
+        <Property Name="IsStoppable" Type="Edm.Boolean"/>
+        <Property Name="Name" Type="Edm.String"/>
+        <Property Name="RequiresCredentialsForRestart" Type="Edm.Boolean"/>
+      </ComplexType>
+      <EntityType Name="CapabilityProfile">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="StampId"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="Name" Type="Edm.String"/>
+        <Property Name="Description" Type="Edm.String"/>
+        <Property Name="StampId" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="COM1PipeNameInitial" Type="Edm.String"/>
+        <Property Name="COM1TextFileName" Type="Edm.String"/>
+        <Property Name="COM2PipeNameInitial" Type="Edm.String"/>
+        <Property Name="COM2TextFileNameInitial" Type="Edm.String"/>
+        <Property Name="CPUCompatibilityModeValue" Type="Edm.Boolean"/>
+        <Property Name="CPUCompatibilityModeValueCanChange" Type="Edm.Boolean"/>
+        <Property Name="CPUCountInitial" Type="Edm.Int32"/>
+        <Property Name="CPUCountMaximum" Type="Edm.Int32"/>
+        <Property Name="CPUCountMinimum" Type="Edm.Int32"/>
+        <Property Name="CPUPriorityCustomInitial" Type="Edm.Int32"/>
+        <Property Name="CPUPriorityCustomMaximum" Type="Edm.Int32"/>
+        <Property Name="CPUPriorityCustomMinimum" Type="Edm.Int32"/>
+        <Property Name="CPUPriorityHighInitial" Type="Edm.Int32"/>
+        <Property Name="CPUPriorityHighMaximum" Type="Edm.Int32"/>
+        <Property Name="CPUPriorityHighMinimum" Type="Edm.Int32"/>
+        <Property Name="CPUPriorityLowInitial" Type="Edm.Int32"/>
+        <Property Name="CPUPriorityLowMaximum" Type="Edm.Int32"/>
+        <Property Name="CPUPriorityLowMinimum" Type="Edm.Int32"/>
+        <Property Name="CPUPriorityNormalInitial" Type="Edm.Int32"/>
+        <Property Name="CPUPriorityNormalMaximum" Type="Edm.Int32"/>
+        <Property Name="CPUPriorityNormalMinimum" Type="Edm.Int32"/>
+        <Property Name="CreateNewDiskCanChange" Type="Edm.Boolean"/>
+        <Property Name="CreateNewDiskInitial" Type="Edm.Boolean"/>
+        <Property Name="DifferencingVirtualHardDiskValue" Type="Edm.Boolean"/>
+        <Property Name="DifferencingVirtualHardDiskValueCanChange" Type="Edm.Boolean"/>
+        <Property Name="DVDDriveChannelInitial" Type="Edm.Int32"/>
+        <Property Name="DVDDriveChannelMaximum" Type="Edm.Int32"/>
+        <Property Name="DVDDriveChannelMinimum" Type="Edm.Int32"/>
+        <Property Name="DVDImageFileInitial" Type="Edm.Guid"/>
+        <Property Name="DynamicMemoryValue" Type="Edm.Boolean"/>
+        <Property Name="DynamicMemoryValueCanChange" Type="Edm.Boolean"/>
+        <Property Name="DynamicVirtualHardDiskValue" Type="Edm.Boolean"/>
+        <Property Name="DynamicVirtualHardDiskValueCanChange" Type="Edm.Boolean"/>
+        <Property Name="EnableNumLockCanChange" Type="Edm.Boolean"/>
+        <Property Name="EnableNumLockInitial" Type="Edm.Boolean"/>
+        <Property Name="ExistDiskStorageClassificationValue" Type="Edm.Guid"/>
+        <Property Name="ExistingDiskChannelInitial" Type="Edm.Int32"/>
+        <Property Name="ExistingDiskChannelMaximum" Type="Edm.Int32"/>
+        <Property Name="ExistingDiskChannelMinimum" Type="Edm.Int32"/>
+        <Property Name="ExpectedCPUUtilizationInitial" Type="Edm.Int64"/>
+        <Property Name="ExpectedCPUUtilizationMaximum" Type="Edm.Int64"/>
+        <Property Name="ExpectedCPUUtilizationMinimum" Type="Edm.Int64"/>
+        <Property Name="FabricCapabilityType" Type="Edm.String"/>
+        <Property Name="FixedVirtualHardDiskValue" Type="Edm.Boolean"/>
+        <Property Name="FixedVirtualHardDiskValueCanChange" Type="Edm.Boolean"/>
+        <Property Name="FloppyImageFileInitial" Type="Edm.Guid"/>
+        <Property Name="LogicalNetworkValue" Type="Edm.Guid"/>
+        <Property Name="MaximumHorizontalMonitorResolutionInitial" Type="Edm.Int32"/>
+        <Property Name="MaximumHorizontalMonitorResolutionMaximum" Type="Edm.Int32"/>
+        <Property Name="MaximumHorizontalMonitorResolutionMinimum" Type="Edm.Int32"/>
+        <Property Name="MaximumMemoryMBInitial" Type="Edm.Int32"/>
+        <Property Name="MaximumMemoryMBMaximum" Type="Edm.Int32"/>
+        <Property Name="MaximumMemoryMBMinimum" Type="Edm.Int32"/>
+        <Property Name="MaximumMonitorCountInitial" Type="Edm.Int32"/>
+        <Property Name="MaximumMonitorCountMaximum" Type="Edm.Int32"/>
+        <Property Name="MaximumMonitorCountMinimum" Type="Edm.Int32"/>
+        <Property Name="MaximumVerticalMonitorResolutionInitial" Type="Edm.Int32"/>
+        <Property Name="MaximumVerticalMonitorResolutionMaximum" Type="Edm.Int32"/>
+        <Property Name="MaximumVerticalMonitorResolutionMinimum" Type="Edm.Int32"/>
+        <Property Name="MemoryAmountInitial" Type="Edm.Int32"/>
+        <Property Name="MemoryAmountMaximum" Type="Edm.Int32"/>
+        <Property Name="MemoryAmountMinimum" Type="Edm.Int32"/>
+        <Property Name="MemoryMBInitial" Type="Edm.Int32"/>
+        <Property Name="MemoryMBMaximum" Type="Edm.Int32"/>
+        <Property Name="MemoryMBMinimum" Type="Edm.Int32"/>
+        <Property Name="MemoryPriorityCustomInitial" Type="Edm.Int32"/>
+        <Property Name="MemoryPriorityCustomMaximum" Type="Edm.Int32"/>
+        <Property Name="MemoryPriorityCustomMinimum" Type="Edm.Int32"/>
+        <Property Name="MemoryPriorityHighInitial" Type="Edm.Int32"/>
+        <Property Name="MemoryPriorityHighMaximum" Type="Edm.Int32"/>
+        <Property Name="MemoryPriorityHighMinimum" Type="Edm.Int32"/>
+        <Property Name="MemoryPriorityLowInitial" Type="Edm.Int32"/>
+        <Property Name="MemoryPriorityLowMaximum" Type="Edm.Int32"/>
+        <Property Name="MemoryPriorityLowMinimum" Type="Edm.Int32"/>
+        <Property Name="MemoryPriorityNormalInitial" Type="Edm.Int32"/>
+        <Property Name="MemoryPriorityNormalMaximum" Type="Edm.Int32"/>
+        <Property Name="MemoryPriorityNormalMinimum" Type="Edm.Int32"/>
+        <Property Name="NetworkAdapterNameInitial" Type="Edm.String"/>
+        <Property Name="NetworkOptimizationValue" Type="Edm.Boolean"/>
+        <Property Name="NetworkOptimizationValueCanChange" Type="Edm.Boolean"/>
+        <Property Name="NewDiskDriveChannelInitial" Type="Edm.Int32"/>
+        <Property Name="NewDiskDriveChannelMaximum" Type="Edm.Int32"/>
+        <Property Name="NewDiskDriveChannelMinimum" Type="Edm.Int32"/>
+        <Property Name="NewDiskFileNameInitial" Type="Edm.String"/>
+        <Property Name="NewDiskImageFileInitial" Type="Edm.Guid"/>
+        <Property Name="NewDiskStorageClassificationValue" Type="Edm.Guid"/>
+        <Property Name="OSCompatibilityModeValue" Type="Edm.Boolean"/>
+        <Property Name="OSCompatibilityModeValueCanChange" Type="Edm.Boolean"/>
+        <Property Name="ReadOnly" Type="Edm.Boolean"/>
+        <Property Name="SCSIAdapterCountInitial" Type="Edm.Int32"/>
+        <Property Name="SCSIAdapterCountMaximum" Type="Edm.Int32"/>
+        <Property Name="SCSIAdapterCountMinimum" Type="Edm.Int32"/>
+        <Property Name="SharedDVDImageFileValue" Type="Edm.Boolean"/>
+        <Property Name="SharedDVDImageFileValueCanChange" Type="Edm.Boolean"/>
+        <Property Name="StartActionAlwaysStartCanChange" Type="Edm.Boolean"/>
+        <Property Name="StartActionAlwaysStartInitial" Type="Edm.Boolean"/>
+        <Property Name="StartActionAutomaticallyStartIfRunningCanChange" Type="Edm.Boolean"/>
+        <Property Name="StartActionAutomaticallyStartIfRunningInitial" Type="Edm.Boolean"/>
+        <Property Name="StartActionDoNothingCanChange" Type="Edm.Boolean"/>
+        <Property Name="StartActionDoNothingInitial" Type="Edm.Boolean"/>
+        <Property Name="StartupDelaySecondsInitial" Type="Edm.Int64"/>
+        <Property Name="StartupDelaySecondsMaximum" Type="Edm.Int64"/>
+        <Property Name="StartupDelaySecondsMinimum" Type="Edm.Int64"/>
+        <Property Name="StartupMemoryMBInitial" Type="Edm.Int32"/>
+        <Property Name="StartupMemoryMBMaximum" Type="Edm.Int32"/>
+        <Property Name="StartupMemoryMBMinimum" Type="Edm.Int32"/>
+        <Property Name="StaticMACAddressInitial" Type="Edm.String"/>
+        <Property Name="StaticMemoryCanChange" Type="Edm.Boolean"/>
+        <Property Name="StaticMemoryInitial" Type="Edm.Boolean"/>
+        <Property Name="StopActionDoNothingCanChange" Type="Edm.Boolean"/>
+        <Property Name="StopActionDoNothingInitial" Type="Edm.Boolean"/>
+        <Property Name="StopActionSaveStateVMCanChange" Type="Edm.Boolean"/>
+        <Property Name="StopActionSaveStateVMInitial" Type="Edm.Boolean"/>
+        <Property Name="StopActionShutdownVMCanChange" Type="Edm.Boolean"/>
+        <Property Name="StopActionShutdownVMInitial" Type="Edm.Boolean"/>
+        <Property Name="StopActionTurnOffVMCanChange" Type="Edm.Boolean"/>
+        <Property Name="StopActionTurnOffVMInitial" Type="Edm.Boolean"/>
+        <Property Name="TargetMemoryBufferPercentInitial" Type="Edm.Int32"/>
+        <Property Name="TargetMemoryBufferPercentMaximum" Type="Edm.Int32"/>
+        <Property Name="TargetMemoryBufferPercentMinimum" Type="Edm.Int32"/>
+        <Property Name="UseBusLogicParallelSCSICanChange" Type="Edm.Boolean"/>
+        <Property Name="UseBusLogicParallelSCSIInitial" Type="Edm.Boolean"/>
+        <Property Name="UseCOM1CanChange" Type="Edm.Boolean"/>
+        <Property Name="UseCOM1Initial" Type="Edm.Boolean"/>
+        <Property Name="UseCOM1NamedPipeCanChange" Type="Edm.Boolean"/>
+        <Property Name="UseCOM1NamedPipeInitial" Type="Edm.Boolean"/>
+        <Property Name="UseCOM1TextFileCanChange" Type="Edm.Boolean"/>
+        <Property Name="UseCOM1TextFileInitial" Type="Edm.Boolean"/>
+        <Property Name="UseCOM2CanChange" Type="Edm.Boolean"/>
+        <Property Name="UseCOM2Initial" Type="Edm.Boolean"/>
+        <Property Name="UseCOM2NamedPipeCanChange" Type="Edm.Boolean"/>
+        <Property Name="UseCOM2NamedPipeInitial" Type="Edm.Boolean"/>
+        <Property Name="UseCOM2TextFileCanChange" Type="Edm.Boolean"/>
+        <Property Name="UseCOM2TextFileInitial" Type="Edm.Boolean"/>
+        <Property Name="UseDynamicIPv4CanChange" Type="Edm.Boolean"/>
+        <Property Name="UseDynamicIPv4Initial" Type="Edm.Boolean"/>
+        <Property Name="UseDynamicIPv6CanChange" Type="Edm.Boolean"/>
+        <Property Name="UseDynamicIPv6Initial" Type="Edm.Boolean"/>
+        <Property Name="UseEmulatedNetworkAdapterCanChange" Type="Edm.Boolean"/>
+        <Property Name="UseEmulatedNetworkAdapterInitial" Type="Edm.Boolean"/>
+        <Property Name="UseExistingDiskForOperatingSystemCanChange" Type="Edm.Boolean"/>
+        <Property Name="UseExistingDiskForOperatingSystemInitial" Type="Edm.Boolean"/>
+        <Property Name="UseExistingDiskImageFileCanChange" Type="Edm.Boolean"/>
+        <Property Name="UseExistingDiskImageFileInitial" Type="Edm.Boolean"/>
+        <Property Name="UseExistingDVDImageFileCanChange" Type="Edm.Boolean"/>
+        <Property Name="UseExistingDVDImageFileInitial" Type="Edm.Boolean"/>
+        <Property Name="UseExistingFloppyDriveCanChange" Type="Edm.Boolean"/>
+        <Property Name="UseExistingFloppyDriveInitial" Type="Edm.Boolean"/>
+        <Property Name="UseExistingFloppyImageFileCanChange" Type="Edm.Boolean"/>
+        <Property Name="UseExistingFloppyImageFileInitial" Type="Edm.Boolean"/>
+        <Property Name="UseExistingOrFirstAvailableDiskDriveChannelCanChange" Type="Edm.Boolean"/>
+        <Property Name="UseExistingOrFirstAvailableDiskDriveChannelInitial" Type="Edm.Boolean"/>
+        <Property Name="UseExistingOrFirstAvailableDVDDriveChannelCanChange" Type="Edm.Boolean"/>
+        <Property Name="UseExistingOrFirstAvailableDVDDriveChannelInitial" Type="Edm.Boolean"/>
+        <Property Name="UseFirstAvailableChannelForNewDiskCanChange" Type="Edm.Boolean"/>
+        <Property Name="UseFirstAvailableChannelForNewDiskInitial" Type="Edm.Boolean"/>
+        <Property Name="UseForOperatingSystemCanChange" Type="Edm.Boolean"/>
+        <Property Name="UseForOperatingSystemInitial" Type="Edm.Boolean"/>
+        <Property Name="UseLSILogicParallelSCSICanChange" Type="Edm.Boolean"/>
+        <Property Name="UseLSILogicParallelSCSIInitial" Type="Edm.Boolean"/>
+        <Property Name="UseLSILogicSASSCSICanChange" Type="Edm.Boolean"/>
+        <Property Name="UseLSILogicSASSCSIInitial" Type="Edm.Boolean"/>
+        <Property Name="UseMACSpoofingCanChange" Type="Edm.Boolean"/>
+        <Property Name="UseMACSpoofingInitial" Type="Edm.Boolean"/>
+        <Property Name="UseNoMediaDVDDriveCanChange" Type="Edm.Boolean"/>
+        <Property Name="UseNoMediaDVDDriveInitial" Type="Edm.Boolean"/>
+        <Property Name="UseNoMediaFloppyDriveCanChange" Type="Edm.Boolean"/>
+        <Property Name="UseNoMediaFloppyDriveInitial" Type="Edm.Boolean"/>
+        <Property Name="UsePassthroughDiskCanChange" Type="Edm.Boolean"/>
+        <Property Name="UsePassthroughDiskInitial" Type="Edm.Boolean"/>
+        <Property Name="UsePhysicalDVDDriveCanChange" Type="Edm.Boolean"/>
+        <Property Name="UsePhysicalDVDDriveInitial" Type="Edm.Boolean"/>
+        <Property Name="UseStaticIPv4CanChange" Type="Edm.Boolean"/>
+        <Property Name="UseStaticIPv4Initial" Type="Edm.Boolean"/>
+        <Property Name="UseStaticIPv6CanChange" Type="Edm.Boolean"/>
+        <Property Name="UseStaticIPv6Initial" Type="Edm.Boolean"/>
+        <Property Name="UseStaticMACAddressCanChange" Type="Edm.Boolean"/>
+        <Property Name="UseStaticMACAddressInitial" Type="Edm.Boolean"/>
+        <Property Name="UseSyntheticNetworkAdapterCanChange" Type="Edm.Boolean"/>
+        <Property Name="UseSyntheticNetworkAdapterInitial" Type="Edm.Boolean"/>
+        <Property Name="UseVMWareParavirtualSCSICanChange" Type="Edm.Boolean"/>
+        <Property Name="UseVMWareParavirtualSCSIInitial" Type="Edm.Boolean"/>
+        <Property Name="VirtualDVDDriveCountInitial" Type="Edm.Int32"/>
+        <Property Name="VirtualDVDDriveCountMaximum" Type="Edm.Int32"/>
+        <Property Name="VirtualDVDDriveCountMinimum" Type="Edm.Int32"/>
+        <Property Name="VirtualHardDiskCountInitial" Type="Edm.Int32"/>
+        <Property Name="VirtualHardDiskCountMaximum" Type="Edm.Int32"/>
+        <Property Name="VirtualHardDiskCountMinimum" Type="Edm.Int32"/>
+        <Property Name="VirtualHardDiskSizeMBInitial" Type="Edm.Int64"/>
+        <Property Name="VirtualHardDiskSizeMBMaximum" Type="Edm.Int64"/>
+        <Property Name="VirtualHardDiskSizeMBMinimum" Type="Edm.Int64"/>
+        <Property Name="VirtualNetworkAdapterCountInitial" Type="Edm.Int32"/>
+        <Property Name="VirtualNetworkAdapterCountMaximum" Type="Edm.Int32"/>
+        <Property Name="VirtualNetworkAdapterCountMinimum" Type="Edm.Int32"/>
+        <Property Name="VMHighlyAvailableValue" Type="Edm.Boolean"/>
+        <Property Name="VMHighlyAvailableValueCanChange" Type="Edm.Boolean"/>
+      </EntityType>
+      <EntityType Name="Cloud">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="StampId"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="Name" Type="Edm.String"/>
+        <Property Name="Description" Type="Edm.String"/>
+        <Property Name="LastModifiedDate" Type="Edm.DateTime"/>
+        <Property Name="WritableLibraryPath" Type="Edm.String"/>
+        <Property Name="UserRoleID" Type="Edm.Guid"/>
+        <Property Name="StampId" Type="Edm.Guid" Nullable="false"/>
+        <NavigationProperty Name="Capacity" Relationship="VMM.Cloud_Capacity" ToRole="Capacity" FromRole="Cloud"/>
+        <NavigationProperty Name="LogicalNetworks" Relationship="VMM.Cloud_LogicalNetworks" ToRole="LogicalNetworks" FromRole="Cloud"/>
+        <NavigationProperty Name="CapabilityProfiles" Relationship="VMM.Cloud_CapabilityProfiles" ToRole="CapabilityProfiles" FromRole="Cloud"/>
+        <NavigationProperty Name="LibraryShares" Relationship="VMM.Cloud_LibraryShares" ToRole="LibraryShares" FromRole="Cloud"/>
+        <NavigationProperty Name="QuotaAndUsageComponents" Relationship="VMM.Cloud_QuotaAndUsageComponents" ToRole="QuotaAndUsageComponents" FromRole="Cloud"/>
+      </EntityType>
+      <EntityType Name="VMCheckPoint">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="StampId"/>
+        </Key>
+        <Property Name="Accessibility" Type="Edm.String"/>
+        <Property Name="CheckpointID" Type="Edm.Guid"/>
+        <Property Name="Description" Type="Edm.String"/>
+        <Property Name="Enabled" Type="Edm.Boolean"/>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="Name" Type="Edm.String"/>
+        <Property Name="ParentCheckpointID" Type="Edm.Guid"/>
+        <Property Name="VMId" Type="Edm.Guid"/>
+        <Property Name="AddedTime" Type="Edm.DateTime"/>
+        <Property Name="ModifiedTime" Type="Edm.DateTime"/>
+        <Property Name="StampId" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="VMCheckPointAction" Type="Edm.String"/>
+        <Property Name="Confirm" Type="Edm.Boolean"/>
+        <Property Name="RunAsynchronously" Type="Edm.Boolean"/>
+        <NavigationProperty Name="ParentCheckPoint" Relationship="VMM.VMCheckPoint_ParentCheckPoint" ToRole="ParentCheckPoint" FromRole="VMCheckPoint"/>
+      </EntityType>
+      <EntityType Name="ServiceTemplate">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="StampId"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="Description" Type="Edm.String"/>
+        <Property Name="Name" Type="Edm.String"/>
+        <Property Name="Namespace" Type="Edm.String"/>
+        <Property Name="StampId" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="Release" Type="Edm.String"/>
+        <Property Name="ServicePriority" Type="Edm.String"/>
+        <Property Name="ServiceTemplateState" Type="Edm.String"/>
+        <Property Name="IsPublished" Type="Edm.Boolean"/>
+        <Property Name="PublishedTime" Type="Edm.DateTime"/>
+        <Property Name="Owner" Type="VMM.UserAndRole"/>
+        <Property Name="GrantedToList" Type="Collection(VMM.UserAndRole)" Nullable="false"/>
+        <Property Name="AddedTime" Type="Edm.DateTime"/>
+        <Property Name="ModifiedTime" Type="Edm.DateTime"/>
+        <Property Name="Enabled" Type="Edm.Boolean"/>
+        <Property Name="NotificationsAvailable" Type="Edm.Boolean"/>
+        <Property Name="UseAsDefaultRelease" Type="Edm.Boolean"/>
+        <Property Name="UseAsPattern" Type="Edm.Boolean"/>
+        <Property Name="Accessibility" Type="Edm.String"/>
+        <Property Name="ServiceSettings" Type="Collection(VMM.ServiceSetting)" Nullable="false"/>
+        <Property Name="CustomProperty" Type="Collection(VMM.CustomProperty)" Nullable="false"/>
+        <NavigationProperty Name="ComputerTierTemplates" Relationship="VMM.ServiceTemplate_ComputerTierTemplates" ToRole="ComputerTierTemplates" FromRole="ServiceTemplate"/>
+        <NavigationProperty Name="ApplicationHostTemplates" Relationship="VMM.ServiceTemplate_ApplicationHostTemplates" ToRole="ApplicationHostTemplates" FromRole="ServiceTemplate"/>
+      </EntityType>
+      <ComplexType Name="ServiceSetting">
+        <Property Name="Name" Type="Edm.String"/>
+        <Property Name="Description" Type="Edm.String"/>
+        <Property Name="Value" Type="Edm.String"/>
+        <Property Name="Mandatory" Type="Edm.Boolean"/>
+        <Property Name="HasEncryptedValue" Type="Edm.Boolean"/>
+        <Property Name="IsSecure" Type="Edm.Boolean"/>
+        <Property Name="GlobalSettingType" Type="Edm.String"/>
+      </ComplexType>
+      <ComplexType Name="CustomProperty">
+        <Property Name="Name" Type="Edm.String"/>
+        <Property Name="Value" Type="Edm.String"/>
+      </ComplexType>
+      <EntityType Name="Service">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="StampId"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="Description" Type="Edm.String"/>
+        <Property Name="Name" Type="Edm.String"/>
+        <Property Name="StampId" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="NewServiceDeployment" Type="VMM.NewServiceDeployment"/>
+        <Property Name="Owner" Type="VMM.UserAndRole"/>
+        <Property Name="GrantedToList" Type="Collection(VMM.UserAndRole)" Nullable="false"/>
+        <Property Name="AllVMsAccessible" Type="Edm.Boolean"/>
+        <Property Name="CostCenter" Type="Edm.String"/>
+        <Property Name="DeploymentState" Type="Edm.String"/>
+        <Property Name="DeployedTo" Type="Edm.String"/>
+        <Property Name="InServicingMode" Type="Edm.Boolean"/>
+        <Property Name="OverallStatus" Type="Edm.String"/>
+        <Property Name="PendingServiceTemplatePresent" Type="Edm.Boolean"/>
+        <Property Name="PendingServiceTemplateRelease" Type="Edm.String"/>
+        <Property Name="ServicePriority" Type="Edm.String"/>
+        <Property Name="ServiceTemplateRelease" Type="Edm.String"/>
+        <Property Name="ServiceStatus" Type="Edm.String"/>
+        <Property Name="VMHostGroup" Type="Edm.String"/>
+        <Property Name="Enabled" Type="Edm.Boolean"/>
+        <Property Name="AddedTime" Type="Edm.DateTime"/>
+        <Property Name="ModifiedTime" Type="Edm.DateTime"/>
+        <Property Name="NotificationsAvailable" Type="Edm.Boolean"/>
+        <Property Name="Accessibility" Type="Edm.String"/>
+        <Property Name="Operation" Type="Edm.String"/>
+        <Property Name="IgnorePlacementErrors" Type="Edm.Boolean"/>
+        <Property Name="FailedJobID" Type="Edm.Guid"/>
+        <Property Name="CloudId" Type="Edm.Guid"/>
+        <Property Name="ServiceTemplateId" Type="Edm.Guid"/>
+        <Property Name="CustomProperty" Type="Collection(VMM.CustomProperty)" Nullable="false"/>
+        <Property Name="PendingServiceSettings" Type="Collection(VMM.ServiceSetting)" Nullable="false"/>
+        <Property Name="ServiceSettings" Type="Collection(VMM.ServiceSetting)" Nullable="false"/>
+        <Property Name="ServicingWindow" Type="VMM.ServicingWindow"/>
+        <NavigationProperty Name="FailedJob" Relationship="VMM.Service_FailedJob" ToRole="FailedJob" FromRole="Service"/>
+        <NavigationProperty Name="PendingServiceTemplate" Relationship="VMM.Service_PendingServiceTemplate" ToRole="PendingServiceTemplate" FromRole="Service"/>
+        <NavigationProperty Name="ServiceTemplate" Relationship="VMM.Service_ServiceTemplate" ToRole="ServiceTemplate" FromRole="Service"/>
+        <NavigationProperty Name="Cloud" Relationship="VMM.Service_Cloud" ToRole="Cloud" FromRole="Service"/>
+        <NavigationProperty Name="ComputerTiers" Relationship="VMM.Service_ComputerTiers" ToRole="ComputerTiers" FromRole="Service"/>
+        <NavigationProperty Name="MostRecentTask" Relationship="VMM.Service_MostRecentTask" ToRole="MostRecentTask" FromRole="Service"/>
+        <NavigationProperty Name="ApplicationHosts" Relationship="VMM.Service_ApplicationHosts" ToRole="ApplicationHosts" FromRole="Service"/>
+      </EntityType>
+      <ComplexType Name="NewServiceDeployment">
+        <Property Name="ServiceConfiguration" Type="VMM.ServiceDeploymentConfiguration"/>
+        <Property Name="TierConfigurations" Type="Collection(VMM.ServiceTierAndVMConfiguration)" Nullable="false"/>
+      </ComplexType>
+      <ComplexType Name="ServiceDeploymentConfiguration">
+        <Property Name="ServiceSettings" Type="Collection(VMM.ServiceSettingsInput)" Nullable="false"/>
+        <Property Name="Name" Type="Edm.String"/>
+        <Property Name="Description" Type="Edm.String"/>
+        <Property Name="CostCenter" Type="Edm.String"/>
+        <Property Name="Tag" Type="Edm.String"/>
+        <Property Name="Priority" Type="Edm.String"/>
+      </ComplexType>
+      <ComplexType Name="ServiceSettingsInput">
+        <Property Name="Name" Type="Edm.String"/>
+        <Property Name="Value" Type="Edm.String"/>
+        <Property Name="Description" Type="Edm.String"/>
+        <Property Name="IsRequired" Type="Edm.Boolean"/>
+        <Property Name="IsEncrypted" Type="Edm.Boolean"/>
+      </ComplexType>
+      <ComplexType Name="ServiceTierAndVMConfiguration">
+        <Property Name="Name" Type="Edm.String"/>
+        <Property Name="VMConfigurations" Type="Collection(VMM.VMConfiguration)" Nullable="false"/>
+      </ComplexType>
+      <ComplexType Name="VMConfiguration">
+        <Property Name="VMName" Type="Edm.String"/>
+        <Property Name="ComputerName" Type="Edm.String"/>
+        <Property Name="Description" Type="Edm.String"/>
+        <Property Name="CostCenter" Type="Edm.String"/>
+        <Property Name="Tag" Type="Edm.String"/>
+      </ComplexType>
+      <ComplexType Name="ServicingWindow">
+        <Property Name="Category" Type="Edm.String"/>
+        <Property Name="Name" Type="Edm.String"/>
+        <Property Name="Description" Type="Edm.String"/>
+        <Property Name="Owner" Type="Edm.String"/>
+        <Property Name="TimeZone" Type="Edm.Int32"/>
+        <Property Name="StartDate" Type="Edm.DateTime"/>
+        <Property Name="StartTimeOfDay" Type="Edm.String"/>
+        <Property Name="WeeklyScheduleDayOfWeek" Type="Edm.String"/>
+        <Property Name="MonthlyScheduleDayOfWeek" Type="Edm.String"/>
+        <Property Name="DayOfMonth" Type="Edm.String"/>
+        <Property Name="WeekOfMonth" Type="Edm.String"/>
+        <Property Name="DaysToRecur" Type="Edm.Int32"/>
+        <Property Name="MonthsToRecur" Type="Edm.Int32"/>
+        <Property Name="WeeksToRecur" Type="Edm.Int32"/>
+        <Property Name="MinutesDuration" Type="Edm.Int32"/>
+        <Property Name="ScheduleType" Type="Edm.String"/>
+      </ComplexType>
+      <EntityType Name="ComputerTierTemplate">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="StampId"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="Description" Type="Edm.String"/>
+        <Property Name="Name" Type="Edm.String"/>
+        <Property Name="StampId" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="AddedTime" Type="Edm.DateTime"/>
+        <Property Name="ModifiedTime" Type="Edm.DateTime"/>
+        <Property Name="BlockAutomaticMigration" Type="Edm.Boolean"/>
+        <Property Name="DefaultInstanceCount" Type="Edm.Int32"/>
+        <Property Name="DeploymentOrder" Type="Edm.Int32"/>
+        <Property Name="InstanceMaximumCount" Type="Edm.Int32"/>
+        <Property Name="InstanceMinimumCount" Type="Edm.Int32"/>
+        <Property Name="NumberOfUpgradeDomains" Type="Edm.Int32"/>
+        <Property Name="ServicingOrder" Type="Edm.Int32"/>
+        <Property Name="Tag" Type="Edm.String"/>
+        <Property Name="Enabled" Type="Edm.Boolean"/>
+        <Property Name="Accessibility" Type="Edm.String"/>
+        <Property Name="ServiceTemplateId" Type="Edm.Guid"/>
+        <NavigationProperty Name="VMTemplate" Relationship="VMM.ComputerTierTemplate_VMTemplate" ToRole="VMTemplate" FromRole="ComputerTierTemplate"/>
+      </EntityType>
+      <EntityType Name="ComputerTier">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="StampId"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="Description" Type="Edm.String"/>
+        <Property Name="Name" Type="Edm.String"/>
+        <Property Name="StampId" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="AllVMsAccessible" Type="Edm.Boolean"/>
+        <Property Name="ComputerTierStatus" Type="Edm.String"/>
+        <Property Name="InstanceMaximumCount" Type="Edm.Int32"/>
+        <Property Name="InstanceMinimumCount" Type="Edm.Int32"/>
+        <Property Name="OverallStatus" Type="Edm.String"/>
+        <Property Name="ServicingType" Type="Edm.String"/>
+        <Property Name="DeploymentState" Type="Edm.String"/>
+        <Property Name="Enabled" Type="Edm.Boolean"/>
+        <Property Name="AddedTime" Type="Edm.DateTime"/>
+        <Property Name="ModifiedTime" Type="Edm.DateTime"/>
+        <Property Name="Accessibility" Type="Edm.String"/>
+        <Property Name="ServiceId" Type="Edm.Guid"/>
+        <Property Name="FailedJobID" Type="Edm.Guid"/>
+        <Property Name="TierTemplateId" Type="Edm.Guid"/>
+        <Property Name="CustomProperty" Type="Collection(VMM.CustomProperty)" Nullable="false"/>
+        <NavigationProperty Name="ComputerTierTemplate" Relationship="VMM.ComputerTier_ComputerTierTemplate" ToRole="ComputerTierTemplate" FromRole="ComputerTier"/>
+        <NavigationProperty Name="VMs" Relationship="VMM.ComputerTier_VMs" ToRole="VMs" FromRole="ComputerTier"/>
+        <NavigationProperty Name="MostRecentTask" Relationship="VMM.ComputerTier_MostRecentTask" ToRole="MostRecentTask" FromRole="ComputerTier"/>
+      </EntityType>
+      <EntityType Name="LibraryShare">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="StampId"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="StampId" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="Description" Type="Edm.String"/>
+        <Property Name="Name" Type="Edm.String"/>
+        <Property Name="Path" Type="Edm.String"/>
+      </EntityType>
+      <EntityType Name="ApplicationHost">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="StampId"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="Description" Type="Edm.String"/>
+        <Property Name="Name" Type="Edm.String"/>
+        <Property Name="StampId" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="AddedTime" Type="Edm.DateTime"/>
+        <Property Name="ModifiedTime" Type="Edm.DateTime"/>
+        <Property Name="Owner" Type="Edm.String"/>
+        <Property Name="ComputerName" Type="Edm.String"/>
+        <Property Name="DeploymentState" Type="Edm.String"/>
+        <Property Name="ServiceId" Type="Edm.Guid"/>
+        <Property Name="FailedJobID" Type="Edm.Guid"/>
+        <NavigationProperty Name="ApplicationHostTemplate" Relationship="VMM.ApplicationHost_ApplicationHostTemplate" ToRole="ApplicationHostTemplate" FromRole="ApplicationHost"/>
+      </EntityType>
+      <EntityType Name="ApplicationHostTemplate">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="StampId"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="Description" Type="Edm.String"/>
+        <Property Name="Name" Type="Edm.String"/>
+        <Property Name="StampId" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="AddedTime" Type="Edm.DateTime"/>
+        <Property Name="ModifiedTime" Type="Edm.DateTime"/>
+        <Property Name="DeploymentOrder" Type="Edm.Int32"/>
+        <Property Name="ComputerName" Type="Edm.String"/>
+        <Property Name="ServicingOrder" Type="Edm.Int32"/>
+        <Property Name="Tag" Type="Edm.String"/>
+        <Property Name="ServiceTemplateId" Type="Edm.Guid"/>
+        <Property Name="FailedJobID" Type="Edm.Guid"/>
+      </EntityType>
+      <EntityType Name="VMNetwork">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="StampId"/>
+        </Key>
+        <Property Name="StampId" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="Name" Type="Edm.String"/>
+        <Property Name="ExternalName" Type="Edm.String"/>
+        <Property Name="Description" Type="Edm.String"/>
+        <Property Name="IsolationType" Type="Edm.String"/>
+        <Property Name="PAIPAddressPoolType" Type="Edm.String"/>
+        <Property Name="CAIPAddressPoolType" Type="Edm.String"/>
+        <Property Name="Owner" Type="VMM.UserAndRole"/>
+        <Property Name="GrantedToList" Type="Collection(VMM.UserAndRole)" Nullable="false"/>
+        <Property Name="LogicalNetworkId" Type="Edm.Guid"/>
+        <Property Name="LogicalNetworkName" Type="Edm.String"/>
+        <Property Name="AutoCreateSubnet" Type="Edm.Boolean"/>
+        <Property Name="IsAssigned" Type="Edm.Boolean"/>
+        <Property Name="Enabled" Type="Edm.Boolean"/>
+        <Property Name="AddedTime" Type="Edm.DateTime"/>
+        <Property Name="ModifiedTime" Type="Edm.DateTime"/>
+        <Property Name="PROTipID" Type="Edm.Guid"/>
+        <Property Name="RoutingDomainId" Type="Edm.Guid"/>
+        <NavigationProperty Name="MostRecentTask" Relationship="VMM.VMNetwork_MostRecentTask" ToRole="MostRecentTask" FromRole="VMNetwork"/>
+        <NavigationProperty Name="VMNetworkGateways" Relationship="VMM.VMNetwork_VMNetworkGateways" ToRole="VMNetworkGateways" FromRole="VMNetwork"/>
+      </EntityType>
+      <EntityType Name="QuotaAndUsageComponent">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="QuotaDimension"/>
+          <PropertyRef Name="StampId"/>
+        </Key>
+        <Property Name="StampId" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="UserRoleID" Type="Edm.Guid"/>
+        <Property Name="QuotaDimension" Type="Edm.String" Nullable="false"/>
+        <Property Name="UserRoleQuota" Type="Edm.Int32"/>
+        <Property Name="UserRoleUsage" Type="Edm.Int32" Nullable="false"/>
+        <Property Name="UserQuota" Type="Edm.Int32"/>
+        <Property Name="UserUsage" Type="Edm.Int32" Nullable="false"/>
+      </EntityType>
+      <EntityType Name="StaticIPAddressPool">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="StampId"/>
+        </Key>
+        <Property Name="EnableNetBIOS" Type="Edm.Boolean"/>
+        <Property Name="IsFullyCached" Type="Edm.Boolean"/>
+        <Property Name="IsIPv4" Type="Edm.Boolean"/>
+        <Property Name="IsMulticastPool" Type="Edm.Boolean"/>
+        <Property Name="IsViewOnly" Type="Edm.Boolean"/>
+        <Property Name="MarkedForDeletion" Type="Edm.Boolean"/>
+        <Property Name="ExternalSyncTime" Type="Edm.DateTime"/>
+        <Property Name="VLanID" Type="Edm.Int32"/>
+        <Property Name="AvailableAddresses" Type="Edm.Decimal"/>
+        <Property Name="AvailableDIPAddresses" Type="Edm.Decimal"/>
+        <Property Name="AvailableVIPAddresses" Type="Edm.Decimal"/>
+        <Property Name="ReservedAddresses" Type="Edm.Decimal"/>
+        <Property Name="TotalAddresses" Type="Edm.Decimal"/>
+        <Property Name="TotalDIPAddresses" Type="Edm.Decimal"/>
+        <Property Name="TotalVIPAddresses" Type="Edm.Decimal"/>
+        <Property Name="UnassignedAddresses" Type="Edm.Decimal"/>
+        <Property Name="UnassignedDIPAddresses" Type="Edm.Decimal"/>
+        <Property Name="UnassignedVIPAddresses" Type="Edm.Decimal"/>
+        <Property Name="AddressFamily" Type="Edm.String"/>
+        <Property Name="Description" Type="Edm.String"/>
+        <Property Name="DNSSuffix" Type="Edm.String"/>
+        <Property Name="IPAddressRangeEnd" Type="Edm.String"/>
+        <Property Name="IPAddressRangeStart" Type="Edm.String"/>
+        <Property Name="IPAddressReservedSet" Type="Edm.String"/>
+        <Property Name="Name" Type="Edm.String"/>
+        <Property Name="Subnet" Type="Edm.String"/>
+        <Property Name="VIPAddressSet" Type="Edm.String"/>
+        <Property Name="NetworkEntityAccessType" Type="Edm.String"/>
+        <Property Name="DNSSearchSuffixes" Type="Collection(Edm.String)" Nullable="false"/>
+        <Property Name="DNSServers" Type="Collection(Edm.String)" Nullable="false"/>
+        <Property Name="WINSServers" Type="Collection(Edm.String)" Nullable="false"/>
+        <Property Name="DefaultGatewayIPAddresses" Type="Collection(Edm.String)" Nullable="false"/>
+        <Property Name="StampId" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="ExternalId" Type="Edm.Guid"/>
+        <Property Name="VMSubnetId" Type="Edm.Guid"/>
+        <Property Name="LogicalNetworkDefinitionId" Type="Edm.Guid"/>
+      </EntityType>
+      <EntityType Name="VMSubnet">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="StampId"/>
+        </Key>
+        <Property Name="Name" Type="Edm.String"/>
+        <Property Name="Subnet" Type="Edm.String"/>
+        <Property Name="VMNetworkName" Type="Edm.String"/>
+        <Property Name="StampId" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="VMNetworkId" Type="Edm.Guid"/>
+      </EntityType>
+      <EntityType Name="HardwareProfile">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="StampId"/>
+        </Key>
+        <Property Name="StampId" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="AccessedTime" Type="Edm.DateTime"/>
+        <Property Name="AddedTime" Type="Edm.DateTime"/>
+        <Property Name="CPUCount" Type="Edm.Byte"/>
+        <Property Name="CPUMax" Type="Edm.Int32"/>
+        <Property Name="CPUReserve" Type="Edm.Int32"/>
+        <Property Name="CreationTime" Type="Edm.DateTime"/>
+        <Property Name="DiskIO" Type="Edm.Int32"/>
+        <Property Name="ExpectedCPUUtilization" Type="Edm.Int32"/>
+        <Property Name="Enabled" Type="Edm.Boolean"/>
+        <Property Name="LimitCPUForMigration" Type="Edm.Boolean"/>
+        <Property Name="LimitCPUFunctionality" Type="Edm.Boolean"/>
+        <Property Name="Memory" Type="Edm.Int32"/>
+        <Property Name="ModifiedTime" Type="Edm.DateTime"/>
+        <Property Name="Name" Type="Edm.String"/>
+        <Property Name="NetworkUtilization" Type="Edm.Int32"/>
+        <Property Name="Owner" Type="VMM.UserAndRole"/>
+        <Property Name="GrantedToList" Type="Collection(VMM.UserAndRole)" Nullable="false"/>
+        <Property Name="RelativeWeight" Type="Edm.Int32"/>
+        <Property Name="ShareSCSIBus" Type="Edm.Boolean"/>
+        <Property Name="TotalVHDCapacity" Type="Edm.Int64"/>
+        <Property Name="UndoDisksEnabled" Type="Edm.Boolean"/>
+        <Property Name="Accessibility" Type="Edm.String"/>
+        <Property Name="Description" Type="Edm.String"/>
+        <Property Name="NumLockEnabled" Type="Edm.Boolean"/>
+        <Property Name="Generation" Type="Edm.Int32"/>
+        <NavigationProperty Name="VirtualNetworkAdapters" Relationship="VMM.HardwareProfile_VirtualNetworkAdapters" ToRole="VirtualNetworkAdapters" FromRole="HardwareProfile"/>
+        <NavigationProperty Name="VirtualSCSIAdapters" Relationship="VMM.HardwareProfile_VirtualSCSIAdapters" ToRole="VirtualSCSIAdapters" FromRole="HardwareProfile"/>
+        <NavigationProperty Name="VirtualDVDDrives" Relationship="VMM.HardwareProfile_VirtualDVDDrives" ToRole="VirtualDVDDrives" FromRole="HardwareProfile"/>
+      </EntityType>
+      <EntityType Name="RunAsAccount">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="StampId"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="StampId" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="Name" Type="Edm.String"/>
+        <Property Name="UserName" Type="Edm.String"/>
+        <Property Name="Password" Type="Edm.String"/>
+        <Property Name="Domain" Type="Edm.String"/>
+        <Property Name="Enabled" Type="Edm.Boolean"/>
+        <Property Name="GrantedToList" Type="Collection(VMM.UserAndRole)" Nullable="false"/>
+        <Property Name="Owner" Type="VMM.UserAndRole"/>
+        <Property Name="Description" Type="Edm.String"/>
+        <Property Name="NoValidation" Type="Edm.Boolean"/>
+        <Property Name="AddedTime" Type="Edm.DateTime"/>
+        <Property Name="ModifiedTime" Type="Edm.DateTime"/>
+      </EntityType>
+      <EntityType Name="BasicStatistics">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="Clouds" Type="Edm.Int32" Nullable="false"/>
+        <Property Name="ServiceDeployments" Type="Edm.Int32" Nullable="false"/>
+        <Property Name="ServiceDeploymentsNotRunning" Type="Edm.Int32" Nullable="false"/>
+        <Property Name="ServiceDeploymentsRequiringAttention" Type="Edm.Int32" Nullable="false"/>
+        <Property Name="ServiceVMs" Type="Edm.Int32" Nullable="false"/>
+        <Property Name="StandaloneVMs" Type="Edm.Int32" Nullable="false"/>
+        <Property Name="VMsNotRunning" Type="Edm.Int32" Nullable="false"/>
+        <Property Name="VMsRequiringAttention" Type="Edm.Int32" Nullable="false"/>
+      </EntityType>
+      <EntityType Name="CloudCapacity">
+        <Key>
+          <PropertyRef Name="CloudId"/>
+          <PropertyRef Name="StampId"/>
+        </Key>
+        <Property Name="StampId" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="CloudId" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="CPUCount" Type="Edm.Int64"/>
+        <Property Name="UseCPUCountMaximum" Type="Edm.Boolean"/>
+        <Property Name="CustomQuotaCount" Type="Edm.Int64"/>
+        <Property Name="UseCustomQuotaCountMaximum" Type="Edm.Boolean"/>
+        <Property Name="MemoryMB" Type="Edm.Int64"/>
+        <Property Name="UseMemoryMBMaximum" Type="Edm.Boolean"/>
+        <Property Name="StorageGB" Type="Edm.Int64"/>
+        <Property Name="UseStorageGBMaximum" Type="Edm.Boolean"/>
+        <Property Name="VMCount" Type="Edm.Int64"/>
+        <Property Name="UseVMCountMaximum" Type="Edm.Boolean"/>
+      </EntityType>
+      <EntityType Name="VMNetworkGateway">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="StampId"/>
+        </Key>
+        <Property Name="StampId" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="VMNetworkId" Type="Edm.Guid"/>
+        <Property Name="Name" Type="Edm.String"/>
+        <Property Name="Description" Type="Edm.String"/>
+        <Property Name="IPSubnets" Type="Collection(Edm.String)" Nullable="false"/>
+        <Property Name="RequiresVPN" Type="Edm.Boolean"/>
+        <Property Name="RequiresNAT" Type="Edm.Boolean"/>
+        <Property Name="EnableBGP" Type="Edm.Boolean"/>
+        <Property Name="AutonomousSystemNumber" Type="Edm.Int64"/>
+        <NavigationProperty Name="BGPPeers" Relationship="VMM.VMNetworkGateway_BGPPeers" ToRole="BGPPeers" FromRole="VMNetworkGateway"/>
+        <NavigationProperty Name="NATConnections" Relationship="VMM.VMNetworkGateway_NATConnections" ToRole="NATConnections" FromRole="VMNetworkGateway"/>
+        <NavigationProperty Name="VPNConnections" Relationship="VMM.VMNetworkGateway_VPNConnections" ToRole="VPNConnections" FromRole="VMNetworkGateway"/>
+      </EntityType>
+      <EntityType Name="NATConnection">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="StampId"/>
+        </Key>
+        <Property Name="StampId" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="VMNetworkGatewayId" Type="Edm.Guid"/>
+        <Property Name="Name" Type="Edm.String"/>
+        <Property Name="Description" Type="Edm.String"/>
+        <Property Name="Status" Type="Edm.String"/>
+        <Property Name="MaximumBandwidthInboundKbps" Type="Edm.Decimal"/>
+        <Property Name="MaximumBandwidthOutboundKbps" Type="Edm.Decimal"/>
+        <NavigationProperty Name="Rules" Relationship="VMM.NATConnection_Rules" ToRole="Rules" FromRole="NATConnection"/>
+      </EntityType>
+      <EntityType Name="NATRule">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="StampId"/>
+        </Key>
+        <Property Name="StampId" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="NATConnectionId" Type="Edm.Guid"/>
+        <Property Name="Name" Type="Edm.String"/>
+        <Property Name="ExternalIPAddress" Type="Edm.String"/>
+        <Property Name="ExternalPort" Type="Edm.Int32"/>
+        <Property Name="InternalIPAddress" Type="Edm.String"/>
+        <Property Name="InternalPort" Type="Edm.Int32"/>
+        <Property Name="Protocol" Type="Edm.String"/>
+      </EntityType>
+      <EntityType Name="BGPPeer">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="StampId"/>
+        </Key>
+        <Property Name="StampId" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="VMNetworkGatewayId" Type="Edm.Guid"/>
+        <Property Name="Name" Type="Edm.String"/>
+        <Property Name="Description" Type="Edm.String"/>
+        <Property Name="PeerIPAddress" Type="Edm.String"/>
+        <Property Name="PeerASN" Type="Edm.Int64"/>
+      </EntityType>
+      <EntityType Name="VPNNetworkRoute">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="StampId"/>
+        </Key>
+        <Property Name="StampId" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="VPNConnectionId" Type="Edm.Guid"/>
+        <Property Name="IPSubnet" Type="Edm.String"/>
+      </EntityType>
+      <EntityType Name="VMRoleSizeProfile">
+        <Key>
+          <PropertyRef Name="Name"/>
+          <PropertyRef Name="StampId"/>
+        </Key>
+        <Property Name="StampId" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="Name" Type="Edm.String" Nullable="false"/>
+        <Property Name="CpuCount" Type="Edm.Int64"/>
+        <Property Name="MemoryInMB" Type="Edm.Int64"/>
+      </EntityType>
+      <Association Name="VirtualDiskDrive_VirtualHardDisk">
+        <End Type="VMM.VirtualDiskDrive" Role="VirtualDiskDrive" Multiplicity="*"/>
+        <End Type="VMM.VirtualHardDisk" Role="VirtualHardDisk" Multiplicity="0..1"/>
+      </Association>
+      <Association Name="VPNConnection_NetworkRoutes">
+        <End Type="VMM.VPNNetworkRoute" Role="NetworkRoutes" Multiplicity="*"/>
+        <End Type="VMM.VPNConnection" Role="VPNConnection" Multiplicity="*"/>
+      </Association>
+      <Association Name="UserRole_Clouds">
+        <End Type="VMM.UserRole" Role="UserRole" Multiplicity="*"/>
+        <End Type="VMM.Cloud" Role="Clouds" Multiplicity="*"/>
+      </Association>
+      <Association Name="VirtualMachine_Cloud">
+        <End Type="VMM.VirtualMachine" Role="VirtualMachine" Multiplicity="*"/>
+        <End Type="VMM.Cloud" Role="Cloud" Multiplicity="0..1"/>
+      </Association>
+      <Association Name="VirtualMachine_MostRecentTask">
+        <End Type="VMM.VirtualMachine" Role="VirtualMachine" Multiplicity="*"/>
+        <End Type="VMM.Job" Role="MostRecentTask" Multiplicity="0..1"/>
+      </Association>
+      <Association Name="VirtualMachine_FailedJob">
+        <End Type="VMM.VirtualMachine" Role="VirtualMachine" Multiplicity="*"/>
+        <End Type="VMM.Job" Role="FailedJob" Multiplicity="0..1"/>
+      </Association>
+      <Association Name="VirtualMachine_VirtualNetworkAdapters">
+        <End Type="VMM.VirtualNetworkAdapter" Role="VirtualNetworkAdapters" Multiplicity="*"/>
+        <End Type="VMM.VirtualMachine" Role="VirtualMachine" Multiplicity="*"/>
+      </Association>
+      <Association Name="VirtualMachine_VMCheckpoints">
+        <End Type="VMM.VirtualMachine" Role="VirtualMachine" Multiplicity="*"/>
+        <End Type="VMM.VMCheckPoint" Role="VMCheckpoints" Multiplicity="*"/>
+      </Association>
+      <Association Name="VirtualMachine_VirtualSCSIAdapters">
+        <End Type="VMM.VirtualSCSIAdapter" Role="VirtualSCSIAdapters" Multiplicity="*"/>
+        <End Type="VMM.VirtualMachine" Role="VirtualMachine" Multiplicity="*"/>
+      </Association>
+      <Association Name="VirtualMachine_VirtualHardDisks">
+        <End Type="VMM.VirtualMachine" Role="VirtualMachine" Multiplicity="*"/>
+        <End Type="VMM.VirtualHardDisk" Role="VirtualHardDisks" Multiplicity="*"/>
+      </Association>
+      <Association Name="VirtualMachine_VirtualDVDDrives">
+        <End Type="VMM.VirtualMachine" Role="VirtualMachine" Multiplicity="*"/>
+        <End Type="VMM.VirtualDVDDrive" Role="VirtualDVDDrives" Multiplicity="*"/>
+      </Association>
+      <Association Name="VirtualMachine_VirtualDiskDrives">
+        <End Type="VMM.VirtualMachine" Role="VirtualMachine" Multiplicity="*"/>
+        <End Type="VMM.VirtualDiskDrive" Role="VirtualDiskDrives" Multiplicity="*"/>
+      </Association>
+      <Association Name="VirtualDVDDrive_ISO">
+        <End Type="VMM.VirtualDVDDrive" Role="VirtualDVDDrive" Multiplicity="*"/>
+        <End Type="VMM.ISO" Role="ISO" Multiplicity="0..1"/>
+      </Association>
+      <Association Name="VMTemplate_VirtualNetworkAdapters">
+        <End Type="VMM.VirtualNetworkAdapter" Role="VirtualNetworkAdapters" Multiplicity="*"/>
+        <End Type="VMM.VMTemplate" Role="VMTemplate" Multiplicity="*"/>
+      </Association>
+      <Association Name="VMTemplate_VirtualSCSIAdapters">
+        <End Type="VMM.VirtualSCSIAdapter" Role="VirtualSCSIAdapters" Multiplicity="*"/>
+        <End Type="VMM.VMTemplate" Role="VMTemplate" Multiplicity="*"/>
+      </Association>
+      <Association Name="VMTemplate_VirtualHardDisks">
+        <End Type="VMM.VirtualHardDisk" Role="VirtualHardDisks" Multiplicity="*"/>
+        <End Type="VMM.VMTemplate" Role="VMTemplate" Multiplicity="*"/>
+      </Association>
+      <Association Name="VMTemplate_VirtualDVDDrives">
+        <End Type="VMM.VirtualDVDDrive" Role="VirtualDVDDrives" Multiplicity="*"/>
+        <End Type="VMM.VMTemplate" Role="VMTemplate" Multiplicity="*"/>
+      </Association>
+      <Association Name="VMTemplate_VirtualDiskDrives">
+        <End Type="VMM.VirtualDiskDrive" Role="VirtualDiskDrives" Multiplicity="*"/>
+        <End Type="VMM.VMTemplate" Role="VMTemplate" Multiplicity="*"/>
+      </Association>
+      <Association Name="ISO_LibraryShare">
+        <End Type="VMM.ISO" Role="ISO" Multiplicity="*"/>
+        <End Type="VMM.LibraryShare" Role="LibraryShare" Multiplicity="0..1"/>
+      </Association>
+      <Association Name="Cloud_Capacity">
+        <End Type="VMM.CloudCapacity" Role="Capacity" Multiplicity="*"/>
+        <End Type="VMM.Cloud" Role="Cloud" Multiplicity="*"/>
+      </Association>
+      <Association Name="Cloud_LogicalNetworks">
+        <End Type="VMM.LogicalNetwork" Role="LogicalNetworks" Multiplicity="*"/>
+        <End Type="VMM.Cloud" Role="Cloud" Multiplicity="*"/>
+      </Association>
+      <Association Name="Cloud_CapabilityProfiles">
+        <End Type="VMM.Cloud" Role="Cloud" Multiplicity="*"/>
+        <End Type="VMM.CapabilityProfile" Role="CapabilityProfiles" Multiplicity="*"/>
+      </Association>
+      <Association Name="Cloud_LibraryShares">
+        <End Type="VMM.Cloud" Role="Cloud" Multiplicity="*"/>
+        <End Type="VMM.LibraryShare" Role="LibraryShares" Multiplicity="*"/>
+      </Association>
+      <Association Name="Cloud_QuotaAndUsageComponents">
+        <End Type="VMM.QuotaAndUsageComponent" Role="QuotaAndUsageComponents" Multiplicity="*"/>
+        <End Type="VMM.Cloud" Role="Cloud" Multiplicity="*"/>
+      </Association>
+      <Association Name="VMCheckPoint_ParentCheckPoint">
+        <End Type="VMM.VMCheckPoint" Role="ParentCheckPoint" Multiplicity="0..1"/>
+        <End Type="VMM.VMCheckPoint" Role="VMCheckPoint" Multiplicity="*"/>
+      </Association>
+      <Association Name="ServiceTemplate_ComputerTierTemplates">
+        <End Type="VMM.ServiceTemplate" Role="ServiceTemplate" Multiplicity="*"/>
+        <End Type="VMM.ComputerTierTemplate" Role="ComputerTierTemplates" Multiplicity="*"/>
+      </Association>
+      <Association Name="ServiceTemplate_ApplicationHostTemplates">
+        <End Type="VMM.ServiceTemplate" Role="ServiceTemplate" Multiplicity="*"/>
+        <End Type="VMM.ApplicationHostTemplate" Role="ApplicationHostTemplates" Multiplicity="*"/>
+      </Association>
+      <Association Name="Service_FailedJob">
+        <End Type="VMM.Service" Role="Service" Multiplicity="*"/>
+        <End Type="VMM.Job" Role="FailedJob" Multiplicity="0..1"/>
+      </Association>
+      <Association Name="Service_PendingServiceTemplate">
+        <End Type="VMM.ServiceTemplate" Role="PendingServiceTemplate" Multiplicity="0..1"/>
+        <End Type="VMM.Service" Role="Service" Multiplicity="*"/>
+      </Association>
+      <Association Name="Service_ServiceTemplate">
+        <End Type="VMM.ServiceTemplate" Role="ServiceTemplate" Multiplicity="0..1"/>
+        <End Type="VMM.Service" Role="Service" Multiplicity="*"/>
+      </Association>
+      <Association Name="Service_Cloud">
+        <End Type="VMM.Service" Role="Service" Multiplicity="*"/>
+        <End Type="VMM.Cloud" Role="Cloud" Multiplicity="0..1"/>
+      </Association>
+      <Association Name="Service_ComputerTiers">
+        <End Type="VMM.Service" Role="Service" Multiplicity="*"/>
+        <End Type="VMM.ComputerTier" Role="ComputerTiers" Multiplicity="*"/>
+      </Association>
+      <Association Name="Service_MostRecentTask">
+        <End Type="VMM.Service" Role="Service" Multiplicity="*"/>
+        <End Type="VMM.Job" Role="MostRecentTask" Multiplicity="0..1"/>
+      </Association>
+      <Association Name="Service_ApplicationHosts">
+        <End Type="VMM.Service" Role="Service" Multiplicity="*"/>
+        <End Type="VMM.ApplicationHost" Role="ApplicationHosts" Multiplicity="*"/>
+      </Association>
+      <Association Name="ComputerTierTemplate_VMTemplate">
+        <End Type="VMM.VMTemplate" Role="VMTemplate" Multiplicity="0..1"/>
+        <End Type="VMM.ComputerTierTemplate" Role="ComputerTierTemplate" Multiplicity="*"/>
+      </Association>
+      <Association Name="ComputerTier_ComputerTierTemplate">
+        <End Type="VMM.ComputerTierTemplate" Role="ComputerTierTemplate" Multiplicity="0..1"/>
+        <End Type="VMM.ComputerTier" Role="ComputerTier" Multiplicity="*"/>
+      </Association>
+      <Association Name="ComputerTier_VMs">
+        <End Type="VMM.VirtualMachine" Role="VMs" Multiplicity="*"/>
+        <End Type="VMM.ComputerTier" Role="ComputerTier" Multiplicity="*"/>
+      </Association>
+      <Association Name="ComputerTier_MostRecentTask">
+        <End Type="VMM.Job" Role="MostRecentTask" Multiplicity="0..1"/>
+        <End Type="VMM.ComputerTier" Role="ComputerTier" Multiplicity="*"/>
+      </Association>
+      <Association Name="ApplicationHost_ApplicationHostTemplate">
+        <End Type="VMM.ApplicationHostTemplate" Role="ApplicationHostTemplate" Multiplicity="0..1"/>
+        <End Type="VMM.ApplicationHost" Role="ApplicationHost" Multiplicity="*"/>
+      </Association>
+      <Association Name="VMNetwork_MostRecentTask">
+        <End Type="VMM.VMNetwork" Role="VMNetwork" Multiplicity="*"/>
+        <End Type="VMM.Job" Role="MostRecentTask" Multiplicity="0..1"/>
+      </Association>
+      <Association Name="VMNetwork_VMNetworkGateways">
+        <End Type="VMM.VMNetworkGateway" Role="VMNetworkGateways" Multiplicity="*"/>
+        <End Type="VMM.VMNetwork" Role="VMNetwork" Multiplicity="*"/>
+      </Association>
+      <Association Name="HardwareProfile_VirtualNetworkAdapters">
+        <End Type="VMM.VirtualNetworkAdapter" Role="VirtualNetworkAdapters" Multiplicity="*"/>
+        <End Type="VMM.HardwareProfile" Role="HardwareProfile" Multiplicity="*"/>
+      </Association>
+      <Association Name="HardwareProfile_VirtualSCSIAdapters">
+        <End Type="VMM.VirtualSCSIAdapter" Role="VirtualSCSIAdapters" Multiplicity="*"/>
+        <End Type="VMM.HardwareProfile" Role="HardwareProfile" Multiplicity="*"/>
+      </Association>
+      <Association Name="HardwareProfile_VirtualDVDDrives">
+        <End Type="VMM.VirtualDVDDrive" Role="VirtualDVDDrives" Multiplicity="*"/>
+        <End Type="VMM.HardwareProfile" Role="HardwareProfile" Multiplicity="*"/>
+      </Association>
+      <Association Name="VMNetworkGateway_BGPPeers">
+        <End Type="VMM.VMNetworkGateway" Role="VMNetworkGateway" Multiplicity="*"/>
+        <End Type="VMM.BGPPeer" Role="BGPPeers" Multiplicity="*"/>
+      </Association>
+      <Association Name="VMNetworkGateway_NATConnections">
+        <End Type="VMM.VMNetworkGateway" Role="VMNetworkGateway" Multiplicity="*"/>
+        <End Type="VMM.NATConnection" Role="NATConnections" Multiplicity="*"/>
+      </Association>
+      <Association Name="VMNetworkGateway_VPNConnections">
+        <End Type="VMM.VPNConnection" Role="VPNConnections" Multiplicity="*"/>
+        <End Type="VMM.VMNetworkGateway" Role="VMNetworkGateway" Multiplicity="*"/>
+      </Association>
+      <Association Name="NATConnection_Rules">
+        <End Type="VMM.NATRule" Role="Rules" Multiplicity="*"/>
+        <End Type="VMM.NATConnection" Role="NATConnection" Multiplicity="*"/>
+      </Association>
+      <EntityContainer Name="VMM" m:IsDefaultEntityContainer="true">
+        <EntitySet Name="PerformanceData" EntityType="VMM.PerformanceData"/>
+        <EntitySet Name="GuestInfos" EntityType="VMM.GuestInfo"/>
+        <EntitySet Name="UserRoles" EntityType="VMM.UserRole"/>
+        <EntitySet Name="VirtualMachines" EntityType="VMM.VirtualMachine"/>
+        <EntitySet Name="VirtualDVDDrives" EntityType="VMM.VirtualDVDDrive"/>
+        <EntitySet Name="VirtualHardDisks" EntityType="VMM.VirtualHardDisk"/>
+        <EntitySet Name="VMTemplates" EntityType="VMM.VMTemplate"/>
+        <EntitySet Name="VirtualNetworkAdapters" EntityType="VMM.VirtualNetworkAdapter"/>
+        <EntitySet Name="VirtualSCSIAdapters" EntityType="VMM.VirtualSCSIAdapter"/>
+        <EntitySet Name="ISOs" EntityType="VMM.ISO"/>
+        <EntitySet Name="LogicalNetworks" EntityType="VMM.LogicalNetwork"/>
+        <EntitySet Name="Jobs" EntityType="VMM.Job"/>
+        <EntitySet Name="CapabilityProfiles" EntityType="VMM.CapabilityProfile"/>
+        <EntitySet Name="Clouds" EntityType="VMM.Cloud"/>
+        <EntitySet Name="VirtualDiskDrives" EntityType="VMM.VirtualDiskDrive"/>
+        <EntitySet Name="VMCheckPoints" EntityType="VMM.VMCheckPoint"/>
+        <EntitySet Name="ServiceTemplates" EntityType="VMM.ServiceTemplate"/>
+        <EntitySet Name="Services" EntityType="VMM.Service"/>
+        <EntitySet Name="ComputerTierTemplates" EntityType="VMM.ComputerTierTemplate"/>
+        <EntitySet Name="ComputerTiers" EntityType="VMM.ComputerTier"/>
+        <EntitySet Name="LibraryShares" EntityType="VMM.LibraryShare"/>
+        <EntitySet Name="ApplicationHosts" EntityType="VMM.ApplicationHost"/>
+        <EntitySet Name="ApplicationHostTemplates" EntityType="VMM.ApplicationHostTemplate"/>
+        <EntitySet Name="VMNetworks" EntityType="VMM.VMNetwork"/>
+        <EntitySet Name="QuotaAndUsageComponents" EntityType="VMM.QuotaAndUsageComponent"/>
+        <EntitySet Name="StaticIPAddressPools" EntityType="VMM.StaticIPAddressPool"/>
+        <EntitySet Name="VMSubnets" EntityType="VMM.VMSubnet"/>
+        <EntitySet Name="HardwareProfiles" EntityType="VMM.HardwareProfile"/>
+        <EntitySet Name="RunAsAccounts" EntityType="VMM.RunAsAccount"/>
+        <EntitySet Name="BasicStatistics" EntityType="VMM.BasicStatistics"/>
+        <EntitySet Name="CloudCapacities" EntityType="VMM.CloudCapacity"/>
+        <EntitySet Name="VMNetworkGateways" EntityType="VMM.VMNetworkGateway"/>
+        <EntitySet Name="VPNConnections" EntityType="VMM.VPNConnection"/>
+        <EntitySet Name="NATConnections" EntityType="VMM.NATConnection"/>
+        <EntitySet Name="NATRules" EntityType="VMM.NATRule"/>
+        <EntitySet Name="BGPPeers" EntityType="VMM.BGPPeer"/>
+        <EntitySet Name="VPNNetworkRoutes" EntityType="VMM.VPNNetworkRoute"/>
+        <EntitySet Name="VMRoleSizeProfiles" EntityType="VMM.VMRoleSizeProfile"/>
+        <EntitySet Name="CloudServices" EntityType="MicrosoftCompute.CloudService"/>
+        <EntitySet Name="CloudResource" EntityType="MicrosoftCompute.CloudResource"/>
+        <EntitySet Name="VMRole" EntityType="MicrosoftCompute.VMRole"/>
+        <EntitySet Name="VM" EntityType="MicrosoftCompute.VM"/>
+        <EntitySet Name="VMRoleVMDisk" EntityType="MicrosoftCompute.VMRoleVMDisk"/>
+        <EntitySet Name="VMRoleVMNic" EntityType="MicrosoftCompute.VMRoleVMNic"/>
+        <FunctionImport Name="Expand" IsBindable="true" m:IsAlwaysBindable="true">
+          <Parameter Name="VirtualDiskDrive" Type="VMM.VirtualDiskDrive"/>
+          <Parameter Name="VirtualHardDiskSizeGB" Type="Edm.Int32"/>
+        </FunctionImport>
+        <FunctionImport Name="Refresh" ReturnType="VMM.VPNConnection" IsBindable="true" EntitySet="VPNConnections" m:IsAlwaysBindable="true">
+          <Parameter Name="VPNConnection" Type="VMM.VPNConnection"/>
+        </FunctionImport>
+        <FunctionImport Name="Scale" IsBindable="true" m:IsAlwaysBindable="true">
+          <Parameter Name="VMRole" Type="MicrosoftCompute.VMRole"/>
+          <Parameter Name="InstanceCount" Type="Edm.Int32"/>
+        </FunctionImport>
+        <FunctionImport Name="Repair" IsBindable="true" m:IsAlwaysBindable="true">
+          <Parameter Name="VMRole" Type="MicrosoftCompute.VMRole"/>
+          <Parameter Name="Skip" Type="Edm.Boolean"/>
+        </FunctionImport>
+        <FunctionImport Name="Start" IsBindable="true" m:IsAlwaysBindable="true">
+          <Parameter Name="VM" Type="MicrosoftCompute.VM"/>
+        </FunctionImport>
+        <FunctionImport Name="Stop" IsBindable="true" m:IsAlwaysBindable="true">
+          <Parameter Name="VM" Type="MicrosoftCompute.VM"/>
+        </FunctionImport>
+        <FunctionImport Name="Shutdown" IsBindable="true" m:IsAlwaysBindable="true">
+          <Parameter Name="VM" Type="MicrosoftCompute.VM"/>
+        </FunctionImport>
+        <FunctionImport Name="Restart" IsBindable="true" m:IsAlwaysBindable="true">
+          <Parameter Name="VM" Type="MicrosoftCompute.VM"/>
+        </FunctionImport>
+        <AssociationSet Name="UserRoleCloudRelationship" Association="VMM.UserRole_Clouds">
+          <End Role="UserRole" EntitySet="UserRoles"/>
+          <End Role="Clouds" EntitySet="Clouds"/>
+        </AssociationSet>
+        <AssociationSet Name="VMCloudRelationship" Association="VMM.VirtualMachine_Cloud">
+          <End Role="VirtualMachine" EntitySet="VirtualMachines"/>
+          <End Role="Cloud" EntitySet="Clouds"/>
+        </AssociationSet>
+        <AssociationSet Name="VMMostRecentTaskRelationship" Association="VMM.VirtualMachine_MostRecentTask">
+          <End Role="VirtualMachine" EntitySet="VirtualMachines"/>
+          <End Role="MostRecentTask" EntitySet="Jobs"/>
+        </AssociationSet>
+        <AssociationSet Name="VMFailedJobRelationship" Association="VMM.VirtualMachine_FailedJob">
+          <End Role="VirtualMachine" EntitySet="VirtualMachines"/>
+          <End Role="FailedJob" EntitySet="Jobs"/>
+        </AssociationSet>
+        <AssociationSet Name="VMVirtualNetworkAdapterRelationship" Association="VMM.VirtualMachine_VirtualNetworkAdapters">
+          <End Role="VirtualMachine" EntitySet="VirtualMachines"/>
+          <End Role="VirtualNetworkAdapters" EntitySet="VirtualNetworkAdapters"/>
+        </AssociationSet>
+        <AssociationSet Name="VMVMCheckPointsRelationship" Association="VMM.VirtualMachine_VMCheckpoints">
+          <End Role="VirtualMachine" EntitySet="VirtualMachines"/>
+          <End Role="VMCheckpoints" EntitySet="VMCheckPoints"/>
+        </AssociationSet>
+        <AssociationSet Name="VMSCSIAdaptersRelationship" Association="VMM.VirtualMachine_VirtualSCSIAdapters">
+          <End Role="VirtualMachine" EntitySet="VirtualMachines"/>
+          <End Role="VirtualSCSIAdapters" EntitySet="VirtualSCSIAdapters"/>
+        </AssociationSet>
+        <AssociationSet Name="VMVirtualHardDisksRelationship" Association="VMM.VirtualMachine_VirtualHardDisks">
+          <End Role="VirtualMachine" EntitySet="VirtualMachines"/>
+          <End Role="VirtualHardDisks" EntitySet="VirtualHardDisks"/>
+        </AssociationSet>
+        <AssociationSet Name="VMVirtualDVDDrivesRelationship" Association="VMM.VirtualMachine_VirtualDVDDrives">
+          <End Role="VirtualMachine" EntitySet="VirtualMachines"/>
+          <End Role="VirtualDVDDrives" EntitySet="VirtualDVDDrives"/>
+        </AssociationSet>
+        <AssociationSet Name="VMVirtualDiskDrivesRelationship" Association="VMM.VirtualMachine_VirtualDiskDrives">
+          <End Role="VirtualMachine" EntitySet="VirtualMachines"/>
+          <End Role="VirtualDiskDrives" EntitySet="VirtualDiskDrives"/>
+        </AssociationSet>
+        <AssociationSet Name="VirtualDVDDriveISORelationship" Association="VMM.VirtualDVDDrive_ISO">
+          <End Role="VirtualDVDDrive" EntitySet="VirtualDVDDrives"/>
+          <End Role="ISO" EntitySet="ISOs"/>
+        </AssociationSet>
+        <AssociationSet Name="VMMTemplateVirtualNetworkAdapterRelationship" Association="VMM.VMTemplate_VirtualNetworkAdapters">
+          <End Role="VMTemplate" EntitySet="VMTemplates"/>
+          <End Role="VirtualNetworkAdapters" EntitySet="VirtualNetworkAdapters"/>
+        </AssociationSet>
+        <AssociationSet Name="VMTemplateSCSIAdaptersRelationship" Association="VMM.VMTemplate_VirtualSCSIAdapters">
+          <End Role="VMTemplate" EntitySet="VMTemplates"/>
+          <End Role="VirtualSCSIAdapters" EntitySet="VirtualSCSIAdapters"/>
+        </AssociationSet>
+        <AssociationSet Name="VMTemplateVirtualHardDisksRelationship" Association="VMM.VMTemplate_VirtualHardDisks">
+          <End Role="VMTemplate" EntitySet="VMTemplates"/>
+          <End Role="VirtualHardDisks" EntitySet="VirtualHardDisks"/>
+        </AssociationSet>
+        <AssociationSet Name="VMTemplateVirtualDVDDrivesRelationship" Association="VMM.VMTemplate_VirtualDVDDrives">
+          <End Role="VMTemplate" EntitySet="VMTemplates"/>
+          <End Role="VirtualDVDDrives" EntitySet="VirtualDVDDrives"/>
+        </AssociationSet>
+        <AssociationSet Name="VMTemplateVirtualDiskDrivesRelationship" Association="VMM.VMTemplate_VirtualDiskDrives">
+          <End Role="VMTemplate" EntitySet="VMTemplates"/>
+          <End Role="VirtualDiskDrives" EntitySet="VirtualDiskDrives"/>
+        </AssociationSet>
+        <AssociationSet Name="LibraryShareISORelationship" Association="VMM.ISO_LibraryShare">
+          <End Role="ISO" EntitySet="ISOs"/>
+          <End Role="LibraryShare" EntitySet="LibraryShares"/>
+        </AssociationSet>
+        <AssociationSet Name="CloudCapacityRelationship" Association="VMM.Cloud_Capacity">
+          <End Role="Cloud" EntitySet="Clouds"/>
+          <End Role="Capacity" EntitySet="CloudCapacities"/>
+        </AssociationSet>
+        <AssociationSet Name="LogicalNetworkCloudRelationship" Association="VMM.Cloud_LogicalNetworks">
+          <End Role="Cloud" EntitySet="Clouds"/>
+          <End Role="LogicalNetworks" EntitySet="LogicalNetworks"/>
+        </AssociationSet>
+        <AssociationSet Name="CloudCapabilityProfileRelationship" Association="VMM.Cloud_CapabilityProfiles">
+          <End Role="Cloud" EntitySet="Clouds"/>
+          <End Role="CapabilityProfiles" EntitySet="CapabilityProfiles"/>
+        </AssociationSet>
+        <AssociationSet Name="LibraryShareCloudRelationship" Association="VMM.Cloud_LibraryShares">
+          <End Role="Cloud" EntitySet="Clouds"/>
+          <End Role="LibraryShares" EntitySet="LibraryShares"/>
+        </AssociationSet>
+        <AssociationSet Name="CloudQuotaAndUsageComponentRelationship" Association="VMM.Cloud_QuotaAndUsageComponents">
+          <End Role="Cloud" EntitySet="Clouds"/>
+          <End Role="QuotaAndUsageComponents" EntitySet="QuotaAndUsageComponents"/>
+        </AssociationSet>
+        <AssociationSet Name="VirtualDiskDriveVirtualHardDiskRelationship" Association="VMM.VirtualDiskDrive_VirtualHardDisk">
+          <End Role="VirtualDiskDrive" EntitySet="VirtualDiskDrives"/>
+          <End Role="VirtualHardDisk" EntitySet="VirtualHardDisks"/>
+        </AssociationSet>
+        <AssociationSet Name="VMCheckPointVMCheckPointRelationship" Association="VMM.VMCheckPoint_ParentCheckPoint">
+          <End Role="VMCheckPoint" EntitySet="VMCheckPoints"/>
+          <End Role="ParentCheckPoint" EntitySet="VMCheckPoints"/>
+        </AssociationSet>
+        <AssociationSet Name="ServiceTemplateComputerTierTemplateRelationship" Association="VMM.ServiceTemplate_ComputerTierTemplates">
+          <End Role="ServiceTemplate" EntitySet="ServiceTemplates"/>
+          <End Role="ComputerTierTemplates" EntitySet="ComputerTierTemplates"/>
+        </AssociationSet>
+        <AssociationSet Name="ApplicationHostTemplateServiceTemplateRelationship" Association="VMM.ServiceTemplate_ApplicationHostTemplates">
+          <End Role="ServiceTemplate" EntitySet="ServiceTemplates"/>
+          <End Role="ApplicationHostTemplates" EntitySet="ApplicationHostTemplates"/>
+        </AssociationSet>
+        <AssociationSet Name="ServiceFailedJobRelationship" Association="VMM.Service_FailedJob">
+          <End Role="Service" EntitySet="Services"/>
+          <End Role="FailedJob" EntitySet="Jobs"/>
+        </AssociationSet>
+        <AssociationSet Name="ServicePendingServiceTemplateRelationship" Association="VMM.Service_PendingServiceTemplate">
+          <End Role="Service" EntitySet="Services"/>
+          <End Role="PendingServiceTemplate" EntitySet="ServiceTemplates"/>
+        </AssociationSet>
+        <AssociationSet Name="ServiceServiceTemplateRelationship" Association="VMM.Service_ServiceTemplate">
+          <End Role="Service" EntitySet="Services"/>
+          <End Role="ServiceTemplate" EntitySet="ServiceTemplates"/>
+        </AssociationSet>
+        <AssociationSet Name="ServiceCloudRelationship" Association="VMM.Service_Cloud">
+          <End Role="Service" EntitySet="Services"/>
+          <End Role="Cloud" EntitySet="Clouds"/>
+        </AssociationSet>
+        <AssociationSet Name="ServiceComputerTierRelationship" Association="VMM.Service_ComputerTiers">
+          <End Role="Service" EntitySet="Services"/>
+          <End Role="ComputerTiers" EntitySet="ComputerTiers"/>
+        </AssociationSet>
+        <AssociationSet Name="ServiceMostRecentTaskRelationship" Association="VMM.Service_MostRecentTask">
+          <End Role="Service" EntitySet="Services"/>
+          <End Role="MostRecentTask" EntitySet="Jobs"/>
+        </AssociationSet>
+        <AssociationSet Name="ApplicationHostServiceRelationship" Association="VMM.Service_ApplicationHosts">
+          <End Role="Service" EntitySet="Services"/>
+          <End Role="ApplicationHosts" EntitySet="ApplicationHosts"/>
+        </AssociationSet>
+        <AssociationSet Name="ComputerTierTemplateVMTemplateRelationship" Association="VMM.ComputerTierTemplate_VMTemplate">
+          <End Role="ComputerTierTemplate" EntitySet="ComputerTierTemplates"/>
+          <End Role="VMTemplate" EntitySet="VMTemplates"/>
+        </AssociationSet>
+        <AssociationSet Name="ComputerTierComputerTierTemplateRelationship" Association="VMM.ComputerTier_ComputerTierTemplate">
+          <End Role="ComputerTier" EntitySet="ComputerTiers"/>
+          <End Role="ComputerTierTemplate" EntitySet="ComputerTierTemplates"/>
+        </AssociationSet>
+        <AssociationSet Name="ComputerTierVMRelationship" Association="VMM.ComputerTier_VMs">
+          <End Role="ComputerTier" EntitySet="ComputerTiers"/>
+          <End Role="VMs" EntitySet="VirtualMachines"/>
+        </AssociationSet>
+        <AssociationSet Name="ComputerTierMostRecentTaskRelationship" Association="VMM.ComputerTier_MostRecentTask">
+          <End Role="ComputerTier" EntitySet="ComputerTiers"/>
+          <End Role="MostRecentTask" EntitySet="Jobs"/>
+        </AssociationSet>
+        <AssociationSet Name="ApplicationHostApplicationHostTemplateRelationship" Association="VMM.ApplicationHost_ApplicationHostTemplate">
+          <End Role="ApplicationHost" EntitySet="ApplicationHosts"/>
+          <End Role="ApplicationHostTemplate" EntitySet="ApplicationHostTemplates"/>
+        </AssociationSet>
+        <AssociationSet Name="VMNetworkMostRecentTaskRelationship" Association="VMM.VMNetwork_MostRecentTask">
+          <End Role="VMNetwork" EntitySet="VMNetworks"/>
+          <End Role="MostRecentTask" EntitySet="Jobs"/>
+        </AssociationSet>
+        <AssociationSet Name="VMNetworkVMNetworkGatewayRelationship" Association="VMM.VMNetwork_VMNetworkGateways">
+          <End Role="VMNetwork" EntitySet="VMNetworks"/>
+          <End Role="VMNetworkGateways" EntitySet="VMNetworkGateways"/>
+        </AssociationSet>
+        <AssociationSet Name="HardwareProfileVirtualNetworkAdapterRelationship" Association="VMM.HardwareProfile_VirtualNetworkAdapters">
+          <End Role="HardwareProfile" EntitySet="HardwareProfiles"/>
+          <End Role="VirtualNetworkAdapters" EntitySet="VirtualNetworkAdapters"/>
+        </AssociationSet>
+        <AssociationSet Name="HardwareProfileSCSIAdaptersRelationship" Association="VMM.HardwareProfile_VirtualSCSIAdapters">
+          <End Role="HardwareProfile" EntitySet="HardwareProfiles"/>
+          <End Role="VirtualSCSIAdapters" EntitySet="VirtualSCSIAdapters"/>
+        </AssociationSet>
+        <AssociationSet Name="HardwareProfileVirtualDVDDrivesRelationship" Association="VMM.HardwareProfile_VirtualDVDDrives">
+          <End Role="HardwareProfile" EntitySet="HardwareProfiles"/>
+          <End Role="VirtualDVDDrives" EntitySet="VirtualDVDDrives"/>
+        </AssociationSet>
+        <AssociationSet Name="VMNetworkGatewayBGPPeerRelationship" Association="VMM.VMNetworkGateway_BGPPeers">
+          <End Role="VMNetworkGateway" EntitySet="VMNetworkGateways"/>
+          <End Role="BGPPeers" EntitySet="BGPPeers"/>
+        </AssociationSet>
+        <AssociationSet Name="VMNetworkGatewayNATConnectionRelationship" Association="VMM.VMNetworkGateway_NATConnections">
+          <End Role="VMNetworkGateway" EntitySet="VMNetworkGateways"/>
+          <End Role="NATConnections" EntitySet="NATConnections"/>
+        </AssociationSet>
+        <AssociationSet Name="VMNetworkGatewayVPNConnectionRelationship" Association="VMM.VMNetworkGateway_VPNConnections">
+          <End Role="VMNetworkGateway" EntitySet="VMNetworkGateways"/>
+          <End Role="VPNConnections" EntitySet="VPNConnections"/>
+        </AssociationSet>
+        <AssociationSet Name="VPNConnectionNetworkRouteRelationship" Association="VMM.VPNConnection_NetworkRoutes">
+          <End Role="VPNConnection" EntitySet="VPNConnections"/>
+          <End Role="NetworkRoutes" EntitySet="VPNNetworkRoutes"/>
+        </AssociationSet>
+        <AssociationSet Name="NATConnectionNATRuleRelationship" Association="VMM.NATConnection_Rules">
+          <End Role="NATConnection" EntitySet="NATConnections"/>
+          <End Role="Rules" EntitySet="NATRules"/>
+        </AssociationSet>
+        <AssociationSet Name="CloudServiceToResourceRelationship" Association="MicrosoftCompute.CloudService_Resources">
+          <End Role="CloudService" EntitySet="CloudServices"/>
+          <End Role="Resources" EntitySet="CloudResource"/>
+        </AssociationSet>
+        <AssociationSet Name="CloudResourceToVMRoleRelationship" Association="MicrosoftCompute.CloudResource_VMRoles">
+          <End Role="CloudResource" EntitySet="CloudResource"/>
+          <End Role="VMRoles" EntitySet="VMRole"/>
+        </AssociationSet>
+        <AssociationSet Name="VMRoleToVMRelationship" Association="MicrosoftCompute.VMRole_VMs">
+          <End Role="VMRole" EntitySet="VMRole"/>
+          <End Role="VMs" EntitySet="VM"/>
+        </AssociationSet>
+        <AssociationSet Name="VMRoleVMToDiskRelationship" Association="MicrosoftCompute.VM_Disks">
+          <End Role="VM" EntitySet="VM"/>
+          <End Role="Disks" EntitySet="VMRoleVMDisk"/>
+        </AssociationSet>
+        <AssociationSet Name="VMRoleVMToNicRelationship" Association="MicrosoftCompute.VM_Nics">
+          <End Role="VM" EntitySet="VM"/>
+          <End Role="Nics" EntitySet="VMRoleVMNic"/>
+        </AssociationSet>
+      </EntityContainer>
+      <Annotations Target="VMM.VMM">
+        <ValueAnnotation Term="Com.Microsoft.Data.Services.Conventions.V1.UrlConventions" String="KeyAsSegment"/>
+      </Annotations>
+    </Schema>
+    <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" Namespace="MicrosoftCompute">
+      <EntityType Name="VMRole">
+        <Key>
+          <PropertyRef Name="Name"/>
+        </Key>
+        <Property Name="Name" Type="Edm.String" Nullable="false"/>
+        <Property Name="Label" Type="Edm.String"/>
+        <Property Name="ResourceDefinition" Type="MicrosoftCompute.VMRoleResourceDefinition"/>
+        <Property Name="ResourceConfiguration" Type="MicrosoftCompute.ResourceConfiguration"/>
+        <Property Name="ProvisioningState" Type="Edm.String"/>
+        <Property Name="Substate" Type="MicrosoftCompute.Substate"/>
+        <Property Name="InstanceView" Type="MicrosoftCompute.InstanceView"/>
+        <NavigationProperty Name="VMs" Relationship="MicrosoftCompute.VMRole_VMs" ToRole="VMs" FromRole="VMRole"/>
+      </EntityType>
+      <EntityType Name="VM">
+        <Key>
+          <PropertyRef Name="Id"/>
+        </Key>
+        <Property Name="Id" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="ComputerName" Type="Edm.String"/>
+        <Property Name="RuntimeState" Type="Edm.String"/>
+        <Property Name="ConnectToAddresses" Type="Collection(MicrosoftCompute.ConnectToAddress)" Nullable="false"/>
+        <NavigationProperty Name="Disks" Relationship="MicrosoftCompute.VM_Disks" ToRole="Disks" FromRole="VM"/>
+        <NavigationProperty Name="Nics" Relationship="MicrosoftCompute.VM_Nics" ToRole="Nics" FromRole="VM"/>
+      </EntityType>
+      <EntityType Name="CloudService">
+        <Key>
+          <PropertyRef Name="Name"/>
+        </Key>
+        <Property Name="Name" Type="Edm.String" Nullable="false"/>
+        <Property Name="Label" Type="Edm.String"/>
+        <Property Name="ProvisioningState" Type="Edm.String"/>
+        <NavigationProperty Name="Resources" Relationship="MicrosoftCompute.CloudService_Resources" ToRole="Resources" FromRole="CloudService"/>
+      </EntityType>
+      <EntityType Name="CloudResource">
+        <Key>
+          <PropertyRef Name="ResourceProviderNamespace"/>
+        </Key>
+        <Property Name="ResourceProviderNamespace" Type="Edm.String" Nullable="false"/>
+        <NavigationProperty Name="VMRoles" Relationship="MicrosoftCompute.CloudResource_VMRoles" ToRole="VMRoles" FromRole="CloudResource"/>
+      </EntityType>
+      <ComplexType Name="VMRoleResourceDefinition">
+        <Property Name="Name" Type="Edm.String"/>
+        <Property Name="Version" Type="Edm.String"/>
+        <Property Name="Publisher" Type="Edm.String"/>
+        <Property Name="SchemaVersion" Type="Edm.String"/>
+        <Property Name="Type" Type="Edm.String"/>
+        <Property Name="ResourceParameters" Type="Collection(MicrosoftCompute.ResourceParameter)" Nullable="false"/>
+        <Property Name="ResourceExtensionReferences" Type="Collection(MicrosoftCompute.ResourceExtensionReference)" Nullable="false"/>
+        <Property Name="IntrinsicSettings" Type="MicrosoftCompute.IntrinsicSettings"/>
+      </ComplexType>
+      <ComplexType Name="ResourceParameter">
+        <Property Name="Name" Type="Edm.String"/>
+        <Property Name="Type" Type="Edm.String"/>
+        <Property Name="Description" Type="Edm.String"/>
+      </ComplexType>
+      <ComplexType Name="ResourceExtensionReference">
+        <Property Name="ReferenceName" Type="Edm.String"/>
+        <Property Name="Name" Type="Edm.String"/>
+        <Property Name="Version" Type="Edm.String"/>
+        <Property Name="Publisher" Type="Edm.String"/>
+        <Property Name="ResourceExtensionParameterValues" Type="Edm.String"/>
+      </ComplexType>
+      <ComplexType Name="IntrinsicSettings">
+        <Property Name="ScaleOutSettings" Type="MicrosoftCompute.ScaleOutSetting"/>
+        <Property Name="HardwareProfile" Type="MicrosoftCompute.ResDefHardwareProfile"/>
+        <Property Name="StorageProfile" Type="MicrosoftCompute.StorageProfile"/>
+        <Property Name="OperatingSystemProfile" Type="MicrosoftCompute.OSProfile"/>
+        <Property Name="NetworkProfile" Type="MicrosoftCompute.NetworkProfile"/>
+      </ComplexType>
+      <ComplexType Name="ScaleOutSetting">
+        <Property Name="InitialInstanceCount" Type="Edm.String"/>
+        <Property Name="MaximumInstanceCount" Type="Edm.String"/>
+        <Property Name="MinimumInstanceCount" Type="Edm.String"/>
+        <Property Name="UpgradeDomainCount" Type="Edm.String"/>
+      </ComplexType>
+      <ComplexType Name="ResDefHardwareProfile">
+        <Property Name="VMSize" Type="Edm.String"/>
+      </ComplexType>
+      <ComplexType Name="StorageProfile">
+        <Property Name="OSVirtualHardDiskImage" Type="Edm.String"/>
+        <Property Name="DataVirtualHardDisks" Type="Collection(MicrosoftCompute.DataVirtualHardDisk)" Nullable="false"/>
+      </ComplexType>
+      <ComplexType Name="DataVirtualHardDisk">
+        <Property Name="DataVirtualHardDiskImage" Type="Edm.String"/>
+        <Property Name="Lun" Type="Edm.String"/>
+      </ComplexType>
+      <ComplexType Name="OSProfile">
+        <Property Name="ComputerNamePattern" Type="Edm.String"/>
+        <Property Name="TimeZone" Type="Edm.String"/>
+        <Property Name="AdminCredential" Type="Edm.String"/>
+        <Property Name="WindowsOperatingSystemProfile" Type="MicrosoftCompute.WindowsOperatingSystemProfile"/>
+        <Property Name="LinuxOperatingSystemProfile" Type="MicrosoftCompute.LinuxOperatingSystemProfile"/>
+      </ComplexType>
+      <ComplexType Name="WindowsOperatingSystemProfile">
+        <Property Name="WorkgroupName" Type="Edm.String"/>
+        <Property Name="DomainJoin" Type="MicrosoftCompute.DomainJoin"/>
+      </ComplexType>
+      <ComplexType Name="DomainJoin">
+        <Property Name="DomainToJoin" Type="Edm.String"/>
+        <Property Name="DomainJoinCredentials" Type="Edm.String"/>
+      </ComplexType>
+      <ComplexType Name="LinuxOperatingSystemProfile">
+        <Property Name="DNSDomainName" Type="Edm.String"/>
+        <Property Name="SSHPublicKey" Type="Edm.String"/>
+      </ComplexType>
+      <ComplexType Name="NetworkProfile">
+        <Property Name="NetworkAdapters" Type="Collection(MicrosoftCompute.NetworkAdapter)" Nullable="false"/>
+      </ComplexType>
+      <ComplexType Name="NetworkAdapter">
+        <Property Name="Name" Type="Edm.String"/>
+        <Property Name="NetworkRef" Type="Edm.String"/>
+        <Property Name="IPAddresses" Type="Collection(MicrosoftCompute.IPAddress)" Nullable="false"/>
+      </ComplexType>
+      <ComplexType Name="IPAddress">
+        <Property Name="AllocationMethod" Type="Edm.String"/>
+        <Property Name="Type" Type="Edm.String"/>
+        <Property Name="ConfigurationName" Type="Edm.String"/>
+        <Property Name="LoadBalancerConfigurations" Type="Collection(MicrosoftCompute.LoadBalancerConfiguration)" Nullable="false"/>
+      </ComplexType>
+      <ComplexType Name="LoadBalancerConfiguration">
+        <Property Name="ConfigurationName" Type="Edm.String"/>
+        <Property Name="FrontEndNetwork" Type="Edm.String"/>
+        <Property Name="PortConfig" Type="MicrosoftCompute.PortConfiguration"/>
+        <Property Name="Probe" Type="MicrosoftCompute.Probe"/>
+      </ComplexType>
+      <ComplexType Name="PortConfiguration">
+        <Property Name="Name" Type="Edm.String"/>
+        <Property Name="Protocol" Type="Edm.String"/>
+        <Property Name="FrontEndPort" Type="Edm.String"/>
+        <Property Name="BackEndPort" Type="Edm.String"/>
+      </ComplexType>
+      <ComplexType Name="Probe">
+        <Property Name="ProbeIntervalInSeconds" Type="Edm.String"/>
+        <Property Name="Protocol" Type="Edm.String"/>
+        <Property Name="Port" Type="Edm.String"/>
+        <Property Name="MaxRetryCount" Type="Edm.String"/>
+        <Property Name="RequestPath" Type="Edm.String"/>
+      </ComplexType>
+      <ComplexType Name="ResourceConfiguration">
+        <Property Name="Version" Type="Edm.String"/>
+        <Property Name="ParameterValues" Type="Edm.String"/>
+      </ComplexType>
+      <ComplexType Name="Substate">
+        <Property Name="VMRoleMessages" Type="Collection(MicrosoftCompute.VMRoleMessage)" Nullable="false"/>
+      </ComplexType>
+      <ComplexType Name="VMRoleMessage">
+        <Property Name="VMId" Type="Edm.Guid"/>
+        <Property Name="MessageQualifier" Type="Edm.String"/>
+        <Property Name="Message" Type="Edm.String"/>
+      </ComplexType>
+      <ComplexType Name="InstanceView">
+        <Property Name="VIPs" Type="Collection(MicrosoftCompute.VMRoleVIP)" Nullable="false"/>
+        <Property Name="InstanceCount" Type="Edm.Int64"/>
+        <Property Name="ResolvedResourceDefinition" Type="MicrosoftCompute.VMRoleResourceDefinition"/>
+      </ComplexType>
+      <ComplexType Name="VMRoleVIP">
+        <Property Name="NetworkAdapterName" Type="Edm.String"/>
+        <Property Name="LoadbalancerConfigurationName" Type="Edm.String"/>
+        <Property Name="VIP" Type="Edm.String"/>
+      </ComplexType>
+      <ComplexType Name="ConnectToAddress">
+        <Property Name="IPAddress" Type="Edm.String"/>
+        <Property Name="NetworkName" Type="Edm.String"/>
+        <Property Name="Port" Type="Edm.Int32"/>
+      </ComplexType>
+      <EntityType Name="VMRoleVMDisk">
+        <Key>
+          <PropertyRef Name="Id"/>
+        </Key>
+        <Property Name="Id" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="DataVirtualHardDiskImage" Type="Edm.String"/>
+        <Property Name="DiskLun" Type="Edm.Int32"/>
+        <Property Name="DiskDataFile" Type="Edm.String"/>
+        <Property Name="DiskSize" Type="Edm.Int64"/>
+      </EntityType>
+      <EntityType Name="VMRoleVMNic">
+        <Key>
+          <PropertyRef Name="Id"/>
+        </Key>
+        <Property Name="Id" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="NetworkAdapterName" Type="Edm.String"/>
+        <Property Name="CurrentIpAddresses" Type="Collection(Edm.String)" Nullable="false"/>
+      </EntityType>
+      <Association Name="VMRole_VMs">
+        <End Type="MicrosoftCompute.VMRole" Role="VMRole" Multiplicity="*"/>
+        <End Type="MicrosoftCompute.VM" Role="VMs" Multiplicity="*"/>
+      </Association>
+      <Association Name="VM_Disks">
+        <End Type="MicrosoftCompute.VMRoleVMDisk" Role="Disks" Multiplicity="*"/>
+        <End Type="MicrosoftCompute.VM" Role="VM" Multiplicity="*"/>
+      </Association>
+      <Association Name="VM_Nics">
+        <End Type="MicrosoftCompute.VMRoleVMNic" Role="Nics" Multiplicity="*"/>
+        <End Type="MicrosoftCompute.VM" Role="VM" Multiplicity="*"/>
+      </Association>
+      <Association Name="CloudService_Resources">
+        <End Type="MicrosoftCompute.CloudService" Role="CloudService" Multiplicity="*"/>
+        <End Type="MicrosoftCompute.CloudResource" Role="Resources" Multiplicity="*"/>
+      </Association>
+      <Association Name="CloudResource_VMRoles">
+        <End Type="MicrosoftCompute.VMRole" Role="VMRoles" Multiplicity="*"/>
+        <End Type="MicrosoftCompute.CloudResource" Role="CloudResource" Multiplicity="*"/>
+      </Association>
+    </Schema>
+  </edmx:DataServices>
+</edmx:Edmx>

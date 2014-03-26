@@ -199,7 +199,7 @@ module OData
     end
   end
 
-  describe Service do
+  describe "Keys" do
     describe "Collection with an int64 key Named 'id'" do
 
       before(:all) do
@@ -281,6 +281,22 @@ module OData
         its(:color)   { should eq('blue') }
       end
     end
+  end
 
+  describe "Dual Namespaces" do
+    before(:all) do
+      stub_request(:get, "http://xxxx%5Cyyyy:zzzz@test.com/test.svc/$metadata").
+        with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
+        to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/ms_system_center/edmx_ms_system_center_v2.xml", __FILE__)), :headers => {})
+    end
+    after(:all) do
+      VMM.constants.each do |constant|
+        VMM.send :remove_const, constant
+      end
+    end
+
+    it "should parse the service without errors" do
+      lambda { OData::Service.new "http://test.com/test.svc/", { :username => "xxxx\\yyyy", :password=> "zzzz", :verify_ssl => false, :namespace => "VMM" } }.should_not raise_error
+    end
   end
 end
