@@ -144,3 +144,14 @@
     * Added the ability to query the OData service using the [$select system query option](http://www.odata.org/documentation/odata-v2-documentation/uri-conventions/#48_Select_System_Query_Option_select)
     * Support for Int64 keys ([issue 39](https://github.com/visoft/ruby_odata/issues/39) and [issue 40](https://github.com/visoft/ruby_odata/pull/40), thanks [@nasali](https://github.com/nasali))
     * New property `is_key` added to `PropertyMetadata` in order to determine the key properties for the class (found in the service's `class_metadata` collection)
+
+## 0.1.6
+* **BREAKING CHANGES**
+    * Ruby 1.8.7 support has been dropped, thus the backports gem has been removed from the ruby_odata  (thanks [@betelgeuse](https://github.com/betelgeuse)) [issue 45 and 46](https://github.com/visoft/ruby_odata/pull/46)
+
+* Bug Fixes
+    * Check that message is present before including it in the exception. Thanks [@rgould](https://github.com/rgould)
+    * Fixed problem with `FunctionImport`, OData dropped the `m:HttpMethod` attribute, see http://www.odata.org/2011/10/actions-in-odata/
+
+* Other
+    * Changed license to MIT and added it to the gemspec
