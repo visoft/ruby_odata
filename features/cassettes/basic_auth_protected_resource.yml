@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://admin:passwd@win7dev:8989/SampleService/BasicAuth/RubyOData.svc/Categories(1)
+    uri: http://win7dev:8989/SampleService/BasicAuth/RubyOData.svc/Categories(1)
     body:
       encoding: US-ASCII
       string: ''
@@ -11,6 +11,8 @@ http_interactions:
       - ! '*/*; q=0.5, application/xml'
       Accept-Encoding:
       - gzip, deflate
+      Authorization:
+      - Basic YWRtaW46cGFzc3dk
       User-Agent:
       - Ruby
   response:

@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: http://admin:passwd@win7dev:8989/SampleService/BasicAuth/RubyOData.svc/Categories
+    uri: http://win7dev:8989/SampleService/BasicAuth/RubyOData.svc/Categories
     body:
       encoding: ASCII-8BIT
       string: ! '{"Name":"Auth Test Category","AuditFields":{"CreatedBy":"Machinist"}}'
@@ -15,6 +15,8 @@ http_interactions:
       - application/json
       Content-Length:
       - '69'
+      Authorization:
+      - Basic YWRtaW46cGFzc3dk
       User-Agent:
       - Ruby
   response:
@@ -62,7 +64,7 @@ http_interactions:
   recorded_at: Tue, 07 Aug 2012 21:21:25 GMT
 - request:
     method: get
-    uri: http://admin:passwd@win7dev:8989/SampleService/BasicAuth/RubyOData.svc/Categories(1)
+    uri: http://win7dev:8989/SampleService/BasicAuth/RubyOData.svc/Categories(1)
     body:
       encoding: US-ASCII
       string: ''
@@ -71,6 +73,8 @@ http_interactions:
       - ! '*/*; q=0.5, application/xml'
       Accept-Encoding:
       - gzip, deflate
+      Authorization:
+      - Basic YWRtaW46cGFzc3dk
       User-Agent:
       - Ruby
   response:
@@ -116,7 +120,7 @@ http_interactions:
   recorded_at: Tue, 07 Aug 2012 21:21:25 GMT
 - request:
     method: get
-    uri: http://admin:bad_pwd@win7dev:8989/SampleService/BasicAuth/RubyOData.svc/$metadata
+    uri: http://win7dev:8989/SampleService/BasicAuth/RubyOData.svc/$metadata
     body:
       encoding: US-ASCII
       string: ''
@@ -125,6 +129,8 @@ http_interactions:
       - ! '*/*; q=0.5, application/xml'
       Accept-Encoding:
       - gzip, deflate
+      Authorization:
+      - Basic YWRtaW46YmFkX3B3ZA==
       User-Agent:
       - Ruby
   response:
@@ -163,7 +169,7 @@ http_interactions:
   recorded_at: Tue, 07 Aug 2012 21:21:25 GMT
 - request:
     method: get
-    uri: http://admin:passwd@win7dev:8989/SampleService/BasicAuth/RubyOData.svc/$metadata
+    uri: http://win7dev:8989/SampleService/BasicAuth/RubyOData.svc/$metadata
     body:
       encoding: US-ASCII
       string: ''
@@ -172,6 +178,8 @@ http_interactions:
       - ! '*/*; q=0.5, application/xml'
       Accept-Encoding:
       - gzip, deflate
+      Authorization:
+      - Basic YWRtaW46cGFzc3dk
       User-Agent:
       - Ruby
   response:

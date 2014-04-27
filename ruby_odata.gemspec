@@ -22,6 +22,8 @@ Gem::Specification.new do |s|
   s.add_dependency("activesupport", ">= 3.0.0")
   s.add_dependency("typhoeus")
   s.add_dependency("faraday")
+  s.add_dependency("pry")
+  s.add_dependency("pry-nav")
   s.add_dependency("nokogiri", ">= 1.4.2")
 
   s.add_development_dependency("rake", "0.9.2")

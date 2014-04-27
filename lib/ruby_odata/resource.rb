@@ -29,7 +29,7 @@ module OData
         end
       end
 
-      @conn.headers.delete :user_agent
+      @conn.headers[:user_agent] = 'Ruby'
     end
 
     def get(additional_headers={})
