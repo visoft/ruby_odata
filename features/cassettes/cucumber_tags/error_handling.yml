@@ -4,20 +4,18 @@ http_interactions:
     method: post
     uri: http://win7dev:8989/SampleService/RubyOData.svc/Products
     body:
-      encoding: ASCII-8BIT
-      string: ! '{"Name":"Widget 0017","Description":"Test Widget","Price":"","Category":{"Name":"Category
+      encoding: UTF-8
+      string: '{"Name":"Widget 0017","Description":"Test Widget","Price":"","Category":{"Name":"Category
         0018","AuditFields":{"CreatedBy":"Machinist"}},"AuditFields":{"CreatedBy":"Machinist"}}'
     headers:
+      User-Agent:
+      - Typhoeus - https://github.com/typhoeus/typhoeus
       Accept:
-      - ! '*/*; q=0.5, application/xml'
+      - '*/*; q=0.5, application/xml'
       Accept-Encoding:
       - gzip, deflate
       Content-Type:
       - application/json
-      Content-Length:
-      - '177'
-      User-Agent:
-      - Ruby
   response:
     status:
       code: 400
@@ -32,7 +30,7 @@ http_interactions:
       Server:
       - Microsoft-IIS/7.5
       Set-Cookie:
-      - ASP.NET_SessionId=kw41qeekwnltvdgzfqkfsptr; path=/; HttpOnly
+      - ASP.NET_SessionId=ukrlqjck1ekoun5pikvho3bn; path=/; HttpOnly
       X-Content-Type-Options:
       - nosniff
       Dataserviceversion:
@@ -42,23 +40,16 @@ http_interactions:
       X-Powered-By:
       - ASP.NET
       Date:
-      - Tue, 07 Aug 2012 21:21:30 GMT
+      - Tue, 29 Apr 2014 01:17:51 GMT
     body:
-      encoding: US-ASCII
-      string: ! "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"?><error
-        xmlns=\"http://schemas.microsoft.com/ado/2007/08/dataservices/metadata\"><code></code><message
-        xml:lang=\"en-US\">Error processing request stream. Error encountered in converting
-        the value from request payload for property 'Price' to type 'Decimal', which
-        is the property's expected type. See inner exception for more detail.</message><innererror><message>Input
-        string was not in a correct format.</message><type>System.FormatException</type><stacktrace>
-        \  at System.Number.StringToNumber(String str, NumberStyles options, NumberBuffer&amp;
-        number, NumberFormatInfo info, Boolean parseDecimal)&#xD;\n   at System.Number.ParseDecimal(String
-        value, NumberStyles options, NumberFormatInfo numfmt)&#xD;\n   at System.Convert.ToDecimal(String
-        value, IFormatProvider provider)&#xD;\n   at System.String.System.IConvertible.ToDecimal(IFormatProvider
-        provider)&#xD;\n   at System.Convert.ChangeType(Object value, Type conversionType,
-        IFormatProvider provider)&#xD;\n   at System.Data.Services.Serializers.JsonDeserializer.ConvertValues(Object
-        value, String propertyName, Type typeToBeConverted, DataServiceProviderWrapper
-        provider)</stacktrace></innererror></error>"
-    http_version: !!null 
-  recorded_at: Tue, 07 Aug 2012 21:21:31 GMT
-recorded_with: VCR 2.2.4
+      encoding: UTF-8
+      string: |-
+        <?xml version="1.0" encoding="utf-8" standalone="yes"?><error xmlns="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"><code></code><message xml:lang="en-US">Error processing request stream. Error encountered in converting the value from request payload for property 'Price' to type 'Decimal', which is the property's expected type. See inner exception for more detail.</message><innererror><message>Input string was not in a correct format.</message><type>System.FormatException</type><stacktrace>   at System.Number.StringToNumber(String str, NumberStyles options, NumberBuffer&amp; number, NumberFormatInfo info, Boolean parseDecimal)&#xD;
+           at System.Number.ParseDecimal(String value, NumberStyles options, NumberFormatInfo numfmt)&#xD;
+           at System.Convert.ToDecimal(String value, IFormatProvider provider)&#xD;
+           at System.String.System.IConvertible.ToDecimal(IFormatProvider provider)&#xD;
+           at System.Convert.ChangeType(Object value, Type conversionType, IFormatProvider provider)&#xD;
+           at System.Data.Services.Serializers.JsonDeserializer.ConvertValues(Object value, String propertyName, Type typeToBeConverted, DataServiceProviderWrapper provider)</stacktrace></innererror></error>
+    http_version: 
+  recorded_at: Tue, 29 Apr 2014 01:17:51 GMT
+recorded_with: VCR 2.5.0

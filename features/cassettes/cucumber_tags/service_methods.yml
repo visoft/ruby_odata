@@ -5,67 +5,44 @@ http_interactions:
     uri: http://win7dev:8989/SampleService/RubyOData.svc/$batch
     body:
       encoding: ASCII-8BIT
-      string: ! '--batch_94f9-mlhu-308k
-
+      string: |-
+        --batch_94f9-mlhu-308k
         Content-Type: multipart/mixed;boundary=changeset_9pqe-rvka-6tyj
 
-
         --changeset_9pqe-rvka-6tyj
-
         Content-Type: application/http
-
         Content-Transfer-Encoding: binary
 
-
         POST http://win7dev:8989/SampleService/RubyOData.svc/Categories HTTP/1.1
-
         Accept-Charset: utf-8
-
         Content-Type: application/json;charset=utf-8
-
 
         {"Name":"Category 0069","AuditFields":{"CreatedBy":"Machinist"}}
-
         --changeset_9pqe-rvka-6tyj
-
         Content-Type: application/http
-
         Content-Transfer-Encoding: binary
 
-
         POST http://win7dev:8989/SampleService/RubyOData.svc/Categories HTTP/1.1
-
         Accept-Charset: utf-8
-
         Content-Type: application/json;charset=utf-8
-
 
         {"Name":"Category 0070","AuditFields":{"CreatedBy":"Machinist"}}
-
         --changeset_9pqe-rvka-6tyj
-
         Content-Type: application/http
-
         Content-Transfer-Encoding: binary
 
-
         POST http://win7dev:8989/SampleService/RubyOData.svc/Categories HTTP/1.1
-
         Accept-Charset: utf-8
-
         Content-Type: application/json;charset=utf-8
-
 
         {"Name":"Category 0071","AuditFields":{"CreatedBy":"Machinist"}}
 
 
-
         --changeset_9pqe-rvka-6tyj--
-
-        --batch_94f9-mlhu-308k--'
+        --batch_94f9-mlhu-308k--
     headers:
       Accept:
-      - ! '*/*; q=0.5, application/xml'
+      - '*/*; q=0.5, application/xml'
       Accept-Encoding:
       - gzip, deflate
       Content-Type:
@@ -101,7 +78,7 @@ http_interactions:
       - Tue, 07 Aug 2012 19:35:42 GMT
     body:
       encoding: US-ASCII
-      string: ! "--batchresponse_6b44618b-5c72-48e3-8241-a268e4ad9df3\r\nContent-Type:
+      string: "--batchresponse_6b44618b-5c72-48e3-8241-a268e4ad9df3\r\nContent-Type:
         multipart/mixed; boundary=changesetresponse_2858f6fb-523f-4e9b-9876-162697cadd48\r\n\r\n--changesetresponse_2858f6fb-523f-4e9b-9876-162697cadd48\r\nContent-Type:
         application/http\r\nContent-Transfer-Encoding: binary\r\n\r\nHTTP/1.1 201
         Created\r\nDataServiceVersion: 1.0;\r\nContent-Type: application/atom+xml;type=entry;charset=utf-8\r\nX-Content-Type-Options:
@@ -148,7 +125,7 @@ http_interactions:
         0071</d:Name><d:AuditFields m:type=\"RubyODataService.AuditFields\"><d:CreateDate
         m:type=\"Edm.DateTime\">2012-08-07T19:35:42.078125Z</d:CreateDate><d:ModifiedDate
         m:type=\"Edm.DateTime\">2012-08-07T19:35:42.078125Z</d:ModifiedDate><d:CreatedBy>Machinist</d:CreatedBy></d:AuditFields></m:properties></content></entry>\r\n--changesetresponse_2858f6fb-523f-4e9b-9876-162697cadd48--\r\n--batchresponse_6b44618b-5c72-48e3-8241-a268e4ad9df3--\r\n"
-    http_version: !!null 
+    http_version: 
   recorded_at: Tue, 07 Aug 2012 19:35:43 GMT
 - request:
     method: get
@@ -157,12 +134,12 @@ http_interactions:
       encoding: US-ASCII
       string: ''
     headers:
+      User-Agent:
+      - Typhoeus - https://github.com/typhoeus/typhoeus
       Accept:
-      - ! '*/*; q=0.5, application/xml'
+      - '*/*; q=0.5, application/xml'
       Accept-Encoding:
       - gzip, deflate
-      User-Agent:
-      - Ruby
   response:
     status:
       code: 200
@@ -171,13 +148,13 @@ http_interactions:
       Cache-Control:
       - no-cache
       Content-Length:
-      - '1495'
+      - '1497'
       Content-Type:
       - application/atom+xml;type=feed;charset=utf-8
       Server:
       - Microsoft-IIS/7.5
       Set-Cookie:
-      - ASP.NET_SessionId=0xwuqacikal44x21fdh3xbaq; path=/; HttpOnly
+      - ASP.NET_SessionId=ktln5plksxz1ffvsyayxl2te; path=/; HttpOnly
       X-Content-Type-Options:
       - nosniff
       Dataserviceversion:
@@ -187,42 +164,40 @@ http_interactions:
       X-Powered-By:
       - ASP.NET
       Date:
-      - Tue, 07 Aug 2012 21:21:54 GMT
+      - Tue, 29 Apr 2014 01:18:04 GMT
     body:
-      encoding: US-ASCII
+      encoding: UTF-8
       string: <?xml version="1.0" encoding="utf-8"?><feed xml:base="http://win7dev:8989/SampleService/RubyOData.svc/"
         xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices"
         xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:georss="http://www.georss.org/georss"
         xmlns:gml="http://www.opengis.net/gml"><id>http://win7dev:8989/SampleService/RubyOData.svc/EntityCategoryWebGet</id><title
-        type="text">EntityCategoryWebGet</title><updated>2012-08-07T21:21:54Z</updated><link
+        type="text">EntityCategoryWebGet</title><updated>2014-04-29T01:18:04Z</updated><link
         rel="self" title="EntityCategoryWebGet" href="EntityCategoryWebGet" /><entry><id>http://win7dev:8989/SampleService/RubyOData.svc/Categories(1)</id><category
         term="RubyODataService.Category" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"
         /><link rel="edit" title="Category" href="Categories(1)" /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Products"
         type="application/atom+xml;type=feed" title="Products" href="Categories(1)/Products"
-        /><title /><updated>2012-08-07T21:21:54Z</updated><author><name /></author><content
+        /><title /><updated>2014-04-29T01:18:04Z</updated><author><name /></author><content
         type="application/xml"><m:properties><d:Id m:type="Edm.Int32">1</d:Id><d:Name>Category
         0074</d:Name><d:AuditFields m:type="RubyODataService.AuditFields"><d:CreateDate
-        m:type="Edm.DateTime">2012-08-07T21:21:54.25</d:CreateDate><d:ModifiedDate
-        m:type="Edm.DateTime">2012-08-07T21:21:54.25</d:ModifiedDate><d:CreatedBy>Machinist</d:CreatedBy></d:AuditFields></m:properties></content></entry></feed>
-    http_version: !!null 
-  recorded_at: Tue, 07 Aug 2012 21:21:54 GMT
+        m:type="Edm.DateTime">2014-04-29T01:18:04.903</d:CreateDate><d:ModifiedDate
+        m:type="Edm.DateTime">2014-04-29T01:18:04.903</d:ModifiedDate><d:CreatedBy>Machinist</d:CreatedBy></d:AuditFields></m:properties></content></entry></feed>
+    http_version: 
+  recorded_at: Tue, 29 Apr 2014 01:18:04 GMT
 - request:
     method: post
     uri: http://win7dev:8989/SampleService/RubyOData.svc/Categories
     body:
-      encoding: ASCII-8BIT
-      string: ! '{"Name":"Category 0075","AuditFields":{"CreatedBy":"Machinist"},"Id":1}'
+      encoding: UTF-8
+      string: '{"Name":"Category 0075","AuditFields":{"CreatedBy":"Machinist"},"Id":1}'
     headers:
+      User-Agent:
+      - Typhoeus - https://github.com/typhoeus/typhoeus
       Accept:
-      - ! '*/*; q=0.5, application/xml'
+      - '*/*; q=0.5, application/xml'
       Accept-Encoding:
       - gzip, deflate
       Content-Type:
       - application/json
-      Content-Length:
-      - '71'
-      User-Agent:
-      - Ruby
   response:
     status:
       code: 201
@@ -231,7 +206,7 @@ http_interactions:
       Cache-Control:
       - no-cache
       Content-Length:
-      - '1245'
+      - '1249'
       Content-Type:
       - application/atom+xml;type=entry;charset=utf-8
       Location:
@@ -239,7 +214,7 @@ http_interactions:
       Server:
       - Microsoft-IIS/7.5
       Set-Cookie:
-      - ASP.NET_SessionId=rfwve3ugldbmta44b3fgskri; path=/; HttpOnly
+      - ASP.NET_SessionId=sw0l10n1low2rx0mrgd50v1a; path=/; HttpOnly
       X-Content-Type-Options:
       - nosniff
       Dataserviceversion:
@@ -249,9 +224,9 @@ http_interactions:
       X-Powered-By:
       - ASP.NET
       Date:
-      - Tue, 07 Aug 2012 21:21:54 GMT
+      - Tue, 29 Apr 2014 01:18:05 GMT
     body:
-      encoding: US-ASCII
+      encoding: UTF-8
       string: <?xml version="1.0" encoding="utf-8"?><entry xml:base="http://win7dev:8989/SampleService/RubyOData.svc/"
         xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices"
         xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:georss="http://www.georss.org/georss"
@@ -259,13 +234,13 @@ http_interactions:
         term="RubyODataService.Category" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"
         /><link rel="edit" title="Category" href="Categories(1)" /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Products"
         type="application/atom+xml;type=feed" title="Products" href="Categories(1)/Products"
-        /><title /><updated>2012-08-07T21:21:54Z</updated><author><name /></author><content
+        /><title /><updated>2014-04-29T01:18:05Z</updated><author><name /></author><content
         type="application/xml"><m:properties><d:Id m:type="Edm.Int32">1</d:Id><d:Name>Category
         0075</d:Name><d:AuditFields m:type="RubyODataService.AuditFields"><d:CreateDate
-        m:type="Edm.DateTime">2012-08-07T21:21:54.75Z</d:CreateDate><d:ModifiedDate
-        m:type="Edm.DateTime">2012-08-07T21:21:54.75Z</d:ModifiedDate><d:CreatedBy>Machinist</d:CreatedBy></d:AuditFields></m:properties></content></entry>
-    http_version: !!null 
-  recorded_at: Tue, 07 Aug 2012 21:21:55 GMT
+        m:type="Edm.DateTime">2014-04-29T01:18:05.1848Z</d:CreateDate><d:ModifiedDate
+        m:type="Edm.DateTime">2014-04-29T01:18:05.1848Z</d:ModifiedDate><d:CreatedBy>Machinist</d:CreatedBy></d:AuditFields></m:properties></content></entry>
+    http_version: 
+  recorded_at: Tue, 29 Apr 2014 01:18:05 GMT
 - request:
     method: get
     uri: http://win7dev:8989/SampleService/RubyOData.svc/EntitySingleCategoryWebGet?id=1
@@ -273,12 +248,12 @@ http_interactions:
       encoding: US-ASCII
       string: ''
     headers:
+      User-Agent:
+      - Typhoeus - https://github.com/typhoeus/typhoeus
       Accept:
-      - ! '*/*; q=0.5, application/xml'
+      - '*/*; q=0.5, application/xml'
       Accept-Encoding:
       - gzip, deflate
-      User-Agent:
-      - Ruby
   response:
     status:
       code: 200
@@ -287,13 +262,13 @@ http_interactions:
       Cache-Control:
       - no-cache
       Content-Length:
-      - '1243'
+      - '1245'
       Content-Type:
       - application/atom+xml;type=entry;charset=utf-8
       Server:
       - Microsoft-IIS/7.5
       Set-Cookie:
-      - ASP.NET_SessionId=5m1mwedwm4edaav3j43htjfq; path=/; HttpOnly
+      - ASP.NET_SessionId=mrlr3ugvhzoilt0f2xr10gdp; path=/; HttpOnly
       X-Content-Type-Options:
       - nosniff
       Dataserviceversion:
@@ -303,9 +278,9 @@ http_interactions:
       X-Powered-By:
       - ASP.NET
       Date:
-      - Tue, 07 Aug 2012 21:21:54 GMT
+      - Tue, 29 Apr 2014 01:18:05 GMT
     body:
-      encoding: US-ASCII
+      encoding: UTF-8
       string: <?xml version="1.0" encoding="utf-8"?><entry xml:base="http://win7dev:8989/SampleService/RubyOData.svc/"
         xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices"
         xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:georss="http://www.georss.org/georss"
@@ -313,30 +288,28 @@ http_interactions:
         term="RubyODataService.Category" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"
         /><link rel="edit" title="Category" href="Categories(1)" /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Products"
         type="application/atom+xml;type=feed" title="Products" href="Categories(1)/Products"
-        /><title /><updated>2012-08-07T21:21:54Z</updated><author><name /></author><content
+        /><title /><updated>2014-04-29T01:18:05Z</updated><author><name /></author><content
         type="application/xml"><m:properties><d:Id m:type="Edm.Int32">1</d:Id><d:Name>Category
         0075</d:Name><d:AuditFields m:type="RubyODataService.AuditFields"><d:CreateDate
-        m:type="Edm.DateTime">2012-08-07T21:21:54.75</d:CreateDate><d:ModifiedDate
-        m:type="Edm.DateTime">2012-08-07T21:21:54.75</d:ModifiedDate><d:CreatedBy>Machinist</d:CreatedBy></d:AuditFields></m:properties></content></entry>
-    http_version: !!null 
-  recorded_at: Tue, 07 Aug 2012 21:21:55 GMT
+        m:type="Edm.DateTime">2014-04-29T01:18:05.183</d:CreateDate><d:ModifiedDate
+        m:type="Edm.DateTime">2014-04-29T01:18:05.183</d:ModifiedDate><d:CreatedBy>Machinist</d:CreatedBy></d:AuditFields></m:properties></content></entry>
+    http_version: 
+  recorded_at: Tue, 29 Apr 2014 01:18:05 GMT
 - request:
     method: post
     uri: http://win7dev:8989/SampleService/RubyOData.svc/Categories
     body:
-      encoding: ASCII-8BIT
-      string: ! '{"Name":"Cat1","AuditFields":{"CreatedBy":"Machinist"}}'
+      encoding: UTF-8
+      string: '{"Name":"Cat1","AuditFields":{"CreatedBy":"Machinist"}}'
     headers:
+      User-Agent:
+      - Typhoeus - https://github.com/typhoeus/typhoeus
       Accept:
-      - ! '*/*; q=0.5, application/xml'
+      - '*/*; q=0.5, application/xml'
       Accept-Encoding:
       - gzip, deflate
       Content-Type:
       - application/json
-      Content-Length:
-      - '55'
-      User-Agent:
-      - Ruby
   response:
     status:
       code: 201
@@ -345,7 +318,7 @@ http_interactions:
       Cache-Control:
       - no-cache
       Content-Length:
-      - '1236'
+      - '1240'
       Content-Type:
       - application/atom+xml;type=entry;charset=utf-8
       Location:
@@ -353,7 +326,7 @@ http_interactions:
       Server:
       - Microsoft-IIS/7.5
       Set-Cookie:
-      - ASP.NET_SessionId=qpe2n5za5bzgul5iumtthvqe; path=/; HttpOnly
+      - ASP.NET_SessionId=dgocqrrulpg0w0o0mex5o1qn; path=/; HttpOnly
       X-Content-Type-Options:
       - nosniff
       Dataserviceversion:
@@ -363,9 +336,9 @@ http_interactions:
       X-Powered-By:
       - ASP.NET
       Date:
-      - Tue, 07 Aug 2012 21:21:55 GMT
+      - Tue, 29 Apr 2014 01:18:05 GMT
     body:
-      encoding: US-ASCII
+      encoding: UTF-8
       string: <?xml version="1.0" encoding="utf-8"?><entry xml:base="http://win7dev:8989/SampleService/RubyOData.svc/"
         xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices"
         xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:georss="http://www.georss.org/georss"
@@ -373,29 +346,27 @@ http_interactions:
         term="RubyODataService.Category" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"
         /><link rel="edit" title="Category" href="Categories(1)" /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Products"
         type="application/atom+xml;type=feed" title="Products" href="Categories(1)/Products"
-        /><title /><updated>2012-08-07T21:21:55Z</updated><author><name /></author><content
+        /><title /><updated>2014-04-29T01:18:05Z</updated><author><name /></author><content
         type="application/xml"><m:properties><d:Id m:type="Edm.Int32">1</d:Id><d:Name>Cat1</d:Name><d:AuditFields
-        m:type="RubyODataService.AuditFields"><d:CreateDate m:type="Edm.DateTime">2012-08-07T21:21:55.25Z</d:CreateDate><d:ModifiedDate
-        m:type="Edm.DateTime">2012-08-07T21:21:55.25Z</d:ModifiedDate><d:CreatedBy>Machinist</d:CreatedBy></d:AuditFields></m:properties></content></entry>
-    http_version: !!null 
-  recorded_at: Tue, 07 Aug 2012 21:21:55 GMT
+        m:type="RubyODataService.AuditFields"><d:CreateDate m:type="Edm.DateTime">2014-04-29T01:18:05.4968Z</d:CreateDate><d:ModifiedDate
+        m:type="Edm.DateTime">2014-04-29T01:18:05.4968Z</d:ModifiedDate><d:CreatedBy>Machinist</d:CreatedBy></d:AuditFields></m:properties></content></entry>
+    http_version: 
+  recorded_at: Tue, 29 Apr 2014 01:18:05 GMT
 - request:
     method: post
     uri: http://win7dev:8989/SampleService/RubyOData.svc/Categories
     body:
-      encoding: ASCII-8BIT
-      string: ! '{"Name":"Cat2","AuditFields":{"CreatedBy":"Machinist"}}'
+      encoding: UTF-8
+      string: '{"Name":"Cat2","AuditFields":{"CreatedBy":"Machinist"}}'
     headers:
+      User-Agent:
+      - Typhoeus - https://github.com/typhoeus/typhoeus
       Accept:
-      - ! '*/*; q=0.5, application/xml'
+      - '*/*; q=0.5, application/xml'
       Accept-Encoding:
       - gzip, deflate
       Content-Type:
       - application/json
-      Content-Length:
-      - '55'
-      User-Agent:
-      - Ruby
   response:
     status:
       code: 201
@@ -412,7 +383,7 @@ http_interactions:
       Server:
       - Microsoft-IIS/7.5
       Set-Cookie:
-      - ASP.NET_SessionId=3yfzvdpeoqmxkhkn3xufrsyg; path=/; HttpOnly
+      - ASP.NET_SessionId=2j1lg05evxk22k0qabucmyqr; path=/; HttpOnly
       X-Content-Type-Options:
       - nosniff
       Dataserviceversion:
@@ -422,9 +393,9 @@ http_interactions:
       X-Powered-By:
       - ASP.NET
       Date:
-      - Tue, 07 Aug 2012 21:21:55 GMT
+      - Tue, 29 Apr 2014 01:18:05 GMT
     body:
-      encoding: US-ASCII
+      encoding: UTF-8
       string: <?xml version="1.0" encoding="utf-8"?><entry xml:base="http://win7dev:8989/SampleService/RubyOData.svc/"
         xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices"
         xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:georss="http://www.georss.org/georss"
@@ -432,29 +403,27 @@ http_interactions:
         term="RubyODataService.Category" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"
         /><link rel="edit" title="Category" href="Categories(2)" /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Products"
         type="application/atom+xml;type=feed" title="Products" href="Categories(2)/Products"
-        /><title /><updated>2012-08-07T21:21:55Z</updated><author><name /></author><content
+        /><title /><updated>2014-04-29T01:18:05Z</updated><author><name /></author><content
         type="application/xml"><m:properties><d:Id m:type="Edm.Int32">2</d:Id><d:Name>Cat2</d:Name><d:AuditFields
-        m:type="RubyODataService.AuditFields"><d:CreateDate m:type="Edm.DateTime">2012-08-07T21:21:55.5625Z</d:CreateDate><d:ModifiedDate
-        m:type="Edm.DateTime">2012-08-07T21:21:55.5625Z</d:ModifiedDate><d:CreatedBy>Machinist</d:CreatedBy></d:AuditFields></m:properties></content></entry>
-    http_version: !!null 
-  recorded_at: Tue, 07 Aug 2012 21:21:55 GMT
+        m:type="RubyODataService.AuditFields"><d:CreateDate m:type="Edm.DateTime">2014-04-29T01:18:05.5592Z</d:CreateDate><d:ModifiedDate
+        m:type="Edm.DateTime">2014-04-29T01:18:05.5592Z</d:ModifiedDate><d:CreatedBy>Machinist</d:CreatedBy></d:AuditFields></m:properties></content></entry>
+    http_version: 
+  recorded_at: Tue, 29 Apr 2014 01:18:05 GMT
 - request:
     method: post
     uri: http://win7dev:8989/SampleService/RubyOData.svc/Categories
     body:
-      encoding: ASCII-8BIT
-      string: ! '{"Name":"Cat3","AuditFields":{"CreatedBy":"Machinist"}}'
+      encoding: UTF-8
+      string: '{"Name":"Cat3","AuditFields":{"CreatedBy":"Machinist"}}'
     headers:
+      User-Agent:
+      - Typhoeus - https://github.com/typhoeus/typhoeus
       Accept:
-      - ! '*/*; q=0.5, application/xml'
+      - '*/*; q=0.5, application/xml'
       Accept-Encoding:
       - gzip, deflate
       Content-Type:
       - application/json
-      Content-Length:
-      - '55'
-      User-Agent:
-      - Ruby
   response:
     status:
       code: 201
@@ -463,7 +432,7 @@ http_interactions:
       Cache-Control:
       - no-cache
       Content-Length:
-      - '1244'
+      - '1238'
       Content-Type:
       - application/atom+xml;type=entry;charset=utf-8
       Location:
@@ -471,7 +440,7 @@ http_interactions:
       Server:
       - Microsoft-IIS/7.5
       Set-Cookie:
-      - ASP.NET_SessionId=eypmcjpmpre10dc12fw4wxgr; path=/; HttpOnly
+      - ASP.NET_SessionId=qlp4qrsr4xocskz2xuhccvd3; path=/; HttpOnly
       X-Content-Type-Options:
       - nosniff
       Dataserviceversion:
@@ -481,9 +450,9 @@ http_interactions:
       X-Powered-By:
       - ASP.NET
       Date:
-      - Tue, 07 Aug 2012 21:21:55 GMT
+      - Tue, 29 Apr 2014 01:18:05 GMT
     body:
-      encoding: US-ASCII
+      encoding: UTF-8
       string: <?xml version="1.0" encoding="utf-8"?><entry xml:base="http://win7dev:8989/SampleService/RubyOData.svc/"
         xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices"
         xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:georss="http://www.georss.org/georss"
@@ -491,12 +460,12 @@ http_interactions:
         term="RubyODataService.Category" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"
         /><link rel="edit" title="Category" href="Categories(3)" /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Products"
         type="application/atom+xml;type=feed" title="Products" href="Categories(3)/Products"
-        /><title /><updated>2012-08-07T21:21:55Z</updated><author><name /></author><content
+        /><title /><updated>2014-04-29T01:18:05Z</updated><author><name /></author><content
         type="application/xml"><m:properties><d:Id m:type="Edm.Int32">3</d:Id><d:Name>Cat3</d:Name><d:AuditFields
-        m:type="RubyODataService.AuditFields"><d:CreateDate m:type="Edm.DateTime">2012-08-07T21:21:55.859375Z</d:CreateDate><d:ModifiedDate
-        m:type="Edm.DateTime">2012-08-07T21:21:55.859375Z</d:ModifiedDate><d:CreatedBy>Machinist</d:CreatedBy></d:AuditFields></m:properties></content></entry>
-    http_version: !!null 
-  recorded_at: Tue, 07 Aug 2012 21:21:56 GMT
+        m:type="RubyODataService.AuditFields"><d:CreateDate m:type="Edm.DateTime">2014-04-29T01:18:05.606Z</d:CreateDate><d:ModifiedDate
+        m:type="Edm.DateTime">2014-04-29T01:18:05.606Z</d:ModifiedDate><d:CreatedBy>Machinist</d:CreatedBy></d:AuditFields></m:properties></content></entry>
+    http_version: 
+  recorded_at: Tue, 29 Apr 2014 01:18:05 GMT
 - request:
     method: get
     uri: http://win7dev:8989/SampleService/RubyOData.svc/CategoryNames
@@ -504,12 +473,12 @@ http_interactions:
       encoding: US-ASCII
       string: ''
     headers:
+      User-Agent:
+      - Typhoeus - https://github.com/typhoeus/typhoeus
       Accept:
-      - ! '*/*; q=0.5, application/xml'
+      - '*/*; q=0.5, application/xml'
       Accept-Encoding:
       - gzip, deflate
-      User-Agent:
-      - Ruby
   response:
     status:
       code: 200
@@ -524,7 +493,7 @@ http_interactions:
       Server:
       - Microsoft-IIS/7.5
       Set-Cookie:
-      - ASP.NET_SessionId=dyonmsoc43s3amxicoox1ffx; path=/; HttpOnly
+      - ASP.NET_SessionId=jqmffwbatm0xjw21wdveo0u4; path=/; HttpOnly
       X-Content-Type-Options:
       - nosniff
       Dataserviceversion:
@@ -534,29 +503,27 @@ http_interactions:
       X-Powered-By:
       - ASP.NET
       Date:
-      - Tue, 07 Aug 2012 21:21:55 GMT
+      - Tue, 29 Apr 2014 01:18:05 GMT
     body:
-      encoding: US-ASCII
+      encoding: UTF-8
       string: <?xml version="1.0" encoding="utf-8"?><CategoryNames xmlns="http://schemas.microsoft.com/ado/2007/08/dataservices"><element>Cat1</element><element>Cat2</element><element>Cat3</element></CategoryNames>
-    http_version: !!null 
-  recorded_at: Tue, 07 Aug 2012 21:21:56 GMT
+    http_version: 
+  recorded_at: Tue, 29 Apr 2014 01:18:05 GMT
 - request:
     method: post
     uri: http://win7dev:8989/SampleService/RubyOData.svc/Categories
     body:
-      encoding: ASCII-8BIT
-      string: ! '{"Name":"Category 0079","AuditFields":{"CreatedBy":"Machinist"}}'
+      encoding: UTF-8
+      string: '{"Name":"Category 0079","AuditFields":{"CreatedBy":"Machinist"}}'
     headers:
+      User-Agent:
+      - Typhoeus - https://github.com/typhoeus/typhoeus
       Accept:
-      - ! '*/*; q=0.5, application/xml'
+      - '*/*; q=0.5, application/xml'
       Accept-Encoding:
       - gzip, deflate
       Content-Type:
       - application/json
-      Content-Length:
-      - '64'
-      User-Agent:
-      - Ruby
   response:
     status:
       code: 201
@@ -565,7 +532,7 @@ http_interactions:
       Cache-Control:
       - no-cache
       Content-Length:
-      - '1253'
+      - '1249'
       Content-Type:
       - application/atom+xml;type=entry;charset=utf-8
       Location:
@@ -573,7 +540,7 @@ http_interactions:
       Server:
       - Microsoft-IIS/7.5
       Set-Cookie:
-      - ASP.NET_SessionId=fqkuibkdojob01vo3urlnas1; path=/; HttpOnly
+      - ASP.NET_SessionId=ftlhxqhqjeqweupj2se0wuil; path=/; HttpOnly
       X-Content-Type-Options:
       - nosniff
       Dataserviceversion:
@@ -583,9 +550,9 @@ http_interactions:
       X-Powered-By:
       - ASP.NET
       Date:
-      - Tue, 07 Aug 2012 21:21:56 GMT
+      - Tue, 29 Apr 2014 01:18:05 GMT
     body:
-      encoding: US-ASCII
+      encoding: UTF-8
       string: <?xml version="1.0" encoding="utf-8"?><entry xml:base="http://win7dev:8989/SampleService/RubyOData.svc/"
         xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices"
         xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:georss="http://www.georss.org/georss"
@@ -593,13 +560,13 @@ http_interactions:
         term="RubyODataService.Category" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"
         /><link rel="edit" title="Category" href="Categories(1)" /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Products"
         type="application/atom+xml;type=feed" title="Products" href="Categories(1)/Products"
-        /><title /><updated>2012-08-07T21:21:56Z</updated><author><name /></author><content
+        /><title /><updated>2014-04-29T01:18:05Z</updated><author><name /></author><content
         type="application/xml"><m:properties><d:Id m:type="Edm.Int32">1</d:Id><d:Name>Category
         0079</d:Name><d:AuditFields m:type="RubyODataService.AuditFields"><d:CreateDate
-        m:type="Edm.DateTime">2012-08-07T21:21:56.359375Z</d:CreateDate><d:ModifiedDate
-        m:type="Edm.DateTime">2012-08-07T21:21:56.359375Z</d:ModifiedDate><d:CreatedBy>Machinist</d:CreatedBy></d:AuditFields></m:properties></content></entry>
-    http_version: !!null 
-  recorded_at: Tue, 07 Aug 2012 21:21:56 GMT
+        m:type="Edm.DateTime">2014-04-29T01:18:05.8868Z</d:CreateDate><d:ModifiedDate
+        m:type="Edm.DateTime">2014-04-29T01:18:05.8868Z</d:ModifiedDate><d:CreatedBy>Machinist</d:CreatedBy></d:AuditFields></m:properties></content></entry>
+    http_version: 
+  recorded_at: Tue, 29 Apr 2014 01:18:05 GMT
 - request:
     method: get
     uri: http://win7dev:8989/SampleService/RubyOData.svc/FirstCategoryId
@@ -607,12 +574,12 @@ http_interactions:
       encoding: US-ASCII
       string: ''
     headers:
+      User-Agent:
+      - Typhoeus - https://github.com/typhoeus/typhoeus
       Accept:
-      - ! '*/*; q=0.5, application/xml'
+      - '*/*; q=0.5, application/xml'
       Accept-Encoding:
       - gzip, deflate
-      User-Agent:
-      - Ruby
   response:
     status:
       code: 200
@@ -627,7 +594,7 @@ http_interactions:
       Server:
       - Microsoft-IIS/7.5
       Set-Cookie:
-      - ASP.NET_SessionId=4k2jb2uhzbmvg30pbbsreqyb; path=/; HttpOnly
+      - ASP.NET_SessionId=rvaobsvtmsl0ilimnrxly0vj; path=/; HttpOnly
       X-Content-Type-Options:
       - nosniff
       Dataserviceversion:
@@ -637,11 +604,11 @@ http_interactions:
       X-Powered-By:
       - ASP.NET
       Date:
-      - Tue, 07 Aug 2012 21:21:56 GMT
+      - Tue, 29 Apr 2014 01:18:05 GMT
     body:
-      encoding: US-ASCII
+      encoding: UTF-8
       string: <?xml version="1.0" encoding="utf-8"?><d:FirstCategoryId xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices"
         xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" m:type="Edm.Int32">1</d:FirstCategoryId>
-    http_version: !!null 
-  recorded_at: Tue, 07 Aug 2012 21:21:56 GMT
-recorded_with: VCR 2.2.4
+    http_version: 
+  recorded_at: Tue, 29 Apr 2014 01:18:05 GMT
+recorded_with: VCR 2.5.0
