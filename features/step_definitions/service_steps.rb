@@ -45,6 +45,9 @@ Then /^the integer result should be ([^\"]*)$/ do |result|
 end
 
 Then /^I should be able to call "([^\"]*)" on the service$/ do |method|
+  require 'pry'
+  binding.pry
+
   lambda { @service.send(method) }.should_not raise_error
 end
 
