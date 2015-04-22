@@ -2,40 +2,38 @@
 http_interactions:
 - request:
     method: post
-    uri: http://win7dev:8989/SampleService/BasicAuth/RubyOData.svc/Categories
+    uri: http://10.10.0.17:8989/SampleService/BasicAuth/RubyOData.svc/Categories
     body:
-      encoding: ASCII-8BIT
-      string: ! '{"Name":"Auth Test Category","AuditFields":{"CreatedBy":"Machinist"}}'
+      encoding: UTF-8
+      string: '{"Name":"Auth Test Category","AuditFields":{"CreatedBy":"Machinist"}}'
     headers:
-      Accept:
-      - ! '*/*; q=0.5, application/xml'
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - application/json
-      Content-Length:
-      - '69'
-      Authorization:
-      - Basic YWRtaW46cGFzc3dk
       User-Agent:
       - Ruby
+      Accept:
+      - "*/*; q=0.5, application/xml"
+      Authorization:
+      - Basic YWRtaW46cGFzc3dk
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip,deflate
   response:
     status:
       code: 201
-      message: Created
+      message: ''
     headers:
       Cache-Control:
-      - no-cache
+      - private
       Content-Length:
-      - '1278'
+      - '1284'
       Content-Type:
       - application/atom+xml;type=entry;charset=utf-8
       Location:
-      - http://win7dev:8989/SampleService/BasicAuth/RubyOData.svc/Categories(1)
+      - http://10.10.0.17:8989/SampleService/BasicAuth/RubyOData.svc/Categories(1)
       Server:
-      - Microsoft-IIS/7.5
+      - Microsoft-IIS/8.0
       Set-Cookie:
-      - ASP.NET_SessionId=b5h3vo0kbga5mdcgu2nfisos; path=/; HttpOnly
+      - ASP.NET_SessionId=rrstbrdxgwqxymufp0szmoxd; path=/; HttpOnly
       X-Content-Type-Options:
       - nosniff
       Dataserviceversion:
@@ -45,158 +43,53 @@ http_interactions:
       X-Powered-By:
       - ASP.NET
       Date:
-      - Tue, 07 Aug 2012 21:21:24 GMT
+      - Sun, 26 Apr 2015 16:29:23 GMT
     body:
-      encoding: US-ASCII
-      string: <?xml version="1.0" encoding="utf-8"?><entry xml:base="http://win7dev:8989/SampleService/BasicAuth/RubyOData.svc/"
+      encoding: UTF-8
+      string: <?xml version="1.0" encoding="utf-8"?><entry xml:base="http://10.10.0.17:8989/SampleService/BasicAuth/RubyOData.svc/"
         xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices"
         xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:georss="http://www.georss.org/georss"
-        xmlns:gml="http://www.opengis.net/gml"><id>http://win7dev:8989/SampleService/BasicAuth/RubyOData.svc/Categories(1)</id><category
+        xmlns:gml="http://www.opengis.net/gml"><id>http://10.10.0.17:8989/SampleService/BasicAuth/RubyOData.svc/Categories(1)</id><category
         term="RubyODataService.Category" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"
         /><link rel="edit" title="Category" href="Categories(1)" /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Products"
         type="application/atom+xml;type=feed" title="Products" href="Categories(1)/Products"
-        /><title /><updated>2012-08-07T21:21:25Z</updated><author><name /></author><content
+        /><title /><updated>2015-04-26T16:29:24Z</updated><author><name /></author><content
         type="application/xml"><m:properties><d:Id m:type="Edm.Int32">1</d:Id><d:Name>Auth
         Test Category</d:Name><d:AuditFields m:type="RubyODataService.AuditFields"><d:CreateDate
-        m:type="Edm.DateTime">2012-08-07T21:21:25.296875Z</d:CreateDate><d:ModifiedDate
-        m:type="Edm.DateTime">2012-08-07T21:21:25.296875Z</d:ModifiedDate><d:CreatedBy>Machinist</d:CreatedBy></d:AuditFields></m:properties></content></entry>
-    http_version: !!null 
-  recorded_at: Tue, 07 Aug 2012 21:21:25 GMT
+        m:type="Edm.DateTime">2015-04-26T16:29:24.161157Z</d:CreateDate><d:ModifiedDate
+        m:type="Edm.DateTime">2015-04-26T16:29:24.161157Z</d:ModifiedDate><d:CreatedBy>Machinist</d:CreatedBy></d:AuditFields></m:properties></content></entry>
+    http_version: 
+  recorded_at: Sun, 26 Apr 2015 16:29:24 GMT
 - request:
     method: get
-    uri: http://win7dev:8989/SampleService/BasicAuth/RubyOData.svc/Categories(1)
+    uri: http://10.10.0.17:8989/SampleService/BasicAuth/RubyOData.svc/$metadata
     body:
       encoding: US-ASCII
       string: ''
     headers:
-      Accept:
-      - ! '*/*; q=0.5, application/xml'
-      Accept-Encoding:
-      - gzip, deflate
-      Authorization:
-      - Basic YWRtaW46cGFzc3dk
       User-Agent:
       - Ruby
+      Accept:
+      - "*/*; q=0.5, application/xml"
+      Authorization:
+      - Basic YWRtaW46cGFzc3dk
+      Accept-Encoding:
+      - gzip,deflate
   response:
     status:
       code: 200
-      message: OK
+      message: ''
     headers:
       Cache-Control:
-      - no-cache
-      Content-Length:
-      - '1270'
-      Content-Type:
-      - application/atom+xml;type=entry;charset=utf-8
-      Server:
-      - Microsoft-IIS/7.5
-      Set-Cookie:
-      - ASP.NET_SessionId=vqh02cwip2bvnmgt4smeb5ok; path=/; HttpOnly
-      X-Content-Type-Options:
-      - nosniff
-      Dataserviceversion:
-      - 1.0;
-      X-Aspnet-Version:
-      - 4.0.30319
-      X-Powered-By:
-      - ASP.NET
-      Date:
-      - Tue, 07 Aug 2012 21:21:24 GMT
-    body:
-      encoding: US-ASCII
-      string: <?xml version="1.0" encoding="utf-8"?><entry xml:base="http://win7dev:8989/SampleService/BasicAuth/RubyOData.svc/"
-        xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices"
-        xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:georss="http://www.georss.org/georss"
-        xmlns:gml="http://www.opengis.net/gml"><id>http://win7dev:8989/SampleService/BasicAuth/RubyOData.svc/Categories(1)</id><category
-        term="RubyODataService.Category" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"
-        /><link rel="edit" title="Category" href="Categories(1)" /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Products"
-        type="application/atom+xml;type=feed" title="Products" href="Categories(1)/Products"
-        /><title /><updated>2012-08-07T21:21:25Z</updated><author><name /></author><content
-        type="application/xml"><m:properties><d:Id m:type="Edm.Int32">1</d:Id><d:Name>Auth
-        Test Category</d:Name><d:AuditFields m:type="RubyODataService.AuditFields"><d:CreateDate
-        m:type="Edm.DateTime">2012-08-07T21:21:25.297</d:CreateDate><d:ModifiedDate
-        m:type="Edm.DateTime">2012-08-07T21:21:25.297</d:ModifiedDate><d:CreatedBy>Machinist</d:CreatedBy></d:AuditFields></m:properties></content></entry>
-    http_version: !!null 
-  recorded_at: Tue, 07 Aug 2012 21:21:25 GMT
-- request:
-    method: get
-    uri: http://win7dev:8989/SampleService/BasicAuth/RubyOData.svc/$metadata
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - ! '*/*; q=0.5, application/xml'
-      Accept-Encoding:
-      - gzip, deflate
-      Authorization:
-      - Basic YWRtaW46YmFkX3B3ZA==
-      User-Agent:
-      - Ruby
-  response:
-    status:
-      code: 401
-      message: Unauthorized
-    headers:
-      Content-Type:
-      - text/html
-      Server:
-      - Microsoft-IIS/7.5
-      Www-Authenticate:
-      - Basic
-      X-Powered-By:
-      - ASP.NET
-      Date:
-      - Tue, 07 Aug 2012 21:21:24 GMT
-      Content-Length:
-      - '1218'
-    body:
-      encoding: US-ASCII
-      string: ! "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\r\n<html
-        xmlns=\"http://www.w3.org/1999/xhtml\">\r\n<head>\r\n<title>401 - Unauthorized:
-        Access is denied due to invalid credentials.</title>\r\n<style type=\"text/css\">\r\n<!--\r\nbody{margin:0;font-size:.7em;font-family:Verdana,
-        Arial, Helvetica, sans-serif;background:#EEEEEE;}\r\nfieldset{padding:0 15px
-        10px 15px;} \r\nh1{font-size:2.4em;margin:0;color:#FFF;}\r\nh2{font-size:1.7em;margin:0;color:#CC0000;}
-        \r\nh3{font-size:1.2em;margin:10px 0 0 0;color:#000000;} \r\n#header{width:96%;margin:0
-        0 0 0;padding:6px 2% 6px 2%;font-family:\"trebuchet MS\", Verdana, sans-serif;color:#FFF;\r\nbackground-color:#555555;}\r\n#content{margin:0
-        0 0 2%;position:relative;}\r\n.content-container{background:#FFF;width:96%;margin-top:8px;padding:10px;position:relative;}\r\n-->\r\n</style>\r\n</head>\r\n<body>\r\n<div
-        id=\"header\"><h1>Server Error</h1></div>\r\n<div id=\"content\">\r\n <div
-        class=\"content-container\"><fieldset>\r\n  <h2>401 - Unauthorized: Access
-        is denied due to invalid credentials.</h2>\r\n  <h3>You do not have permission
-        to view this directory or page using the credentials that you supplied.</h3>\r\n
-        </fieldset></div>\r\n</div>\r\n</body>\r\n</html>\r\n"
-    http_version: !!null 
-  recorded_at: Tue, 07 Aug 2012 21:21:25 GMT
-- request:
-    method: get
-    uri: http://win7dev:8989/SampleService/BasicAuth/RubyOData.svc/$metadata
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - ! '*/*; q=0.5, application/xml'
-      Accept-Encoding:
-      - gzip, deflate
-      Authorization:
-      - Basic YWRtaW46cGFzc3dk
-      User-Agent:
-      - Ruby
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Cache-Control:
-      - no-cache
+      - private
       Content-Length:
       - '4055'
       Content-Type:
       - application/xml;charset=utf-8
       Server:
-      - Microsoft-IIS/7.5
+      - Microsoft-IIS/8.0
       Set-Cookie:
-      - ASP.NET_SessionId=qdj1en0bcagvrdhule4xjvxg; path=/; HttpOnly
+      - ASP.NET_SessionId=qnhpawpxo5tu0hf3pgabfa4k; path=/; HttpOnly
       X-Content-Type-Options:
       - nosniff
       Dataserviceversion:
@@ -206,9 +99,9 @@ http_interactions:
       X-Powered-By:
       - ASP.NET
       Date:
-      - Tue, 07 Aug 2012 21:21:24 GMT
+      - Sun, 26 Apr 2015 16:29:24 GMT
     body:
-      encoding: US-ASCII
+      encoding: UTF-8
       string: <?xml version="1.0" encoding="utf-8"?><edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx"><edmx:DataServices
         m:DataServiceVersion="1.0" m:MaxDataServiceVersion="3.0" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"><Schema
         Namespace="RubyODataService" xmlns="http://schemas.microsoft.com/ado/2008/09/edm"><EntityType
@@ -253,53 +146,43 @@ http_interactions:
         ReturnType="Edm.Int32" m:HttpMethod="GET" /><FunctionImport Name="EntitySingleCategoryWebGet"
         ReturnType="RubyODataService.Category" EntitySet="Categories" m:HttpMethod="GET"><Parameter
         Name="id" Type="Edm.Int32" /></FunctionImport></EntityContainer></Schema></edmx:DataServices></edmx:Edmx>
-    http_version: !!null 
-  recorded_at: Tue, 07 Aug 2012 21:21:25 GMT
+    http_version: 
+  recorded_at: Sun, 26 Apr 2015 16:29:24 GMT
 - request:
     method: get
-    uri: http://win7dev:8989/SampleService/BasicAuth/RubyOData.svc/$metadata
+    uri: http://10.10.0.17:8989/SampleService/BasicAuth/RubyOData.svc/$metadata
     body:
       encoding: US-ASCII
       string: ''
     headers:
-      Accept:
-      - ! '*/*; q=0.5, application/xml'
-      Accept-Encoding:
-      - gzip, deflate
       User-Agent:
       - Ruby
+      Accept:
+      - "*/*; q=0.5, application/xml"
+      Accept-Encoding:
+      - gzip,deflate
   response:
     status:
       code: 401
-      message: Unauthorized
+      message: ''
     headers:
       Content-Type:
       - text/html
       Server:
-      - Microsoft-IIS/7.5
+      - Microsoft-IIS/8.0
       Www-Authenticate:
       - Basic
       X-Powered-By:
       - ASP.NET
       Date:
-      - Tue, 07 Aug 2012 21:21:24 GMT
+      - Sun, 26 Apr 2015 16:29:24 GMT
       Content-Length:
-      - '1218'
+      - '88'
     body:
-      encoding: US-ASCII
-      string: ! "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\r\n<html
-        xmlns=\"http://www.w3.org/1999/xhtml\">\r\n<head>\r\n<title>401 - Unauthorized:
-        Access is denied due to invalid credentials.</title>\r\n<style type=\"text/css\">\r\n<!--\r\nbody{margin:0;font-size:.7em;font-family:Verdana,
-        Arial, Helvetica, sans-serif;background:#EEEEEE;}\r\nfieldset{padding:0 15px
-        10px 15px;} \r\nh1{font-size:2.4em;margin:0;color:#FFF;}\r\nh2{font-size:1.7em;margin:0;color:#CC0000;}
-        \r\nh3{font-size:1.2em;margin:10px 0 0 0;color:#000000;} \r\n#header{width:96%;margin:0
-        0 0 0;padding:6px 2% 6px 2%;font-family:\"trebuchet MS\", Verdana, sans-serif;color:#FFF;\r\nbackground-color:#555555;}\r\n#content{margin:0
-        0 0 2%;position:relative;}\r\n.content-container{background:#FFF;width:96%;margin-top:8px;padding:10px;position:relative;}\r\n-->\r\n</style>\r\n</head>\r\n<body>\r\n<div
-        id=\"header\"><h1>Server Error</h1></div>\r\n<div id=\"content\">\r\n <div
-        class=\"content-container\"><fieldset>\r\n  <h2>401 - Unauthorized: Access
-        is denied due to invalid credentials.</h2>\r\n  <h3>You do not have permission
-        to view this directory or page using the credentials that you supplied.</h3>\r\n
-        </fieldset></div>\r\n</div>\r\n</body>\r\n</html>\r\n"
-    http_version: !!null 
-  recorded_at: Tue, 07 Aug 2012 21:21:25 GMT
-recorded_with: VCR 2.2.4
+      encoding: ASCII-8BIT
+      string: !binary |-
+        VHdvamUgdXByYXduaWVuaWEgbmllIHBvendhbGFqxIUgbmEgd3nFm3dpZXRs
+        YW5pZSB6YXdhcnRvxZtjaSB0ZWdvIGthdGFsb2d1IGFsYm8gc3Ryb255Lg==
+    http_version: 
+  recorded_at: Sun, 26 Apr 2015 16:29:24 GMT
+recorded_with: VCR 2.5.0

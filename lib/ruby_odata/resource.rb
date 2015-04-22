@@ -5,28 +5,22 @@ module OData
     def initialize(url, options={}, backwards_compatibility=nil, &block)
       @url = url
       @block = block
-      if options.class == Hash
-        @options = options
-      else # compatibility with previous versions
-        @options = { :user => options, :password => backwards_compatibility }
-      end
+      @options = options.is_a?(Hash) ? options : { user: options, password: backwards_compatibility }
 
-      @conn = Faraday.new(:url => url) do |faraday|
-        faraday.adapter :typhoeus
+      @conn = Faraday.new(url: url, ssl: { verify: verify_ssl }) do |faraday|
+        faraday.use      :gzip
         faraday.response :raise_error
+        faraday.adapter  :excon
 
-        faraday.options.timeout = timeout if timeout
+        faraday.options.timeout      = timeout if timeout
         faraday.options.open_timeout = open_timeout if open_timeout
 
         faraday.headers = (faraday.headers || {}).merge(@options[:headers] || {})
         faraday.headers = (faraday.headers).merge({
           :accept => '*/*; q=0.5, application/xml',
-          :accept_encoding => 'gzip, deflate',
         })
 
-        if user
-          faraday.basic_auth user, password # this adds to headers so must be behind
-        end
+        faraday.basic_auth user, password if user# this adds to headers so must be behind
       end
 
       @conn.headers[:user_agent] = 'Ruby'
@@ -50,7 +44,7 @@ module OData
       @conn.post do |req|
         req.url url
         req.headers = (headers || {}).merge(additional_headers)
-        req.body = payload
+        req.body = prepare_payload payload
       end
     end
 
@@ -58,7 +52,7 @@ module OData
       @conn.put do |req|
         req.url url
         req.headers = (headers || {}).merge(additional_headers)
-        req.body = payload
+        req.body = prepare_payload payload
       end
     end
 
@@ -66,7 +60,7 @@ module OData
       @conn.patch do |req|
         req.url url
         req.headers = (headers || {}).merge(additional_headers)
-        req.body = payload
+        req.body = prepare_payload payload
       end
     end
 
@@ -87,6 +81,10 @@ module OData
 
     def password
       options[:password]
+    end
+
+    def verify_ssl
+      options[:verify_ssl]
     end
 
     def headers
@@ -144,6 +142,12 @@ module OData
       else
         "#{url}/#{suburl}"
       end
+    end
+
+    def prepare_payload payload
+      JSON.generate(payload)
+    rescue JSON::GeneratorError
+      payload
     end
   end
 end

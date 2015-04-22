@@ -774,6 +774,30 @@ module OData
             it { should eq @category }
           end
         end
+
+        describe "serializes nested collections" do
+          # Compy with oData Deep Insert capabilities
+          # http://docs.oasis-open.org/odata/odata-json-format/v4.0/os/odata-json-format-v4.0-os.html#_Toc372793073
+
+          before :each do
+            category = Category.new
+            category.Products = [Product.new(Name: "First"), Product.new(Name: "Last")]
+            @json = JSON.parse(category.to_json(type: :add))
+          end
+
+          it "should have an array for the Products key" do
+            @json["Products"].should be_a_kind_of Array
+          end
+
+          it "should have a hash for each product" do
+            @json["Products"].each{|x| x.should be_a_kind_of Hash}
+          end
+
+          it "should have the same data we put into the products" do
+            @json["Products"].first["Name"].should eq "First"
+            @json["Products"].last["Name"].should eq "Last"
+          end
+        end
       end
     end
 

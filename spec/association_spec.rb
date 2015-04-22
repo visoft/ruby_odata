@@ -4,7 +4,7 @@ module OData
   describe Association do
     before(:all) do
       stub_request(:get, /http:\/\/test\.com\/test\.svc\/\$metadata(?:\?.+)?/).
-      with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
+      with(:headers => DEFAULT_HEADERS).
       to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/sample_service/edmx_categories_products.xml", __FILE__)), :headers => {})
 
       @svc = OData::Service.new "http://test.com/test.svc/$metadata"
@@ -13,33 +13,37 @@ module OData
     describe "#initialize singlular navigation property" do
       before { @association = Association.new @product_category, @svc.edmx }
       subject { @association }
-      
-      it "should set the association name" do
+
+      it "sets the association name" do
         subject.name.should eq 'Category_Products'
       end
-      it "should set the association namespace" do
+
+      it "sets the association namespace" do
         subject.namespace.should eq 'RubyODataService'
       end
-      it "should set the relationship name" do
+
+      it "sets the relationship name" do
         subject.relationship.should eq 'RubyODataService.Category_Products'
       end
+
       context "from_role method" do
         subject { @association.from_role }
-        it { should have_key 'Category_Products_Target'}        
-        it "should set the edmx type" do
+        it { should have_key 'Category_Products_Target'}
+        it "sets the edmx type" do
           subject['Category_Products_Target'][:edmx_type].should eq 'RubyODataService.Product'
         end
-        it "should set the multiplicity" do
+        it "sets the multiplicity" do
           subject['Category_Products_Target'][:multiplicity].should eq '*'
         end
       end
+
       context "to_role method" do
         subject { @association.to_role }
-        it { should have_key 'Category_Products_Source'}        
-        it "should set the edmx type" do
+        it { should have_key 'Category_Products_Source'}
+        it "sets the edmx type" do
           subject['Category_Products_Source'][:edmx_type].should eq 'RubyODataService.Category'
         end
-        it "should set the multiplicity" do
+        it "sets the multiplicity" do
           subject['Category_Products_Source'][:multiplicity].should eq '1'
         end
       end
