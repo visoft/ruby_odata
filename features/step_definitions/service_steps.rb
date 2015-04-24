@@ -171,7 +171,7 @@ end
 Then /^the primitive results should be:$/ do |table|
   # table is a Cucumber::Ast::Table
   values = table.hashes
-  result_table = Cucumber::Ast::Table.new(values)
+  result_table = values
   table.diff!(result_table)
 end
 
@@ -191,7 +191,7 @@ Then /^the result should be:$/ do |table|
     results << obj_hash
   end
 
-  result_table = Cucumber::Ast::Table.new(results)
+  result_table = results
 
   table.diff!(result_table)
 end
