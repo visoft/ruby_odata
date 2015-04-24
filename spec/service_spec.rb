@@ -152,7 +152,7 @@ module OData
 
       it "should respond_to a lowercase collection" do
         svc = OData::Service.new "http://test.com/test.svc"
-        svc.respond_to?('acronyms').should be_true
+        expect(svc.respond_to?('acronyms')).to eq true
       end
 
       it "should allow a lowercase collections to be queried" do
@@ -574,27 +574,27 @@ module OData
         it "should have full metadata for a property returned from the properties method" do
           svc = OData::Service.new "http://test.com/test.svc/"
           Product.properties['Category'].should be_a PropertyMetadata
-          Product.properties['Category'].nav_prop.should be_true
+          expect(Product.properties['Category'].nav_prop).to eq true
         end
 
         it "should create objects that expose an id property" do
           svc = OData::Service.new "http://test.com/test.svc/"
           svc.Products(1)
           product = svc.execute.first
-          product.should respond_to :id
+          expect(product).to respond_to :id
         end
 
         it "should extract the id from the metadata" do
           svc = OData::Service.new "http://test.com/test.svc/"
           svc.Products(1)
           product = svc.execute.first
-          product.id.should eq 1
+          expect(product.id).to eq 1
         end
 
         describe "Class.first method" do
           it "should exist on the create server objects" do
             svc = OData::Service.new "http://test.com/test.svc/"
-            Product.should respond_to :first
+            expect(Product).to respond_to :first
           end
           it "should return nil if an id isn't passed in" do
             svc = OData::Service.new "http://test.com/test.svc/"
@@ -626,14 +626,14 @@ module OData
 
         it "should create models in the specified namespace if the option is set (using a .NET style namespace with dots)" do
           svc = OData::Service.new "http://test.com/test.svc/", { :namespace => 'VisoftInc.Sample.Models' }
-          defined?(VisoftInc::Sample::Models::Product).nil?.should be_false, 'VisoftInc::Sample::Models::Product was expected to be defined, but was not'
-          defined?(VisoftInc::Sample::Models::Category).nil?.should be_false, 'VisoftInc::Sample::Models::Category was expected to be defined, but was not'
+          expect(defined?(VisoftInc::Sample::Models::Product).nil?).to eq false
+          expect(defined?(VisoftInc::Sample::Models::Category).nil?).to eq false
         end
 
         it "should create models in the specified namespace if the option is set (using Ruby style namespaces with double colons)" do
           svc = OData::Service.new "http://test.com/test.svc/", { :namespace => 'VisoftInc::Sample::Models' }
-          defined?(VisoftInc::Sample::Models::Product).nil?.should be_false, 'VisoftInc::Sample::Models::Product was expected to be defined, but was not'
-          defined?(VisoftInc::Sample::Models::Category).nil?.should be_false, 'VisoftInc::Sample::Models::Category was expected to be defined, but was not'
+          defined?(VisoftInc::Sample::Models::Product).nil?.should eq false
+          defined?(VisoftInc::Sample::Models::Category).nil?.should eq false
         end
 
         it "should fill object defined in a namespace" do

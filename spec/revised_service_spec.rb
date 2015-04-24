@@ -171,7 +171,7 @@ module OData
         end
         it "should return true if a function import post that returns successfully and doesn't have a return value (HTTP 204)" do
           result = subject.CleanDatabaseForTesting
-          result.should be_true
+          expect(result).to eq true
         end
         it "should return a collection of entities for a collection" do
           result = subject.EntityCategoryWebGet
@@ -218,7 +218,7 @@ module OData
 
         its(:name)                { should eq('id') }
         its(:type)                { should eq('Edm.Int64') }
-        its(:nullable)            { should be_false }
+        its(:nullable)            { should eq false }
         its(:fc_target_path)      { should be_nil }
         its(:fc_keep_in_content)  { should be_nil }
       end
@@ -259,7 +259,7 @@ module OData
 
         its(:name)                { should eq('KeyId') }
         its(:type)                { should eq('Edm.Int64') }
-        its(:nullable)            { should be_false }
+        its(:nullable)            { should eq(false) }
         its(:fc_target_path)      { should be_nil }
         its(:fc_keep_in_content)  { should be_nil }
       end

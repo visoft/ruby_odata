@@ -1,6 +1,7 @@
 require 'ruby_odata'
 require 'webmock/rspec'
 require 'simplecov'
+require 'rspec/its'
 # require 'coveralls'
 # Coveralls.wear_merged!
 
