@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'base64'
 
 module OData
 
@@ -285,11 +286,17 @@ module OData
   end
 
   describe "Dual Namespaces" do
+    let(:username) { "xxxx\\yyyy" }
+    let(:password) { "zzzz" }
+
     before(:all) do
-      stub_request(:get, "http://xxxx%5Cyyyy:zzzz@test.com/test.svc/$metadata").
-        with(:headers => DEFAULT_HEADERS).
+      auth_string = "#{username}:#{password}"
+      authorization_header = { authorization: "Basic #{Base64::encode64(auth_string).strip}" }
+      stub_request(:get, "http://test.com/test.svc/$metadata").
+        with(:headers => DEFAULT_HEADERS.merge(authorization_header)).
         to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/ms_system_center/edmx_ms_system_center_v2.xml", __FILE__)), :headers => {})
     end
+
     after(:all) do
       VMM.constants.each do |constant|
         VMM.send :remove_const, constant

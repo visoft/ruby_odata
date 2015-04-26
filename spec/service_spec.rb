@@ -721,7 +721,7 @@ module OData
           svc.save_changes
           a_request(:post, "http://test.com/test.svc/Categories(1)/$links/Products").
             with(:body => { "uri" => "http://test.com/test.svc/Products(1)" },
-                 :headers => {'Content-Type' => 'application/json'}).should have_been_made
+                 :headers => DEFAULT_HEADERS.merge({'Content-Type' => 'application/json'})).should have_been_made
         end
 
         it "should add the child to the parent's navigation property on a single_save" do
@@ -802,16 +802,19 @@ module OData
     end
 
     describe "JSON serialization of objects" do
+      let(:username) { "blabla" }
+      let(:password) { "" }
+
       before(:each) do
         # Required for the build_classes method
-        stub_request(:get, "http://blabla:@test.com/test.svc/$metadata").
+        stub_request(:get, "http://test.com/test.svc/$metadata").
           with(:headers => DEFAULT_HEADERS).
           to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/ms_system_center/edmx_ms_system_center.xml", __FILE__)), :headers => {})
 
-        stub_request(:get, "http://blabla:@test.com/test.svc/VirtualMachines").
+        stub_request(:get, "http://test.com/test.svc/VirtualMachines").
           with(:headers => DEFAULT_HEADERS).
           to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/ms_system_center/virtual_machines.xml", __FILE__)), :headers => {})
-        svc = OData::Service.new "http://test.com/test.svc/", { :username => "blabla", :password=> "", :verify_ssl => false, :namespace => "VMM" }
+        svc = OData::Service.new "http://test.com/test.svc/", { :username => username, :password => password, :verify_ssl => false, :namespace => "VMM" }
         svc.VirtualMachines
         results = svc.execute
         @json = results.first.as_json
@@ -834,22 +837,29 @@ module OData
     end
 
     describe "handling of Microsoft System Center 2012" do
+      let(:username) { "blabla" }
+      let(:password) { "" }
+
       before(:each) do
+        auth_string = "#{username}:#{password}"
+        authorization_header = { authorization: "Basic #{Base64::encode64(auth_string).strip}" }
+        headers = DEFAULT_HEADERS.merge(authorization_header)
+
         # Required for the build_classes method
-        stub_request(:get, "http://blabla:@test.com/test.svc/$metadata").
-          with(:headers => DEFAULT_HEADERS).
+        stub_request(:get, "http://test.com/test.svc/$metadata").
+          with(:headers => headers).
           to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/ms_system_center/edmx_ms_system_center.xml", __FILE__)), :headers => {})
 
-        stub_request(:get, "http://blabla:@test.com/test.svc/VirtualMachines").
-          with(:headers => DEFAULT_HEADERS).
+        stub_request(:get, "http://test.com/test.svc/VirtualMachines").
+          with(:headers => headers).
           to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/ms_system_center/virtual_machines.xml", __FILE__)), :headers => {})
 
-        stub_request(:get, "http://blabla:@test.com/test.svc/HardwareProfiles?$filter=Memory%20eq%203500").
-          with(:headers => DEFAULT_HEADERS).
+        stub_request(:get, "http://test.com/test.svc/HardwareProfiles?$filter=Memory%20eq%203500").
+          with(:headers => headers).
           to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/ms_system_center/hardware_profiles.xml", __FILE__)), :headers => {})
 
-        stub_request(:get, "http://blabla:@test.com/test.svc/VMTemplates").
-          with(:headers => DEFAULT_HEADERS).
+        stub_request(:get, "http://test.com/test.svc/VMTemplates").
+          with(:headers => headers).
           to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/ms_system_center/vm_templates.xml", __FILE__)), :headers => {})
       end
 
@@ -860,7 +870,7 @@ module OData
       end
 
       it "should successfully parse null valued string properties" do
-        svc = OData::Service.new "http://test.com/test.svc/", { :username => "blabla", :password=> "", :verify_ssl => false, :namespace => "VMM" }
+        svc = OData::Service.new "http://test.com/test.svc/", { :username => username, :password => password, :verify_ssl => false, :namespace => "VMM" }
         svc.VirtualMachines
         results = svc.execute
         results.first.should be_a_kind_of(VMM::VirtualMachine)
@@ -868,21 +878,21 @@ module OData
       end
 
       it "should successfully return a virtual machine" do
-        svc = OData::Service.new "http://test.com/test.svc/", { :username => "blabla", :password=> "", :verify_ssl => false, :namespace => "VMM" }
+        svc = OData::Service.new "http://test.com/test.svc/", { :username => username, :password => password, :verify_ssl => false, :namespace => "VMM" }
         svc.VirtualMachines
         results = svc.execute
         results.first.should be_a_kind_of(VMM::VirtualMachine)
       end
 
       it "should successfully return a hardware profile for results that include a collection of complex types" do
-        svc = OData::Service.new "http://test.com/test.svc/", { :username => "blabla", :password=> "", :verify_ssl => false, :namespace => "VMM" }
+        svc = OData::Service.new "http://test.com/test.svc/", { :username => username, :password => password, :verify_ssl => false, :namespace => "VMM" }
         svc.HardwareProfiles.filter("Memory eq 3500")
         results = svc.execute
         results.first.should be_a_kind_of(VMM::HardwareProfile)
       end
 
       it "should successfully return a collection of complex types" do
-        svc = OData::Service.new "http://test.com/test.svc/", { :username => "blabla", :password=> "", :verify_ssl => false, :namespace => "VMM" }
+        svc = OData::Service.new "http://test.com/test.svc/", { :username => username, :password => password, :verify_ssl => false, :namespace => "VMM" }
         svc.HardwareProfiles.filter("Memory eq 3500")
         results = svc.execute
         granted_list = results.first.GrantedToList
@@ -893,14 +903,14 @@ module OData
 
 
       it "should successfully return results that include a collection of Edm types" do
-        svc = OData::Service.new "http://test.com/test.svc/", { :username => "blabla", :password=> "", :verify_ssl => false, :namespace => "VMM" }
+        svc = OData::Service.new "http://test.com/test.svc/", { :username => username, :password => password, :verify_ssl => false, :namespace => "VMM" }
         svc.VMTemplates
         results = svc.execute
         results.first.should be_a_kind_of(VMM::VMTemplate)
       end
 
       it "should successfully return a collection of Edm types" do
-        svc = OData::Service.new "http://test.com/test.svc/", { :username => "blabla", :password=> "", :verify_ssl => false, :namespace => "VMM" }
+        svc = OData::Service.new "http://test.com/test.svc/", { :username => username, :password => password, :verify_ssl => false, :namespace => "VMM" }
         svc.VMTemplates
         results = svc.execute
         boot_order = results.first.BootOrder
