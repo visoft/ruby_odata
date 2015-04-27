@@ -286,11 +286,8 @@ module OData
   end
 
   describe "Dual Namespaces" do
-    let(:username) { "xxxx\\yyyy" }
-    let(:password) { "zzzz" }
-
     before(:all) do
-      auth_string = "#{username}:#{password}"
+      auth_string = "xxxx\\yyyy:zzzz"
       authorization_header = { authorization: "Basic #{Base64::encode64(auth_string).strip}" }
       stub_request(:get, "http://test.com/test.svc/$metadata").
         with(:headers => DEFAULT_HEADERS.merge(authorization_header)).
