@@ -121,7 +121,11 @@ module OData
         # Convert Arrays into proper Collections
         collections = vars.find_all { |o| o[1].class == Array } || []
         collections.each do |c|
-          vars[c[0]] = { '__metadata' => { 'type' => props[c[0]].type }, 'results' => c[1] }
+          if options[:type] == :add
+            vars[c[0]] = c[1]
+          else
+            vars[c[0]] = { '__metadata' => { 'type' => props[c[0]].type }, 'results' => c[1] }
+          end
         end
 
         # Convert a BigDecimal to a string for serialization (to match Edm.Decimal)

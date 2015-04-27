@@ -1,10 +1,12 @@
 require 'spec_helper'
+require 'base64'
 
 module OData
+
   describe Service do
     before(:all) do
       stub_request(:get, /http:\/\/test\.com\/test\.svc\/\$metadata(?:\?.+)?/).
-      with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
+      with(:headers => DEFAULT_HEADERS).
       to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/sample_service/edmx_categories_products.xml", __FILE__)), :headers => {})
 
       @cat_prod_service = OData::Service.new "http://test.com/test.svc"
@@ -204,7 +206,7 @@ module OData
 
       before(:all) do
         stub_request(:get, "http://test.com/test.svc/$metadata").
-          with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
+          with(:headers => DEFAULT_HEADERS).
           to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/int64_ids/edmx_car_service.xml", __FILE__)), :headers => {})
         @svc = OData::Service.new "http://test.com/test.svc/"
       end
@@ -226,7 +228,7 @@ module OData
       context "can parse Id correctly" do
         before(:each) do
           stub_request(:get, "http://test.com/test.svc/Cars(213L)").
-            with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
+            with(:headers => DEFAULT_HEADERS).
             to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/int64_ids/result_cars.xml", __FILE__)), :headers => {})
 
           @svc.Cars(213)
@@ -245,7 +247,7 @@ module OData
 
       before(:all) do
         stub_request(:get, "http://test.com/test.svc/$metadata").
-          with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
+          with(:headers => DEFAULT_HEADERS).
           to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/int64_ids/edmx_boat_service.xml", __FILE__)), :headers => {})
         @svc = OData::Service.new "http://test.com/test.svc/"
       end
@@ -267,7 +269,7 @@ module OData
       context "can parse Id correctly" do
         before(:each) do
           stub_request(:get, "http://test.com/test.svc/Boats(213L)").
-            with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
+            with(:headers => DEFAULT_HEADERS).
             to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/int64_ids/result_boats.xml", __FILE__)), :headers => {})
 
           @svc.Boats(213)
@@ -284,11 +286,17 @@ module OData
   end
 
   describe "Dual Namespaces" do
+    let(:username) { "xxxx\\yyyy" }
+    let(:password) { "zzzz" }
+
     before(:all) do
-      stub_request(:get, "http://xxxx%5Cyyyy:zzzz@test.com/test.svc/$metadata").
-        with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate'}).
+      auth_string = "#{username}:#{password}"
+      authorization_header = { authorization: "Basic #{Base64::encode64(auth_string).strip}" }
+      stub_request(:get, "http://test.com/test.svc/$metadata").
+        with(:headers => DEFAULT_HEADERS.merge(authorization_header)).
         to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/ms_system_center/edmx_ms_system_center_v2.xml", __FILE__)), :headers => {})
     end
+
     after(:all) do
       VMM.constants.each do |constant|
         VMM.send :remove_const, constant

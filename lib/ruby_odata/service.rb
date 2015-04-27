@@ -9,7 +9,7 @@ class Service
   # @option options [String] :username for http basic auth
   # @option options [String] :password for http basic auth
   # @option options [Object] :verify_ssl false if no verification, otherwise mode (OpenSSL::SSL::VERIFY_PEER is default)
-  # @option options [Hash] :rest_options a hash of rest-client options that will be passed to all RestClient::Resource.new calls
+  # @option options [Hash] :rest_options a hash of rest-client options that will be passed to all OData::Resource.new calls
   # @option options [Hash] :additional_params a hash of query string params that will be passed on all calls
   # @option options [Boolean, true] :eager_partial true if queries should consume partial feeds until the feed is complete, false if explicit calls to next must be performed
   def initialize(service_uri, options = {})
@@ -97,12 +97,12 @@ class Service
   # @raise [ServiceError] if there is an error when talking to the service
   def execute
     begin
-      @response = RestClient::Resource.new(build_query_uri, @rest_options).get
+      @response = OData::Resource.new(build_query_uri, @rest_options).get
     rescue Exception => e
       handle_exception(e)
     end
-    return Integer(@response) if @response =~ /^\d+$/
-    handle_collection_result(@response)
+    return Integer(@response.body) if @response.body =~ /^\d+$/
+    handle_collection_result(@response.body)
   end
 
   # Overridden to identify methods handled by method_missing
@@ -147,8 +147,8 @@ class Service
     raise NotSupportedError, "You cannot load a property on an entity that isn't tracked" if obj.send(:__metadata).nil?
     raise ArgumentError, "'#{nav_prop}' is not a valid navigation property" unless obj.respond_to?(nav_prop.to_sym)
     raise ArgumentError, "'#{nav_prop}' is not a valid navigation property" unless @class_metadata[obj.class.to_s][nav_prop].nav_prop
-    results = RestClient::Resource.new(build_load_property_uri(obj, nav_prop), @rest_options).get
-    prop_results = build_classes_from_result(results)
+    results = OData::Resource.new(build_load_property_uri(obj, nav_prop), @rest_options).get
+    prop_results = build_classes_from_result(results.body)
     obj.send "#{nav_prop}=", (singular?(nav_prop) ? prop_results.first : prop_results)
   end
 
@@ -224,7 +224,7 @@ class Service
     @rest_options.merge!(options[:rest_options] || {})
     @additional_params = options[:additional_params] || {}
     @namespace = options[:namespace]
-    @json_type = options[:json_type] || :json
+    @json_type = options[:json_type] || 'application/json'
   end
 
   def default_instance_vars!
@@ -236,7 +236,7 @@ class Service
   end
 
   def set_namespaces
-    @edmx = Nokogiri::XML(RestClient::Resource.new(build_metadata_uri, @rest_options).get)
+    @edmx = Nokogiri::XML(OData::Resource.new(build_metadata_uri, @rest_options).get.body)
     @ds_namespaces = {
       "m" => "http://schemas.microsoft.com/ado/2007/08/dataservices/metadata",
       "edmx" => "http://schemas.microsoft.com/ado/2007/06/edmx",
@@ -376,8 +376,8 @@ class Service
   def handle_exception(e)
     raise e unless defined? e.response
 
-    code = e.http_code
-    error = Nokogiri::XML(e.response)
+    code = e.response[:status]
+    error = Nokogiri::XML(e.response[:body])
 
     message = if error.xpath("m:error/m:message", @ds_namespaces).first
                 error.xpath("m:error/m:message", @ds_namespaces).first.content
@@ -509,8 +509,8 @@ class Service
 
   def handle_partial
     if @next_uri
-      result = RestClient::Resource.new(@next_uri, @rest_options).get
-      results = handle_collection_result(result)
+      result = OData::Resource.new(@next_uri, @rest_options).get
+      results = handle_collection_result(result.body)
     end
     results
   end
@@ -600,26 +600,26 @@ class Service
     if operation.kind == "Add"
       save_uri = build_save_uri(operation)
       json_klass = operation.klass.to_json(:type => :add)
-      post_result = RestClient::Resource.new(save_uri, @rest_options).post json_klass, {:content_type => @json_type}
-      return build_classes_from_result(post_result)
+      post_result = OData::Resource.new(save_uri, @rest_options).post json_klass, {:content_type => @json_type}
+      return build_classes_from_result(post_result.body)
     elsif operation.kind == "Update"
       update_uri = build_resource_uri(operation)
       json_klass = operation.klass.to_json
-      update_result = RestClient::Resource.new(update_uri, @rest_options).put json_klass, {:content_type => @json_type}
-      return (update_result.code == 204)
+      update_result = OData::Resource.new(update_uri, @rest_options).put json_klass, {:content_type => @json_type}
+      return (update_result.status == 204)
     elsif operation.kind == "Delete"
       delete_uri = build_resource_uri(operation)
-      delete_result = RestClient::Resource.new(delete_uri, @rest_options).delete
-      return (delete_result.code == 204)
+      delete_result = OData::Resource.new(delete_uri, @rest_options).delete
+      return (delete_result.status == 204)
     elsif operation.kind == "AddLink"
       save_uri = build_add_link_uri(operation)
       json_klass = operation.child_klass.to_json(:type => :link)
-      post_result = RestClient::Resource.new(save_uri, @rest_options).post json_klass, {:content_type => @json_type}
+      post_result = OData::Resource.new(save_uri, @rest_options).post json_klass, {:content_type => @json_type}
 
       # Attach the child to the parent
-      link_child_to_parent(operation) if (post_result.code == 204)
+      link_child_to_parent(operation) if (post_result.status == 204)
 
-      return(post_result.code == 204)
+      return(post_result.status == 204)
     end
   end
 
@@ -633,11 +633,11 @@ class Service
     batch_uri = build_batch_uri
 
     body = build_batch_body(operations, batch_num, changeset_num)
-    result = RestClient::Resource.new( batch_uri, @rest_options).post body, {:content_type => "multipart/mixed; boundary=batch_#{batch_num}"}
+    result = OData::Resource.new( batch_uri, @rest_options).post body, {:content_type => "multipart/mixed; boundary=batch_#{batch_num}"}
 
     # TODO: More result validation needs to be done.
     # The result returns HTTP 202 even if there is an error in the batch
-    return (result.code == 202)
+    return (result.status == 202)
   end
   def build_batch_body(operations, batch_num, changeset_num)
     # Header
@@ -827,17 +827,17 @@ class Service
     func[:parameters].keys.each_with_index { |key, i| params[key] = args[0][i] } unless func[:parameters].nil?
 
     function_uri = build_function_import_uri(name, params)
-    result = RestClient::Resource.new(function_uri, @rest_options).send(func[:http_method].downcase, {})
+    result = OData::Resource.new(function_uri, @rest_options).send(func[:http_method].downcase, {})
 
     # Is this a 204 (No content) result?
-    return true if result.code == 204
+    return true if result.status == 204
 
     # No? Then we need to parse the results. There are 4 kinds...
     if func[:return_type] == Array
       # a collection of entites
-      return build_classes_from_result(result) if @classes.include?(func[:inner_return_type].to_s)
+      return build_classes_from_result(result.body) if @classes.include?(func[:inner_return_type].to_s)
       # a collection of native types
-      elements = Nokogiri::XML(result).xpath("//ds:element", @ds_namespaces)
+      elements = Nokogiri::XML(result.body).xpath("//ds:element", @ds_namespaces)
       results = []
       elements.each do |e|
         results << parse_primative_type(e.content, func[:inner_return_type])
@@ -847,18 +847,18 @@ class Service
 
     # a single entity
     if @classes.include?(func[:return_type].to_s)
-      entry = Nokogiri::XML(result).xpath("atom:entry[not(ancestor::atom:entry)]", @ds_namespaces)
+      entry = Nokogiri::XML(result.body).xpath("atom:entry[not(ancestor::atom:entry)]", @ds_namespaces)
       return entry_to_class(entry)
     end
 
     # or a single native type
     unless func[:return_type].nil?
-      e = Nokogiri::XML(result).xpath("/*").first
+      e = Nokogiri::XML(result.body).xpath("/*").first
       return parse_primative_type(e.content, func[:return_type])
     end
 
     # Nothing could be parsed, so just return if we got a 200 or not
-    return (result.code == 200)
+    return (result.status == 200)
   end
 
   # Helpers
