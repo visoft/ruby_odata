@@ -220,7 +220,7 @@ class Service
     if @options[:eager_partial].nil?
       @options[:eager_partial] = true
     end
-    @rest_options = { :verify_ssl => get_verify_mode, :user => @options[:username], :password => @options[:password] }
+    @rest_options = { verify_ssl: get_verify_mode, user: @options[:username], password: @options[:password], access_token: @options[:access_token] }
     @rest_options.merge!(options[:rest_options] || {})
     @additional_params = options[:additional_params] || {}
     @namespace = options[:namespace]

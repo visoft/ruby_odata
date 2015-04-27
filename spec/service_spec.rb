@@ -45,12 +45,12 @@ module OData
             to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/edmx_empty.xml", __FILE__)), :headers => {})
         end
         it "should accept in options that will be passed to the rest-client lib" do
-          svc = OData::Service.new "http://test.com/test.svc/", { :rest_options => { :ssl_ca_file => "ca_certificate.pem" } }
+          svc = OData::Service.new "http://test.com/test.svc/", { rest_options: { ssl_ca_file: "ca_certificate.pem" } }
           svc.options[:rest_options].should eq Hash[:ssl_ca_file => "ca_certificate.pem"]
         end
         it "should merge the rest options with the built in options" do
-          svc = OData::Service.new "http://test.com/test.svc/", { :rest_options => { :ssl_ca_file => "ca_certificate.pem" } }
-          svc.instance_variable_get(:@rest_options).should eq Hash[:verify_ssl => 1, :user => nil, :password => nil, :ssl_ca_file => "ca_certificate.pem"]
+          svc = OData::Service.new "http://test.com/test.svc/", { rest_options: { ssl_ca_file: "ca_certificate.pem" } }
+          svc.instance_variable_get(:@rest_options).should eq Hash[verify_ssl: 1, user: nil, password: nil, ssl_ca_file: "ca_certificate.pem", access_token: nil]
         end
       end
     end
