@@ -24,3 +24,4 @@ obj
 test/RubyODataService/RubyODataService/bin/*.xml
 test/RubyODataService/RubyODataService/App_Data/*.sdf
 coverage/*
+vendor
