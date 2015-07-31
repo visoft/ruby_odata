@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
   s.required_ruby_version = '>= 1.9.3'
 
   s.add_dependency("addressable", ">= 2.3.4")
-  s.add_dependency("i18n", "~> 0.6.0")
+  s.add_dependency("i18n", "~> 0.7.0")
   s.add_dependency("activesupport", ">= 3.0.0")
   s.add_dependency("excon", "~> 0.45.3")
   s.add_dependency("faraday_middleware", "~> 0.10.0")
@@ -38,8 +38,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency("vcr", "~> 2.5.0")
   s.add_development_dependency("simplecov", "~> 0.7.1")
   s.add_development_dependency("coveralls", "~> 0.6.7")
-  s.add_development_dependency("pry")
-  s.add_development_dependency("pry-nav")
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
