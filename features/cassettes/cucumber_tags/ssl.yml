@@ -1,136 +1,24 @@
 ---
 http_interactions:
 - request:
-    method: post
-    uri: https://admin:passwd@win7dev:44300/SampleService/BasicAuth/RubyOData.svc/Categories
-    body:
-      encoding: ASCII-8BIT
-      string: ! '{"Name":"Auth Test Category","AuditFields":{"CreatedBy":"Machinist"}}'
-    headers:
-      Accept:
-      - ! '*/*; q=0.5, application/xml'
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - application/json
-      Content-Length:
-      - '69'
-      User-Agent:
-      - Ruby
-  response:
-    status:
-      code: 201
-      message: Created
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - '1282'
-      Content-Type:
-      - application/atom+xml;type=entry;charset=utf-8
-      Location:
-      - https://win7dev:44300/SampleService/BasicAuth/RubyOData.svc/Categories(1)
-      Server:
-      - Microsoft-IIS/7.5
-      Set-Cookie:
-      - ASP.NET_SessionId=o5sznpaa1cviza5dsdjbbrgx; path=/; HttpOnly
-      X-Content-Type-Options:
-      - nosniff
-      Dataserviceversion:
-      - 1.0;
-      X-Aspnet-Version:
-      - 4.0.30319
-      X-Powered-By:
-      - ASP.NET
-      Date:
-      - Tue, 07 Aug 2012 21:21:56 GMT
-    body:
-      encoding: US-ASCII
-      string: <?xml version="1.0" encoding="utf-8"?><entry xml:base="https://win7dev:44300/SampleService/BasicAuth/RubyOData.svc/"
-        xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices"
-        xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:georss="http://www.georss.org/georss"
-        xmlns:gml="http://www.opengis.net/gml"><id>https://win7dev:44300/SampleService/BasicAuth/RubyOData.svc/Categories(1)</id><category
-        term="RubyODataService.Category" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"
-        /><link rel="edit" title="Category" href="Categories(1)" /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Products"
-        type="application/atom+xml;type=feed" title="Products" href="Categories(1)/Products"
-        /><title /><updated>2012-08-07T21:21:56Z</updated><author><name /></author><content
-        type="application/xml"><m:properties><d:Id m:type="Edm.Int32">1</d:Id><d:Name>Auth
-        Test Category</d:Name><d:AuditFields m:type="RubyODataService.AuditFields"><d:CreateDate
-        m:type="Edm.DateTime">2012-08-07T21:21:56.953125Z</d:CreateDate><d:ModifiedDate
-        m:type="Edm.DateTime">2012-08-07T21:21:56.953125Z</d:ModifiedDate><d:CreatedBy>Machinist</d:CreatedBy></d:AuditFields></m:properties></content></entry>
-    http_version: !!null 
-  recorded_at: Tue, 07 Aug 2012 21:21:57 GMT
-- request:
     method: get
-    uri: https://admin:passwd@win7dev:44300/SampleService/BasicAuth/RubyOData.svc/Categories(1)
+    uri: https://10.10.0.17:44300/SampleService/BasicAuth/RubyOData.svc/$metadata
     body:
       encoding: US-ASCII
       string: ''
     headers:
-      Accept:
-      - ! '*/*; q=0.5, application/xml'
-      Accept-Encoding:
-      - gzip, deflate
       User-Agent:
       - Ruby
+      Accept:
+      - "*/*; q=0.5, application/xml"
+      Authorization:
+      - Basic YWRtaW46cGFzc3dk
+      Accept-Encoding:
+      - gzip,deflate
   response:
     status:
       code: 200
-      message: OK
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - '1274'
-      Content-Type:
-      - application/atom+xml;type=entry;charset=utf-8
-      Server:
-      - Microsoft-IIS/7.5
-      Set-Cookie:
-      - ASP.NET_SessionId=xa4wqiktizqq2hfjeibtjacv; path=/; HttpOnly
-      X-Content-Type-Options:
-      - nosniff
-      Dataserviceversion:
-      - 1.0;
-      X-Aspnet-Version:
-      - 4.0.30319
-      X-Powered-By:
-      - ASP.NET
-      Date:
-      - Tue, 07 Aug 2012 21:21:56 GMT
-    body:
-      encoding: US-ASCII
-      string: <?xml version="1.0" encoding="utf-8"?><entry xml:base="https://win7dev:44300/SampleService/BasicAuth/RubyOData.svc/"
-        xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices"
-        xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:georss="http://www.georss.org/georss"
-        xmlns:gml="http://www.opengis.net/gml"><id>https://win7dev:44300/SampleService/BasicAuth/RubyOData.svc/Categories(1)</id><category
-        term="RubyODataService.Category" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"
-        /><link rel="edit" title="Category" href="Categories(1)" /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Products"
-        type="application/atom+xml;type=feed" title="Products" href="Categories(1)/Products"
-        /><title /><updated>2012-08-07T21:21:57Z</updated><author><name /></author><content
-        type="application/xml"><m:properties><d:Id m:type="Edm.Int32">1</d:Id><d:Name>Auth
-        Test Category</d:Name><d:AuditFields m:type="RubyODataService.AuditFields"><d:CreateDate
-        m:type="Edm.DateTime">2012-08-07T21:21:56.953</d:CreateDate><d:ModifiedDate
-        m:type="Edm.DateTime">2012-08-07T21:21:56.953</d:ModifiedDate><d:CreatedBy>Machinist</d:CreatedBy></d:AuditFields></m:properties></content></entry>
-    http_version: !!null 
-  recorded_at: Tue, 07 Aug 2012 21:21:57 GMT
-- request:
-    method: get
-    uri: https://admin:passwd@win7dev:44300/SampleService/BasicAuth/RubyOData.svc/$metadata
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - ! '*/*; q=0.5, application/xml'
-      Accept-Encoding:
-      - gzip, deflate
-      User-Agent:
-      - Ruby
-  response:
-    status:
-      code: 200
-      message: OK
+      message: ''
     headers:
       Cache-Control:
       - no-cache
@@ -139,9 +27,9 @@ http_interactions:
       Content-Type:
       - application/xml;charset=utf-8
       Server:
-      - Microsoft-IIS/7.5
+      - Microsoft-IIS/8.0
       Set-Cookie:
-      - ASP.NET_SessionId=nqu2cmw2lsdcdow1tflssuqz; path=/; HttpOnly
+      - ASP.NET_SessionId=actpbfderh0tojhcwyq5bz0d; path=/; HttpOnly
       X-Content-Type-Options:
       - nosniff
       Dataserviceversion:
@@ -151,9 +39,9 @@ http_interactions:
       X-Powered-By:
       - ASP.NET
       Date:
-      - Tue, 07 Aug 2012 21:21:56 GMT
+      - Sun, 26 Apr 2015 16:29:58 GMT
     body:
-      encoding: US-ASCII
+      encoding: UTF-8
       string: <?xml version="1.0" encoding="utf-8"?><edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx"><edmx:DataServices
         m:DataServiceVersion="1.0" m:MaxDataServiceVersion="3.0" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"><Schema
         Namespace="RubyODataService" xmlns="http://schemas.microsoft.com/ado/2008/09/edm"><EntityType
@@ -198,6 +86,122 @@ http_interactions:
         ReturnType="Edm.Int32" m:HttpMethod="GET" /><FunctionImport Name="EntitySingleCategoryWebGet"
         ReturnType="RubyODataService.Category" EntitySet="Categories" m:HttpMethod="GET"><Parameter
         Name="id" Type="Edm.Int32" /></FunctionImport></EntityContainer></Schema></edmx:DataServices></edmx:Edmx>
-    http_version: !!null 
-  recorded_at: Tue, 07 Aug 2012 21:21:57 GMT
-recorded_with: VCR 2.2.4
+    http_version: 
+  recorded_at: Sun, 26 Apr 2015 16:29:59 GMT
+- request:
+    method: post
+    uri: https://10.10.0.17:44300/SampleService/BasicAuth/RubyOData.svc/Categories
+    body:
+      encoding: UTF-8
+      string: '{"Name":"Auth Test Category","AuditFields":{"CreatedBy":"Machinist"}}'
+    headers:
+      User-Agent:
+      - Ruby
+      Accept:
+      - "*/*; q=0.5, application/xml"
+      Authorization:
+      - Basic YWRtaW46cGFzc3dk
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip,deflate
+  response:
+    status:
+      code: 201
+      message: ''
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - '1288'
+      Content-Type:
+      - application/atom+xml;type=entry;charset=utf-8
+      Location:
+      - https://10.10.0.17:44300/SampleService/BasicAuth/RubyOData.svc/Categories(1)
+      Server:
+      - Microsoft-IIS/8.0
+      Set-Cookie:
+      - ASP.NET_SessionId=5nxzsgnedd4aytyfoebtuuhq; path=/; HttpOnly
+      X-Content-Type-Options:
+      - nosniff
+      Dataserviceversion:
+      - 1.0;
+      X-Aspnet-Version:
+      - 4.0.30319
+      X-Powered-By:
+      - ASP.NET
+      Date:
+      - Sun, 26 Apr 2015 16:29:58 GMT
+    body:
+      encoding: UTF-8
+      string: <?xml version="1.0" encoding="utf-8"?><entry xml:base="https://10.10.0.17:44300/SampleService/BasicAuth/RubyOData.svc/"
+        xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices"
+        xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:georss="http://www.georss.org/georss"
+        xmlns:gml="http://www.opengis.net/gml"><id>https://10.10.0.17:44300/SampleService/BasicAuth/RubyOData.svc/Categories(1)</id><category
+        term="RubyODataService.Category" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"
+        /><link rel="edit" title="Category" href="Categories(1)" /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Products"
+        type="application/atom+xml;type=feed" title="Products" href="Categories(1)/Products"
+        /><title /><updated>2015-04-26T16:29:59Z</updated><author><name /></author><content
+        type="application/xml"><m:properties><d:Id m:type="Edm.Int32">1</d:Id><d:Name>Auth
+        Test Category</d:Name><d:AuditFields m:type="RubyODataService.AuditFields"><d:CreateDate
+        m:type="Edm.DateTime">2015-04-26T16:29:59.458032Z</d:CreateDate><d:ModifiedDate
+        m:type="Edm.DateTime">2015-04-26T16:29:59.458032Z</d:ModifiedDate><d:CreatedBy>Machinist</d:CreatedBy></d:AuditFields></m:properties></content></entry>
+    http_version: 
+  recorded_at: Sun, 26 Apr 2015 16:29:59 GMT
+- request:
+    method: get
+    uri: https://10.10.0.17:44300/SampleService/BasicAuth/RubyOData.svc/Categories(1)
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Ruby
+      Accept:
+      - "*/*; q=0.5, application/xml"
+      Authorization:
+      - Basic YWRtaW46cGFzc3dk
+      Accept-Encoding:
+      - gzip,deflate
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - '1280'
+      Content-Type:
+      - application/atom+xml;type=entry;charset=utf-8
+      Server:
+      - Microsoft-IIS/8.0
+      Set-Cookie:
+      - ASP.NET_SessionId=ywz0ygdefx0vdsa5pvgg2jdp; path=/; HttpOnly
+      X-Content-Type-Options:
+      - nosniff
+      Dataserviceversion:
+      - 1.0;
+      X-Aspnet-Version:
+      - 4.0.30319
+      X-Powered-By:
+      - ASP.NET
+      Date:
+      - Sun, 26 Apr 2015 16:29:58 GMT
+    body:
+      encoding: UTF-8
+      string: <?xml version="1.0" encoding="utf-8"?><entry xml:base="https://10.10.0.17:44300/SampleService/BasicAuth/RubyOData.svc/"
+        xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices"
+        xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:georss="http://www.georss.org/georss"
+        xmlns:gml="http://www.opengis.net/gml"><id>https://10.10.0.17:44300/SampleService/BasicAuth/RubyOData.svc/Categories(1)</id><category
+        term="RubyODataService.Category" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"
+        /><link rel="edit" title="Category" href="Categories(1)" /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Products"
+        type="application/atom+xml;type=feed" title="Products" href="Categories(1)/Products"
+        /><title /><updated>2015-04-26T16:29:59Z</updated><author><name /></author><content
+        type="application/xml"><m:properties><d:Id m:type="Edm.Int32">1</d:Id><d:Name>Auth
+        Test Category</d:Name><d:AuditFields m:type="RubyODataService.AuditFields"><d:CreateDate
+        m:type="Edm.DateTime">2015-04-26T16:29:59.457</d:CreateDate><d:ModifiedDate
+        m:type="Edm.DateTime">2015-04-26T16:29:59.457</d:ModifiedDate><d:CreatedBy>Machinist</d:CreatedBy></d:AuditFields></m:properties></content></entry>
+    http_version: 
+  recorded_at: Sun, 26 Apr 2015 16:29:59 GMT
+recorded_with: VCR 2.5.0

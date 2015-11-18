@@ -155,3 +155,8 @@
 
 * Other
     * Changed license to MIT and added it to the gemspec
+
+## 0.2.0.beta1
+* New Features
+    * Support for Rails 4 (Thanks [@denstepa](https://github.com/denstepa))
+    * Move to Faraday instead of RestClient (Thanks [@zzk](https://github.com/zzk)) for more options like NTLM.

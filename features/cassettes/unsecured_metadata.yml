@@ -2,32 +2,32 @@
 http_interactions:
 - request:
     method: get
-    uri: http://win7dev:8989/SampleService/RubyOData.svc/$metadata
+    uri: http://10.10.0.17:8989/SampleService/RubyOData.svc/$metadata
     body:
       encoding: US-ASCII
       string: ''
     headers:
-      Accept:
-      - ! '*/*; q=0.5, application/xml'
-      Accept-Encoding:
-      - gzip, deflate
       User-Agent:
       - Ruby
+      Accept:
+      - "*/*; q=0.5, application/xml"
+      Accept-Encoding:
+      - gzip,deflate
   response:
     status:
       code: 200
-      message: OK
+      message: ''
     headers:
       Cache-Control:
-      - no-cache
+      - private
       Content-Length:
       - '4055'
       Content-Type:
       - application/xml;charset=utf-8
       Server:
-      - Microsoft-IIS/7.5
+      - Microsoft-IIS/8.0
       Set-Cookie:
-      - ASP.NET_SessionId=tvkikr3xqyy43kcx0mk1uwdr; path=/; HttpOnly
+      - ASP.NET_SessionId=q4q3bi2ftgf1n4xdsw3weviz; path=/; HttpOnly
       X-Content-Type-Options:
       - nosniff
       Dataserviceversion:
@@ -37,9 +37,9 @@ http_interactions:
       X-Powered-By:
       - ASP.NET
       Date:
-      - Tue, 07 Aug 2012 21:47:40 GMT
+      - Sun, 26 Apr 2015 16:30:01 GMT
     body:
-      encoding: US-ASCII
+      encoding: UTF-8
       string: <?xml version="1.0" encoding="utf-8"?><edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx"><edmx:DataServices
         m:DataServiceVersion="1.0" m:MaxDataServiceVersion="3.0" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"><Schema
         Namespace="RubyODataService" xmlns="http://schemas.microsoft.com/ado/2008/09/edm"><EntityType
@@ -84,6 +84,6 @@ http_interactions:
         ReturnType="Edm.Int32" m:HttpMethod="GET" /><FunctionImport Name="EntitySingleCategoryWebGet"
         ReturnType="RubyODataService.Category" EntitySet="Categories" m:HttpMethod="GET"><Parameter
         Name="id" Type="Edm.Int32" /></FunctionImport></EntityContainer></Schema></edmx:DataServices></edmx:Edmx>
-    http_version: !!null 
-  recorded_at: Tue, 07 Aug 2012 21:47:41 GMT
-recorded_with: VCR 2.2.4
+    http_version: 
+  recorded_at: Sun, 26 Apr 2015 16:30:02 GMT
+recorded_with: VCR 2.5.0

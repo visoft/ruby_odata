@@ -22,12 +22,12 @@ end
 
 # not find a model
 Then(/^#{capture_model} should not exist(?: with #{capture_fields})?$/) do |name, fields|
-  find_model(name, fields).should be_nil
+  expect(find_model(name, fields)).to be_nil
 end
 
 # find models with a table
 Then(/^the following #{capture_plural_factory} should exists?:?$/) do |plural_factory, table|
-  find_models_from_table(plural_factory, table).should_not be_any(&:nil?)
+  expect(find_models_from_table(plural_factory, table)).to_not be_any(&:nil?)
 end
 
 # find exactly n models
@@ -42,7 +42,7 @@ end
 
 # assert model is in another model's has_many assoc
 Then(/^#{capture_model} should be (?:in|one of|amongst) #{capture_model}(?:'s)? (\w+)$/) do |target, owner, association|
-  model_with_associations(owner).send(association).should include(model!(target))
+  expect(model_with_associations(owner).send(association)).to include(model!(target))
 end
 
 # assert model is not in another model's has_many assoc
@@ -60,7 +60,7 @@ Then(/^#{capture_model} should not be #{capture_model}(?:'s)? (\w+)$/) do |targe
   model!(owner).send(association).should_not == model!(target)
 end
 
-# assert model.predicate? 
+# assert model.predicate?
 Then(/^#{capture_model} should (?:be|have) (?:an? )?#{capture_predicate}$/) do |name, predicate|
   if model!(name).respond_to?("has_#{predicate.gsub(' ', '_')}")
     model!(name).should send("have_#{predicate.gsub(' ', '_')}")
@@ -83,7 +83,7 @@ end
 Then(/^#{capture_model}'s (\w+) (should(?: not)?) be #{capture_value}$/) do |name, attribute, expectation, expected|
   actual_value  = model(name).send(attribute)
   expectation   = expectation.gsub(' ', '_')
-  
+
   case expected
   when 'nil', 'true', 'false'
     actual_value.send(expectation, send("be_#{expected}"))

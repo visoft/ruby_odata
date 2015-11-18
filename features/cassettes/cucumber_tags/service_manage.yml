@@ -1,137 +1,29 @@
 ---
 http_interactions:
 - request:
-    method: post
-    uri: http://win7dev:8989/SampleService/RubyOData.svc/$batch
-    body:
-      encoding: ASCII-8BIT
-      string: ! '--batch_3mb0-gw38-bn0g
-
-        Content-Type: multipart/mixed;boundary=changeset_87nj-q7v2-p64i
-
-
-        --changeset_87nj-q7v2-p64i
-
-        Content-Type: application/http
-
-        Content-Transfer-Encoding: binary
-
-
-        POST http://win7dev:8989/SampleService/RubyOData.svc/Categories(1)/$links/Products
-        HTTP/1.1
-
-        Accept-Charset: utf-8
-
-        Content-Type: application/json;charset=utf-8
-
-
-        {"uri":"http://win7dev:8989/SampleService/RubyOData.svc/Products(1)"}
-
-        --changeset_87nj-q7v2-p64i
-
-        Content-Type: application/http
-
-        Content-Transfer-Encoding: binary
-
-
-        POST http://win7dev:8989/SampleService/RubyOData.svc/Categories HTTP/1.1
-
-        Accept-Charset: utf-8
-
-        Content-Type: application/json;charset=utf-8
-
-
-        {"Name":"Test Category","AuditFields":{"CreatedBy":"Machinist"}}
-
-
-
-        --changeset_87nj-q7v2-p64i--
-
-        --batch_3mb0-gw38-bn0g--'
-    headers:
-      Accept:
-      - ! '*/*; q=0.5, application/xml'
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - multipart/mixed; boundary=batch_3mb0-gw38-bn0g
-      Content-Length:
-      - '765'
-      User-Agent:
-      - Ruby
-  response:
-    status:
-      code: 202
-      message: Accepted
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - '2130'
-      Content-Type:
-      - multipart/mixed; boundary=batchresponse_c6bcacc6-17c4-4f65-bb89-94ef24640dee
-      Server:
-      - Microsoft-IIS/7.5
-      Set-Cookie:
-      - ASP.NET_SessionId=dojfukdes1d1dv131v2epjev; path=/; HttpOnly
-      X-Content-Type-Options:
-      - nosniff
-      Dataserviceversion:
-      - 1.0;
-      X-Aspnet-Version:
-      - 4.0.30319
-      X-Powered-By:
-      - ASP.NET
-      Date:
-      - Tue, 07 Aug 2012 21:47:02 GMT
-    body:
-      encoding: US-ASCII
-      string: ! "--batchresponse_c6bcacc6-17c4-4f65-bb89-94ef24640dee\r\nContent-Type:
-        multipart/mixed; boundary=changesetresponse_90965503-473d-4fb7-bf68-beecd6b1a67d\r\n\r\n--changesetresponse_90965503-473d-4fb7-bf68-beecd6b1a67d\r\nContent-Type:
-        application/http\r\nContent-Transfer-Encoding: binary\r\n\r\nHTTP/1.1 204
-        No Content\r\nX-Content-Type-Options: nosniff\r\nCache-Control: no-cache\r\nDataServiceVersion:
-        1.0;\r\n\r\n\r\n--changesetresponse_90965503-473d-4fb7-bf68-beecd6b1a67d\r\nContent-Type:
-        application/http\r\nContent-Transfer-Encoding: binary\r\n\r\nHTTP/1.1 201
-        Created\r\nDataServiceVersion: 1.0;\r\nContent-Type: application/atom+xml;type=entry;charset=utf-8\r\nX-Content-Type-Options:
-        nosniff\r\nCache-Control: no-cache\r\nLocation: http://win7dev:8989/SampleService/RubyOData.svc/Categories(3)\r\n\r\n<?xml
-        version=\"1.0\" encoding=\"utf-8\"?><entry xml:base=\"http://win7dev:8989/SampleService/RubyOData.svc/\"
-        xmlns=\"http://www.w3.org/2005/Atom\" xmlns:d=\"http://schemas.microsoft.com/ado/2007/08/dataservices\"
-        xmlns:m=\"http://schemas.microsoft.com/ado/2007/08/dataservices/metadata\"
-        xmlns:georss=\"http://www.georss.org/georss\" xmlns:gml=\"http://www.opengis.net/gml\"><id>http://win7dev:8989/SampleService/RubyOData.svc/Categories(3)</id><category
-        term=\"RubyODataService.Category\" scheme=\"http://schemas.microsoft.com/ado/2007/08/dataservices/scheme\"
-        /><link rel=\"edit\" title=\"Category\" href=\"Categories(3)\" /><link rel=\"http://schemas.microsoft.com/ado/2007/08/dataservices/related/Products\"
-        type=\"application/atom+xml;type=feed\" title=\"Products\" href=\"Categories(3)/Products\"
-        /><title /><updated>2012-08-07T21:47:02Z</updated><author><name /></author><content
-        type=\"application/xml\"><m:properties><d:Id m:type=\"Edm.Int32\">3</d:Id><d:Name>Test
-        Category</d:Name><d:AuditFields m:type=\"RubyODataService.AuditFields\"><d:CreateDate
-        m:type=\"Edm.DateTime\">2012-08-07T21:47:02.78125Z</d:CreateDate><d:ModifiedDate
-        m:type=\"Edm.DateTime\">2012-08-07T21:47:02.78125Z</d:ModifiedDate><d:CreatedBy>Machinist</d:CreatedBy></d:AuditFields></m:properties></content></entry>\r\n--changesetresponse_90965503-473d-4fb7-bf68-beecd6b1a67d--\r\n--batchresponse_c6bcacc6-17c4-4f65-bb89-94ef24640dee--\r\n"
-    http_version: !!null 
-  recorded_at: Tue, 07 Aug 2012 21:47:02 GMT
-- request:
     method: delete
-    uri: http://win7dev:8989/SampleService/RubyOData.svc/Products(1)
+    uri: http://10.10.0.17:8989/SampleService/RubyOData.svc/Products(1)
     body:
       encoding: US-ASCII
       string: ''
     headers:
-      Accept:
-      - ! '*/*; q=0.5, application/xml'
-      Accept-Encoding:
-      - gzip, deflate
       User-Agent:
       - Ruby
+      Accept:
+      - "*/*; q=0.5, application/xml"
+      Accept-Encoding:
+      - gzip,deflate
   response:
     status:
       code: 204
-      message: No Content
+      message: ''
     headers:
       Cache-Control:
-      - no-cache
+      - private
       Server:
-      - Microsoft-IIS/7.5
+      - Microsoft-IIS/8.0
       Set-Cookie:
-      - ASP.NET_SessionId=ddkn2kt3sorlrbounoqyzv5h; path=/; HttpOnly
+      - ASP.NET_SessionId=yaarsyzk2l0kv5amrjwfap5i; path=/; HttpOnly
       X-Content-Type-Options:
       - nosniff
       Dataserviceversion:
@@ -141,40 +33,40 @@ http_interactions:
       X-Powered-By:
       - ASP.NET
       Date:
-      - Tue, 07 Aug 2012 21:47:36 GMT
+      - Sun, 26 Apr 2015 16:29:50 GMT
     body:
-      encoding: US-ASCII
+      encoding: UTF-8
       string: ''
-    http_version: !!null 
-  recorded_at: Tue, 07 Aug 2012 21:47:37 GMT
+    http_version: 
+  recorded_at: Sun, 26 Apr 2015 16:29:50 GMT
 - request:
     method: get
-    uri: http://win7dev:8989/SampleService/RubyOData.svc/Products
+    uri: http://10.10.0.17:8989/SampleService/RubyOData.svc/Products
     body:
       encoding: US-ASCII
       string: ''
     headers:
-      Accept:
-      - ! '*/*; q=0.5, application/xml'
-      Accept-Encoding:
-      - gzip, deflate
       User-Agent:
       - Ruby
+      Accept:
+      - "*/*; q=0.5, application/xml"
+      Accept-Encoding:
+      - gzip,deflate
   response:
     status:
       code: 200
-      message: OK
+      message: ''
     headers:
       Cache-Control:
-      - no-cache
+      - private
       Content-Length:
-      - '583'
+      - '589'
       Content-Type:
       - application/atom+xml;type=feed;charset=utf-8
       Server:
-      - Microsoft-IIS/7.5
+      - Microsoft-IIS/8.0
       Set-Cookie:
-      - ASP.NET_SessionId=r3lwlnsq4do5vzoe4gqqxv15; path=/; HttpOnly
+      - ASP.NET_SessionId=ncoxtw5rqtdoudl5ckfsn1mg; path=/; HttpOnly
       X-Content-Type-Options:
       - nosniff
       Dataserviceversion:
@@ -184,107 +76,43 @@ http_interactions:
       X-Powered-By:
       - ASP.NET
       Date:
-      - Tue, 07 Aug 2012 21:47:36 GMT
+      - Sun, 26 Apr 2015 16:29:50 GMT
     body:
-      encoding: US-ASCII
-      string: <?xml version="1.0" encoding="utf-8"?><feed xml:base="http://win7dev:8989/SampleService/RubyOData.svc/"
+      encoding: UTF-8
+      string: <?xml version="1.0" encoding="utf-8"?><feed xml:base="http://10.10.0.17:8989/SampleService/RubyOData.svc/"
         xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices"
         xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:georss="http://www.georss.org/georss"
-        xmlns:gml="http://www.opengis.net/gml"><id>http://win7dev:8989/SampleService/RubyOData.svc/Products</id><title
-        type="text">Products</title><updated>2012-08-07T21:47:37Z</updated><link rel="self"
+        xmlns:gml="http://www.opengis.net/gml"><id>http://10.10.0.17:8989/SampleService/RubyOData.svc/Products</id><title
+        type="text">Products</title><updated>2015-04-26T16:29:50Z</updated><link rel="self"
         title="Products" href="Products" /><author><name /></author></feed>
-    http_version: !!null 
-  recorded_at: Tue, 07 Aug 2012 21:47:37 GMT
-- request:
-    method: post
-    uri: http://win7dev:8989/SampleService/RubyOData.svc/Products
-    body:
-      encoding: ASCII-8BIT
-      string: ! '{"Name":"Test Product","Description":"Test Widget","Price":"10.25","Category":{"Name":"Category
-        0004","AuditFields":{"CreatedBy":"Machinist"}},"AuditFields":{"CreatedBy":"Machinist"}}'
-    headers:
-      Accept:
-      - ! '*/*; q=0.5, application/xml'
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - application/json
-      Content-Length:
-      - '183'
-      User-Agent:
-      - Ruby
-  response:
-    status:
-      code: 201
-      message: Created
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - '1437'
-      Content-Type:
-      - application/atom+xml;type=entry;charset=utf-8
-      Location:
-      - http://win7dev:8989/SampleService/RubyOData.svc/Products(1)
-      Server:
-      - Microsoft-IIS/7.5
-      Set-Cookie:
-      - ASP.NET_SessionId=vsvjv4a2z4mst4204d2cuwnn; path=/; HttpOnly
-      X-Content-Type-Options:
-      - nosniff
-      Dataserviceversion:
-      - 1.0;
-      X-Aspnet-Version:
-      - 4.0.30319
-      X-Powered-By:
-      - ASP.NET
-      Date:
-      - Tue, 07 Aug 2012 21:47:37 GMT
-    body:
-      encoding: US-ASCII
-      string: <?xml version="1.0" encoding="utf-8"?><entry xml:base="http://win7dev:8989/SampleService/RubyOData.svc/"
-        xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices"
-        xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:georss="http://www.georss.org/georss"
-        xmlns:gml="http://www.opengis.net/gml"><id>http://win7dev:8989/SampleService/RubyOData.svc/Products(1)</id><category
-        term="RubyODataService.Product" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"
-        /><link rel="edit" title="Product" href="Products(1)" /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Category"
-        type="application/atom+xml;type=entry" title="Category" href="Products(1)/Category"
-        /><title /><updated>2012-08-07T21:47:38Z</updated><author><name /></author><content
-        type="application/xml"><m:properties><d:Id m:type="Edm.Int32">1</d:Id><d:Name>Test
-        Product</d:Name><d:Description>Test Widget</d:Description><d:Price m:type="Edm.Decimal">10.25</d:Price><d:DiscontinuedDate
-        m:type="Edm.DateTime" m:null="true" /><d:CategoryId m:type="Edm.Int32">1</d:CategoryId><d:AuditFields
-        m:type="RubyODataService.AuditFields"><d:CreateDate m:type="Edm.DateTime">2012-08-07T21:47:38.15625Z</d:CreateDate><d:ModifiedDate
-        m:type="Edm.DateTime">2012-08-07T21:47:38.15625Z</d:ModifiedDate><d:CreatedBy>Machinist</d:CreatedBy></d:AuditFields></m:properties></content></entry>
-    http_version: !!null 
-  recorded_at: Tue, 07 Aug 2012 21:47:38 GMT
+    http_version: 
+  recorded_at: Sun, 26 Apr 2015 16:29:50 GMT
 - request:
     method: put
-    uri: http://win7dev:8989/SampleService/RubyOData.svc/Products(1)
+    uri: http://10.10.0.17:8989/SampleService/RubyOData.svc/Products(1)
     body:
-      encoding: ASCII-8BIT
-      string: ! '{"Name":"Changed Test Product","Description":"Test Widget","Price":"10.25","AuditFields":{"CreatedBy":"Machinist","CreateDate":"2012-08-07T21:47:38.157","ModifiedDate":"2012-08-07T21:47:38.157"},"__metadata":{"uri":"http://win7dev:8989/SampleService/RubyOData.svc/Products(1)"},"Id":1,"DiscontinuedDate":null,"CategoryId":1}'
+      encoding: UTF-8
+      string: '{"Name":"Changed Test Product","Description":"Test Widget","Price":"25.0","AuditFields":{"CreatedBy":"Machinist","CreateDate":"2015-04-26T16:29:51.287","ModifiedDate":"2015-04-26T16:29:51.287"},"__metadata":{"uri":"http://10.10.0.17:8989/SampleService/RubyOData.svc/Products(1)"},"Id":1,"DiscontinuedDate":null,"CategoryId":1}'
     headers:
-      Accept:
-      - ! '*/*; q=0.5, application/xml'
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - application/json
-      Content-Length:
-      - '324'
       User-Agent:
       - Ruby
+      Accept:
+      - "*/*; q=0.5, application/xml"
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip,deflate
   response:
     status:
       code: 204
-      message: No Content
+      message: ''
     headers:
       Cache-Control:
-      - no-cache
+      - private
       Server:
-      - Microsoft-IIS/7.5
+      - Microsoft-IIS/8.0
       Set-Cookie:
-      - ASP.NET_SessionId=rfauncwxjdax30dltexzu35y; path=/; HttpOnly
+      - ASP.NET_SessionId=abskzjs3wkgzxxjv0yz0olc1; path=/; HttpOnly
       X-Content-Type-Options:
       - nosniff
       Dataserviceversion:
@@ -294,101 +122,40 @@ http_interactions:
       X-Powered-By:
       - ASP.NET
       Date:
-      - Tue, 07 Aug 2012 21:47:37 GMT
+      - Sun, 26 Apr 2015 16:29:51 GMT
     body:
-      encoding: US-ASCII
+      encoding: UTF-8
       string: ''
-    http_version: !!null 
-  recorded_at: Tue, 07 Aug 2012 21:47:38 GMT
-- request:
-    method: post
-    uri: http://win7dev:8989/SampleService/RubyOData.svc/Products
-    body:
-      encoding: ASCII-8BIT
-      string: ! '{"Name":"Widget 0006","Description":"Test Widget","Price":"10.25","Category":{"__metadata":{"uri":"http://win7dev:8989/SampleService/RubyOData.svc/Categories(1)"}},"AuditFields":{"CreatedBy":"Machinist"}}'
-    headers:
-      Accept:
-      - ! '*/*; q=0.5, application/xml'
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - application/json
-      Content-Length:
-      - '204'
-      User-Agent:
-      - Ruby
-  response:
-    status:
-      code: 201
-      message: Created
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - '1436'
-      Content-Type:
-      - application/atom+xml;type=entry;charset=utf-8
-      Location:
-      - http://win7dev:8989/SampleService/RubyOData.svc/Products(1)
-      Server:
-      - Microsoft-IIS/7.5
-      Set-Cookie:
-      - ASP.NET_SessionId=tdqura0r2wt11cier4w5z5uo; path=/; HttpOnly
-      X-Content-Type-Options:
-      - nosniff
-      Dataserviceversion:
-      - 1.0;
-      X-Aspnet-Version:
-      - 4.0.30319
-      X-Powered-By:
-      - ASP.NET
-      Date:
-      - Tue, 07 Aug 2012 21:47:38 GMT
-    body:
-      encoding: US-ASCII
-      string: <?xml version="1.0" encoding="utf-8"?><entry xml:base="http://win7dev:8989/SampleService/RubyOData.svc/"
-        xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices"
-        xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:georss="http://www.georss.org/georss"
-        xmlns:gml="http://www.opengis.net/gml"><id>http://win7dev:8989/SampleService/RubyOData.svc/Products(1)</id><category
-        term="RubyODataService.Product" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"
-        /><link rel="edit" title="Product" href="Products(1)" /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Category"
-        type="application/atom+xml;type=entry" title="Category" href="Products(1)/Category"
-        /><title /><updated>2012-08-07T21:47:39Z</updated><author><name /></author><content
-        type="application/xml"><m:properties><d:Id m:type="Edm.Int32">1</d:Id><d:Name>Widget
-        0006</d:Name><d:Description>Test Widget</d:Description><d:Price m:type="Edm.Decimal">10.25</d:Price><d:DiscontinuedDate
-        m:type="Edm.DateTime" m:null="true" /><d:CategoryId m:type="Edm.Int32">1</d:CategoryId><d:AuditFields
-        m:type="RubyODataService.AuditFields"><d:CreateDate m:type="Edm.DateTime">2012-08-07T21:47:39.34375Z</d:CreateDate><d:ModifiedDate
-        m:type="Edm.DateTime">2012-08-07T21:47:39.34375Z</d:ModifiedDate><d:CreatedBy>Machinist</d:CreatedBy></d:AuditFields></m:properties></content></entry>
-    http_version: !!null 
-  recorded_at: Tue, 07 Aug 2012 21:47:39 GMT
+    http_version: 
+  recorded_at: Sun, 26 Apr 2015 16:29:51 GMT
 - request:
     method: get
-    uri: http://win7dev:8989/SampleService/RubyOData.svc/Products(1)?$expand=Category
+    uri: http://10.10.0.17:8989/SampleService/RubyOData.svc/Products(1)?$expand=Category
     body:
       encoding: US-ASCII
       string: ''
     headers:
-      Accept:
-      - ! '*/*; q=0.5, application/xml'
-      Accept-Encoding:
-      - gzip, deflate
       User-Agent:
       - Ruby
+      Accept:
+      - "*/*; q=0.5, application/xml"
+      Accept-Encoding:
+      - gzip,deflate
   response:
     status:
       code: 200
-      message: OK
+      message: ''
     headers:
       Cache-Control:
-      - no-cache
+      - private
       Content-Length:
-      - '2347'
+      - '2357'
       Content-Type:
       - application/atom+xml;type=entry;charset=utf-8
       Server:
-      - Microsoft-IIS/7.5
+      - Microsoft-IIS/8.0
       Set-Cookie:
-      - ASP.NET_SessionId=nrtfaqvyaaxekhkss5abe4bk; path=/; HttpOnly
+      - ASP.NET_SessionId=tubhxfco1sg0u2tjaw4ohg0g; path=/; HttpOnly
       X-Content-Type-Options:
       - nosniff
       Dataserviceversion:
@@ -398,122 +165,58 @@ http_interactions:
       X-Powered-By:
       - ASP.NET
       Date:
-      - Tue, 07 Aug 2012 21:47:38 GMT
+      - Sun, 26 Apr 2015 16:29:52 GMT
     body:
-      encoding: US-ASCII
-      string: <?xml version="1.0" encoding="utf-8"?><entry xml:base="http://win7dev:8989/SampleService/RubyOData.svc/"
+      encoding: UTF-8
+      string: <?xml version="1.0" encoding="utf-8"?><entry xml:base="http://10.10.0.17:8989/SampleService/RubyOData.svc/"
         xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices"
         xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:georss="http://www.georss.org/georss"
-        xmlns:gml="http://www.opengis.net/gml"><id>http://win7dev:8989/SampleService/RubyOData.svc/Products(1)</id><category
+        xmlns:gml="http://www.opengis.net/gml"><id>http://10.10.0.17:8989/SampleService/RubyOData.svc/Products(1)</id><category
         term="RubyODataService.Product" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"
         /><link rel="edit" title="Product" href="Products(1)" /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Category"
-        type="application/atom+xml;type=entry" title="Category" href="Products(1)/Category"><m:inline><entry><id>http://win7dev:8989/SampleService/RubyOData.svc/Categories(1)</id><category
+        type="application/atom+xml;type=entry" title="Category" href="Products(1)/Category"><m:inline><entry><id>http://10.10.0.17:8989/SampleService/RubyOData.svc/Categories(1)</id><category
         term="RubyODataService.Category" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"
         /><link rel="edit" title="Category" href="Categories(1)" /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Products"
         type="application/atom+xml;type=feed" title="Products" href="Categories(1)/Products"
-        /><title /><updated>2012-08-07T21:47:39Z</updated><author><name /></author><content
+        /><title /><updated>2015-04-26T16:29:52Z</updated><author><name /></author><content
         type="application/xml"><m:properties><d:Id m:type="Edm.Int32">1</d:Id><d:Name>Test
         Category</d:Name><d:AuditFields m:type="RubyODataService.AuditFields"><d:CreateDate
-        m:type="Edm.DateTime">2012-08-07T21:47:39.047</d:CreateDate><d:ModifiedDate
-        m:type="Edm.DateTime">2012-08-07T21:47:39.047</d:ModifiedDate><d:CreatedBy>Machinist</d:CreatedBy></d:AuditFields></m:properties></content></entry></m:inline></link><title
-        /><updated>2012-08-07T21:47:39Z</updated><author><name /></author><content
+        m:type="Edm.DateTime">2015-04-26T16:29:52.397</d:CreateDate><d:ModifiedDate
+        m:type="Edm.DateTime">2015-04-26T16:29:52.397</d:ModifiedDate><d:CreatedBy>Machinist</d:CreatedBy></d:AuditFields></m:properties></content></entry></m:inline></link><title
+        /><updated>2015-04-26T16:29:52Z</updated><author><name /></author><content
         type="application/xml"><m:properties><d:Id m:type="Edm.Int32">1</d:Id><d:Name>Widget
-        0006</d:Name><d:Description>Test Widget</d:Description><d:Price m:type="Edm.Decimal">10.25</d:Price><d:DiscontinuedDate
+        0065</d:Name><d:Description>Test Widget</d:Description><d:Price m:type="Edm.Decimal">100.00</d:Price><d:DiscontinuedDate
         m:type="Edm.DateTime" m:null="true" /><d:CategoryId m:type="Edm.Int32">1</d:CategoryId><d:AuditFields
-        m:type="RubyODataService.AuditFields"><d:CreateDate m:type="Edm.DateTime">2012-08-07T21:47:39.343</d:CreateDate><d:ModifiedDate
-        m:type="Edm.DateTime">2012-08-07T21:47:39.343</d:ModifiedDate><d:CreatedBy>Machinist</d:CreatedBy></d:AuditFields></m:properties></content></entry>
-    http_version: !!null 
-  recorded_at: Tue, 07 Aug 2012 21:47:39 GMT
+        m:type="RubyODataService.AuditFields"><d:CreateDate m:type="Edm.DateTime">2015-04-26T16:29:52.693</d:CreateDate><d:ModifiedDate
+        m:type="Edm.DateTime">2015-04-26T16:29:52.693</d:ModifiedDate><d:CreatedBy>Machinist</d:CreatedBy></d:AuditFields></m:properties></content></entry>
+    http_version: 
+  recorded_at: Sun, 26 Apr 2015 16:29:52 GMT
 - request:
     method: post
-    uri: http://win7dev:8989/SampleService/RubyOData.svc/Products
+    uri: http://10.10.0.17:8989/SampleService/RubyOData.svc/Categories(1)/$links/Products
     body:
-      encoding: ASCII-8BIT
-      string: ! '{"Name":"Widget 0007","Description":"Test Widget","Price":"50.00","Category":{"Name":"Category
-        0008","AuditFields":{"CreatedBy":"Machinist"}},"AuditFields":{"CreatedBy":"Machinist"}}'
+      encoding: UTF-8
+      string: '{"uri":"http://10.10.0.17:8989/SampleService/RubyOData.svc/Products(1)"}'
     headers:
-      Accept:
-      - ! '*/*; q=0.5, application/xml'
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - application/json
-      Content-Length:
-      - '182'
       User-Agent:
       - Ruby
-  response:
-    status:
-      code: 201
-      message: Created
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - '1436'
-      Content-Type:
-      - application/atom+xml;type=entry;charset=utf-8
-      Location:
-      - http://win7dev:8989/SampleService/RubyOData.svc/Products(1)
-      Server:
-      - Microsoft-IIS/7.5
-      Set-Cookie:
-      - ASP.NET_SessionId=adrthcnqnla5y5ota5obfqfq; path=/; HttpOnly
-      X-Content-Type-Options:
-      - nosniff
-      Dataserviceversion:
-      - 1.0;
-      X-Aspnet-Version:
-      - 4.0.30319
-      X-Powered-By:
-      - ASP.NET
-      Date:
-      - Tue, 07 Aug 2012 21:47:39 GMT
-    body:
-      encoding: US-ASCII
-      string: <?xml version="1.0" encoding="utf-8"?><entry xml:base="http://win7dev:8989/SampleService/RubyOData.svc/"
-        xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices"
-        xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:georss="http://www.georss.org/georss"
-        xmlns:gml="http://www.opengis.net/gml"><id>http://win7dev:8989/SampleService/RubyOData.svc/Products(1)</id><category
-        term="RubyODataService.Product" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"
-        /><link rel="edit" title="Product" href="Products(1)" /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Category"
-        type="application/atom+xml;type=entry" title="Category" href="Products(1)/Category"
-        /><title /><updated>2012-08-07T21:47:40Z</updated><author><name /></author><content
-        type="application/xml"><m:properties><d:Id m:type="Edm.Int32">1</d:Id><d:Name>Widget
-        0007</d:Name><d:Description>Test Widget</d:Description><d:Price m:type="Edm.Decimal">50.00</d:Price><d:DiscontinuedDate
-        m:type="Edm.DateTime" m:null="true" /><d:CategoryId m:type="Edm.Int32">2</d:CategoryId><d:AuditFields
-        m:type="RubyODataService.AuditFields"><d:CreateDate m:type="Edm.DateTime">2012-08-07T21:47:40.15625Z</d:CreateDate><d:ModifiedDate
-        m:type="Edm.DateTime">2012-08-07T21:47:40.15625Z</d:ModifiedDate><d:CreatedBy>Machinist</d:CreatedBy></d:AuditFields></m:properties></content></entry>
-    http_version: !!null 
-  recorded_at: Tue, 07 Aug 2012 21:47:40 GMT
-- request:
-    method: post
-    uri: http://win7dev:8989/SampleService/RubyOData.svc/Categories(1)/$links/Products
-    body:
-      encoding: ASCII-8BIT
-      string: ! '{"uri":"http://win7dev:8989/SampleService/RubyOData.svc/Products(1)"}'
-    headers:
       Accept:
-      - ! '*/*; q=0.5, application/xml'
-      Accept-Encoding:
-      - gzip, deflate
+      - "*/*; q=0.5, application/xml"
       Content-Type:
       - application/json
-      Content-Length:
-      - '69'
-      User-Agent:
-      - Ruby
+      Accept-Encoding:
+      - gzip,deflate
   response:
     status:
       code: 204
-      message: No Content
+      message: ''
     headers:
       Cache-Control:
-      - no-cache
+      - private
       Server:
-      - Microsoft-IIS/7.5
+      - Microsoft-IIS/8.0
       Set-Cookie:
-      - ASP.NET_SessionId=ju12rtsznmkyyhrokn2sfwcj; path=/; HttpOnly
+      - ASP.NET_SessionId=v2qpcezvlihjskabfzx2eulk; path=/; HttpOnly
       X-Content-Type-Options:
       - nosniff
       Dataserviceversion:
@@ -523,101 +226,44 @@ http_interactions:
       X-Powered-By:
       - ASP.NET
       Date:
-      - Tue, 07 Aug 2012 21:47:39 GMT
+      - Sun, 26 Apr 2015 16:29:54 GMT
     body:
-      encoding: US-ASCII
+      encoding: UTF-8
       string: ''
-    http_version: !!null 
-  recorded_at: Tue, 07 Aug 2012 21:47:40 GMT
-- request:
-    method: get
-    uri: http://win7dev:8989/SampleService/RubyOData.svc/Products(1)
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - ! '*/*; q=0.5, application/xml'
-      Accept-Encoding:
-      - gzip, deflate
-      User-Agent:
-      - Ruby
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - '1430'
-      Content-Type:
-      - application/atom+xml;type=entry;charset=utf-8
-      Server:
-      - Microsoft-IIS/7.5
-      Set-Cookie:
-      - ASP.NET_SessionId=ezpjpmjx2bgjg04ip5euviib; path=/; HttpOnly
-      X-Content-Type-Options:
-      - nosniff
-      Dataserviceversion:
-      - 1.0;
-      X-Aspnet-Version:
-      - 4.0.30319
-      X-Powered-By:
-      - ASP.NET
-      Date:
-      - Tue, 07 Aug 2012 21:47:39 GMT
-    body:
-      encoding: US-ASCII
-      string: <?xml version="1.0" encoding="utf-8"?><entry xml:base="http://win7dev:8989/SampleService/RubyOData.svc/"
-        xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices"
-        xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:georss="http://www.georss.org/georss"
-        xmlns:gml="http://www.opengis.net/gml"><id>http://win7dev:8989/SampleService/RubyOData.svc/Products(1)</id><category
-        term="RubyODataService.Product" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"
-        /><link rel="edit" title="Product" href="Products(1)" /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Category"
-        type="application/atom+xml;type=entry" title="Category" href="Products(1)/Category"
-        /><title /><updated>2012-08-07T21:47:40Z</updated><author><name /></author><content
-        type="application/xml"><m:properties><d:Id m:type="Edm.Int32">1</d:Id><d:Name>Widget
-        0007</d:Name><d:Description>Test Widget</d:Description><d:Price m:type="Edm.Decimal">50.00</d:Price><d:DiscontinuedDate
-        m:type="Edm.DateTime" m:null="true" /><d:CategoryId m:type="Edm.Int32">1</d:CategoryId><d:AuditFields
-        m:type="RubyODataService.AuditFields"><d:CreateDate m:type="Edm.DateTime">2012-08-07T21:47:40.157</d:CreateDate><d:ModifiedDate
-        m:type="Edm.DateTime">2012-08-07T21:47:40.157</d:ModifiedDate><d:CreatedBy>Machinist</d:CreatedBy></d:AuditFields></m:properties></content></entry>
-    http_version: !!null 
-  recorded_at: Tue, 07 Aug 2012 21:47:40 GMT
+    http_version: 
+  recorded_at: Sun, 26 Apr 2015 16:29:54 GMT
 - request:
     method: post
-    uri: http://win7dev:8989/SampleService/RubyOData.svc/Categories
+    uri: http://10.10.0.17:8989/SampleService/RubyOData.svc/Categories
     body:
-      encoding: ASCII-8BIT
-      string: ! '{"Name":"Category 0009","AuditFields":{"CreatedBy":"Machinist"}}'
+      encoding: UTF-8
+      string: '{"Name":"Category 0067","AuditFields":{"CreatedBy":"Machinist"}}'
     headers:
-      Accept:
-      - ! '*/*; q=0.5, application/xml'
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - application/json
-      Content-Length:
-      - '64'
       User-Agent:
       - Ruby
+      Accept:
+      - "*/*; q=0.5, application/xml"
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip,deflate
   response:
     status:
       code: 201
-      message: Created
+      message: ''
     headers:
       Cache-Control:
-      - no-cache
+      - private
       Content-Length:
-      - '1251'
+      - '1259'
       Content-Type:
       - application/atom+xml;type=entry;charset=utf-8
       Location:
-      - http://win7dev:8989/SampleService/RubyOData.svc/Categories(1)
+      - http://10.10.0.17:8989/SampleService/RubyOData.svc/Categories(1)
       Server:
-      - Microsoft-IIS/7.5
+      - Microsoft-IIS/8.0
       Set-Cookie:
-      - ASP.NET_SessionId=0uovbkx3sxrkavtuisgbf0c1; path=/; HttpOnly
+      - ASP.NET_SessionId=uhwoaszbxj2bi0gpslka4yoc; path=/; HttpOnly
       X-Content-Type-Options:
       - nosniff
       Dataserviceversion:
@@ -627,58 +273,56 @@ http_interactions:
       X-Powered-By:
       - ASP.NET
       Date:
-      - Tue, 07 Aug 2012 21:47:40 GMT
+      - Sun, 26 Apr 2015 16:29:55 GMT
     body:
-      encoding: US-ASCII
-      string: <?xml version="1.0" encoding="utf-8"?><entry xml:base="http://win7dev:8989/SampleService/RubyOData.svc/"
+      encoding: UTF-8
+      string: <?xml version="1.0" encoding="utf-8"?><entry xml:base="http://10.10.0.17:8989/SampleService/RubyOData.svc/"
         xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices"
         xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:georss="http://www.georss.org/georss"
-        xmlns:gml="http://www.opengis.net/gml"><id>http://win7dev:8989/SampleService/RubyOData.svc/Categories(1)</id><category
+        xmlns:gml="http://www.opengis.net/gml"><id>http://10.10.0.17:8989/SampleService/RubyOData.svc/Categories(1)</id><category
         term="RubyODataService.Category" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"
         /><link rel="edit" title="Category" href="Categories(1)" /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Products"
         type="application/atom+xml;type=feed" title="Products" href="Categories(1)/Products"
-        /><title /><updated>2012-08-07T21:47:40Z</updated><author><name /></author><content
+        /><title /><updated>2015-04-26T16:29:55Z</updated><author><name /></author><content
         type="application/xml"><m:properties><d:Id m:type="Edm.Int32">1</d:Id><d:Name>Category
-        0009</d:Name><d:AuditFields m:type="RubyODataService.AuditFields"><d:CreateDate
-        m:type="Edm.DateTime">2012-08-07T21:47:40.96875Z</d:CreateDate><d:ModifiedDate
-        m:type="Edm.DateTime">2012-08-07T21:47:40.96875Z</d:ModifiedDate><d:CreatedBy>Machinist</d:CreatedBy></d:AuditFields></m:properties></content></entry>
-    http_version: !!null 
-  recorded_at: Tue, 07 Aug 2012 21:47:40 GMT
+        0067</d:Name><d:AuditFields m:type="RubyODataService.AuditFields"><d:CreateDate
+        m:type="Edm.DateTime">2015-04-26T16:29:55.067407Z</d:CreateDate><d:ModifiedDate
+        m:type="Edm.DateTime">2015-04-26T16:29:55.067407Z</d:ModifiedDate><d:CreatedBy>Machinist</d:CreatedBy></d:AuditFields></m:properties></content></entry>
+    http_version: 
+  recorded_at: Sun, 26 Apr 2015 16:29:55 GMT
 - request:
     method: post
-    uri: http://win7dev:8989/SampleService/RubyOData.svc/Products
+    uri: http://10.10.0.17:8989/SampleService/RubyOData.svc/Products
     body:
-      encoding: ASCII-8BIT
-      string: ! '{"Name":"Widget 0008","Description":"Test Widget","Price":"75.50","Category":{"Name":"Category
-        0010","AuditFields":{"CreatedBy":"Machinist"}},"AuditFields":{"CreatedBy":"Machinist"}}'
+      encoding: UTF-8
+      string: '{"Name":"Widget 0067","Description":"Test Widget","Price":"10.25","Category":{"Name":"Category
+        0068","AuditFields":{"CreatedBy":"Machinist"}},"AuditFields":{"CreatedBy":"Machinist"}}'
     headers:
-      Accept:
-      - ! '*/*; q=0.5, application/xml'
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - application/json
-      Content-Length:
-      - '182'
       User-Agent:
       - Ruby
+      Accept:
+      - "*/*; q=0.5, application/xml"
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip,deflate
   response:
     status:
       code: 201
-      message: Created
+      message: ''
     headers:
       Cache-Control:
-      - no-cache
+      - private
       Content-Length:
-      - '1436'
+      - '1444'
       Content-Type:
       - application/atom+xml;type=entry;charset=utf-8
       Location:
-      - http://win7dev:8989/SampleService/RubyOData.svc/Products(1)
+      - http://10.10.0.17:8989/SampleService/RubyOData.svc/Products(1)
       Server:
-      - Microsoft-IIS/7.5
+      - Microsoft-IIS/8.0
       Set-Cookie:
-      - ASP.NET_SessionId=yw32ywvkfe3ukwyjxikpmscf; path=/; HttpOnly
+      - ASP.NET_SessionId=0lysk2yvxosjqeoyuhecdwf1; path=/; HttpOnly
       X-Content-Type-Options:
       - nosniff
       Dataserviceversion:
@@ -688,98 +332,79 @@ http_interactions:
       X-Powered-By:
       - ASP.NET
       Date:
-      - Tue, 07 Aug 2012 21:47:40 GMT
+      - Sun, 26 Apr 2015 16:29:55 GMT
     body:
-      encoding: US-ASCII
-      string: <?xml version="1.0" encoding="utf-8"?><entry xml:base="http://win7dev:8989/SampleService/RubyOData.svc/"
+      encoding: UTF-8
+      string: <?xml version="1.0" encoding="utf-8"?><entry xml:base="http://10.10.0.17:8989/SampleService/RubyOData.svc/"
         xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices"
         xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:georss="http://www.georss.org/georss"
-        xmlns:gml="http://www.opengis.net/gml"><id>http://win7dev:8989/SampleService/RubyOData.svc/Products(1)</id><category
+        xmlns:gml="http://www.opengis.net/gml"><id>http://10.10.0.17:8989/SampleService/RubyOData.svc/Products(1)</id><category
         term="RubyODataService.Product" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"
         /><link rel="edit" title="Product" href="Products(1)" /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Category"
         type="application/atom+xml;type=entry" title="Category" href="Products(1)/Category"
-        /><title /><updated>2012-08-07T21:47:41Z</updated><author><name /></author><content
+        /><title /><updated>2015-04-26T16:29:55Z</updated><author><name /></author><content
         type="application/xml"><m:properties><d:Id m:type="Edm.Int32">1</d:Id><d:Name>Widget
-        0008</d:Name><d:Description>Test Widget</d:Description><d:Price m:type="Edm.Decimal">75.50</d:Price><d:DiscontinuedDate
+        0067</d:Name><d:Description>Test Widget</d:Description><d:Price m:type="Edm.Decimal">10.25</d:Price><d:DiscontinuedDate
         m:type="Edm.DateTime" m:null="true" /><d:CategoryId m:type="Edm.Int32">2</d:CategoryId><d:AuditFields
-        m:type="RubyODataService.AuditFields"><d:CreateDate m:type="Edm.DateTime">2012-08-07T21:47:41.28125Z</d:CreateDate><d:ModifiedDate
-        m:type="Edm.DateTime">2012-08-07T21:47:41.28125Z</d:ModifiedDate><d:CreatedBy>Machinist</d:CreatedBy></d:AuditFields></m:properties></content></entry>
-    http_version: !!null 
-  recorded_at: Tue, 07 Aug 2012 21:47:41 GMT
+        m:type="RubyODataService.AuditFields"><d:CreateDate m:type="Edm.DateTime">2015-04-26T16:29:55.364282Z</d:CreateDate><d:ModifiedDate
+        m:type="Edm.DateTime">2015-04-26T16:29:55.364282Z</d:ModifiedDate><d:CreatedBy>Machinist</d:CreatedBy></d:AuditFields></m:properties></content></entry>
+    http_version: 
+  recorded_at: Sun, 26 Apr 2015 16:29:55 GMT
 - request:
     method: post
-    uri: http://win7dev:8989/SampleService/RubyOData.svc/$batch
+    uri: http://10.10.0.17:8989/SampleService/RubyOData.svc/$batch
     body:
-      encoding: ASCII-8BIT
-      string: ! '--batch_6qrp-zu6k-mzr2
+      encoding: UTF-8
+      string: |-
+        --batch_k59w-7jas-4vol
+        Content-Type: multipart/mixed;boundary=changeset_onxb-hi2h-te21
 
-        Content-Type: multipart/mixed;boundary=changeset_1fh8-th8f-yzvy
-
-
-        --changeset_1fh8-th8f-yzvy
-
+        --changeset_onxb-hi2h-te21
         Content-Type: application/http
-
         Content-Transfer-Encoding: binary
 
-
-        POST http://win7dev:8989/SampleService/RubyOData.svc/Categories(1)/$links/Products
-        HTTP/1.1
-
+        POST http://10.10.0.17:8989/SampleService/RubyOData.svc/Categories(1)/$links/Products HTTP/1.1
         Accept-Charset: utf-8
-
         Content-Type: application/json;charset=utf-8
 
-
-        {"uri":"http://win7dev:8989/SampleService/RubyOData.svc/Products(1)"}
-
-        --changeset_1fh8-th8f-yzvy
-
+        {"uri":"http://10.10.0.17:8989/SampleService/RubyOData.svc/Products(1)"}
+        --changeset_onxb-hi2h-te21
         Content-Type: application/http
-
         Content-Transfer-Encoding: binary
 
-
-        POST http://win7dev:8989/SampleService/RubyOData.svc/Categories HTTP/1.1
-
+        POST http://10.10.0.17:8989/SampleService/RubyOData.svc/Categories HTTP/1.1
         Accept-Charset: utf-8
-
         Content-Type: application/json;charset=utf-8
-
 
         {"Name":"Test Category","AuditFields":{"CreatedBy":"Machinist"}}
 
 
-
-        --changeset_1fh8-th8f-yzvy--
-
-        --batch_6qrp-zu6k-mzr2--'
+        --changeset_onxb-hi2h-te21--
+        --batch_k59w-7jas-4vol--
     headers:
-      Accept:
-      - ! '*/*; q=0.5, application/xml'
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - multipart/mixed; boundary=batch_6qrp-zu6k-mzr2
-      Content-Length:
-      - '765'
       User-Agent:
       - Ruby
+      Accept:
+      - "*/*; q=0.5, application/xml"
+      Content-Type:
+      - multipart/mixed; boundary=batch_k59w-7jas-4vol
+      Accept-Encoding:
+      - gzip,deflate
   response:
     status:
       code: 202
-      message: Accepted
+      message: ''
     headers:
       Cache-Control:
-      - no-cache
+      - private
       Content-Length:
-      - '2130'
+      - '2141'
       Content-Type:
-      - multipart/mixed; boundary=batchresponse_ca25df75-9c20-4a90-b1bd-c870f3d0d669
+      - multipart/mixed; boundary=batchresponse_5ce7eb6b-b3c2-4d93-91cd-f2b99b21aad7
       Server:
-      - Microsoft-IIS/7.5
+      - Microsoft-IIS/8.0
       Set-Cookie:
-      - ASP.NET_SessionId=4m1xgvdciiub2x4rxigvov2d; path=/; HttpOnly
+      - ASP.NET_SessionId=1o3pwq3vsnovoygwx4m0rpk1; path=/; HttpOnly
       X-Content-Type-Options:
       - nosniff
       Dataserviceversion:
@@ -789,59 +414,59 @@ http_interactions:
       X-Powered-By:
       - ASP.NET
       Date:
-      - Tue, 07 Aug 2012 21:47:40 GMT
+      - Sun, 26 Apr 2015 16:29:55 GMT
     body:
-      encoding: US-ASCII
-      string: ! "--batchresponse_ca25df75-9c20-4a90-b1bd-c870f3d0d669\r\nContent-Type:
-        multipart/mixed; boundary=changesetresponse_69c1cfcb-1e73-4a03-b3ed-06a64170400b\r\n\r\n--changesetresponse_69c1cfcb-1e73-4a03-b3ed-06a64170400b\r\nContent-Type:
+      encoding: UTF-8
+      string: "--batchresponse_5ce7eb6b-b3c2-4d93-91cd-f2b99b21aad7\r\nContent-Type:
+        multipart/mixed; boundary=changesetresponse_7585b07f-f74c-48c4-b50c-9a078bd68714\r\n\r\n--changesetresponse_7585b07f-f74c-48c4-b50c-9a078bd68714\r\nContent-Type:
         application/http\r\nContent-Transfer-Encoding: binary\r\n\r\nHTTP/1.1 204
         No Content\r\nX-Content-Type-Options: nosniff\r\nCache-Control: no-cache\r\nDataServiceVersion:
-        1.0;\r\n\r\n\r\n--changesetresponse_69c1cfcb-1e73-4a03-b3ed-06a64170400b\r\nContent-Type:
+        1.0;\r\n\r\n\r\n--changesetresponse_7585b07f-f74c-48c4-b50c-9a078bd68714\r\nContent-Type:
         application/http\r\nContent-Transfer-Encoding: binary\r\n\r\nHTTP/1.1 201
         Created\r\nDataServiceVersion: 1.0;\r\nContent-Type: application/atom+xml;type=entry;charset=utf-8\r\nX-Content-Type-Options:
-        nosniff\r\nCache-Control: no-cache\r\nLocation: http://win7dev:8989/SampleService/RubyOData.svc/Categories(3)\r\n\r\n<?xml
-        version=\"1.0\" encoding=\"utf-8\"?><entry xml:base=\"http://win7dev:8989/SampleService/RubyOData.svc/\"
+        nosniff\r\nCache-Control: no-cache\r\nLocation: http://10.10.0.17:8989/SampleService/RubyOData.svc/Categories(3)\r\n\r\n<?xml
+        version=\"1.0\" encoding=\"utf-8\"?><entry xml:base=\"http://10.10.0.17:8989/SampleService/RubyOData.svc/\"
         xmlns=\"http://www.w3.org/2005/Atom\" xmlns:d=\"http://schemas.microsoft.com/ado/2007/08/dataservices\"
         xmlns:m=\"http://schemas.microsoft.com/ado/2007/08/dataservices/metadata\"
-        xmlns:georss=\"http://www.georss.org/georss\" xmlns:gml=\"http://www.opengis.net/gml\"><id>http://win7dev:8989/SampleService/RubyOData.svc/Categories(3)</id><category
+        xmlns:georss=\"http://www.georss.org/georss\" xmlns:gml=\"http://www.opengis.net/gml\"><id>http://10.10.0.17:8989/SampleService/RubyOData.svc/Categories(3)</id><category
         term=\"RubyODataService.Category\" scheme=\"http://schemas.microsoft.com/ado/2007/08/dataservices/scheme\"
         /><link rel=\"edit\" title=\"Category\" href=\"Categories(3)\" /><link rel=\"http://schemas.microsoft.com/ado/2007/08/dataservices/related/Products\"
         type=\"application/atom+xml;type=feed\" title=\"Products\" href=\"Categories(3)/Products\"
-        /><title /><updated>2012-08-07T21:47:41Z</updated><author><name /></author><content
+        /><title /><updated>2015-04-26T16:29:55Z</updated><author><name /></author><content
         type=\"application/xml\"><m:properties><d:Id m:type=\"Edm.Int32\">3</d:Id><d:Name>Test
         Category</d:Name><d:AuditFields m:type=\"RubyODataService.AuditFields\"><d:CreateDate
-        m:type=\"Edm.DateTime\">2012-08-07T21:47:41.59375Z</d:CreateDate><d:ModifiedDate
-        m:type=\"Edm.DateTime\">2012-08-07T21:47:41.59375Z</d:ModifiedDate><d:CreatedBy>Machinist</d:CreatedBy></d:AuditFields></m:properties></content></entry>\r\n--changesetresponse_69c1cfcb-1e73-4a03-b3ed-06a64170400b--\r\n--batchresponse_ca25df75-9c20-4a90-b1bd-c870f3d0d669--\r\n"
-    http_version: !!null 
-  recorded_at: Tue, 07 Aug 2012 21:47:41 GMT
+        m:type=\"Edm.DateTime\">2015-04-26T16:29:55.676782Z</d:CreateDate><d:ModifiedDate
+        m:type=\"Edm.DateTime\">2015-04-26T16:29:55.676782Z</d:ModifiedDate><d:CreatedBy>Machinist</d:CreatedBy></d:AuditFields></m:properties></content></entry>\r\n--changesetresponse_7585b07f-f74c-48c4-b50c-9a078bd68714--\r\n--batchresponse_5ce7eb6b-b3c2-4d93-91cd-f2b99b21aad7--\r\n"
+    http_version: 
+  recorded_at: Sun, 26 Apr 2015 16:29:55 GMT
 - request:
     method: get
-    uri: http://win7dev:8989/SampleService/RubyOData.svc/Categories(1)?$expand=Products
+    uri: http://10.10.0.17:8989/SampleService/RubyOData.svc/Categories(1)?$expand=Products
     body:
       encoding: US-ASCII
       string: ''
     headers:
-      Accept:
-      - ! '*/*; q=0.5, application/xml'
-      Accept-Encoding:
-      - gzip, deflate
       User-Agent:
       - Ruby
+      Accept:
+      - "*/*; q=0.5, application/xml"
+      Accept-Encoding:
+      - gzip,deflate
   response:
     status:
       code: 200
-      message: OK
+      message: ''
     headers:
       Cache-Control:
-      - no-cache
+      - private
       Content-Length:
-      - '2577'
+      - '2591'
       Content-Type:
       - application/atom+xml;type=entry;charset=utf-8
       Server:
-      - Microsoft-IIS/7.5
+      - Microsoft-IIS/8.0
       Set-Cookie:
-      - ASP.NET_SessionId=0j3rpxa2nynbhdpwa1eyr40d; path=/; HttpOnly
+      - ASP.NET_SessionId=zjt1umq5tygvt0busdtktanj; path=/; HttpOnly
       X-Content-Type-Options:
       - nosniff
       Dataserviceversion:
@@ -851,62 +476,62 @@ http_interactions:
       X-Powered-By:
       - ASP.NET
       Date:
-      - Tue, 07 Aug 2012 21:47:40 GMT
+      - Sun, 26 Apr 2015 16:29:55 GMT
     body:
-      encoding: US-ASCII
-      string: <?xml version="1.0" encoding="utf-8"?><entry xml:base="http://win7dev:8989/SampleService/RubyOData.svc/"
+      encoding: UTF-8
+      string: <?xml version="1.0" encoding="utf-8"?><entry xml:base="http://10.10.0.17:8989/SampleService/RubyOData.svc/"
         xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices"
         xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:georss="http://www.georss.org/georss"
-        xmlns:gml="http://www.opengis.net/gml"><id>http://win7dev:8989/SampleService/RubyOData.svc/Categories(1)</id><category
+        xmlns:gml="http://www.opengis.net/gml"><id>http://10.10.0.17:8989/SampleService/RubyOData.svc/Categories(1)</id><category
         term="RubyODataService.Category" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"
         /><link rel="edit" title="Category" href="Categories(1)" /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Products"
-        type="application/atom+xml;type=feed" title="Products" href="Categories(1)/Products"><m:inline><feed><id>http://win7dev:8989/SampleService/RubyOData.svc/Categories(1)/Products</id><title
-        type="text">Products</title><updated>2012-08-07T21:47:41Z</updated><link rel="self"
-        title="Products" href="Categories(1)/Products" /><entry><id>http://win7dev:8989/SampleService/RubyOData.svc/Products(1)</id><category
+        type="application/atom+xml;type=feed" title="Products" href="Categories(1)/Products"><m:inline><feed><id>http://10.10.0.17:8989/SampleService/RubyOData.svc/Categories(1)/Products</id><title
+        type="text">Products</title><updated>2015-04-26T16:29:55Z</updated><link rel="self"
+        title="Products" href="Categories(1)/Products" /><entry><id>http://10.10.0.17:8989/SampleService/RubyOData.svc/Products(1)</id><category
         term="RubyODataService.Product" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"
         /><link rel="edit" title="Product" href="Products(1)" /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Category"
         type="application/atom+xml;type=entry" title="Category" href="Products(1)/Category"
-        /><title /><updated>2012-08-07T21:47:41Z</updated><author><name /></author><content
+        /><title /><updated>2015-04-26T16:29:55Z</updated><author><name /></author><content
         type="application/xml"><m:properties><d:Id m:type="Edm.Int32">1</d:Id><d:Name>Widget
-        0008</d:Name><d:Description>Test Widget</d:Description><d:Price m:type="Edm.Decimal">75.50</d:Price><d:DiscontinuedDate
+        0067</d:Name><d:Description>Test Widget</d:Description><d:Price m:type="Edm.Decimal">10.25</d:Price><d:DiscontinuedDate
         m:type="Edm.DateTime" m:null="true" /><d:CategoryId m:type="Edm.Int32">1</d:CategoryId><d:AuditFields
-        m:type="RubyODataService.AuditFields"><d:CreateDate m:type="Edm.DateTime">2012-08-07T21:47:41.28</d:CreateDate><d:ModifiedDate
-        m:type="Edm.DateTime">2012-08-07T21:47:41.28</d:ModifiedDate><d:CreatedBy>Machinist</d:CreatedBy></d:AuditFields></m:properties></content></entry></feed></m:inline></link><title
-        /><updated>2012-08-07T21:47:41Z</updated><author><name /></author><content
+        m:type="RubyODataService.AuditFields"><d:CreateDate m:type="Edm.DateTime">2015-04-26T16:29:55.363</d:CreateDate><d:ModifiedDate
+        m:type="Edm.DateTime">2015-04-26T16:29:55.363</d:ModifiedDate><d:CreatedBy>Machinist</d:CreatedBy></d:AuditFields></m:properties></content></entry></feed></m:inline></link><title
+        /><updated>2015-04-26T16:29:55Z</updated><author><name /></author><content
         type="application/xml"><m:properties><d:Id m:type="Edm.Int32">1</d:Id><d:Name>Category
-        0009</d:Name><d:AuditFields m:type="RubyODataService.AuditFields"><d:CreateDate
-        m:type="Edm.DateTime">2012-08-07T21:47:40.967</d:CreateDate><d:ModifiedDate
-        m:type="Edm.DateTime">2012-08-07T21:47:40.967</d:ModifiedDate><d:CreatedBy>Machinist</d:CreatedBy></d:AuditFields></m:properties></content></entry>
-    http_version: !!null 
-  recorded_at: Tue, 07 Aug 2012 21:47:41 GMT
+        0067</d:Name><d:AuditFields m:type="RubyODataService.AuditFields"><d:CreateDate
+        m:type="Edm.DateTime">2015-04-26T16:29:55.067</d:CreateDate><d:ModifiedDate
+        m:type="Edm.DateTime">2015-04-26T16:29:55.067</d:ModifiedDate><d:CreatedBy>Machinist</d:CreatedBy></d:AuditFields></m:properties></content></entry>
+    http_version: 
+  recorded_at: Sun, 26 Apr 2015 16:29:55 GMT
 - request:
     method: get
-    uri: http://win7dev:8989/SampleService/RubyOData.svc/Products(1)
+    uri: http://10.10.0.17:8989/SampleService/RubyOData.svc/Products(1)
     body:
       encoding: US-ASCII
       string: ''
     headers:
-      Accept:
-      - ! '*/*; q=0.5, application/xml'
-      Accept-Encoding:
-      - gzip, deflate
       User-Agent:
       - Ruby
+      Accept:
+      - "*/*; q=0.5, application/xml"
+      Accept-Encoding:
+      - gzip,deflate
   response:
     status:
       code: 200
-      message: OK
+      message: ''
     headers:
       Cache-Control:
-      - no-cache
+      - private
       Content-Length:
-      - '1428'
+      - '1436'
       Content-Type:
       - application/atom+xml;type=entry;charset=utf-8
       Server:
-      - Microsoft-IIS/7.5
+      - Microsoft-IIS/8.0
       Set-Cookie:
-      - ASP.NET_SessionId=y4vuijxvy4wycr3rqvcrc3ig; path=/; HttpOnly
+      - ASP.NET_SessionId=xho03dacon02ewndbxjuq5bp; path=/; HttpOnly
       X-Content-Type-Options:
       - nosniff
       Dataserviceversion:
@@ -916,22 +541,22 @@ http_interactions:
       X-Powered-By:
       - ASP.NET
       Date:
-      - Tue, 07 Aug 2012 21:47:40 GMT
+      - Sun, 26 Apr 2015 16:29:55 GMT
     body:
-      encoding: US-ASCII
-      string: <?xml version="1.0" encoding="utf-8"?><entry xml:base="http://win7dev:8989/SampleService/RubyOData.svc/"
+      encoding: UTF-8
+      string: <?xml version="1.0" encoding="utf-8"?><entry xml:base="http://10.10.0.17:8989/SampleService/RubyOData.svc/"
         xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices"
         xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:georss="http://www.georss.org/georss"
-        xmlns:gml="http://www.opengis.net/gml"><id>http://win7dev:8989/SampleService/RubyOData.svc/Products(1)</id><category
+        xmlns:gml="http://www.opengis.net/gml"><id>http://10.10.0.17:8989/SampleService/RubyOData.svc/Products(1)</id><category
         term="RubyODataService.Product" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"
         /><link rel="edit" title="Product" href="Products(1)" /><link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Category"
         type="application/atom+xml;type=entry" title="Category" href="Products(1)/Category"
-        /><title /><updated>2012-08-07T21:47:41Z</updated><author><name /></author><content
+        /><title /><updated>2015-04-26T16:29:55Z</updated><author><name /></author><content
         type="application/xml"><m:properties><d:Id m:type="Edm.Int32">1</d:Id><d:Name>Widget
-        0008</d:Name><d:Description>Test Widget</d:Description><d:Price m:type="Edm.Decimal">75.50</d:Price><d:DiscontinuedDate
+        0067</d:Name><d:Description>Test Widget</d:Description><d:Price m:type="Edm.Decimal">10.25</d:Price><d:DiscontinuedDate
         m:type="Edm.DateTime" m:null="true" /><d:CategoryId m:type="Edm.Int32">1</d:CategoryId><d:AuditFields
-        m:type="RubyODataService.AuditFields"><d:CreateDate m:type="Edm.DateTime">2012-08-07T21:47:41.28</d:CreateDate><d:ModifiedDate
-        m:type="Edm.DateTime">2012-08-07T21:47:41.28</d:ModifiedDate><d:CreatedBy>Machinist</d:CreatedBy></d:AuditFields></m:properties></content></entry>
-    http_version: !!null 
-  recorded_at: Tue, 07 Aug 2012 21:47:41 GMT
-recorded_with: VCR 2.2.4
+        m:type="RubyODataService.AuditFields"><d:CreateDate m:type="Edm.DateTime">2015-04-26T16:29:55.363</d:CreateDate><d:ModifiedDate
+        m:type="Edm.DateTime">2015-04-26T16:29:55.363</d:ModifiedDate><d:CreatedBy>Machinist</d:CreatedBy></d:AuditFields></m:properties></content></entry>
+    http_version: 
+  recorded_at: Sun, 26 Apr 2015 16:29:55 GMT
+recorded_with: VCR 2.5.0

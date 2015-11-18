@@ -8,20 +8,27 @@ module OData
       @edmx = edmx
 
       # Get the edm namespace because it varies by version
-      edm_ns = @edmx.xpath("edmx:Edmx/edmx:DataServices/*", "edmx" => "http://schemas.microsoft.com/ado/2007/06/edmx").first.namespaces['xmlns'].to_s
-      @edmx_namespaces = { "edmx" => "http://schemas.microsoft.com/ado/2007/06/edmx", "edm" => edm_ns }
+      root = @edmx.xpath("/edmx:Edmx").first
+      @version = root['Version'].to_i
+      edmxurl = root.namespaces['xmlns:edmx']
+      ds = @edmx.xpath("edmx:Edmx/edmx:DataServices/*", "edmx" => edmxurl).first
+      edm_ns = ds.namespaces['xmlns'].to_s
+      @edmx_namespaces = { "edmx" => edmxurl, "edm" => edm_ns }
       parse_nav_prop(nav_prop_element)
     end
 
     private
 
     def parse_nav_prop(element)
-      @relationship = element['Relationship']
-      relationship_parts = @relationship.split('.')
-      @name = relationship_parts.pop
-      @namespace = relationship_parts.join('.')
-      @from_role = role_hash(@name, element['FromRole'])
-      @to_role = role_hash(@name, element['ToRole'])
+      if @version >= 4
+      else
+        @relationship = element['Relationship']
+        relationship_parts = @relationship.split('.')
+        @name = relationship_parts.pop
+        @namespace = relationship_parts.join('.')
+        @from_role = role_hash(@name, element['FromRole'])
+        @to_role = role_hash(@name, element['ToRole'])
+      end
     end
 
     def role_hash(association_name, role_name)

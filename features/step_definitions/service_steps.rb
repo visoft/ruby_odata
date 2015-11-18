@@ -25,11 +25,11 @@ Given /^a HTTP BasicAuth ODataService exists using username "([^\"]*)" and passw
 end
 
 Given /^a HTTP BasicAuth ODataService exists using username "([^\"]*)" and password "([^\"]*)" it should throw an exception with message "([^\"]*)"$/ do |username, password, msg|
-  lambda { @service = OData::Service.new(BASICAUTH_URL, { :username => username, :password => password }) }.should raise_error(msg)
+  expect { @service = OData::Service.new(BASICAUTH_URL, { :username => username, :password => password }) }.to raise_error(msg)
 end
 
 Given /^a HTTP BasicAuth ODataService exists it should throw an exception with message "([^\"]*)"$/ do |msg|
-  lambda { @service = OData::Service.new(BASICAUTH_URL) }.should raise_error(msg)
+  expect { @service = OData::Service.new(BASICAUTH_URL) }.to raise_error(msg)
 end
 
 Given /^a HTTPS BasicAuth ODataService exists using self-signed certificate and username "([^\"]*)" and password "([^\"]*)"$/ do |username, password|
@@ -41,19 +41,19 @@ When /^I call "([^\"]*)" on the service$/ do |method|
 end
 
 Then /^the integer result should be ([^\"]*)$/ do |result|
-  @service_result.should eq result.to_i
+  expect(@service_result).to eq result.to_i
 end
 
 Then /^I should be able to call "([^\"]*)" on the service$/ do |method|
-  lambda { @service.send(method) }.should_not raise_error
+  expect { @service.send(method) }.to_not raise_error
 end
 
 Then /^I should not be able to call "([^\"]*)" on the service$/ do |method|
-  lambda { @service.send(method) }.should raise_error
+  expect { @service.send(method) }.to raise_error
 end
 
 Then /^I should be able to call "([^\"]*)" on the service with args: "([^\"]*)"$/ do |method, args|
-  lambda { @service.send(method, args) }.should_not raise_error
+  expect { @service.send(method, args) }.to_not raise_error
 end
 
 When /^I call "([^\"]*)" on the service with args: "([^\"]*)"$/ do |method, args|
@@ -65,19 +65,19 @@ When /^I run the query$/ do
 end
 
 Then /^the result should be of type "([^\"]*)"$/ do |type|
-  @service_result.class.to_s.should eq type
+  expect(@service_result.class.to_s).to eq type
 end
 
 Then /^the result should have a method: "([^\"]*)"$/ do |method|
-  @service_result.respond_to?(method.to_sym).should eq true
+  expect(@service_result.respond_to?(method.to_sym)).to eq true
 end
 
 Then /^the method "([^\"]*)" on the result should equal: "([^\"]*)"$/ do |method, value|
-  @service_result.send(method.to_sym).to_s.should eq value
+  expect(@service_result.send(method.to_sym).to_s).to eq value
 end
 
 Then /^the method "([^\"]*)" on the result should be nil$/ do |method|
-  @service_result.send(method.to_sym).should eq nil
+  expect(@service_result.send(method.to_sym)).to eq nil
 end
 
 When /^I set "([^\"]*)" on the result to "([^\"]*)"$/ do |property_name, value|
@@ -114,7 +114,7 @@ end
 
 Then /^the method "([^\"]*)" on the result should be of type "([^\"]*)"$/ do |method, type|
   result = @service_result.send(method.to_sym)
-  result.class.to_s.should eq type
+  expect(result.class.to_s).to eq type
 end
 
 Given /^I call "([^\"]*)" on the service with a new "([^\"]*)" object(?: with (.*))?$/ do |method, object, fields|
@@ -129,7 +129,7 @@ When /^I save changes$/ do
 end
 
 Then /^the save result should be of type "([^\"]*)"$/ do |type|
-  @saved_result.class.to_s.should eq type
+  expect(@saved_result.class.to_s).to eq type
 end
 
 When /^I call "([^\"]*)" on the service with the last save result$/ do |method|
@@ -141,12 +141,12 @@ When /^I call "([^\"]*)" on the service with the last query result$/ do |method|
 end
 
 Then /^the save result should equal: "([^\"]*)"$/ do |result|
-  @saved_result.to_s.should eq result
+  expect(@saved_result.to_s).to eq result
 end
 
 Then /^the method "([^\"]*)" on the save result should equal: "([^\"]*)"$/ do |method, value|
   result = @saved_result.send(method.to_sym)
-  result.should eq value
+  expect(result).to eq value
 end
 
 When /^blueprints exist for the service$/ do
@@ -155,23 +155,23 @@ end
 
 Given /^I call "([^\"]*)" on the service with a new "([^\"]*)" object it should throw an exception with message "([^\"]*)"$/ do |method, object, msg|
   obj = object.constantize.send :make
-  lambda { @service.send(method.to_sym, obj) }.should raise_error(msg)
+  expect { @service.send(method.to_sym, obj) }.to raise_error(msg)
 end
 
 When /^I save changes it should throw an exception with message containing "([^"]*)"$/ do |msg|
-  lambda { @service.save_changes }.should raise_error(/#{msg}.*/)
+  expect { @service.save_changes }.to raise_error(/#{msg}.*/)
 end
 
 Then /^no "([^\"]*)" should exist$/ do |collection|
   @service.send(collection)
   results = @service.execute
-  results.should eq []
+  expect(results).to eq []
 end
 
 Then /^the primitive results should be:$/ do |table|
   # table is a Cucumber::Ast::Table
   values = table.hashes
-  result_table = Cucumber::Ast::Table.new(values)
+  result_table = values
   table.diff!(result_table)
 end
 
@@ -191,13 +191,13 @@ Then /^the result should be:$/ do |table|
     results << obj_hash
   end
 
-  result_table = Cucumber::Ast::Table.new(results)
+  result_table = results
 
   table.diff!(result_table)
 end
 
 Then /^a class named "([^\"]*)" should exist$/ do |klass_name|
-  (Object.const_defined? klass_name).should eq true
+  expect(Object.const_defined? klass_name).to eq true
 end
 
 # Operations against a method on the service result
@@ -207,12 +207,12 @@ When /^I call "([^\"]*)" for "([^\"]*)" on the result$/ do |method2, method1|
 end
 
 Then /^the operation should not be null$/ do
-  @operation_result.nil?.should eq false
+  expect(@operation_result.nil?).to eq false
 end
 
 Then /^the method "([^\"]*)" on the result's method "([^\"]*)" should equal: "([^\"]*)"$/ do |method, result_method, value|
   obj = @service_result.send(result_method.to_sym)
-  obj.send(method.to_sym).to_s.should eq value
+  expect(obj.send(method.to_sym).to_s).to eq value
 end
 
 When /^I set "([^\"]*)" on the result's method "([^\"]*)" to "([^\"]*)"$/ do |property_name, result_method, value|
@@ -223,9 +223,9 @@ end
 Then /^the "([^\"]*)" method on the object should return a (.*)/ do |method_name, type|
   methods = method_name.split '.'
   if methods.length == 1
-    @service_result.first.send(method_name).class.to_s.should eq type
+    expect(@service_result.first.send(method_name).class.to_s).to eq type
   else
-    @service_result.first.send(methods[0]).send(methods[1]).class.to_s.should eq type
+    expect(@service_result.first.send(methods[0]).send(methods[1]).class.to_s).to eq type
   end
 end
 
@@ -235,12 +235,12 @@ end
 
 Then /^the new query result's time "([^\"]*)" should equal the saved query result$/ do |method_name|
   methods = method_name.split '.'
-  @service_result.send(methods[0]).send(methods[1]).xmlschema(3).should eq @stored_query_result.send(methods[0]).send(methods[1]).xmlschema(3)
+  expect(@service_result.send(methods[0]).send(methods[1]).xmlschema(3)).to eq @stored_query_result.send(methods[0]).send(methods[1]).xmlschema(3)
 end
 
 
 Then /^the result count should be (\d+)$/ do |expected_count|
-  @service_result.count.should eq expected_count.to_i
+  expect(@service_result.count).to eq expected_count.to_i
 end
 
 When /^I add a link between #{capture_model} and #{capture_model} on "([^"]*)"$/ do |parent, child, property|
