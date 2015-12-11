@@ -449,7 +449,7 @@ class Service
 
     # Fill metadata
     meta_id = entry.xpath("./atom:id", @ds_namespaces)[0].content
-    klass.send :__metadata=, { :uri => URI(URI.encode(meta_id)) }
+    klass.send :__metadata=, { :uri => meta_id }
 
     # Fill properties
     for prop in properties
