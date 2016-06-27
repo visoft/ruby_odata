@@ -3,7 +3,7 @@ $:.push File.expand_path("../lib", __FILE__)
 require "ruby_odata/version"
 
 Gem::Specification.new do |s|
-  s.name        = "ruby_odata"
+  s.name        = "wooga_ruby_odata"
   s.version     = OData::VERSION
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Damien White"]
