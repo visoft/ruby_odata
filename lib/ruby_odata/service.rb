@@ -101,7 +101,7 @@ class Service
     rescue Exception => e
       handle_exception(e)
     end
-    return Integer(@response.body) if @response.body =~ /^\d+$/
+    return Integer(@response.body) if @response.body =~ /\A\d+\z/
     handle_collection_result(@response.body)
   end
 
