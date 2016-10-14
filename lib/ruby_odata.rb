@@ -7,7 +7,6 @@ require "active_support" # Used for serializtion to JSON
 require "active_support/inflector"
 require "active_support/core_ext"
 require "cgi"
-require "excon"
 require "faraday_middleware"
 require "faraday"
 require "nokogiri"
