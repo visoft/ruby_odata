@@ -815,6 +815,8 @@ class Service
   def execute_import_function(name, *args)
     func = @function_imports[name]
 
+    query_params = args.last.is_a?(Hash) ? args.pop : {}
+
     # Check the args making sure that more weren't passed in than the function needs
     param_count = func[:parameters].nil? ? 0 : func[:parameters].count
     arg_count = args.nil? ? 0 : args[0].count
@@ -825,6 +827,7 @@ class Service
     # Convert the parameters to a hash
     params = {}
     func[:parameters].keys.each_with_index { |key, i| params[key] = args[0][i] } unless func[:parameters].nil?
+    params.merge! query_params
 
     function_uri = build_function_import_uri(name, params)
     result = OData::Resource.new(function_uri, @rest_options).send(func[:http_method].downcase, {})
