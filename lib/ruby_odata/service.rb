@@ -210,6 +210,8 @@ class Service
   def build_id_path(id_value, id_metadata)
     if id_metadata.type == "Edm.Int64"
       "(#{id_value}L)"
+    elsif id_metadata.type == "Edm.String"
+      "('#{id_value}')"
     else
       "(#{id_value})"
     end
