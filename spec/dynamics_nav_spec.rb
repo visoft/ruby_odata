@@ -46,28 +46,28 @@ module OData
         results.first.should be_a_kind_of(Customer)
       end
 
-      it "should return an error if a customer is accessed with integer id" do
-        svc = OData::Service.new "http://test.com/nav.svc/", { :username => username, :password => password, :verify_ssl => false }
-        byebug
-        svc.Customer(100013)
-        expect { svc.execute }.to raise_error(OData::ServiceError) { |error|
-          error.http_code.should eq 400
-          error.message.should eq "Server returned error but no message."
-        }
-      end
-
       it "should successfully return a customer by its string id" do
         svc = OData::Service.new "http://test.com/nav.svc/", { :username => username, :password => password, :verify_ssl => false }
         svc.Customer('100013')
         results = svc.execute
         results.first.should be_a_kind_of(Customer)
+        results.first.Name.should eq 'Contoso AG'
+      end
+
+      it "should cast to string if a customer is accessed with integer id" do
+        svc = OData::Service.new "http://test.com/nav.svc/", { :username => username, :password => password, :verify_ssl => false }
+        svc.Customer(100013)
+        results = svc.execute
+        results.first.should be_a_kind_of(Customer)
+        results.first.Name.should eq 'Contoso AG'
       end
 
       it "should successfully return a sales_order by its composite string ids" do
         svc = OData::Service.new "http://test.com/nav.svc/", { :username => username, :password => password, :verify_ssl => false }
         svc.SalesOrder(Document_Type: 'Order', No: 'AB-1600013')
         results = svc.execute
-        results.first.should be_a_kind_of(Customer)
+        results.first.should be_a_kind_of(SalesOrder)
+        results.first.No.should eq 'AB-1600013'
       end
 
     end
