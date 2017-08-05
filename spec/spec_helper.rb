@@ -8,5 +8,7 @@ require 'rspec/its'
 Dir[File.expand_path('../support/**/*.rb', __FILE__)].each { |f| require f }
 
 WebMock.disable_net_connect!(allow_localhost: true)
-DEFAULT_HEADERS = {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip,deflate'}
-
+DEFAULT_HEADERS = {
+  'Accept'=>'*/*; q=0.5, application/xml',
+  'Accept-Encoding'=>'gzip,deflate'
+}
