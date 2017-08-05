@@ -8,12 +8,12 @@ Background:
   Given a HTTP ODataService exists
   And blueprints exist for the service
 
-Scenario: Integers should be Fixnums
+Scenario: Integers should be an Integer
   Given I call "AddToProducts" on the service with a new "Product" object
   And I save changes
   When I call "Products" on the service
   And I run the query
-  Then the "Id" method on the object should return a Fixnum
+  Then the "Id" method on the object should return a Integer
 
 Scenario: Decimals should be BigDecimals
   Given I call "AddToProducts" on the service with a new "Product" object

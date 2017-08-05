@@ -194,7 +194,7 @@ module OData
         end
         it "should return a single primitive type" do
           result = subject.FirstCategoryId
-          result.should be_a Fixnum
+          result.should be_a Integer
           result.should eq 1
         end
       end

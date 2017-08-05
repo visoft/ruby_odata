@@ -262,7 +262,8 @@ class Service
   def build_collections_and_classes
     @classes = Hash.new
     @class_metadata = Hash.new # This is used to store property information about a class
-
+    @class_metadata[:uri] = @uri
+    
     # Build complex types first, these will be used for entities
     complex_types = @edmx.xpath("//edm:ComplexType", @ds_namespaces) || []
     complex_types.each do |c|
@@ -794,7 +795,7 @@ class Service
 
   # Parses a value into the proper type based on a specified return type
   def parse_primative_type(value, return_type)
-    return value.to_i if return_type == Fixnum
+    return value.to_i if return_type == Integer
     return value.to_d if return_type == Float
     return parse_date(value.to_s) if return_type == Time
     return value.to_s
@@ -803,7 +804,7 @@ class Service
   # Converts an edm type (string) to a ruby type
   def edm_to_ruby_type(edm_type)
     return String if edm_type =~ /Edm.String/
-    return Fixnum if edm_type =~ /^Edm.Int/
+    return Integer if edm_type =~ /^Edm.Int/
     return Float if edm_type =~ /Edm.Decimal/
     return Time if edm_type =~ /Edm.DateTime/
     return String
