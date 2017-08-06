@@ -4,9 +4,9 @@ matrix:
     #   gemfile: gemfiles/Gemfile.ruby187
     # - rvm: 1.9.3
     #   gemfile: Gemfile # Gem::InstallError: tins requires Ruby version >= 2.0.
-    - rvm: 2.0.0
+    - rvm: 2.3.4
       gemfile: Gemfile
-    - rvm: 2.2.2
+    - rvm: 2.4.1
       gemfile: Gemfile
 
 script: "bundle exec rake test_with_coveralls"
