@@ -1,0 +1,92 @@
+<edmx:Edmx 
+    xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" Version="1.0">
+    <edmx:DataServices 
+        xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" m:DataServiceVersion="1.0" m:MaxDataServiceVersion="3.0">
+        <Schema 
+            xmlns="http://schemas.microsoft.com/ado/2007/05/edm" Namespace="NAV">
+            <EntityType Name="Customer">
+                <Key>
+                    <PropertyRef Name="No"/>
+                </Key>
+                <Property Name="No" Type="Edm.String" Nullable="false"/>
+                <Property Name="Name" Type="Edm.String"/>
+                <Property Name="Address" Type="Edm.String"/>
+                <Property Name="Address_2" Type="Edm.String"/>
+                <Property Name="Post_Code" Type="Edm.String"/>
+                <Property Name="City" Type="Edm.String"/>
+                <Property Name="Country_Region_Code" Type="Edm.String"/>
+                <Property Name="ETag" Type="Edm.String" ConcurrencyMode="Fixed"/>
+            </EntityType>
+            <EntityType Name="SalesOrder">
+                <Key>
+                    <PropertyRef Name="Document_Type"/>
+                    <PropertyRef Name="No"/>
+                </Key>
+                <Property Name="Document_Type" Type="Edm.String" Nullable="false"/>
+                <Property Name="No" Type="Edm.String" Nullable="false"/>
+                <Property Name="Sell_to_Customer_No" Type="Edm.String"/>
+                <Property Name="ETag" Type="Edm.String" ConcurrencyMode="Fixed"/>
+                <NavigationProperty Name="SalesOrderSalesLines" Relationship="NAV.SalesOrder_SalesOrderSalesLines" ToRole="SalesOrderSalesLines" FromRole="SalesOrder"/>
+            </EntityType>
+            <EntityType Name="SalesOrderSalesLines">
+                <Key>
+                    <PropertyRef Name="Document_No"/>
+                    <PropertyRef Name="Document_Type"/>
+                    <PropertyRef Name="Line_No"/>
+                </Key>
+                <Property Name="Document_Type" Type="Edm.String" Nullable="false"/>
+                <Property Name="Document_No" Type="Edm.String" Nullable="false"/>
+                <Property Name="Line_No" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="Position_No" Type="Edm.Int32"/>
+                <Property Name="Type" Type="Edm.String"/>
+                <Property Name="No" Type="Edm.String"/>
+            </EntityType>
+            <EntityType Name="Company">
+                <Key>
+                    <PropertyRef Name="Name"/>
+                </Key>
+                <Property Name="Name" Type="Edm.String" Nullable="false"/>
+                <NavigationProperty Name="Customer" Relationship="NAV.Company_Customer" ToRole="Customer" FromRole="Company"/>
+                <NavigationProperty Name="SalesOrder" Relationship="NAV.Company_SalesOrder" ToRole="SalesOrder" FromRole="Company"/>
+                <NavigationProperty Name="SalesOrderSalesLines" Relationship="NAV.Company_SalesOrderSalesLines" ToRole="SalesOrderSalesLines" FromRole="Company"/>
+            </EntityType>
+            <Association Name="SalesOrder_SalesOrderSalesLines">
+                <End Type="NAV.SalesOrderSalesLines" Role="SalesOrderSalesLines" Multiplicity="*"/>
+                <End Type="NAV.SalesOrder" Role="SalesOrder" Multiplicity="*"/>
+            </Association>
+            <Association Name="Company_Customer">
+                <End Type="NAV.Customer" Role="Customer" Multiplicity="*"/>
+                <End Type="NAV.Company" Role="Company" Multiplicity="*"/>
+            </Association>
+            <Association Name="Company_SalesOrder">
+                <End Type="NAV.SalesOrder" Role="SalesOrder" Multiplicity="*"/>
+                <End Type="NAV.Company" Role="Company" Multiplicity="*"/>
+            </Association>
+            <Association Name="Company_SalesOrderSalesLines">
+                <End Type="NAV.SalesOrderSalesLines" Role="SalesOrderSalesLines" Multiplicity="*"/>
+                <End Type="NAV.Company" Role="Company" Multiplicity="*"/>
+            </Association>
+            <EntityContainer Name="NAV" m:IsDefaultEntityContainer="true">
+                <EntitySet Name="Customer" EntityType="NAV.Customer"/>
+                <EntitySet Name="SalesOrder" EntityType="NAV.SalesOrder"/>
+                <EntitySet Name="SalesOrderSalesLines" EntityType="NAV.SalesOrderSalesLines"/>
+                <AssociationSet Name="SalesOrder_SalesOrderSalesLines_SalesOrderSalesLines" Association="NAV.SalesOrder_SalesOrderSalesLines">
+                    <End Role="SalesOrder" EntitySet="SalesOrder"/>
+                    <End Role="SalesOrderSalesLines" EntitySet="SalesOrderSalesLines"/>
+                </AssociationSet>
+                <AssociationSet Name="Company_Customer_Customer" Association="NAV.Company_Customer">
+                    <End Role="Company" EntitySet="Company"/>
+                    <End Role="Customer" EntitySet="Customer"/>
+                </AssociationSet>
+                <AssociationSet Name="Company_SalesOrder_SalesOrder" Association="NAV.Company_SalesOrder">
+                    <End Role="Company" EntitySet="Company"/>
+                    <End Role="SalesOrder" EntitySet="SalesOrder"/>
+                </AssociationSet>
+                <AssociationSet Name="Company_SalesOrderSalesLines_SalesOrderSalesLines" Association="NAV.Company_SalesOrderSalesLines">
+                    <End Role="Company" EntitySet="Company"/>
+                    <End Role="SalesOrderSalesLines" EntitySet="SalesOrderSalesLines"/>
+                </AssociationSet>
+            </EntityContainer>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>
