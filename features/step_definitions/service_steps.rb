@@ -220,12 +220,18 @@ When /^I set "([^\"]*)" on the result's method "([^\"]*)" to "([^\"]*)"$/ do |pr
 end
 
 # Type tests
-Then /^the "([^\"]*)" method on the object should return a (.*)/ do |method_name, type|
+Then /^the "([^\"]*)" method on the object should return a ([^ ]*)/ do |method_name, type|
   methods = method_name.split '.'
   if methods.length == 1
     expect(@service_result.first.send(method_name).class.to_s).to eq type
   else
     expect(@service_result.first.send(methods[0]).send(methods[1]).class.to_s).to eq type
+  end
+end
+
+Then(/^if Ruby ([\d.]+) the "([^"]*)" method on the object should return an? ([^ ]*)$/) do |ruby_version, method_name, type|
+  if RUBY_VERSION.start_with? ruby_version
+    step "the \"#{method_name}\" method on the object should return a #{type}"
   end
 end
 

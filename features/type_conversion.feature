@@ -13,7 +13,8 @@ Scenario: Integers should be an Integer
   And I save changes
   When I call "Products" on the service
   And I run the query
-  Then the "Id" method on the object should return a Integer
+  Then if Ruby 2.4 the "Id" method on the object should return an Integer
+  Then if Ruby 2.3 the "Id" method on the object should return a Fixnum
 
 Scenario: Decimals should be BigDecimals
   Given I call "AddToProducts" on the service with a new "Product" object

@@ -719,9 +719,16 @@ module OData
           property = 'Products'
           svc.add_link(category, property, product)
           svc.save_changes
-          a_request(:post, "http://test.com/test.svc/Categories(1)/$links/Products").
-            with(:body => '"{\"uri\":\"http://test.com/test.svc/Products(1)\"}"',
-                 :headers => DEFAULT_HEADERS.merge({'Content-Type' => 'application/json'})).should have_been_made
+
+          if RUBY_VERSION.start_with? '2.3'
+            a_request(:post, "http://test.com/test.svc/Categories(1)/$links/Products").
+              with(:body => '{"uri":"http://test.com/test.svc/Products(1)"}',
+                  :headers => DEFAULT_HEADERS.merge({'Content-Type' => 'application/json'})).should have_been_made
+          else
+            a_request(:post, "http://test.com/test.svc/Categories(1)/$links/Products").
+              with(:body => '"{\"uri\":\"http://test.com/test.svc/Products(1)\"}"',
+                  :headers => DEFAULT_HEADERS.merge({'Content-Type' => 'application/json'})).should have_been_made
+          end
         end
 
         it "should add the child to the parent's navigation property on a single_save" do
@@ -760,10 +767,17 @@ module OData
           end
 
           it "should perform a post with the correct URL and body on a batch_save" do
-            WebMock.should have_requested(:post, "http://test.com/test.svc/$batch").with { |request|
-              request.body.include? "POST http://test.com/test.svc/Categories(1)/$links/Products HTTP/1.1"
-              request.body.include? '{\"uri\":\"http://test.com/test.svc/Products(1)\"}'
-            }
+            if RUBY_VERSION.start_with? '2.3'
+              WebMock.should have_requested(:post, "http://test.com/test.svc/$batch").with { |request|
+                request.body.include? "POST http://test.com/test.svc/Categories(1)/$links/Products HTTP/1.1"
+                request.body.include? '{"uri":"http://test.com/test.svc/Products(1)"}'
+              }
+            else
+              WebMock.should have_requested(:post, "http://test.com/test.svc/$batch").with { |request|
+                request.body.include? "POST http://test.com/test.svc/Categories(1)/$links/Products HTTP/1.1"
+                request.body.include? '{\"uri\":\"http://test.com/test.svc/Products(1)\"}'
+              }
+            end
           end
           context "child is a part of the parent's collection" do
             subject { @category.Products }
