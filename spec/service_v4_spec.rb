@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe "V4 Service" do
   before(:all) do
-    stub_request(:get, /http:\/\/test\.com\/test\.svc\/\$metadata(?:\?.+)?/).
+    stub_request(:get, "http://test.com/test.svc/$metadata").
     with(:headers => DEFAULT_HEADERS).
     to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/v4/edmx_metadata.xml", __FILE__)), :headers => {})
 
