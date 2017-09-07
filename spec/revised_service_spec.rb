@@ -12,6 +12,9 @@ module OData
       @cat_prod_service = OData::Service.new "http://test.com/test.svc"
     end
     subject { @cat_prod_service }
+    after(:each) do
+      remove_classes @service
+    end
 
     context "methods" do
       it { should respond_to :update_object }
@@ -211,15 +214,14 @@ module OData
         to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/ms_system_center/edmx_ms_system_center_v2.xml", __FILE__)), :headers => {})
     end
 
-    after(:all) do
-      VMM.constants.each do |constant|
-        VMM.send :remove_const, constant
-      end
+    after(:each) do   
+      remove_classes @service
     end
 
     it "should parse the service without errors" do
-      lambda { OData::Service.new "http://test.com/test.svc/", { :username => "xxxx\\yyyy", :password=> "zzzz", :verify_ssl => false, :namespace => "VMM" } }.should_not raise_error
+      lambda { @service = OData::Service.new "http://test.com/test.svc/", { :username => "xxxx\\yyyy", :password=> "zzzz", :verify_ssl => false, :namespace => "VMM" } }.should_not raise_error
     end
+
   end
 
   describe "Dual Services" do

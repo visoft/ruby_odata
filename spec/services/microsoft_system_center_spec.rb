@@ -27,40 +27,36 @@ module OData
         stub_request(:get, "http://test.com/test.svc/VMTemplates").
           with(:headers => headers).
           to_return(:status => 200, :body => File.new( FIXTURES + "/ms_system_center/vm_templates.xml"), :headers => {})
+
+        @service = OData::Service.new "http://test.com/test.svc/", { :username => username, :password => password, :verify_ssl => false, :namespace => "VMM" }
       end
 
       after(:all) do
-        VMM.constants.each do |constant|
-          VMM.send :remove_const, constant
-        end
+        remove_classes @service
       end
 
       it "should successfully parse null valued string properties" do
-        svc = OData::Service.new "http://test.com/test.svc/", { :username => username, :password => password, :verify_ssl => false, :namespace => "VMM" }
-        svc.VirtualMachines
-        results = svc.execute
+        @service.VirtualMachines
+        results = @service.execute
         results.first.should be_a_kind_of(VMM::VirtualMachine)
         results.first.CostCenter.should be_nil
       end
 
       it "should successfully return a virtual machine" do
-        svc = OData::Service.new "http://test.com/test.svc/", { :username => username, :password => password, :verify_ssl => false, :namespace => "VMM" }
-        svc.VirtualMachines
-        results = svc.execute
+        @service.VirtualMachines
+        results = @service.execute
         results.first.should be_a_kind_of(VMM::VirtualMachine)
       end
 
       it "should successfully return a hardware profile for results that include a collection of complex types" do
-        svc = OData::Service.new "http://test.com/test.svc/", { :username => username, :password => password, :verify_ssl => false, :namespace => "VMM" }
-        svc.HardwareProfiles.filter("Memory eq 3500")
-        results = svc.execute
+        @service.HardwareProfiles.filter("Memory eq 3500")
+        results = @service.execute
         results.first.should be_a_kind_of(VMM::HardwareProfile)
       end
 
       it "should successfully return a collection of complex types" do
-        svc = OData::Service.new "http://test.com/test.svc/", { :username => username, :password => password, :verify_ssl => false, :namespace => "VMM" }
-        svc.HardwareProfiles.filter("Memory eq 3500")
-        results = svc.execute
+        @service.HardwareProfiles.filter("Memory eq 3500")
+        results = @service.execute
         granted_list = results.first.GrantedToList
         granted_list.should be_a_kind_of(Array)
         granted_list.first.should be_a_kind_of(VMM::UserAndRole)
@@ -69,16 +65,14 @@ module OData
 
 
       it "should successfully return results that include a collection of Edm types" do
-        svc = OData::Service.new "http://test.com/test.svc/", { :username => username, :password => password, :verify_ssl => false, :namespace => "VMM" }
-        svc.VMTemplates
-        results = svc.execute
+        @service.VMTemplates
+        results = @service.execute
         results.first.should be_a_kind_of(VMM::VMTemplate)
       end
 
       it "should successfully return a collection of Edm types" do
-        svc = OData::Service.new "http://test.com/test.svc/", { :username => username, :password => password, :verify_ssl => false, :namespace => "VMM" }
-        svc.VMTemplates
-        results = svc.execute
+        @service.VMTemplates
+        results = @service.execute
         boot_order = results.first.BootOrder
         boot_order.should be_a_kind_of(Array)
         boot_order.first.should be_a_kind_of(String)

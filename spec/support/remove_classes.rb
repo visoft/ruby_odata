@@ -2,10 +2,12 @@
 # Removes the classes which were created by the odata_service
 #
 def remove_classes(service)
+  return if service.nil?
+
   service.class_metadata.each_key do |klass|
-    next unless (String === klass )    
-    
-    namespaces = klass.split(/\.|::/)    
+    next unless (String === klass )
+
+    namespaces = klass.split(/\.|::/)
     (0..namespaces.count).each do |index|
       index = namespaces.count-index-1
       name = namespaces[index]

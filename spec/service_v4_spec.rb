@@ -11,6 +11,11 @@ describe "V4 Service" do
 
     @service = OData::Service.new "http://test.com/test.svc"
   end
+
+  after(:all) do 
+    remove_classes @service   
+  end
+
   subject { @service }
 
   context "methods" do

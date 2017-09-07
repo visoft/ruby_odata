@@ -12,6 +12,10 @@ module OData
     end
     describe "#initialize singlular navigation property" do
       before { @association = Association.new @product_category, @svc.edmx }
+
+    after(:all) do
+      remove_classes @service
+    end
       subject { @association }
 
       it "sets the association name" do
