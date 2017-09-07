@@ -4,32 +4,36 @@ require 'base64'
 module OData
 
   describe Service do
-    before(:all) do
+    before(:each) do
       stub_request(:get, /http:\/\/test\.com\/test\.svc\/\$metadata(?:\?.+)?/).
       with(:headers => DEFAULT_HEADERS).
       to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/sample_service/edmx_categories_products.xml", __FILE__)), :headers => {})
 
-      @cat_prod_service = OData::Service.new "http://test.com/test.svc"
+      @service = OData::Service.new "http://test.com/test.svc"
     end
-    subject { @cat_prod_service }
+
     after(:each) do
       remove_classes @service
     end
 
+    subject { @service }
+
     context "methods" do
+      it { should respond_to :collections }
+      it { should respond_to :class_metadata }
+      it { should respond_to :function_imports }
+      it { should respond_to :classes }
+      
+      it { should respond_to :execute }
+      
       it { should respond_to :update_object }
       it { should respond_to :delete_object }
       it { should respond_to :save_changes }
       it { should respond_to :load_property }
       it { should respond_to :add_link }
-      it { should respond_to :execute }
       it { should respond_to :partial? }
       it { should respond_to :next }
-      it { should respond_to :classes }
-      it { should respond_to :class_metadata }
-      it { should respond_to :collections }
       it { should respond_to :options }
-      it { should respond_to :function_imports }
 
       context "after parsing metadata" do
         it { should respond_to :Products }
@@ -38,8 +42,9 @@ module OData
         it { should respond_to :AddToCategories }
       end
     end
+
     context "collections method" do
-      subject { @cat_prod_service.collections }
+      subject { @service.collections }
       it { should include 'Products' }
       it { should include 'Categories' }
       it "should expose the edmx type of objects" do
@@ -51,14 +56,15 @@ module OData
         subject['Categories'][:type].should eq Category
       end
     end
+
     context "class metadata" do
-      subject { @cat_prod_service.class_metadata }
+      subject { @service.class_metadata }
       it { should_not be_empty}
       it { should have_key 'Product' }
       it { should have_key 'Category' }
 
       context "should have keys for each property" do
-        subject { @cat_prod_service.class_metadata['Category'] }
+        subject { @service.class_metadata['Category'] }
         it { should have_key 'Id' }
         it { should have_key 'Name' }
         it { should have_key 'Products' }
@@ -100,8 +106,9 @@ module OData
         end
       end
     end
+    
     context "function_imports method" do
-      subject { @cat_prod_service.function_imports }
+      subject { @service.function_imports }
       it { should_not be_empty}
       it { should have_key 'CleanDatabaseForTesting' }
       it { should have_key 'EntityCategoryWebGet' }
@@ -126,14 +133,14 @@ module OData
         subject['EntitySingleCategoryWebGet'][:parameters]['id'].should eq 'Edm.Int32'
       end
       context "after parsing function imports" do
-        subject { @cat_prod_service }
+        subject { @service }
         it { should respond_to :CleanDatabaseForTesting }
         it { should respond_to :EntityCategoryWebGet }
         it { should respond_to :EntitySingleCategoryWebGet }
         it { should respond_to :CategoryNames }
       end
       context "error checking" do
-        subject { @cat_prod_service }
+        subject { @service }
         it "should throw an exception if a parameter is passed in to a method that doesn't require one" do
           lambda { subject.EntityCategoryWebGet(1) }.should raise_error(ArgumentError, "wrong number of arguments (1 for 0)")
         end
@@ -142,7 +149,7 @@ module OData
         end
       end
       context "url and http method checks" do
-        subject { @cat_prod_service }
+        subject { @service }
         before { stub_request(:any, /http:\/\/test\.com\/test\.svc\/(.*)/) }
         it "should call the correct url with the correct http method for a post with no parameters" do
           subject.CleanDatabaseForTesting
@@ -158,7 +165,7 @@ module OData
         end
       end
       context "function import result parsing" do
-        subject { @cat_prod_service }
+        subject { @service }
         before(:each) do
           stub_request(:post, "http://test.com/test.svc/CleanDatabaseForTesting").to_return(:status => 204)
 
@@ -206,7 +213,7 @@ module OData
 
 
   describe "Dual Namespaces" do
-    before(:all) do
+    before(:each) do
       auth_string = "xxxx\\yyyy:zzzz"
       authorization_header = { authorization: "Basic #{Base64::encode64(auth_string).strip}" }
       stub_request(:get, "http://test.com/test.svc/$metadata").
@@ -225,7 +232,7 @@ module OData
   end
 
   describe "Dual Services" do
-    before(:all) do
+    before(:each) do
       stub_request(:get, "http://service1.com/test.svc/$metadata").
       with(:headers => DEFAULT_HEADERS).
       to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/sample_service/edmx_categories_products.xml", __FILE__)), :headers => {})
@@ -237,6 +244,11 @@ module OData
 
       @service1 = OData::Service.new "http://service1.com/test.svc"
       @service2 = OData::Service.new "http://service2.com/test.svc"
+    end
+
+    after(:each) do
+      remove_classes @service1
+      remove_classes @service2
     end
 
     it "should use the correct service uri" do
