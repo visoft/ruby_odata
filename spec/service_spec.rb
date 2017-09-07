@@ -1,596 +1,259 @@
 require 'spec_helper'
+require 'base64'
 
 module OData
+
   describe Service do
+    before(:each) do
+      stub_request(:get, /http:\/\/test\.com\/test\.svc\/\$metadata(?:\?.+)?/).
+      with(:headers => DEFAULT_HEADERS).
+      to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/sample_service/edmx_categories_products.xml", __FILE__)), :headers => {})
+
+      @service = OData::Service.new "http://test.com/test.svc"
+    end
 
     after(:each) do
       remove_classes @service
     end
 
-    describe "#initialize" do
-      it "truncates passed in end slash from uri when making the request" do
-        # Required for the build_classes method
-        stub_request(:get, "http://test.com/test.svc/$metadata").
-          with(:headers => DEFAULT_HEADERS).
-          to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/edmx_empty.xml", __FILE__)), :headers => {})
+    subject { @service }
 
-        @service =OData::Service.new "http://test.com/test.svc/"
+    context "methods" do
+      it { should respond_to :collections }
+      it { should respond_to :class_metadata }
+      it { should respond_to :function_imports }
+      it { should respond_to :classes }
+      
+      it { should respond_to :execute }
+      
+      it { should respond_to :update_object }
+      it { should respond_to :delete_object }
+      it { should respond_to :save_changes }
+      it { should respond_to :load_property }
+      it { should respond_to :add_link }
+      it { should respond_to :partial? }
+      it { should respond_to :next }
+      it { should respond_to :options }
+
+      context "after parsing metadata" do
+        it { should respond_to :Products }
+        it { should respond_to :Categories }
+        it { should respond_to :AddToProducts }
+        it { should respond_to :AddToCategories }
       end
-      it "doesn't error with lowercase entities" do
-        # Required for the build_classes method
-        stub_request(:get, "http://test.com/test.svc/$metadata").
-          with(:headers => DEFAULT_HEADERS).
-          to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/edmx_lowercase.xml", __FILE__)), :headers => {})
+    end
 
-        expect { @service = OData::Service.new "http://test.com/test.svc" }.not_to raise_error
+    context "collections method" do
+      subject { @service.collections }
+      it { should include 'Products' }
+      it { should include 'Categories' }
+      it "should expose the edmx type of objects" do
+        subject['Products'][:edmx_type].should eq 'RubyODataService.Product'
+        subject['Categories'][:edmx_type].should eq 'RubyODataService.Category'
       end
+      it "should expose the local model type" do
+        subject['Products'][:type].should eq Product
+        subject['Categories'][:type].should eq Category
+      end
+    end
 
-      describe "additional query string parameters" do
+    context "class metadata" do
+      subject { @service.class_metadata }
+      it { should_not be_empty}
+      it { should have_key 'Product' }
+      it { should have_key 'Category' }
+
+      context "should have keys for each property" do
+        subject { @service.class_metadata['Category'] }
+        it { should have_key 'Id' }
+        it { should have_key 'Name' }
+        it { should have_key 'Products' }
+        it "should return a PropertyMetadata object for each property" do
+          subject['Id'].should be_a PropertyMetadata
+          subject['Name'].should be_a PropertyMetadata
+          subject['Products'].should be_a PropertyMetadata
+        end
+        it "should have correct PropertyMetadata for Category.Id" do
+          meta = subject['Id']
+          meta.name.should eq 'Id'
+          meta.type.should eq 'Edm.Int32'
+          meta.nullable.should eq false
+          meta.fc_target_path.should be_nil
+          meta.fc_keep_in_content.should be_nil
+          meta.nav_prop.should eq false
+          meta.is_key.should eq true
+        end
+        it "should have correct PropertyMetadata for Category.Name" do
+          meta = subject['Name']
+          meta.name.should eq 'Name'
+          meta.type.should eq 'Edm.String'
+          meta.nullable.should eq false
+          meta.fc_target_path.should be_nil
+          meta.fc_keep_in_content.should be_nil
+          meta.nav_prop.should eq false
+          meta.is_key.should eq false
+        end
+        it "should have correct PropertyMetadata for Category.Products" do
+          meta = subject['Products']
+          meta.name.should eq 'Products'
+          meta.type.should be_nil
+          meta.nullable.should eq true
+          meta.fc_target_path.should be_nil
+          meta.fc_keep_in_content.should be_nil
+          meta.nav_prop.should eq true
+          meta.association.should_not be_nil
+          meta.is_key.should eq false
+        end
+      end
+    end
+    
+    context "function_imports method" do
+      subject { @service.function_imports }
+      it { should_not be_empty}
+      it { should have_key 'CleanDatabaseForTesting' }
+      it { should have_key 'EntityCategoryWebGet' }
+      it { should have_key 'EntitySingleCategoryWebGet' }
+      it "should expose the http method" do
+        subject['CleanDatabaseForTesting'][:http_method].should eq 'POST'
+        subject['EntityCategoryWebGet'][:http_method].should eq 'GET'
+        subject['EntitySingleCategoryWebGet'][:http_method].should eq 'GET'
+      end
+      it "should expose the return type" do
+        subject['CleanDatabaseForTesting'][:return_typo].should be_nil
+        subject['EntityCategoryWebGet'][:return_type].should eq Array
+        subject['EntityCategoryWebGet'][:inner_return_type].should eq Category
+        subject['EntitySingleCategoryWebGet'][:return_type].should eq Category
+        subject['EntitySingleCategoryWebGet'][:inner_return_type].should be_nil
+        subject['CategoryNames'][:return_type].should eq Array
+        subject['CategoryNames'][:inner_return_type].should eq String
+      end
+      it "should provide a hash of parameters" do
+        subject['EntityCategoryWebGet'][:parameters].should be_nil
+        subject['EntitySingleCategoryWebGet'][:parameters].should be_a Hash
+        subject['EntitySingleCategoryWebGet'][:parameters]['id'].should eq 'Edm.Int32'
+      end
+      context "after parsing function imports" do
+        subject { @service }
+        it { should respond_to :CleanDatabaseForTesting }
+        it { should respond_to :EntityCategoryWebGet }
+        it { should respond_to :EntitySingleCategoryWebGet }
+        it { should respond_to :CategoryNames }
+      end
+      context "error checking" do
+        subject { @service }
+        it "should throw an exception if a parameter is passed in to a method that doesn't require one" do
+          lambda { subject.EntityCategoryWebGet(1) }.should raise_error(ArgumentError, "wrong number of arguments (1 for 0)")
+        end
+        it "should throw and exception if more parameters are passed in than required by the function" do
+          lambda { subject.EntitySingleCategoryWebGet(1,2) }.should raise_error(ArgumentError, "wrong number of arguments (2 for 1)")
+        end
+      end
+      context "url and http method checks" do
+        subject { @service }
+        before { stub_request(:any, /http:\/\/test\.com\/test\.svc\/(.*)/) }
+        it "should call the correct url with the correct http method for a post with no parameters" do
+          subject.CleanDatabaseForTesting
+          a_request(:post, "http://test.com/test.svc/CleanDatabaseForTesting").should have_been_made
+        end
+        it "should call the correct url with the correct http method for a get with no parameters" do
+          subject.EntityCategoryWebGet
+          a_request(:get, "http://test.com/test.svc/EntityCategoryWebGet").should have_been_made
+        end
+        it "should call the correct url with the correct http method for a get with parameters" do
+          subject.EntitySingleCategoryWebGet(1)
+          a_request(:get, "http://test.com/test.svc/EntitySingleCategoryWebGet?id=1").should have_been_made
+        end
+      end
+      context "function import result parsing" do
+        subject { @service }
         before(:each) do
-          # Required for the build_classes method
-          stub_request(:get, /http:\/\/test\.com\/test\.svc\/\$metadata(?:\?.+)?/).
-            with(:headers => DEFAULT_HEADERS).
-            to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/edmx_empty.xml", __FILE__)), :headers => {})
+          stub_request(:post, "http://test.com/test.svc/CleanDatabaseForTesting").to_return(:status => 204)
+
+          stub_request(:get, "http://test.com/test.svc/EntityCategoryWebGet").
+          to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/sample_service/result_entity_category_web_get.xml", __FILE__)), :headers => {})
+
+          stub_request(:get, "http://test.com/test.svc/EntitySingleCategoryWebGet?id=1").
+          to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/sample_service/result_entity_single_category_web_get.xml", __FILE__)), :headers => {})
+
+          stub_request(:get, "http://test.com/test.svc/CategoryNames").
+          to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/sample_service/result_category_names.xml", __FILE__)), :headers => {})
+
+          stub_request(:get, "http://test.com/test.svc/FirstCategoryId").
+          to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/sample_service/result_first_category_id.xml", __FILE__)), :headers => {})
         end
-        it "should accept additional query string parameters" do
-          @service =OData::Service.new "http://test.com/test.svc/", { :additional_params => { :x=>1, :y=>2 } }
-          @service.options[:additional_params].should eq Hash[:x=>1, :y=>2]
+        it "should return true if a function import post that returns successfully and doesn't have a return value (HTTP 204)" do
+          result = subject.CleanDatabaseForTesting
+          expect(result).to eq true
         end
-        it "should call the correct metadata uri when additional_params are passed in" do
-          @service =OData::Service.new "http://test.com/test.svc/", { :additional_params => { :x => 1, :y => 2 } }
-          a_request(:get, "http://test.com/test.svc/$metadata?x=1&y=2").should have_been_made
+        it "should return a collection of entities for a collection" do
+          result = subject.EntityCategoryWebGet
+          result.should be_an Enumerable
+          result.first.should be_a Category
+          result.first.Name.should eq "Test Category"
         end
-      end
-
-      describe "rest-client options" do
-        before(:each) do
-          # Required for the build_classes method
-          stub_request(:get, /http:\/\/test\.com\/test\.svc\/\$metadata(?:\?.+)?/).
-            with(:headers => DEFAULT_HEADERS).
-            to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/edmx_empty.xml", __FILE__)), :headers => {})
+        it "should return a single entity if it isn't a collection" do
+          result = subject.EntitySingleCategoryWebGet(1)
+          result.should be_a Category
+          result.Name.should eq "Test Category"
         end
-        it "should accept in options that will be passed to the rest-client lib" do
-          @service =OData::Service.new "http://test.com/test.svc/", { :rest_options => { :ssl_ca_file => "ca_certificate.pem" } }
-          @service.options[:rest_options].should eq Hash[:ssl_ca_file => "ca_certificate.pem"]
+        it "should return a collection of primitive types" do
+          result = subject.CategoryNames
+          result.should be_an Enumerable
+          result.first.should be_a String
+          result.first.should eq "Test Category 1"
         end
-        it "should merge the rest options with the built in options" do
-          @service =OData::Service.new "http://test.com/test.svc/", { :rest_options => { :ssl_ca_file => "ca_certificate.pem" } }
-          @service.instance_variable_get(:@rest_options).should eq Hash[:verify_ssl => 1, :user => nil, :password => nil, :ssl_ca_file => "ca_certificate.pem"]
-        end
-      end
-    end
-
-    describe "additional query string parameters" do
-      before(:each) do
-        # Required for the build_classes method
-        stub_request(:any, /http:\/\/test\.com\/test\.svc(?:.*)/).
-          with(:headers => DEFAULT_HEADERS).
-          to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/sap/edmx_sap_demo_flight.xml", __FILE__)), :headers => {})
-      end
-      it "should pass the parameters as part of a query" do
-        @service =OData::Service.new "http://test.com/test.svc/", { :additional_params => { :x=>1, :y=>2 } }
-        @service.flight_dataCollection
-        @service.execute
-        a_request(:get, "http://test.com/test.svc/flight_dataCollection?x=1&y=2").should have_been_made
-      end
-      it "should pass the parameters as part of a save" do
-        @service =OData::Service.new "http://test.com/test.svc/", { :additional_params => { :x=>1, :y=>2 } }
-        new_flight = ZDemoFlight.new
-        @service.AddToflight_dataCollection(new_flight)
-        @service.save_changes
-        a_request(:post, "http://test.com/test.svc/flight_dataCollection?x=1&y=2").should have_been_made
-      end
-      it "should pass the parameters as part of an update" do
-        @service =OData::Service.new "http://test.com/test.svc/", { :additional_params => { :x=>1, :y=>2 } }
-        existing_flight = ZDemoFlight.new
-        existing_flight.__metadata = { :uri => "http://test.com/test.svc/flight_dataCollection/1" }
-        @service.update_object(existing_flight)
-        @service.save_changes
-        a_request(:put, "http://test.com/test.svc/flight_dataCollection/1?x=1&y=2").should have_been_made
-      end
-      it "should pass the parameters as part of a delete" do
-        @service =OData::Service.new "http://test.com/test.svc/", { :additional_params => { :x=>1, :y=>2 } }
-        existing_flight = ZDemoFlight.new
-        existing_flight.__metadata = { :uri => "http://test.com/test.svc/flight_dataCollection/1" }
-        @service.delete_object(existing_flight)
-        @service.save_changes
-        a_request(:delete, "http://test.com/test.svc/flight_dataCollection/1?x=1&y=2").should have_been_made
-      end
-      it "should pass the parameters as part of a batch save" do
-        @service =OData::Service.new "http://test.com/test.svc/", { :additional_params => { :x=>1, :y=>2 } }
-        new_flight = ZDemoFlight.new
-        @service.AddToflight_dataCollection(new_flight)
-        new_flight2 = ZDemoFlight.new
-        @service.AddToflight_dataCollection(new_flight2)
-        @service.save_changes
-        a_request(:post, "http://test.com/test.svc/$batch?x=1&y=2").should have_been_made
-      end
-      it "should pass the parameters as part of an add link" do
-        @service =OData::Service.new "http://test.com/test.svc/", { :additional_params => { :x=>1, :y=>2 } }
-        existing_flight1 = ZDemoFlight.new
-        existing_flight1.__metadata = { :uri => "http://test.com/test.svc/flight_dataCollection/1" }
-        existing_flight2 = ZDemoFlight.new
-        existing_flight2.__metadata = { :uri => "http://test.com/test.svc/flight_dataCollection/2" }
-        @service.add_link(existing_flight1, "flight_data_r", existing_flight2)
-        @service.save_changes
-        a_request(:post, "http://test.com/test.svc/flight_dataCollection/1/$links/flight_data_r?x=1&y=2").should have_been_made
-      end
-      it "should pass the parameters as part of a function import with a parameter" do
-        @service =OData::Service.new "http://test.com/test.svc/", { :additional_params => { :x=>1, :y=>2 } }
-        @service.get_flight(1)
-        a_request(:get, "http://test.com/test.svc/get_flight?id=1&x=1&y=2").should have_been_made
-      end
-      it "should pass the parameters as part of a function import without parameters" do
-        @service =OData::Service.new "http://test.com/test.svc/", { :additional_params => { :x=>1, :y=>2 } }
-        @service.get_top_flight
-        a_request(:get, "http://test.com/test.svc/get_top_flight?x=1&y=2").should have_been_made
-      end
-    end
-
-    describe "exception handling" do
-      before(:each) do
-        stub_request(:get, "http://test.com/test.svc/$metadata").
-          with(:headers => DEFAULT_HEADERS).
-          to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/sample_service/edmx_categories_products.xml", __FILE__)), :headers => {})
-
-        stub_request(:get, "http://test.com/test.svc/Categories?$select=Price").
-          with(:headers => DEFAULT_HEADERS).
-          to_return(:status => 400, :body => File.new(File.expand_path("../fixtures/error_without_message.xml", __FILE__)), :headers => {})
-      end
-
-      it "includes a generic message if the error is not in the response" do
-        @service =OData::Service.new "http://test.com/test.svc/"
-        @service.Categories.select "Price"
-        expect { @service.execute }.to raise_error(OData::ServiceError) { |error|
-          error.http_code.should eq 400
-          error.message.should eq "Server returned error but no message."
-        }
-      end
-    end
-
-    describe "lowercase collections" do
-      before(:each) do
-        # Required for the build_classes method
-        stub_request(:get, "http://test.com/test.svc/$metadata").
-          with(:headers => DEFAULT_HEADERS).
-          to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/edmx_lowercase.xml", __FILE__)), :headers => {})
-      end
-
-      it "should respond_to a lowercase collection" do
-        @service =OData::Service.new "http://test.com/test.svc"
-        expect(@service.respond_to?('acronyms')).to eq true
-      end
-
-      it "should allow a lowercase collections to be queried" do
-        @service =OData::Service.new "http://test.com/test.svc"
-        lambda { @service.send('acronyms') }.should_not raise_error
-      end
-    end
-
-
-    describe "collections, objects, metadata etc" do
-      before(:each) do
-        # Metadata
-        stub_request(:get, "http://test.com/test.svc/$metadata").
-          with(:headers => DEFAULT_HEADERS).
-          to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/feed_customization/edmx_feed_customization.xml", __FILE__)), :headers => {})
-
-        # Content - Products
-        stub_request(:get, /http:\/\/test\.com\/test\.svc\/Products(?:.*)/).
-          with(:headers => DEFAULT_HEADERS).
-          to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/feed_customization/result_feed_customization_products_expand.xml", __FILE__)), :headers => {})
-
-        # Content - Categories expanded Products
-        stub_request(:get, /http:\/\/test\.com\/test\.svc\/Categories(?:.*)/).
-          with(:headers => DEFAULT_HEADERS).
-          to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/feed_customization/result_feed_customization_categories_expand.xml", __FILE__)), :headers => {})
-      end
-
-      describe "handling feed customizations" do
-        describe "property metadata" do
-          it "should fill the class_metadata hash" do
-            @service =OData::Service.new "http://test.com/test.svc/"
-            @service.class_metadata.should_not be_empty
-          end
-          it "should add a key (based on the name) for each property class_metadata hash" do
-            @service =OData::Service.new "http://test.com/test.svc/"
-            @service.class_metadata['Product'].should have_key 'ID'
-            @service.class_metadata['Product'].should have_key 'Name'
-            @service.class_metadata['Product'].should have_key 'Description'
-          end
-          it "should have a PropertyMetadata object for each property class_metadata hash" do
-            @service =OData::Service.new "http://test.com/test.svc/"
-            @service.class_metadata['Product']['ID'].should be_a OData::PropertyMetadata
-            @service.class_metadata['Product']['Name'].should be_a OData::PropertyMetadata
-            @service.class_metadata['Product']['Description'].should be_a OData::PropertyMetadata
-          end
-          it "should have the correct PropertyMetadata object for Id" do
-            @service =OData::Service.new "http://test.com/test.svc/"
-            meta = @service.class_metadata['Product']['ID']
-            meta.name.should eq 'ID'
-            meta.type.should eq 'Edm.Int32'
-            meta.nullable.should eq false
-            meta.fc_target_path.should be_nil
-            meta.fc_keep_in_content.should be_nil
-          end
-          it "should have the correct PropertyMetadata object for Name" do
-            @service =OData::Service.new "http://test.com/test.svc/"
-            meta = @service.class_metadata['Product']['Name']
-            meta.name.should eq 'Name'
-            meta.type.should eq 'Edm.String'
-            meta.nullable.should eq true
-            meta.fc_target_path.should eq "SyndicationTitle"
-            meta.fc_keep_in_content.should eq false
-          end
-          it "should have the correct PropertyMetadata object for Description" do
-            @service =OData::Service.new "http://test.com/test.svc/"
-            meta = @service.class_metadata['Product']['Description']
-            meta.name.should eq 'Description'
-            meta.type.should eq 'Edm.String'
-            meta.nullable.should eq true
-            meta.fc_target_path.should eq "SyndicationSummary"
-            meta.fc_keep_in_content.should eq false
-          end
-        end
-
-        describe "single class" do
-          it "should handle properties where a property is represented in the syndication title instead of the properties collection" do
-            @service =OData::Service.new "http://test.com/test.svc/"
-            @service.Products
-            results = @service.execute
-            results.first.Name.should eq "Bread"
-          end
-          it "should handle properties where a property is represented in the syndication summary instead of the properties collection" do
-            @service =OData::Service.new "http://test.com/test.svc/"
-            @service.Products
-            results = @service.execute
-            results.first.Description.should eq "Whole grain bread"
-          end
-        end
-
-        describe "expanded inline class" do
-          it "should handle properties where a property is represented in the syndication title instead of the properties collection" do
-            @service =OData::Service.new "http://test.com/test.svc/"
-            @service.Categories
-            results = @service.execute
-
-            beverages = results[1]
-
-            milk = beverages.Products.first
-            milk.Name.should eq "Milk"
-            milk.Description.should eq "Low fat milk"
-
-            lemonade = beverages.Products.last
-            lemonade.Name.should eq "Pink Lemonade"
-            lemonade.Description.should eq "36 Ounce Cans (Pack of 3)"
-          end
-        end
-      end
-
-      describe "handling inline collections/properties" do
-        it "should make plural named properties arrays and not a single class" do
-          @service =OData::Service.new "http://test.com/test.svc/"
-          @service.Categories
-          results = @service.execute
-          food = results[0]
-
-          food.Products.should be_an Array
-        end
-
-        it "should not make an array if the navigation property name is singular" do
-          @service =OData::Service.new "http://test.com/test.svc/"
-          @service.Products
-          results = @service.execute
-          product = results.first
-          product.Category.should_not be_an Array
-        end
-      end
-
-      describe "navigation properties" do
-        it "should fill in PropertyMetadata for navigation properties" do
-          @service =OData::Service.new "http://test.com/test.svc/"
-          @service.class_metadata['Product'].should have_key 'Category'
-        end
-      end
-    end
-
-    describe "single layer inheritance" do
-      before(:each) do
-        # Metadata
-        stub_request(:get, "http://test.com/test.svc/$metadata").
-          with(:headers => DEFAULT_HEADERS).
-          to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/inheritance/edmx_pluralsight.xml", __FILE__)), :headers => {})
-
-        # Content - Courses
-        stub_request(:get, /http:\/\/test\.com\/test\.svc\/Courses(?:.*)/).
-          with(:headers => DEFAULT_HEADERS).
-          to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/inheritance/result_pluralsight_courses.xml", __FILE__)), :headers => {})
-      end
-
-      it "should build all inherited attributes" do
-        @service = OData::Service.new "http://test.com/test.svc/"
-        methods = Course.instance_methods.reject {|m| Object.methods.index(m)}
-
-        # Ruby 1.9 uses symbols, and 1.8 uses strings, so this normalizes the data
-        methods.map! {|m| m.to_sym}
-
-        methods.should include(:Title)
-        methods.should include(:Description)
-        methods.should include(:VideoLength)
-        methods.should include(:Category)
-
-        methods.should include(:Title=)
-        methods.should include(:Description=)
-        methods.should include(:VideoLength=)
-        methods.should include(:Category=)
-      end
-
-      it "should not build abstract classes" do
-        @service = OData::Service.new "http://test.com/test.svc/"
-        defined?(ModelItemBase).should eq nil
-      end
-
-      it "should fill inherited properties" do
-        @service =OData::Service.new "http://test.com/test.svc/"
-        @service.Courses
-        courses = @service.execute
-        course = courses.first
-        course.Title.should_not be_nil
-        course.Description.should_not be_nil
-        course.VideoLength.should_not be_nil
-        course.Category.should_not be_nil
-      end
-    end
-
-    describe "handling partial collections" do
-      before(:each) do
-        # Metadata
-        stub_request(:get, "http://test.com/test.svc/$metadata").
-          with(:headers => DEFAULT_HEADERS).
-          to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/partial/partial_feed_metadata.xml", __FILE__)), :headers => {})
-
-        # Content - Partial
-        stub_request(:get, "http://test.com/test.svc/Partials").
-          with(:headers => DEFAULT_HEADERS).
-          to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/partial/partial_feed_part_1.xml", __FILE__)), :headers => {})
-
-        stub_request(:get, "http://test.com/test.svc/Partials?$skiptoken='ERNSH'").
-          with(:headers => DEFAULT_HEADERS).
-          to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/partial/partial_feed_part_2.xml", __FILE__)), :headers => {})
-
-        stub_request(:get, "http://test.com/test.svc/Partials?$skiptoken='ERNSH2'").
-          with(:headers => DEFAULT_HEADERS).
-          to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/partial/partial_feed_part_3.xml", __FILE__)), :headers => {})
-
-      end
-
-      it "should return the whole collection by default" do
-        @service =OData::Service.new "http://test.com/test.svc/"
-        @service.Partials
-        results = @service.execute
-        results.count.should eq 3
-      end
-
-      it "should return only the partial when specified by options" do
-        @service =OData::Service.new("http://test.com/test.svc/", :eager_partial => false)
-        @service.Partials
-        results = @service.execute
-        results.count.should eq 1
-        @service.should be_partial
-        while @service.partial?
-          results.concat @service.next
-        end
-        results.count.should eq 3
-      end
-
-      context "with additional_params" do
-        before(:each) do
-          stub_request(:get, "http://test.com/test.svc/$metadata?extra_param=value").
-            with(:headers => DEFAULT_HEADERS).
-            to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/partial/partial_feed_metadata.xml", __FILE__)), :headers => {})
-
-          stub_request(:get, "http://test.com/test.svc/Partials?extra_param=value").
-            with(:headers => DEFAULT_HEADERS).
-            to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/partial/partial_feed_part_1.xml", __FILE__)), :headers => {})
-
-          stub_request(:get, "http://test.com/test.svc/Partials?$skiptoken='ERNSH'&extra_param=value").
-            with(:headers => DEFAULT_HEADERS).
-            to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/partial/partial_feed_part_2.xml", __FILE__)), :headers => {})
-        end
-
-        it "should persist the additional parameters for the next call" do
-          @service =OData::Service.new("http://test.com/test.svc/", :eager_partial => false, :additional_params => { :extra_param => 'value' })
-          @service.Partials
-          @service.execute
-          @service.next
-
-          a_request(:get, "http://test.com/test.svc/Partials?$skiptoken='ERNSH'&extra_param=value").should have_been_made
-        end
-      end
-    end
-
-    describe "link queries" do
-      before(:each) do
-        # Required for the build_classes method
-        stub_request(:get, /http:\/\/test\.com\/test\.svc\/\$metadata(?:\?.+)?/).
-          with(:headers => DEFAULT_HEADERS).
-          to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/sample_service/edmx_categories_products.xml", __FILE__)), :headers => {})
-
-        stub_request(:get, "http://test.com/test.svc/Categories(1)/$links/Products").
-          with(:headers => DEFAULT_HEADERS).
-          to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/links/result_links_query.xml", __FILE__)), :headers => {})
-      end
-      it "should be able to parse the results of a links query" do
-        @service =OData::Service.new "http://test.com/test.svc/"
-        @service.Categories(1).links('Products')
-        results = @service.execute
-        results.count.should eq 3
-        results.first.should be_a_kind_of(URI)
-        results[0].path.should eq "/SampleService/RubyOData.svc/Products(1)"
-        results[1].path.should eq "/SampleService/RubyOData.svc/Products(2)"
-        results[2].path.should eq "/SampleService/RubyOData.svc/Products(3)"
-      end
-    end
-
-
-
-
-    describe "handling of nested expands" do
-      before(:each) do
-        stub_request(:get, "http://test.com/test.svc/$metadata").
-          with(:headers => DEFAULT_HEADERS).
-          to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/nested_expands/edmx_northwind.xml", __FILE__)), :headers => {})
-
-        stub_request(:get, "http://test.com/test.svc/Products?$expand=Category,Category/Products&$top=2").
-          with(:headers => DEFAULT_HEADERS).
-          to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/nested_expands/northwind_products_category_expands.xml", __FILE__)), :headers => {})
-      end
-      after(:each) do
-        #Object.send(:remove_const, 'Product') if Object.const_defined? 'Product'
-      end
-
-      it "should successfully parse the results" do
-        @service =OData::Service.new "http://test.com/test.svc", { :namespace => "NW" }
-        @service.Products.expand('Category').expand('Category/Products').top(2)
-        lambda { @service.execute }.should_not raise_exception
-      end
-
-      it "should successfully parse a Category as a Category" do
-        @service =OData::Service.new "http://test.com/test.svc", { :namespace => "NW" }
-        @service.Products.expand('Category').expand('Category/Products').top(2)
-        products = @service.execute
-        products.first.Category.should be_a_kind_of(NW::Category)
-      end
-
-      it "should successfully parse the Category properties" do
-        @service =OData::Service.new "http://test.com/test.svc", { :namespace => "NW" }
-        @service.Products.expand('Category').expand('Category/Products').top(2)
-        products = @service.execute
-        products.first.Category.CategoryID.should eq 1
-      end
-
-      it "should successfully parse the Category children Products" do
-        @service =OData::Service.new "http://test.com/test.svc", { :namespace => "NW" }
-        @service.Products.expand('Category').expand('Category/Products').top(2)
-        products = @service.execute
-        products.first.Category.Products.length.should eq 12
-      end
-
-      it "should successfully parse the Category's child Product properties" do
-        @service =OData::Service.new "http://test.com/test.svc", { :namespace => "NW" }
-        @service.Products.expand('Category').expand('Category/Products').top(2)
-        products = @service.execute
-        products.first.Category.Products.first.ProductName.should eq "Chai"
-      end
-    end
-
-    describe "handling of custom select queries" do
-
-      context "when results are found" do
-        before(:each) do
-          stub_request(:get, "http://test.com/test.svc/$metadata").
-            with(:headers => DEFAULT_HEADERS).
-            to_return(:status => 200, :body => File.new( FIXTURES + "/sample_service/edmx_categories_products.xml"), :headers => {})
-
-          stub_request(:get, "http://test.com/test.svc/Products?$select=Name,Price").
-            with(:headers => DEFAULT_HEADERS).
-            to_return(:status => 200, :body => File.new( FIXTURES + "/sample_service/result_select_products_name_price.xml"), :headers => {})
-        end        
-
-        before(:each) do
-          @service =OData::Service.new "http://test.com/test.svc/"
-          @service.Products.select "Name", "Price"
-          @result = @service.execute
-        end
-
-        it "returns an Array og Products" do
-          expect(@result).to  be_an Array 
-          expect(@result).not_to be_empty 
-          expect(@result.first).to be_a Product
-        end
-      end
-
-      context "when there isn't a property by the name specified" do
-        before(:each) do
-          stub_request(:get, "http://test.com/test.svc/$metadata").
-            with(:headers => DEFAULT_HEADERS).
-            to_return(:status => 200, :body => File.new( FIXTURES + "/sample_service/edmx_categories_products.xml"), :headers => {})
-
-          stub_request(:get, "http://test.com/test.svc/Categories?$select=Price").
-            with(:headers => DEFAULT_HEADERS).
-            to_return(:status => 400, :body => File.new( FIXTURES + "/sample_service/result_select_categories_no_property.xml"), :headers => {})
-        end
-
-        it "raises an exception" do
-          @service =OData::Service.new "http://test.com/test.svc/"
-          @service.Categories.select "Price"
-          expect { @service.execute }.to raise_error(OData::ServiceError) { |error|
-            error.http_code.should eq 400
-            error.message.should eq "Type 'RubyODataService.Category' does not have a property named 'Price' or there is no type with 'Price' name."
-          }
-        end
-      end
-
-      context "when a property requires $expand to traverse", focus: true do
-        before(:each) do
-          stub_request(:get, "http://test.com/test.svc/$metadata").
-            with(:headers => DEFAULT_HEADERS).
-            to_return(:status => 200, :body => File.new( FIXTURES + "/sample_service/edmx_categories_products.xml"), :headers => {})
-
-          stub_request(:get, "http://test.com/test.svc/Categories?$select=Name,Products/Name").
-            with(:headers => DEFAULT_HEADERS).
-            to_return(:status => 400, :body => File.new( FIXTURES + "/sample_service/result_select_categories_travsing_no_expand.xml"), :headers => {})
-
-          stub_request(:get, "http://test.com/test.svc/Categories?$select=Name,Products/Name&$expand=Products").
-            with(:headers => DEFAULT_HEADERS).
-            to_return(:status => 200, :body => File.new( FIXTURES + "/sample_service/result_select_categories_expand.xml"), :headers => {})
-
-          stub_request(:get, "http://test.com/test.svc/Categories").
-            with(:headers => DEFAULT_HEADERS).
-            to_return(:status => 200, :body => File.new( FIXTURES + "/sample_service/result_select_categories_expand.xml"), :headers => {})
-
-        end
-
-        it "retursn Categoris" do
-          @service =OData::Service.new "http://test.com/test.svc/"          
-          @service.Categories
-          c = @service.execute
-        end
-
-        it "doesn't error" do
-          @service =OData::Service.new "http://test.com/test.svc/"          
-          @service.Categories.select "Name", "Products/Name"
-          expect { @service.execute }.to_not raise_error
-        end
-
-        it "returns the classes with the properties filled in" do
-          @service =OData::Service.new "http://test.com/test.svc/"
-          @service.Categories.select "Name", "Products/Name"
-          results = @service.execute
-          category = results.first
-          category.Name.should eq "Category 0001"
-          product = category.Products.first
-          product.Name.should eq "Widget 0001"
+        it "should return a single primitive type" do
+          result = subject.FirstCategoryId
+          result.should be_a Integer
+          result.should eq 1
         end
       end
     end
   end
 
-  describe_private OData::Service do
-    describe "parse value" do
-      before(:each) do
-        # Required for the build_classes method
-        stub_request(:get, "http://test.com/test.svc/$metadata").
-          with(:headers => DEFAULT_HEADERS).
-          to_return(:status => 200, :body => File.new( FIXTURES + "/edmx_empty.xml" ), :headers => {})
-      end
 
-      it "should not error on an 'out of range' date" do
-        # This date was returned in the Netflix OData service and failed with an ArgumentError: out of range using 1.8.7 (2010-12-23 patchlevel 330) [i386-mingw32]
-        @service =OData::Service.new "http://test.com/test.svc/"
-        element_to_parse = Nokogiri::XML.parse('<d:AvailableFrom m:type="Edm.DateTime">2100-01-01T00:00:00</d:AvailableFrom>').elements[0]
-        lambda { @service.parse_value_xml(element_to_parse) }.should_not raise_exception
-      end
+  describe "Dual Namespaces" do
+    before(:each) do
+      auth_string = "xxxx\\yyyy:zzzz"
+      authorization_header = { authorization: "Basic #{Base64::encode64(auth_string).strip}" }
+      stub_request(:get, "http://test.com/test.svc/$metadata").
+        with(:headers => DEFAULT_HEADERS.merge(authorization_header)).
+        to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/ms_system_center/edmx_ms_system_center_v2.xml", __FILE__)), :headers => {})
+    end
+
+    after(:each) do   
+      remove_classes @service
+    end
+
+    it "should parse the service without errors" do
+      lambda { @service = OData::Service.new "http://test.com/test.svc/", { :username => "xxxx\\yyyy", :password=> "zzzz", :verify_ssl => false, :namespace => "VMM" } }.should_not raise_error
+    end
+
+  end
+
+  describe "Dual Services" do
+    before(:each) do
+      stub_request(:get, "http://service1.com/test.svc/$metadata").
+      with(:headers => DEFAULT_HEADERS).
+      to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/sample_service/edmx_categories_products.xml", __FILE__)), :headers => {})
+
+      stub_request(:get, "http://service2.com/test.svc/$metadata").
+        with(:headers => DEFAULT_HEADERS).
+        to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/int64_ids/edmx_car_service.xml", __FILE__)), :headers => {})
+
+
+      @service1 = OData::Service.new "http://service1.com/test.svc"
+      @service2 = OData::Service.new "http://service2.com/test.svc"
+    end
+
+    after(:each) do
+      remove_classes @service1
+      remove_classes @service2
+    end
+
+    it "should use the correct service uri" do
+      expect(@service1.class_metadata[:uri]).to eq 'http://service1.com/test.svc'
+      expect(@service2.class_metadata[:uri]).to eq 'http://service2.com/test.svc'
     end
   end
 end
