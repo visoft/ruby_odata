@@ -31,7 +31,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency("cucumber", "~> 2.0.0")
   s.add_development_dependency("pickle", "~> 0.5.1")
   s.add_development_dependency("machinist", "~> 2.0")
-  s.add_development_dependency("webmock", "~> 1.21.0")
+  s.add_development_dependency("webmock")
   s.add_development_dependency("guard", "~> 2.12.5")
   s.add_development_dependency("guard-rspec", "~> 4.5.0")
   s.add_development_dependency("guard-cucumber", "~> 1.6.0")
