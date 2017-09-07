@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx">
+	<edmx:DataServices m:DataServiceVersion="3.0" m:MaxDataServiceVersion="3.0" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata">
+		<Schema Namespace="ODataDemo" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+			<EntityType Name="Product">
+				<Key>
+					<PropertyRef Name="ID"/>
+				</Key>
+				<Property Name="ID" Nullable="false" Type="Edm.Int32"/>
+				<Property Name="Name" Type="Edm.String" m:FC_ContentKind="text" m:FC_KeepInContent="false" m:FC_TargetPath="SyndicationTitle"/>
+				<Property Name="Description" Type="Edm.String" m:FC_ContentKind="text" m:FC_KeepInContent="false" m:FC_TargetPath="SyndicationSummary"/>
+				<Property Name="ReleaseDate" Nullable="false" Type="Edm.DateTime"/>
+				<Property Name="DiscontinuedDate" Type="Edm.DateTime"/>
+				<Property Name="Rating" Nullable="false" Type="Edm.Int16"/>
+				<Property Name="Price" Nullable="false" Type="Edm.Double"/>
+				<NavigationProperty FromRole="Product_Categories" Name="Categories" Relationship="ODataDemo.Product_Categories_Category_Products" ToRole="Category_Products"/>
+				<NavigationProperty FromRole="Product_Supplier" Name="Supplier" Relationship="ODataDemo.Product_Supplier_Supplier_Products" ToRole="Supplier_Products"/>
+				<NavigationProperty FromRole="Product_ProductDetail" Name="ProductDetail" Relationship="ODataDemo.Product_ProductDetail_ProductDetail_Product" ToRole="ProductDetail_Product"/>
+			</EntityType>
+			<EntityType BaseType="ODataDemo.Product" Name="FeaturedProduct">
+				<NavigationProperty FromRole="FeaturedProduct_Advertisement" Name="Advertisement" Relationship="ODataDemo.FeaturedProduct_Advertisement_Advertisement_FeaturedProduct" ToRole="Advertisement_FeaturedProduct"/>
+			</EntityType>
+			<EntityType Name="ProductDetail">
+				<Key>
+					<PropertyRef Name="ProductID"/>
+				</Key>
+				<Property Name="ProductID" Nullable="false" Type="Edm.Int32"/>
+				<Property Name="Details" Type="Edm.String"/>
+				<NavigationProperty FromRole="ProductDetail_Product" Name="Product" Relationship="ODataDemo.Product_ProductDetail_ProductDetail_Product" ToRole="Product_ProductDetail"/>
+			</EntityType>
+			<EntityType Name="Category" OpenType="true">
+				<Key>
+					<PropertyRef Name="ID"/>
+				</Key>
+				<Property Name="ID" Nullable="false" Type="Edm.Int32"/>
+				<Property Name="Name" Type="Edm.String" m:FC_ContentKind="text" m:FC_KeepInContent="true" m:FC_TargetPath="SyndicationTitle"/>
+				<NavigationProperty FromRole="Category_Products" Name="Products" Relationship="ODataDemo.Product_Categories_Category_Products" ToRole="Product_Categories"/>
+			</EntityType>
+			<EntityType Name="Supplier">
+				<Key>
+					<PropertyRef Name="ID"/>
+				</Key>
+				<Property Name="ID" Nullable="false" Type="Edm.Int32"/>
+				<Property Name="Name" Type="Edm.String" m:FC_ContentKind="text" m:FC_KeepInContent="true" m:FC_TargetPath="SyndicationTitle"/>
+				<Property Name="Address" Type="ODataDemo.Address"/>
+				<Property Name="Location" SRID="Variable" Type="Edm.GeographyPoint"/>
+				<Property ConcurrencyMode="Fixed" Name="Concurrency" Nullable="false" Type="Edm.Int32"/>
+				<NavigationProperty FromRole="Supplier_Products" Name="Products" Relationship="ODataDemo.Product_Supplier_Supplier_Products" ToRole="Product_Supplier"/>
+			</EntityType>
+			<ComplexType Name="Address">
+				<Property Name="Street" Type="Edm.String"/>
+				<Property Name="City" Type="Edm.String"/>
+				<Property Name="State" Type="Edm.String"/>
+				<Property Name="ZipCode" Type="Edm.String"/>
+				<Property Name="Country" Type="Edm.String"/>
+			</ComplexType>
+			<EntityType Name="Person">
+				<Key>
+					<PropertyRef Name="ID"/>
+				</Key>
+				<Property Name="ID" Nullable="false" Type="Edm.Int32"/>
+				<Property Name="Name" Type="Edm.String"/>
+				<NavigationProperty FromRole="Person_PersonDetail" Name="PersonDetail" Relationship="ODataDemo.Person_PersonDetail_PersonDetail_Person" ToRole="PersonDetail_Person"/>
+			</EntityType>
+			<EntityType BaseType="ODataDemo.Person" Name="Customer">
+				<Property Name="TotalExpense" Nullable="false" Type="Edm.Decimal"/>
+			</EntityType>
+			<EntityType BaseType="ODataDemo.Person" Name="Employee">
+				<Property Name="EmployeeID" Nullable="false" Type="Edm.Int64"/>
+				<Property Name="HireDate" Nullable="false" Type="Edm.DateTime"/>
+				<Property Name="Salary" Nullable="false" Type="Edm.Single"/>
+			</EntityType>
+			<EntityType Name="PersonDetail">
+				<Key>
+					<PropertyRef Name="PersonID"/>
+				</Key>
+				<Property Name="PersonID" Nullable="false" Type="Edm.Int32"/>
+				<Property Name="Age" Nullable="false" Type="Edm.Byte"/>
+				<Property Name="Gender" Nullable="false" Type="Edm.Boolean"/>
+				<Property Name="Phone" Type="Edm.String"/>
+				<Property Name="Address" Type="ODataDemo.Address"/>
+				<Property Name="Photo" Nullable="false" Type="Edm.Stream"/>
+				<NavigationProperty FromRole="PersonDetail_Person" Name="Person" Relationship="ODataDemo.Person_PersonDetail_PersonDetail_Person" ToRole="Person_PersonDetail"/>
+			</EntityType>
+			<EntityType Name="Advertisement" m:HasStream="true">
+				<Key>
+					<PropertyRef Name="ID"/>
+				</Key>
+				<Property Name="ID" Nullable="false" Type="Edm.Guid"/>
+				<Property Name="Name" Type="Edm.String"/>
+				<Property Name="AirDate" Nullable="false" Type="Edm.DateTime"/>
+				<NavigationProperty FromRole="Advertisement_FeaturedProduct" Name="FeaturedProduct" Relationship="ODataDemo.FeaturedProduct_Advertisement_Advertisement_FeaturedProduct" ToRole="FeaturedProduct_Advertisement"/>
+			</EntityType>
+			<Association Name="Product_Categories_Category_Products">
+				<End Multiplicity="*" Role="Category_Products" Type="ODataDemo.Category"/>
+				<End Multiplicity="*" Role="Product_Categories" Type="ODataDemo.Product"/>
+			</Association>
+			<Association Name="Product_Supplier_Supplier_Products">
+				<End Multiplicity="0..1" Role="Supplier_Products" Type="ODataDemo.Supplier"/>
+				<End Multiplicity="*" Role="Product_Supplier" Type="ODataDemo.Product"/>
+			</Association>
+			<Association Name="Product_ProductDetail_ProductDetail_Product">
+				<End Multiplicity="0..1" Role="ProductDetail_Product" Type="ODataDemo.ProductDetail"/>
+				<End Multiplicity="0..1" Role="Product_ProductDetail" Type="ODataDemo.Product"/>
+			</Association>
+			<Association Name="FeaturedProduct_Advertisement_Advertisement_FeaturedProduct">
+				<End Multiplicity="0..1" Role="Advertisement_FeaturedProduct" Type="ODataDemo.Advertisement"/>
+				<End Multiplicity="0..1" Role="FeaturedProduct_Advertisement" Type="ODataDemo.FeaturedProduct"/>
+			</Association>
+			<Association Name="Person_PersonDetail_PersonDetail_Person">
+				<End Multiplicity="0..1" Role="PersonDetail_Person" Type="ODataDemo.PersonDetail"/>
+				<End Multiplicity="0..1" Role="Person_PersonDetail" Type="ODataDemo.Person"/>
+			</Association>
+			<EntityContainer Name="DemoService" m:IsDefaultEntityContainer="true">
+				<EntitySet EntityType="ODataDemo.Product" Name="Products"/>
+				<EntitySet EntityType="ODataDemo.ProductDetail" Name="ProductDetails"/>
+				<EntitySet EntityType="ODataDemo.Category" Name="Categories"/>
+				<EntitySet EntityType="ODataDemo.Supplier" Name="Suppliers"/>
+				<EntitySet EntityType="ODataDemo.Person" Name="Persons"/>
+				<EntitySet EntityType="ODataDemo.PersonDetail" Name="PersonDetails"/>
+				<EntitySet EntityType="ODataDemo.Advertisement" Name="Advertisements"/>
+				<FunctionImport EntitySet="Products" Name="GetProductsByRating" ReturnType="Collection(ODataDemo.Product)" m:HttpMethod="GET">
+					<Parameter Name="rating" Nullable="false" Type="Edm.Int16"/>
+				</FunctionImport>
+				<AssociationSet Association="ODataDemo.FeaturedProduct_Advertisement_Advertisement_FeaturedProduct" Name="Products_Advertisement_Advertisements">
+					<End EntitySet="Products" Role="FeaturedProduct_Advertisement"/>
+					<End EntitySet="Advertisements" Role="Advertisement_FeaturedProduct"/>
+				</AssociationSet>
+				<AssociationSet Association="ODataDemo.Product_Categories_Category_Products" Name="Products_Categories_Categories">
+					<End EntitySet="Products" Role="Product_Categories"/>
+					<End EntitySet="Categories" Role="Category_Products"/>
+				</AssociationSet>
+				<AssociationSet Association="ODataDemo.Product_Supplier_Supplier_Products" Name="Products_Supplier_Suppliers">
+					<End EntitySet="Products" Role="Product_Supplier"/>
+					<End EntitySet="Suppliers" Role="Supplier_Products"/>
+				</AssociationSet>
+				<AssociationSet Association="ODataDemo.Product_ProductDetail_ProductDetail_Product" Name="Products_ProductDetail_ProductDetails">
+					<End EntitySet="Products" Role="Product_ProductDetail"/>
+					<End EntitySet="ProductDetails" Role="ProductDetail_Product"/>
+				</AssociationSet>
+				<AssociationSet Association="ODataDemo.Person_PersonDetail_PersonDetail_Person" Name="Persons_PersonDetail_PersonDetails">
+					<End EntitySet="Persons" Role="Person_PersonDetail"/>
+					<End EntitySet="PersonDetails" Role="PersonDetail_Person"/>
+				</AssociationSet>
+			</EntityContainer>
+			<Annotations Target="ODataDemo.DemoService">
+				<ValueAnnotation String="This is a sample OData service with vocabularies" Term="Org.OData.Display.V1.Description"/>
+			</Annotations>
+			<Annotations Target="ODataDemo.Product">
+				<ValueAnnotation String="All Products available in the online store" Term="Org.OData.Display.V1.Description"/>
+			</Annotations>
+			<Annotations Target="ODataDemo.Product/Name">
+				<ValueAnnotation String="Product Name" Term="Org.OData.Display.V1.DisplayName"/>
+			</Annotations>
+			<Annotations Target="ODataDemo.DemoService/Suppliers">
+				<ValueAnnotation String="Microsoft Corp." Term="Org.OData.Publication.V1.PublisherName"/>
+				<ValueAnnotation String="MSFT" Term="Org.OData.Publication.V1.PublisherId"/>
+				<ValueAnnotation String="Inventory, Supplier, Advertisers, Sales, Finance" Term="Org.OData.Publication.V1.Keywords"/>
+				<ValueAnnotation String="http://www.odata.org/" Term="Org.OData.Publication.V1.AttributionUrl"/>
+				<ValueAnnotation String="All rights reserved" Term="Org.OData.Publication.V1.AttributionDescription"/>
+				<ValueAnnotation String="http://www.odata.org/" Term="Org.OData.Publication.V1.DocumentationUrl "/>
+				<ValueAnnotation String="All rights reserved" Term="Org.OData.Publication.V1.TermsOfUseUrl"/>
+				<ValueAnnotation String="http://www.odata.org/" Term="Org.OData.Publication.V1.PrivacyPolicyUrl"/>
+				<ValueAnnotation String="4/2/2013" Term="Org.OData.Publication.V1.LastModified"/>
+				<ValueAnnotation String="http://www.odata.org/" Term="Org.OData.Publication.V1.ImageUrl "/>
+			</Annotations>
+		</Schema>
+	</edmx:DataServices>
+</edmx:Edmx>
