@@ -8,8 +8,6 @@ require 'rspec/its'
 
 Dir[File.expand_path('../support/**/*.rb', __FILE__)].each { |f| require f }
 
-FIXTURES = File.expand_path('../fixtures', __FILE__)
-
 WebMock.disable_net_connect!(allow_localhost: true)
 
 DEFAULT_HEADERS = {
