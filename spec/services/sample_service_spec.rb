@@ -7,27 +7,27 @@ module OData
       # Required for the build_classes method
       stub_request(:get, /http:\/\/test\.com\/test\.svc\/\$metadata(?:\?.+)?/).
         with(:headers => DEFAULT_HEADERS).
-        to_return(:status => 200, :body => File.new( FIXTURES + "/sample_service/edmx_categories_products.xml"), :headers => {})
+        to_return(:status => 200, :body => Fixtures.load("/sample_service/edmx_categories_products.xml"), :headers => {})
 
       stub_request(:get, /http:\/\/test\.com\/test\.svc\/Products\(\d\)/).
         with(:headers => DEFAULT_HEADERS).
-        to_return(:status => 200, :body => File.new( FIXTURES + "/sample_service/result_single_product.xml"), :headers => {})
+        to_return(:status => 200, :body => Fixtures.load("/sample_service/result_single_product.xml"), :headers => {})
 
       stub_request(:get, /http:\/\/test\.com\/test\.svc\/Products\(\d{2,}\)/).
         with(:headers => DEFAULT_HEADERS).
-        to_return(:status => 200, :body => File.new(FIXTURES + "/sample_service/result_single_product_not_found.xml"), :headers => {})
+        to_return(:status => 200, :body => Fixtures.load("/sample_service/result_single_product_not_found.xml"), :headers => {})
 
       stub_request(:get, "http://test.com/test.svc/Products(1)/Category").
         with(:headers => DEFAULT_HEADERS).
-        to_return(:status => 200, :body => File.new(FIXTURES + "/sample_service/result_single_category.xml"), :headers => {})
+        to_return(:status => 200, :body => Fixtures.load("/sample_service/result_single_category.xml"), :headers => {})
 
       stub_request(:get, "http://test.com/test.svc/Categories(1)").
         with(:headers => DEFAULT_HEADERS).
-        to_return(:status => 200, :body => File.new(FIXTURES + "/sample_service/result_single_category.xml"), :headers => {})
+        to_return(:status => 200, :body => Fixtures.load("/sample_service/result_single_category.xml"), :headers => {})
 
       stub_request(:get, "http://test.com/test.svc/Categories(1)/Products").
         with(:headers => DEFAULT_HEADERS).
-        to_return(:status => 200, :body => File.new(FIXTURES + "/sample_service/result_multiple_category_products.xml"), :headers => {})
+        to_return(:status => 200, :body => Fixtures.load("/sample_service/result_multiple_category_products.xml"), :headers => {})
 
       stub_request(:post, "http://test.com/test.svc/Categories(1)/$links/Products").to_return(:status => 204)
       stub_request(:post, "http://test.com/test.svc/$batch").to_return(:status => 202)

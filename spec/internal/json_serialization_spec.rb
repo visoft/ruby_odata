@@ -9,11 +9,11 @@ module OData
 	    # Required for the build_classes method
 	    stub_request(:get, "http://test.com/test.svc/$metadata").
 	      with(:headers => DEFAULT_HEADERS).
-	      to_return(:status => 200, :body => File.new( FIXTURES + "/ms_system_center/edmx_ms_system_center.xml"), :headers => {})
+	      to_return(:status => 200, :body => Fixtures.load("/ms_system_center/edmx_ms_system_center.xml"), :headers => {})
 
 	    stub_request(:get, "http://test.com/test.svc/VirtualMachines").
 	      with(:headers => DEFAULT_HEADERS).
-	      to_return(:status => 200, :body => File.new( FIXTURES + "/ms_system_center/virtual_machines.xml"), :headers => {})
+	      to_return(:status => 200, :body => Fixtures.load("/ms_system_center/virtual_machines.xml"), :headers => {})
 
 	    @service = OData::Service.new "http://test.com/test.svc/", { :username => username, :password => password, :verify_ssl => false, :namespace => "VMM" }
 	  end

@@ -15,23 +15,23 @@ module OData
 
         stub_request(:get, "http://test.com/nav.svc/$metadata").
           with(:headers => headers).
-          to_return(:status => 200, :body => File.new( FIXTURES + "/ms_dynamics_nav/edmx_ms_dynamics_nav.xml"), :headers => {})
+          to_return(:status => 200, :body => Fixtures.load("/ms_dynamics_nav/edmx_ms_dynamics_nav.xml"), :headers => {})
 
         stub_request(:get, "http://test.com/nav.svc/Customer").
           with(:headers => headers).
-          to_return(:status => 200, :body => File.new( FIXTURES + "/ms_dynamics_nav/result_customer.xml"), :headers => {})
+          to_return(:status => 200, :body => Fixtures.load("/ms_dynamics_nav/result_customer.xml"), :headers => {})
 
         stub_request(:get, "http://test.com/nav.svc/Customer('100013')").
           with(:headers => headers).
-          to_return(:status => 200, :body => File.new( FIXTURES + "/ms_dynamics_nav/result_customer.xml"), :headers => {})
+          to_return(:status => 200, :body => Fixtures.load("/ms_dynamics_nav/result_customer.xml"), :headers => {})
 
         stub_request(:get, "http://test.com/nav.svc/Customer(100013)").
           with(:headers => headers).
-          to_return(:status => 400, :body => File.new( FIXTURES + "/ms_dynamics_nav/result_customer_error.xml"), :headers => {})
+          to_return(:status => 400, :body => Fixtures.load("/ms_dynamics_nav/result_customer_error.xml"), :headers => {})
 
         stub_request(:get, "http://test.com/nav.svc/SalesOrder(Document_Type='Order',No='AB-1600013')").
           with(:headers => headers).
-          to_return(:status => 200, :body => File.new( FIXTURES + "/ms_dynamics_nav/result_sales_order.xml"), :headers => {})
+          to_return(:status => 200, :body => Fixtures.load("/ms_dynamics_nav/result_sales_order.xml"), :headers => {})
 
         @service = OData::Service.new "http://test.com/nav.svc/", { :username => username, :password => password, :verify_ssl => false }
 

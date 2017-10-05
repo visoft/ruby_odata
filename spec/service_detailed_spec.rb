@@ -12,7 +12,7 @@ module OData
         # Required for the build_classes method
         stub_request(:get, "http://test.com/test.svc/$metadata").
           with(:headers => DEFAULT_HEADERS).
-          to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/edmx_empty.xml", __FILE__)), :headers => {})
+          to_return(:status => 200, :body => Fixtures.load("edmx_empty.xml"), :headers => {})
 
         @service =OData::Service.new "http://test.com/test.svc/"
       end
@@ -20,7 +20,7 @@ module OData
         # Required for the build_classes method
         stub_request(:get, "http://test.com/test.svc/$metadata").
           with(:headers => DEFAULT_HEADERS).
-          to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/edmx_lowercase.xml", __FILE__)), :headers => {})
+          to_return(:status => 200, :body => Fixtures.load("edmx_lowercase.xml"), :headers => {})
 
         expect { @service = OData::Service.new "http://test.com/test.svc" }.not_to raise_error
       end
@@ -30,7 +30,7 @@ module OData
           # Required for the build_classes method
           stub_request(:get, /http:\/\/test\.com\/test\.svc\/\$metadata(?:\?.+)?/).
             with(:headers => DEFAULT_HEADERS).
-            to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/edmx_empty.xml", __FILE__)), :headers => {})
+            to_return(:status => 200, :body => Fixtures.load("edmx_empty.xml"), :headers => {})
         end
         it "should accept additional query string parameters" do
           @service =OData::Service.new "http://test.com/test.svc/", { :additional_params => { :x=>1, :y=>2 } }
@@ -47,7 +47,7 @@ module OData
           # Required for the build_classes method
           stub_request(:get, /http:\/\/test\.com\/test\.svc\/\$metadata(?:\?.+)?/).
             with(:headers => DEFAULT_HEADERS).
-            to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/edmx_empty.xml", __FILE__)), :headers => {})
+            to_return(:status => 200, :body => Fixtures.load("edmx_empty.xml"), :headers => {})
         end
         it "should accept in options that will be passed to the rest-client lib" do
           @service =OData::Service.new "http://test.com/test.svc/", { :rest_options => { :ssl_ca_file => "ca_certificate.pem" } }
@@ -65,7 +65,7 @@ module OData
         # Required for the build_classes method
         stub_request(:any, /http:\/\/test\.com\/test\.svc(?:.*)/).
           with(:headers => DEFAULT_HEADERS).
-          to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/sap/edmx_sap_demo_flight.xml", __FILE__)), :headers => {})
+          to_return(:status => 200, :body => Fixtures.load("/sap/edmx_sap_demo_flight.xml"), :headers => {})
       end
       it "should pass the parameters as part of a query" do
         @service =OData::Service.new "http://test.com/test.svc/", { :additional_params => { :x=>1, :y=>2 } }
@@ -131,11 +131,11 @@ module OData
       before(:each) do
         stub_request(:get, "http://test.com/test.svc/$metadata").
           with(:headers => DEFAULT_HEADERS).
-          to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/sample_service/edmx_categories_products.xml", __FILE__)), :headers => {})
+          to_return(:status => 200, :body => Fixtures.load("sample_service/edmx_categories_products.xml"), :headers => {})
 
         stub_request(:get, "http://test.com/test.svc/Categories?$select=Price").
           with(:headers => DEFAULT_HEADERS).
-          to_return(:status => 400, :body => File.new(File.expand_path("../fixtures/error_without_message.xml", __FILE__)), :headers => {})
+          to_return(:status => 400, :body => Fixtures.load("error_without_message.xml"), :headers => {})
       end
 
       it "includes a generic message if the error is not in the response" do
@@ -153,7 +153,7 @@ module OData
         # Required for the build_classes method
         stub_request(:get, "http://test.com/test.svc/$metadata").
           with(:headers => DEFAULT_HEADERS).
-          to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/edmx_lowercase.xml", __FILE__)), :headers => {})
+          to_return(:status => 200, :body => Fixtures.load("edmx_lowercase.xml"), :headers => {})
       end
 
       it "should respond_to a lowercase collection" do
@@ -173,17 +173,17 @@ module OData
         # Metadata
         stub_request(:get, "http://test.com/test.svc/$metadata").
           with(:headers => DEFAULT_HEADERS).
-          to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/feed_customization/edmx_feed_customization.xml", __FILE__)), :headers => {})
+          to_return(:status => 200, :body => Fixtures.load("feed_customization/edmx_feed_customization.xml"), :headers => {})
 
         # Content - Products
         stub_request(:get, /http:\/\/test\.com\/test\.svc\/Products(?:.*)/).
           with(:headers => DEFAULT_HEADERS).
-          to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/feed_customization/result_feed_customization_products_expand.xml", __FILE__)), :headers => {})
+          to_return(:status => 200, :body => Fixtures.load("feed_customization/result_feed_customization_products_expand.xml"), :headers => {})
 
         # Content - Categories expanded Products
         stub_request(:get, /http:\/\/test\.com\/test\.svc\/Categories(?:.*)/).
           with(:headers => DEFAULT_HEADERS).
-          to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/feed_customization/result_feed_customization_categories_expand.xml", __FILE__)), :headers => {})
+          to_return(:status => 200, :body => Fixtures.load("feed_customization/result_feed_customization_categories_expand.xml"), :headers => {})
       end
 
       describe "handling feed customizations" do
@@ -299,12 +299,12 @@ module OData
         # Metadata
         stub_request(:get, "http://test.com/test.svc/$metadata").
           with(:headers => DEFAULT_HEADERS).
-          to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/inheritance/edmx_pluralsight.xml", __FILE__)), :headers => {})
+          to_return(:status => 200, :body => Fixtures.load("inheritance/edmx_pluralsight.xml"), :headers => {})
 
         # Content - Courses
         stub_request(:get, /http:\/\/test\.com\/test\.svc\/Courses(?:.*)/).
           with(:headers => DEFAULT_HEADERS).
-          to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/inheritance/result_pluralsight_courses.xml", __FILE__)), :headers => {})
+          to_return(:status => 200, :body => Fixtures.load("inheritance/result_pluralsight_courses.xml"), :headers => {})
       end
 
       it "should build all inherited attributes" do
@@ -347,20 +347,20 @@ module OData
         # Metadata
         stub_request(:get, "http://test.com/test.svc/$metadata").
           with(:headers => DEFAULT_HEADERS).
-          to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/partial/partial_feed_metadata.xml", __FILE__)), :headers => {})
+          to_return(:status => 200, :body => Fixtures.load("partial/partial_feed_metadata.xml"), :headers => {})
 
         # Content - Partial
         stub_request(:get, "http://test.com/test.svc/Partials").
           with(:headers => DEFAULT_HEADERS).
-          to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/partial/partial_feed_part_1.xml", __FILE__)), :headers => {})
+          to_return(:status => 200, :body => Fixtures.load("partial/partial_feed_part_1.xml"), :headers => {})
 
         stub_request(:get, "http://test.com/test.svc/Partials?$skiptoken='ERNSH'").
           with(:headers => DEFAULT_HEADERS).
-          to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/partial/partial_feed_part_2.xml", __FILE__)), :headers => {})
+          to_return(:status => 200, :body => Fixtures.load("partial/partial_feed_part_2.xml"), :headers => {})
 
         stub_request(:get, "http://test.com/test.svc/Partials?$skiptoken='ERNSH2'").
           with(:headers => DEFAULT_HEADERS).
-          to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/partial/partial_feed_part_3.xml", __FILE__)), :headers => {})
+          to_return(:status => 200, :body => Fixtures.load("partial/partial_feed_part_3.xml"), :headers => {})
 
       end
 
@@ -387,15 +387,15 @@ module OData
         before(:each) do
           stub_request(:get, "http://test.com/test.svc/$metadata?extra_param=value").
             with(:headers => DEFAULT_HEADERS).
-            to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/partial/partial_feed_metadata.xml", __FILE__)), :headers => {})
+            to_return(:status => 200, :body => Fixtures.load("partial/partial_feed_metadata.xml"), :headers => {})
 
           stub_request(:get, "http://test.com/test.svc/Partials?extra_param=value").
             with(:headers => DEFAULT_HEADERS).
-            to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/partial/partial_feed_part_1.xml", __FILE__)), :headers => {})
+            to_return(:status => 200, :body => Fixtures.load("partial/partial_feed_part_1.xml"), :headers => {})
 
           stub_request(:get, "http://test.com/test.svc/Partials?$skiptoken='ERNSH'&extra_param=value").
             with(:headers => DEFAULT_HEADERS).
-            to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/partial/partial_feed_part_2.xml", __FILE__)), :headers => {})
+            to_return(:status => 200, :body => Fixtures.load("partial/partial_feed_part_2.xml"), :headers => {})
         end
 
         it "should persist the additional parameters for the next call" do
@@ -414,11 +414,11 @@ module OData
         # Required for the build_classes method
         stub_request(:get, /http:\/\/test\.com\/test\.svc\/\$metadata(?:\?.+)?/).
           with(:headers => DEFAULT_HEADERS).
-          to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/sample_service/edmx_categories_products.xml", __FILE__)), :headers => {})
+          to_return(:status => 200, :body => Fixtures.load("sample_service/edmx_categories_products.xml"), :headers => {})
 
         stub_request(:get, "http://test.com/test.svc/Categories(1)/$links/Products").
           with(:headers => DEFAULT_HEADERS).
-          to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/links/result_links_query.xml", __FILE__)), :headers => {})
+          to_return(:status => 200, :body => Fixtures.load("links/result_links_query.xml"), :headers => {})
       end
       it "should be able to parse the results of a links query" do
         @service =OData::Service.new "http://test.com/test.svc/"
@@ -439,11 +439,11 @@ module OData
       before(:each) do
         stub_request(:get, "http://test.com/test.svc/$metadata").
           with(:headers => DEFAULT_HEADERS).
-          to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/nested_expands/edmx_northwind.xml", __FILE__)), :headers => {})
+          to_return(:status => 200, :body => Fixtures.load("nested_expands/edmx_northwind.xml"), :headers => {})
 
         stub_request(:get, "http://test.com/test.svc/Products?$expand=Category,Category/Products&$top=2").
           with(:headers => DEFAULT_HEADERS).
-          to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/nested_expands/northwind_products_category_expands.xml", __FILE__)), :headers => {})
+          to_return(:status => 200, :body => Fixtures.load("nested_expands/northwind_products_category_expands.xml"), :headers => {})
       end
       after(:each) do
         #Object.send(:remove_const, 'Product') if Object.const_defined? 'Product'
@@ -490,11 +490,11 @@ module OData
         before(:each) do
           stub_request(:get, "http://test.com/test.svc/$metadata").
             with(:headers => DEFAULT_HEADERS).
-            to_return(:status => 200, :body => File.new( FIXTURES + "/sample_service/edmx_categories_products.xml"), :headers => {})
+            to_return(:status => 200, :body => Fixtures.load("/sample_service/edmx_categories_products.xml"), :headers => {})
 
           stub_request(:get, "http://test.com/test.svc/Products?$select=Name,Price").
             with(:headers => DEFAULT_HEADERS).
-            to_return(:status => 200, :body => File.new( FIXTURES + "/sample_service/result_select_products_name_price.xml"), :headers => {})
+            to_return(:status => 200, :body => Fixtures.load("/sample_service/result_select_products_name_price.xml"), :headers => {})
         end        
 
         before(:each) do
@@ -514,11 +514,11 @@ module OData
         before(:each) do
           stub_request(:get, "http://test.com/test.svc/$metadata").
             with(:headers => DEFAULT_HEADERS).
-            to_return(:status => 200, :body => File.new( FIXTURES + "/sample_service/edmx_categories_products.xml"), :headers => {})
+            to_return(:status => 200, :body => Fixtures.load("sample_service/edmx_categories_products.xml"), :headers => {})
 
           stub_request(:get, "http://test.com/test.svc/Categories?$select=Price").
             with(:headers => DEFAULT_HEADERS).
-            to_return(:status => 400, :body => File.new( FIXTURES + "/sample_service/result_select_categories_no_property.xml"), :headers => {})
+            to_return(:status => 400, :body => Fixtures.load("sample_service/result_select_categories_no_property.xml"), :headers => {})
         end
 
         it "raises an exception" do
@@ -535,19 +535,19 @@ module OData
         before(:each) do
           stub_request(:get, "http://test.com/test.svc/$metadata").
             with(:headers => DEFAULT_HEADERS).
-            to_return(:status => 200, :body => File.new( FIXTURES + "/sample_service/edmx_categories_products.xml"), :headers => {})
+            to_return(:status => 200, :body => Fixtures.load("sample_service/edmx_categories_products.xml"), :headers => {})
 
           stub_request(:get, "http://test.com/test.svc/Categories?$select=Name,Products/Name").
             with(:headers => DEFAULT_HEADERS).
-            to_return(:status => 400, :body => File.new( FIXTURES + "/sample_service/result_select_categories_travsing_no_expand.xml"), :headers => {})
+            to_return(:status => 400, :body => Fixtures.load("sample_service/result_select_categories_travsing_no_expand.xml"), :headers => {})
 
           stub_request(:get, "http://test.com/test.svc/Categories?$select=Name,Products/Name&$expand=Products").
             with(:headers => DEFAULT_HEADERS).
-            to_return(:status => 200, :body => File.new( FIXTURES + "/sample_service/result_select_categories_expand.xml"), :headers => {})
+            to_return(:status => 200, :body => Fixtures.load("sample_service/result_select_categories_expand.xml"), :headers => {})
 
           stub_request(:get, "http://test.com/test.svc/Categories").
             with(:headers => DEFAULT_HEADERS).
-            to_return(:status => 200, :body => File.new( FIXTURES + "/sample_service/result_select_categories_expand.xml"), :headers => {})
+            to_return(:status => 200, :body => Fixtures.load("sample_service/result_select_categories_expand.xml"), :headers => {})
 
         end
 
@@ -582,7 +582,7 @@ module OData
         # Required for the build_classes method
         stub_request(:get, "http://test.com/test.svc/$metadata").
           with(:headers => DEFAULT_HEADERS).
-          to_return(:status => 200, :body => File.new( FIXTURES + "/edmx_empty.xml" ), :headers => {})
+          to_return(:status => 200, :body => Fixtures.load("edmx_empty.xml" ), :headers => {})
       end
 
       it "should not error on an 'out of range' date" do

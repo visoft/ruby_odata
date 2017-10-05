@@ -6,10 +6,10 @@ module OData
     before(:all) do
       stub_request(:get, "http://test.com/test.svc/$metadata").
       with(:headers => DEFAULT_HEADERS).
-      to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/v4/edmx_metadata.xml", __FILE__)), :headers => {})
+      to_return(:status => 200, :body => Fixtures.load("/v4/edmx_metadata.xml"), :headers => {})
 
       stub_request(:get, "http://test.com/test.svc/Categories").
-      to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/v4/result_categories.xml", __FILE__)), :headers => {})
+      to_return(:status => 200, :body => Fixtures.load("/v4/result_categories.xml"), :headers => {})
 
       @service = OData::Service.new "http://test.com/test.svc"
     end

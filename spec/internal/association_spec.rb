@@ -6,7 +6,7 @@ module OData
     before(:all) do
       stub_request(:get, /http:\/\/test\.com\/test\.svc\/\$metadata(?:\?.+)?/).
       with(:headers => DEFAULT_HEADERS).
-      to_return(:status => 200, :body => File.new( FIXTURES + "/sample_service/edmx_categories_products.xml"), :headers => {})
+      to_return(:status => 200, :body => Fixtures.load("/sample_service/edmx_categories_products.xml"), :headers => {})
 
       @service = OData::Service.new "http://test.com/test.svc/$metadata"
       @product_category = RSpecSupport::ElementHelpers.string_to_element('<NavigationProperty Name="Category" Relationship="RubyODataService.Category_Products" ToRole="Category_Products_Source" FromRole="Category_Products_Target"/>')

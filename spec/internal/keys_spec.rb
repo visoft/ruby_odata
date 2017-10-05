@@ -8,7 +8,7 @@ module OData
       before(:all) do
         stub_request(:get, "http://test.com/test.svc/$metadata").
           with(:headers => DEFAULT_HEADERS).
-          to_return(:status => 200, :body => File.new( FIXTURES + "/int64_ids/edmx_car_service.xml"), :headers => {})
+          to_return(:status => 200, :body => Fixtures.load("/int64_ids/edmx_car_service.xml"), :headers => {})
         @service = OData::Service.new "http://test.com/test.svc/"
       end
 
@@ -34,7 +34,7 @@ module OData
         before(:each) do
           stub_request(:get, "http://test.com/test.svc/Cars(213L)").
             with(:headers => DEFAULT_HEADERS).
-            to_return(:status => 200, :body => File.new( FIXTURES + "/int64_ids/result_cars.xml"), :headers => {})
+            to_return(:status => 200, :body => Fixtures.load("/int64_ids/result_cars.xml"), :headers => {})
 
           @service.Cars(213)
           results = @service.execute
@@ -53,7 +53,7 @@ module OData
       before(:all) do
         stub_request(:get, "http://test.com/test.svc/$metadata").
           with(:headers => DEFAULT_HEADERS).
-          to_return(:status => 200, :body => File.new( FIXTURES + "/int64_ids/edmx_boat_service.xml"), :headers => {})
+          to_return(:status => 200, :body => Fixtures.load("/int64_ids/edmx_boat_service.xml"), :headers => {})
         @service = OData::Service.new "http://test.com/test.svc/"
       end
 
@@ -79,7 +79,7 @@ module OData
         before(:each) do
           stub_request(:get, "http://test.com/test.svc/Boats(213L)").
             with(:headers => DEFAULT_HEADERS).
-            to_return(:status => 200, :body => File.new( FIXTURES + "/int64_ids/result_boats.xml"), :headers => {})
+            to_return(:status => 200, :body => Fixtures.load("/int64_ids/result_boats.xml"), :headers => {})
 
           @service.Boats(213)
           results = @service.execute
@@ -93,9 +93,9 @@ module OData
       end
     end
 
-    describe "Collection with a string key named 'xxx" do
+    describe "Collection with a string key named 'xxx" do      
     end
-    
+
   end
 
 end

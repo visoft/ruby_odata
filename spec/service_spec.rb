@@ -5,9 +5,9 @@ module OData
 
   describe Service do
     before(:each) do
-      stub_request(:get, /http:\/\/test\.com\/test\.svc\/\$metadata(?:\?.+)?/).
+      stub_request(:get, "http://test.com/test.svc/$metadata").
       with(:headers => DEFAULT_HEADERS).
-      to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/sample_service/edmx_categories_products.xml", __FILE__)), :headers => {})
+      to_return(:status => 200, :body => Fixtures.load("/sample_service/edmx_categories_products.xml"), :headers => {})
 
       @service = OData::Service.new "http://test.com/test.svc"
     end
@@ -45,6 +45,7 @@ module OData
 
     context "collections method" do
       subject { @service.collections }
+
       it { should include 'Products' }
       it { should include 'Categories' }
       it "should expose the edmx type of objects" do
@@ -59,6 +60,7 @@ module OData
 
     context "class metadata" do
       subject { @service.class_metadata }
+
       it { should_not be_empty}
       it { should have_key 'Product' }
       it { should have_key 'Category' }
@@ -109,6 +111,7 @@ module OData
     
     context "function_imports method" do
       subject { @service.function_imports }
+
       it { should_not be_empty}
       it { should have_key 'CleanDatabaseForTesting' }
       it { should have_key 'EntityCategoryWebGet' }
@@ -119,7 +122,7 @@ module OData
         subject['EntitySingleCategoryWebGet'][:http_method].should eq 'GET'
       end
       it "should expose the return type" do
-        subject['CleanDatabaseForTesting'][:return_typo].should be_nil
+        subject['CleanDatabaseForTesting'][:return_type].should be_nil
         subject['EntityCategoryWebGet'][:return_type].should eq Array
         subject['EntityCategoryWebGet'][:inner_return_type].should eq Category
         subject['EntitySingleCategoryWebGet'][:return_type].should eq Category
@@ -218,7 +221,7 @@ module OData
       authorization_header = { authorization: "Basic #{Base64::encode64(auth_string).strip}" }
       stub_request(:get, "http://test.com/test.svc/$metadata").
         with(:headers => DEFAULT_HEADERS.merge(authorization_header)).
-        to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/ms_system_center/edmx_ms_system_center_v2.xml", __FILE__)), :headers => {})
+        to_return(:status => 200, :body => Fixtures.load("/ms_system_center/edmx_ms_system_center_v2.xml"), :headers => {})
     end
 
     after(:each) do   
@@ -235,11 +238,11 @@ module OData
     before(:each) do
       stub_request(:get, "http://service1.com/test.svc/$metadata").
       with(:headers => DEFAULT_HEADERS).
-      to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/sample_service/edmx_categories_products.xml", __FILE__)), :headers => {})
+      to_return(:status => 200, :body => Fixtures.load("/edmx_empty.xml"), :headers => {})
 
       stub_request(:get, "http://service2.com/test.svc/$metadata").
         with(:headers => DEFAULT_HEADERS).
-        to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/int64_ids/edmx_car_service.xml", __FILE__)), :headers => {})
+        to_return(:status => 200, :body => Fixtures.load("/edmx_empty.xml"), :headers => {})
 
 
       @service1 = OData::Service.new "http://service1.com/test.svc"
