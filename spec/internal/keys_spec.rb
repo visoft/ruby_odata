@@ -12,6 +12,10 @@ module OData
         @service = OData::Service.new "http://test.com/test.svc/"
       end
 
+      after(:all) do
+        remove_classes @service
+      end
+
       context "has the correct metadata" do
         before(:all) do
           @id_meta = @service.class_metadata['Car']['id']
@@ -51,6 +55,10 @@ module OData
           with(:headers => DEFAULT_HEADERS).
           to_return(:status => 200, :body => File.new( FIXTURES + "/int64_ids/edmx_boat_service.xml"), :headers => {})
         @service = OData::Service.new "http://test.com/test.svc/"
+      end
+
+      after(:all) do
+        remove_classes @service
       end
 
       context "has the correct metadata" do
