@@ -23,9 +23,9 @@ module OData
       it { should respond_to :class_metadata }
       it { should respond_to :function_imports }
       it { should respond_to :classes }
-      
+
       it { should respond_to :execute }
-      
+
       it { should respond_to :update_object }
       it { should respond_to :delete_object }
       it { should respond_to :save_changes }
@@ -108,7 +108,7 @@ module OData
         end
       end
     end
-    
+
     context "function_imports method" do
       subject { @service.function_imports }
 
@@ -212,6 +212,19 @@ module OData
         end
       end
     end
+
+    context "classes method" do
+      subject { @service.classes }
+
+      it { should include 'EdmMetadata' }
+
+      it { should include 'AuditFields' }   # ComplexType
+
+      it { should include 'Product' }       # EntityType
+      it { should include 'Category' }      # EntityType
+
+    end
+
   end
 
 
@@ -224,7 +237,7 @@ module OData
         to_return(:status => 200, :body => Fixtures.load("/ms_system_center/edmx_ms_system_center_v2.xml"), :headers => {})
     end
 
-    after(:each) do   
+    after(:each) do
       remove_classes @service
     end
 
