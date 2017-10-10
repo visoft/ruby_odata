@@ -14,26 +14,28 @@ module OData
       @service = OData::Service.new "http://test.com/test.svc"
     end
 
-    after(:all) do 
-      remove_classes @service   
+    after(:all) do
+      remove_classes @service
     end
 
     subject { @service }
 
     context "methods" do
+      it { should respond_to :collections }
+      it { should respond_to :class_metadata }
+      it { should respond_to :function_imports }
+      it { should respond_to :classes }
+
+      it { should respond_to :execute }
+
       it { should respond_to :update_object }
       it { should respond_to :delete_object }
       it { should respond_to :save_changes }
       it { should respond_to :load_property }
       it { should respond_to :add_link }
-      it { should respond_to :execute }
       it { should respond_to :partial? }
       it { should respond_to :next }
-      it { should respond_to :classes }
-      it { should respond_to :class_metadata }
-      it { should respond_to :collections }
       it { should respond_to :options }
-      it { should respond_to :function_imports }
 
       context "after parsing metadata" do
         it { should respond_to :Products }
