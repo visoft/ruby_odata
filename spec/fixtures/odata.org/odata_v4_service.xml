@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<service m:context="http://services.odata.org/V4/OData/OData.svc/$metadata" xml:base="http://services.odata.org/V4/OData/OData.svc/" xmlns="http://www.w3.org/2007/app" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:m="http://docs.oasis-open.org/odata/ns/metadata">
+	<workspace>
+		<atom:title type="text">Default</atom:title>
+		<collection href="Products">
+			<atom:title type="text">Products</atom:title>
+		</collection>
+		<collection href="ProductDetails">
+			<atom:title type="text">ProductDetails</atom:title>
+		</collection>
+		<collection href="Categories">
+			<atom:title type="text">Categories</atom:title>
+		</collection>
+		<collection href="Suppliers">
+			<atom:title type="text">Suppliers</atom:title>
+		</collection>
+		<collection href="Persons">
+			<atom:title type="text">Persons</atom:title>
+		</collection>
+		<collection href="PersonDetails">
+			<atom:title type="text">PersonDetails</atom:title>
+		</collection>
+		<collection href="Advertisements">
+			<atom:title type="text">Advertisements</atom:title>
+		</collection>
+	</workspace>
+</service>

@@ -19,10 +19,10 @@ Gem::Specification.new do |s|
 
   s.add_dependency("addressable", ">= 2.3.4")
   s.add_dependency("i18n", ">= 0.7.0")
-  s.add_dependency("activesupport", ">= 3.0.0")
+  s.add_dependency("activesupport", "~> 3.0.0")
   s.add_dependency("excon", "~> 0.45.3")
+  s.add_dependency("faraday")
   s.add_dependency("faraday_middleware")
-  s.add_dependency("faraday", "~> 0.9.1")
   s.add_dependency("nokogiri", ">= 1.4.2")
 
   s.add_development_dependency("rake", ">= 12.0.0")
@@ -31,7 +31,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency("cucumber", "~> 2.0.0")
   s.add_development_dependency("pickle", "~> 0.5.1")
   s.add_development_dependency("machinist", "~> 2.0")
-  s.add_development_dependency("webmock", "~> 1.21.0")
+  s.add_development_dependency("webmock")
   s.add_development_dependency("guard", "~> 2.12.5")
   s.add_development_dependency("guard-rspec", "~> 4.5.0")
   s.add_development_dependency("guard-cucumber", "~> 1.6.0")

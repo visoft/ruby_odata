@@ -1,5 +1,5 @@
 <CategoryNames xmlns="http://schemas.microsoft.com/ado/2007/08/dataservices">
-<element>Test Category 1</element>
-<element>Test Category 2</element>
-<element>Test Category 3</element>
+  <element>Test Category 1</element>
+  <element>Test Category 2</element>
+  <element>Test Category 3</element>
 </CategoryNames>

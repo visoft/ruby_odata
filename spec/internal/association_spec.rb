@@ -2,16 +2,22 @@ require 'spec_helper'
 
 module OData
   describe Association do
+
     before(:all) do
       stub_request(:get, /http:\/\/test\.com\/test\.svc\/\$metadata(?:\?.+)?/).
       with(:headers => DEFAULT_HEADERS).
-      to_return(:status => 200, :body => File.new(File.expand_path("../fixtures/sample_service/edmx_categories_products.xml", __FILE__)), :headers => {})
+      to_return(:status => 200, :body => Fixtures.load("/sample_service/edmx_categories_products.xml"), :headers => {})
 
-      @svc = OData::Service.new "http://test.com/test.svc/$metadata"
+      @service = OData::Service.new "http://test.com/test.svc/$metadata"
       @product_category = RSpecSupport::ElementHelpers.string_to_element('<NavigationProperty Name="Category" Relationship="RubyODataService.Category_Products" ToRole="Category_Products_Source" FromRole="Category_Products_Target"/>')
     end
-    describe "#initialize singlular navigation property" do
-      before { @association = Association.new @product_category, @svc.edmx }
+
+    after(:all) do
+      remove_classes @service
+    end
+
+    describe "#initialize singular navigation property" do
+      before { @association = Association.new @product_category, @service.edmx }
       subject { @association }
 
       it "sets the association name" do
