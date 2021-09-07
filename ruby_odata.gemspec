@@ -22,7 +22,7 @@ Gem::Specification.new do |s|
   s.add_dependency("activesupport", ">= 3.0.0")
   s.add_dependency("excon", "~> 0.45.3")
   s.add_dependency("faraday_middleware")
-  s.add_dependency("faraday", "~> 0.9.1")
+  s.add_dependency("faraday", ">= 0.9.1")
   s.add_dependency("nokogiri", ">= 1.4.2")
 
   s.add_development_dependency("rake", ">= 12.0.0")
