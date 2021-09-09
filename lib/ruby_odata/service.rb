@@ -12,10 +12,10 @@ class Service
   # @option options [Hash] :rest_options a hash of rest-client options that will be passed to all OData::Resource.new calls
   # @option options [Hash] :additional_params a hash of query string params that will be passed on all calls
   # @option options [Boolean, true] :eager_partial true if queries should consume partial feeds until the feed is complete, false if explicit calls to next must be performed
-  def initialize(service_uri, options = {})
+  def initialize(service_uri, options = {}, &block)
     @uri = service_uri.gsub!(/\/?$/, '')
     set_options! options
-    default_instance_vars!
+    default_instance_vars!(service_uri, &block)
     set_namespaces
     build_collections_and_classes
   end
@@ -97,7 +97,7 @@ class Service
   # @raise [ServiceError] if there is an error when talking to the service
   def execute
     begin
-      @response = OData::Resource.new(build_query_uri, @rest_options).get
+      @response = @resource.get(build_query_uri)
     rescue Exception => e
       handle_exception(e)
     end
@@ -147,7 +147,7 @@ class Service
     raise NotSupportedError, "You cannot load a property on an entity that isn't tracked" if obj.send(:__metadata).nil?
     raise ArgumentError, "'#{nav_prop}' is not a valid navigation property" unless obj.respond_to?(nav_prop.to_sym)
     raise ArgumentError, "'#{nav_prop}' is not a valid navigation property" unless @class_metadata[obj.class.to_s][nav_prop].nav_prop
-    results = OData::Resource.new(build_load_property_uri(obj, nav_prop), @rest_options).get
+    results = @resource.get build_load_property_uri(obj, nav_prop)
     prop_results = build_classes_from_result(results.body)
     obj.send "#{nav_prop}=", (singular?(nav_prop) ? prop_results.first : prop_results)
   end
@@ -227,16 +227,17 @@ class Service
     @json_type = options[:json_type] || 'application/json'
   end
 
-  def default_instance_vars!
+  def default_instance_vars!(service_uri, &block)
     @collections = {}
     @function_imports = {}
     @save_operations = []
     @has_partial = false
     @next_uri = nil
+    @resource = OData::Resource.new(service_uri, @rest_options, &block)
   end
 
   def set_namespaces
-    @edmx = Nokogiri::XML(OData::Resource.new(build_metadata_uri, @rest_options).get.body)
+    @edmx = Nokogiri::XML(@resource.get(build_metadata_uri).body)
     @ds_namespaces = {
       "m" => "http://schemas.microsoft.com/ado/2007/08/dataservices/metadata",
       "edmx" => "http://schemas.microsoft.com/ado/2007/06/edmx",
@@ -509,7 +510,7 @@ class Service
 
   def handle_partial
     if @next_uri
-      result = OData::Resource.new(@next_uri, @rest_options).get
+      result = @resource.get(@next_uri)
       results = handle_collection_result(result.body)
     end
     results
@@ -600,21 +601,21 @@ class Service
     if operation.kind == "Add"
       save_uri = build_save_uri(operation)
       json_klass = operation.klass.to_json(:type => :add)
-      post_result = OData::Resource.new(save_uri, @rest_options).post json_klass, {:content_type => @json_type}
+      post_result = @resource.post save_uri, json_klass, {:content_type => @json_type}
       return build_classes_from_result(post_result.body)
     elsif operation.kind == "Update"
       update_uri = build_resource_uri(operation)
       json_klass = operation.klass.to_json
-      update_result = OData::Resource.new(update_uri, @rest_options).put json_klass, {:content_type => @json_type}
+      update_result = @resource.put update_uri, json_klass, {:content_type => @json_type}
       return (update_result.status == 204)
     elsif operation.kind == "Delete"
       delete_uri = build_resource_uri(operation)
-      delete_result = OData::Resource.new(delete_uri, @rest_options).delete
+      delete_result = @resource.delete delete_uri
       return (delete_result.status == 204)
     elsif operation.kind == "AddLink"
       save_uri = build_add_link_uri(operation)
       json_klass = operation.child_klass.to_json(:type => :link)
-      post_result = OData::Resource.new(save_uri, @rest_options).post json_klass, {:content_type => @json_type}
+      post_result = @resource.post save_uri, json_klass, {:content_type => @json_type}
 
       # Attach the child to the parent
       link_child_to_parent(operation) if (post_result.status == 204)
@@ -633,7 +634,7 @@ class Service
     batch_uri = build_batch_uri
 
     body = build_batch_body(operations, batch_num, changeset_num)
-    result = OData::Resource.new( batch_uri, @rest_options).post body, {:content_type => "multipart/mixed; boundary=batch_#{batch_num}"}
+    result = @resource.post batch_uri, body, {:content_type => "multipart/mixed; boundary=batch_#{batch_num}"}
 
     # TODO: More result validation needs to be done.
     # The result returns HTTP 202 even if there is an error in the batch
@@ -827,7 +828,7 @@ class Service
     func[:parameters].keys.each_with_index { |key, i| params[key] = args[0][i] } unless func[:parameters].nil?
 
     function_uri = build_function_import_uri(name, params)
-    result = OData::Resource.new(function_uri, @rest_options).send(func[:http_method].downcase, {})
+    result = @resource.send func[:http_method].downcase, function_uri, {}
 
     # Is this a 204 (No content) result?
     return true if result.status == 204

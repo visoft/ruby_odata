@@ -241,6 +241,29 @@ Basic HTTP Authentication is supported via sending a username and password as se
 
     svc = OData::Service.new "http://127.0.0.1:8989/SampleService/RubyOData.svc", { :username => "bob", :password=> "12345" }
 
+NTLM authentication is also possible. Faraday lacks documentation how to use NTLM, even though multiple backends support it. Therefore, it is unclear what is the best way to achieve NTLM authentication, but a possibility is shown below.
+
+    require 'ruby_odata'
+    require 'httpclient'
+
+    class ConfigurableHTTPClient < Faraday::Adapter::HTTPClient
+      def initialize(*, &block)
+        @block = block
+        super
+      end
+
+      def call(env)
+        @block.call self if @block
+        super
+      end
+    end
+    Faraday::Adapter.register_middleware(configurable_httpclient: ConfigurableHTTPClient)
+
+    url = "http://127.0.0.1:8989/SampleService/RubyOData.svc"
+    svc = OData::Service.new url do |faraday|
+      faraday.adapter(:configurable_httpclient) { |a| a.client.set_auth url, "bob", "12345" }
+    end
+
 ### SSL/https Certificate Verification
 The certificate verification mode can be passed in the options hash via the :verify_ssl key. For example, to ignore verification in order to use a self-signed certificate:
 
