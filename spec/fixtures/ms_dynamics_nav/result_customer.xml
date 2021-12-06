@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<entry xml:base="http://navapp1.office.zwick-edelstahl.de:7178/ZWICK-TEST-WEB/OData/" 
+    xmlns="http://www.w3.org/2005/Atom" 
+    xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" 
+    xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" m:etag="W/&quot;'28%3BEgAAAAJ7BTEAMAAwADAAMAAAAAAA8%3B791241770%3B'&quot;">
+    <id>http://navapp1.office.zwick-edelstahl.de:7178/ZWICK-TEST-WEB/OData/Customer('10000')</id>
+    <category term="NAV.Customer" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" />
+    <link rel="edit" title="Customer" href="Customer('10000')" />
+    <title />
+    <updated>2017-08-02T20:02:42Z</updated>
+    <author>
+        <name />
+    </author>
+    <content type="application/xml">
+        <m:properties>
+            <d:No>10000</d:No>
+            <d:Name>Contoso AG</d:Name>
+            <d:Address></d:Address>
+            <d:Address_2></d:Address_2>
+            <d:Post_Code></d:Post_Code>
+            <d:City>Berlin</d:City>
+            <d:Country_Region_Code>DE</d:Country_Region_Code>
+            <d:ETag>28;EgAAAAJ7BTEAMAAwADAAMAAAAAAA8;791241770;</d:ETag>
+        </m:properties>
+    </content>
+</entry>

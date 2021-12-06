@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<entry xml:base="http://navapp1.office.zwick-edelstahl.de:7178/ZWICK-TEST-WEB/OData/" 
+    xmlns="http://www.w3.org/2005/Atom" 
+    xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" 
+    xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" m:etag="W/&quot;'52%3BJAAAAACLAQAAAAJ7%2F0EAQgAtADEANgAwADAAMAAxADMAAAAAAA%3D%3D8%3B824184700%3B'&quot;">
+    <id>http://navapp1.office.zwick-edelstahl.de:7178/ZWICK-TEST-WEB/OData/SalesOrder(Document_Type='Order',No='AB-1600013')</id>
+    <category term="NAV.SalesOrder" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" />
+    <link rel="edit" title="SalesOrder" href="SalesOrder(Document_Type='Order',No='AB-1600013')" />
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/SalesOrderSalesLines" type="application/atom+xml;type=feed" title="SalesOrderSalesLines" href="SalesOrder(Document_Type='Order',No='AB-1600013')/SalesOrderSalesLines" />
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/SalesOrderRouting_Status_View" type="application/atom+xml;type=feed" title="SalesOrderRouting_Status_View" href="SalesOrder(Document_Type='Order',No='AB-1600013')/SalesOrderRouting_Status_View" />
+    <title />
+    <updated>2017-08-02T19:53:22Z</updated>
+    <author>
+        <name />
+    </author>
+    <content type="application/xml">
+        <m:properties>
+            <d:Document_Type>Order</d:Document_Type>
+            <d:No>AB-1600013</d:No>
+            <d:Sell_to_Customer_No>11101</d:Sell_to_Customer_No>
+            <d:ETag>52;JAAAAACLAQAAAAJ7/0EAQgAtADEANgAwADAAMAAxADMAAAAAAA==8;824184700;</d:ETag>
+        </m:properties>
+    </content>
+</entry>
