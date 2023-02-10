@@ -721,7 +721,8 @@ module OData
           svc.save_changes
           a_request(:post, "http://test.com/test.svc/Categories(1)/$links/Products").
             with(:body => { "uri" => "http://test.com/test.svc/Products(1)" },
-                 :headers => DEFAULT_HEADERS.merge({'Content-Type' => 'application/json'})).should have_been_made
+                 :headers => DEFAULT_HEADERS.merge({'Content-Type' => 'application/json'})
+                 ).should have_been_made
         end
 
         it "should add the child to the parent's navigation property on a single_save" do
@@ -762,7 +763,7 @@ module OData
           it "should perform a post with the correct URL and body on a batch_save" do
             WebMock.should have_requested(:post, "http://test.com/test.svc/$batch").with { |request|
               request.body.include? "POST http://test.com/test.svc/Categories(1)/$links/Products HTTP/1.1"
-              request.body.include? '{"uri":"http://test.com/test.svc/Products(1)"}'
+              request.body.include?({uri: "http://test.com/test.svc/Products(1)"}.to_json)
             }
           end
           context "child is a part of the parent's collection" do
