@@ -44,7 +44,7 @@ module OData
       @conn.post do |req|
         req.url url
         req.headers = (headers || {}).merge(additional_headers)
-        req.body = prepare_payload payload
+        req.body = payload
       end
     end
 
@@ -52,7 +52,7 @@ module OData
       @conn.put do |req|
         req.url url
         req.headers = (headers || {}).merge(additional_headers)
-        req.body = prepare_payload payload
+        req.body = payload
       end
     end
 
@@ -60,7 +60,7 @@ module OData
       @conn.patch do |req|
         req.url url
         req.headers = (headers || {}).merge(additional_headers)
-        req.body = prepare_payload payload
+        req.body = payload
       end
     end
 
@@ -142,12 +142,6 @@ module OData
       else
         "#{url}/#{suburl}"
       end
-    end
-
-    def prepare_payload payload
-      JSON.generate(payload)
-    rescue JSON::GeneratorError
-      payload
     end
   end
 end
