@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
   s.add_dependency("addressable", ">= 2.3.4")
   s.add_dependency("i18n", ">= 0.7.0")
   s.add_dependency("activesupport", ">= 3.0.0")
-  s.add_dependency("excon", "~> 0.45.3")
+  s.add_dependency("excon", "~> 0.104.0")
   s.add_dependency("faraday_middleware")
   s.add_dependency("faraday", ">= 0.9.1")
   s.add_dependency("nokogiri", ">= 1.4.2")
